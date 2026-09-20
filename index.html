@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Reto de los 15.000 goles — juego de fútbol</title>
+<meta name="description" content="Juego del reto de los 15.000 goles: salen 17 futbolistas al azar y colocas cada uno en una categoría (Champions ×10, Selección ×10, Mundiales ×100, finales…). ¿Llegas a 15.000?">
+<meta property="og:title" content="Reto de los 15.000 goles">
+<meta property="og:description" content="Coloca 17 futbolistas en las casillas del reto y suma sus goles con multiplicadores. ¿Pasas de 15.000?">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0a3324">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚽</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;800;900&family=Barlow:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pitch:#0d4a33; --pitch-2:#0b4530; --night:#06241a;
+  --glass:rgba(5,28,19,.82); --glass-2:rgba(255,255,255,.06); --glass-3:rgba(255,255,255,.11);
+  --chalk:#f5f8f3; --chalk-2:rgba(245,248,243,.68); --chalk-3:rgba(245,248,243,.38);
+  --line:rgba(245,248,243,.14);
+  --gold:#f3c545; --gold-2:#ffe08a; --pass:#63e0a1; --fail:#ff6b5c;
+  --btn:#f3c545; --btn-ink:#1b1a0f;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  font-family:Barlow,system-ui,-apple-system,"Segoe UI",sans-serif;
+  color:var(--chalk);
+  background:var(--night);
+  min-height:100vh;
+  position:relative;
+  overflow-x:hidden;
+}
+/* césped con franjas, luz de foco y líneas de cal */
+body::before{
+  content:"";position:fixed;inset:0;z-index:-2;
+  background:
+    radial-gradient(120% 60% at 50% -10%,rgba(255,255,230,.22),transparent 60%),
+    repeating-linear-gradient(90deg,var(--pitch) 0 84px,var(--pitch-2) 84px 168px);
+}
+body::after{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(circle at 50% 42%,transparent 0 118px,rgba(245,248,243,.22) 118px 121px,transparent 121px),
+    linear-gradient(rgba(245,248,243,.22),rgba(245,248,243,.22)) 50% 42%/2px 100% no-repeat,
+    radial-gradient(80% 60% at 50% 100%,rgba(0,0,0,.55),transparent 70%);
+}
+.wrap{max-width:620px;margin:0 auto;padding:22px 14px 80px}
+
+.hero{text-align:center;padding:12px 0 6px}
+.kicker{display:inline-block;font-weight:700;font-size:13px;letter-spacing:.06em;color:var(--gold);border:1px solid rgba(243,197,69,.5);border-radius:999px;padding:5px 12px;margin-bottom:12px}
+h1{
+  font-family:"Barlow Condensed",Impact,"Arial Narrow",sans-serif;font-weight:900;
+  font-size:clamp(52px,13vw,96px);line-height:.86;margin:0;
+  letter-spacing:-.01em;text-shadow:0 6px 30px rgba(0,0,0,.45);
+}
+h1 em{font-style:normal;display:block;color:var(--gold);text-shadow:0 0 30px rgba(243,197,69,.35),0 6px 30px rgba(0,0,0,.45)}
+.lead{margin:14px auto 0;max-width:44ch;font-size:16px;line-height:1.5;color:var(--chalk-2)}
+details.how{margin:12px auto 0;max-width:46ch;text-align:left;color:var(--chalk-2);font-size:15px;line-height:1.5}
+details.how summary{cursor:pointer;color:var(--chalk);font-weight:600;text-align:center;list-style:none}
+details.how summary::-webkit-details-marker{display:none}
+details.how summary::after{content:" ▾";color:var(--chalk-3)}
+details.how[open] summary::after{content:" ▴"}
+details.how ol{margin:8px 0 0;padding-left:20px}
+details.how li{margin:4px 0}
+
+.bar{display:flex;justify-content:flex-end;margin:18px 0 12px}
+.btn:focus-visible,.slot:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.target{display:flex;align-items:center;gap:8px;font-weight:600;color:var(--chalk-2);font-size:14px}
+.target input{width:88px;border:1px solid var(--line);border-radius:10px;padding:9px 10px;font:700 18px "Barlow Condensed",sans-serif;text-align:right;background:rgba(0,0,0,.35);color:var(--gold)}
+
+.panel{background:var(--glass);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:22px;padding:16px 16px 22px;box-shadow:0 24px 60px rgba(0,0,0,.45)}
+.panel[hidden]{display:none}
+
+/* ---- dock ---- */
+.dock{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:linear-gradient(180deg,rgba(5,28,19,.98),rgba(5,28,19,.94));margin:-16px -16px 0;padding:14px 16px 12px;border-radius:22px 22px 0 0;border-bottom:1px solid var(--line)}
+.dock-row{display:flex;align-items:center;gap:14px}
+.flip{perspective:900px;width:118px;height:158px;flex:none}
+.flip .inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+.flip.flipped .inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;border-radius:14px;display:flex;align-items:center;justify-content:center;backface-visibility:hidden;overflow:hidden}
+.face.front{background:linear-gradient(160deg,#173d2e,#0a2419);border:2px solid rgba(245,248,243,.25);font:900 74px "Barlow Condensed",sans-serif;color:var(--chalk-3)}
+.face.front::after{content:"";position:absolute;inset:8px;border:1px dashed rgba(245,248,243,.2);border-radius:10px}
+.face.back{transform:rotateY(180deg);flex-direction:column;justify-content:flex-start;gap:0;padding:10px 8px 8px;text-align:center;color:#1a1608;border:2px solid rgba(255,255,255,.45)}
+.face.back.t-gold{background:linear-gradient(160deg,#fff1a8 0%,#f3c545 45%,#c9931a 100%)}
+.face.back.t-silver{background:linear-gradient(160deg,#ffffff 0%,#d7dde2 45%,#9aa6ae 100%)}
+.face.back.t-bronze{background:linear-gradient(160deg,#f5d6b8 0%,#d0935c 45%,#8f5a2b 100%)}
+.face.back::before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.55) 45%,transparent 60%);transform:translateX(-120%)}
+.flip.flipped .face.back::before{animation:shine 1.1s .45s ease-out 1}
+@keyframes shine{to{transform:translateX(120%)}}
+.face .flag{font-size:40px;line-height:1;margin-top:4px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.25))}
+.face .name{font-family:"Barlow Condensed",sans-serif;font-weight:900;font-size:21px;line-height:.98;margin-top:8px;flex:1;display:flex;align-items:center}
+.face .pos{font-size:11px;font-weight:700;letter-spacing:.06em;background:rgba(0,0,0,.18);border-radius:999px;padding:3px 9px;margin-top:6px}
+.dock-info{flex:1;min-width:0}
+.dock-info .step{font-size:13px;color:var(--chalk-3);font-weight:600}
+.dock-info .cta{font-weight:600;line-height:1.3;margin-top:3px;font-size:15px}
+.dock-info .cta b{color:var(--gold)}
+.dock-total{margin-top:10px}
+.dock-total[hidden],.progress[hidden]{display:none}
+.dock-total .tlabel{font-size:12px;color:var(--chalk-3);font-weight:600}
+.num{font-family:"Barlow Condensed",sans-serif;font-weight:900;font-size:46px;line-height:.95;color:var(--chalk);font-variant-numeric:tabular-nums}
+.num.gold{color:var(--gold)}
+.progress{position:relative;height:10px;background:rgba(0,0,0,.4);border-radius:99px;margin-top:12px;overflow:hidden;border:1px solid var(--line)}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#3fb47a,#63e0a1);border-radius:99px;transition:width .6s cubic-bezier(.2,.7,.2,1)}
+.progress.over i{background:linear-gradient(90deg,#f3c545,#ffe08a)}
+.progress b{position:absolute;right:0;top:-18px;font-size:11px;color:var(--chalk-3);font-weight:600}
+
+/* ---- tablero ---- */
+.board{list-style:none;margin:8px 0 0;padding:0}
+.slot{display:grid;grid-template-columns:34px 1fr auto;column-gap:10px;width:100%;text-align:left;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--chalk);padding:9px 6px;font:inherit;cursor:pointer;align-items:center;border-radius:10px;transition:background .15s}
+.slot:disabled{cursor:default}
+.slot .ico{grid-row:1/3;font-size:22px;text-align:center;line-height:1;filter:drop-shadow(0 2px 2px rgba(0,0,0,.35))}
+.slot .lab{font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.slot .mul{font:800 12px "Barlow Condensed",sans-serif;font-size:13px;padding:2px 7px;border-radius:6px;background:var(--glass-3);color:var(--chalk-2)}
+.slot .who{grid-column:2;color:var(--chalk-3);font-size:13px;min-height:17px;margin-top:2px}
+.slot .pts{grid-row:1/3;grid-column:3;font-family:"Barlow Condensed",sans-serif;font-weight:900;font-size:28px;text-align:right;min-width:74px;font-variant-numeric:tabular-nums}
+.slot.open:not(:disabled){background:var(--glass-2);box-shadow:inset 0 0 0 1px rgba(245,248,243,.18)}
+.slot.open:not(:disabled):hover{background:var(--glass-3)}
+.slot.open:not(:disabled) .who{color:var(--chalk-2)}
+.slot .pts.preview{color:var(--chalk-2);font-weight:800;font-size:24px}
+.slot .pts.preview.hot{color:var(--gold)}
+.slot .pts.preview.nil{color:var(--chalk-3);font-weight:700}
+.slot.filled{opacity:.92}
+.slot.filled .who{color:var(--chalk-2)}
+.slot.filled .pts.big{color:var(--gold);text-shadow:0 0 14px rgba(243,197,69,.35)}
+.slot.filled .pts.zero{color:var(--chalk-3);font-weight:700}
+.slot.flash{background:rgba(243,197,69,.18)}
+.slot.boost .mul{background:var(--gold);color:#1b1a0f;animation:pulse 1.6s ease-in-out infinite}
+.slot.boost .lab{color:var(--gold-2)}
+@keyframes pulse{50%{box-shadow:0 0 0 5px rgba(243,197,69,.18)}}
+
+.actions{display:flex;justify-content:center;gap:10px;margin-top:18px;flex-wrap:wrap}
+.btn{border:0;border-radius:12px;padding:13px 22px;font:700 16px Barlow,sans-serif;cursor:pointer;background:var(--btn);color:var(--btn-ink);box-shadow:0 8px 22px rgba(243,197,69,.25)}
+.btn.ghost{background:transparent;color:var(--chalk);border:2px solid rgba(245,248,243,.35);box-shadow:none}
+.btn[hidden]{display:none}
+
+/* ---- resultado ---- */
+.result{margin-top:16px;padding:22px 14px 8px;border-top:1px solid var(--line);text-align:center}
+.result[hidden]{display:none}
+.result .rlabel{font-size:13px;color:var(--chalk-3);font-weight:600}
+.result .num{font-size:74px}
+.verdict{font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:26px;line-height:1.1;margin-top:6px}
+.verdict.pass{color:var(--pass)}
+.verdict.fail{color:var(--fail)}
+.result .opt{color:var(--chalk-2);margin:10px auto 0;max-width:40ch;line-height:1.45;font-size:15px}
+.summary{list-style:none;margin:16px 0 0;padding:0;text-align:left}
+.summary li{display:grid;grid-template-columns:1fr auto;gap:8px;padding:6px 0;border-bottom:1px solid var(--line);font-size:14px;color:var(--chalk-2)}
+.summary li span b{color:var(--chalk);font-weight:700}
+.summary li .p{font-family:"Barlow Condensed",sans-serif;font-weight:900;font-size:19px;color:var(--chalk);font-variant-numeric:tabular-nums}
+.summary li.top .p{color:var(--gold)}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:20px 0 0;padding-top:14px;border-top:1px solid var(--line)}
+.stats div{display:flex;flex-direction:column;gap:3px;text-align:center}
+.stats dt{font-size:12px;color:var(--chalk-3);font-weight:600}
+.stats dd{margin:0;font-family:"Barlow Condensed",sans-serif;font-weight:900;font-size:28px;line-height:1}
+
+footer{margin-top:26px;text-align:center;color:var(--chalk-3);font-size:13px;line-height:1.5}
+
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:50}
+
+@media (max-width:420px){
+  .panel{padding:14px 12px 20px}
+  .dock{margin:-14px -12px 0;padding:12px 12px 10px}
+  .flip{width:104px;height:140px}
+  .face .flag{font-size:34px}
+  .face .name{font-size:18px}
+  .num{font-size:40px}
+  .slot{grid-template-columns:28px 1fr auto;column-gap:8px;padding:8px 4px}
+  .slot .ico{font-size:19px}
+  .slot .pts{font-size:24px;min-width:64px}
+  .scroll{margin:0 -12px;padding:0 12px}
+}
+@media (prefers-reduced-motion: reduce){
+  .flip .inner,.progress i,.slot{transition:none}
+  .flip.flipped .face.back::before,.slot.boost .mul{animation:none}
+}
+</style>
+</head>
+<body>
+<canvas id="confetti" hidden></canvas>
+<main class="wrap">
+  <header class="hero">
+    <span class="kicker">17 jugadores · 17 casillas · un objetivo</span>
+    <h1>Reto de los<em>15.000 goles</em></h1>
+    <p class="lead">Van saliendo futbolistas al azar, uno a uno, y tú decides en qué casilla colocar a cada uno, de memoria. Al acabar, el recuento revela cuánto ha sumado cada uno. Cada casilla solo se usa una vez.</p>
+    <details class="how">
+      <summary>Cómo se juega</summary>
+      <ol>
+        <li>Sale una carta con un jugador. Toca la casilla donde quieras ponerlo. No verás los puntos hasta el final: el recuento se hace de golpe, casilla por casilla.</li>
+        <li>Suma sus goles en esa categoría por el multiplicador: Champions ×10, Selección ×10, Mundiales ×100, final del Mundial ×1000…</li>
+        <li>En cada partida una de las seis ligas vale ×5 en vez de ×1.</li>
+        <li>Tras 17 jugadores, si pasas del objetivo has superado el reto. Al final verás cuántos puntos daba la mejor colocación posible.</li>
+      </ol>
+    </details>
+  </header>
+
+  <div class="bar">
+    <label class="target">Objetivo <input id="target" type="number" value="15000" min="100" step="500" inputmode="numeric"></label>
+  </div>
+
+  <section id="p-play" class="panel">
+    <div class="dock">
+      <div class="dock-row">
+        <div class="flip" id="flip" aria-live="polite">
+          <div class="inner">
+            <div class="face front" aria-hidden="true">?</div>
+            <div class="face back" id="cardBack"><span class="flag" id="cFlag"></span><span class="name" id="cName"></span><span class="pos" id="cPos"></span></div>
+          </div>
+        </div>
+        <div class="dock-info">
+          <div class="step" id="step">Jugador 1 de 17</div>
+          <div class="cta" id="cta">Sacando al primer jugador…</div>
+          <div class="dock-total" id="dockTotal" hidden>
+            <div class="tlabel">Total</div>
+            <div class="num" id="total" data-v="0">0</div>
+          </div>
+        </div>
+      </div>
+      <div class="progress" id="progress" hidden><b id="pctLabel"></b><i></i></div>
+    </div>
+
+    <ul class="board" id="board"></ul>
+
+    <div class="result" id="result" hidden>
+      <div class="rlabel">Puntos totales</div>
+      <div class="num gold" id="rNum" data-v="0">0</div>
+      <div class="verdict" id="rVerdict"></div>
+      <p class="opt" id="rOpt"></p>
+      <div class="actions">
+        <button class="btn" id="btnAgain">Jugar otra vez</button>
+        <button class="btn ghost" id="btnShare">Compartir resultado</button>
+      </div>
+      <ul class="summary" id="summary"></ul>
+    </div>
+
+    <dl class="stats">
+      <div><dt>Partidas</dt><dd id="sGames">0</dd></div>
+      <div><dt>Retos superados</dt><dd id="sWins">0</dd></div>
+      <div><dt>Mejor total</dt><dd id="sBest">–</dd></div>
+    </dl>
+  </section>
+
+  <footer>Basado en el reto viral de los 15.000 goles. Cifras de goles aproximadas.</footer>
+</main>
+
+<script>
+(function(){
+'use strict';
+
+const CATS=[
+  {k:'Champions',short:'Champ'},{k:'Premier League',short:'Prem'},{k:'La Liga',short:'Liga'},{k:'Serie A',short:'Serie A'},
+  {k:'Bundesliga',short:'Bund'},{k:'Ligue 1',short:'Ligue 1'},{k:'Eredivisie / Primeira Liga',short:'Ere/Por'},
+  {k:'Selección',short:'Selec'},{k:'América',short:'Amér'},{k:'Carrera',short:'Carrera'},{k:'Goles de cabeza',short:'Cabeza'},
+  {k:'Goles olímpicos',short:'Olímp'},{k:'Mundiales',short:'Mund'},{k:'Final de Champions',short:'F.Champ'},
+  {k:'Final de Libertadores',short:'F.Lib'},{k:'Final del Mundial',short:'F.Mund'}
+];
+const SLOTS=[
+  {label:'Champions',mult:10,src:0,ico:'🏆'},
+  {label:'Premier League',mult:1,src:1,ico:'🏴󠁧󠁢󠁥󠁮󠁧󠁿'},
+  {label:'La Liga',mult:1,src:2,ico:'🇪🇸'},
+  {label:'Serie A',mult:1,src:3,ico:'🇮🇹'},
+  {label:'Bundesliga',mult:1,src:4,ico:'🇩🇪'},
+  {label:'Ligue 1',mult:1,src:5,ico:'🇫🇷'},
+  {label:'Eredivisie / Primeira',mult:1,src:6,ico:'🇳🇱'},
+  {label:'Selección',mult:10,src:7,ico:'🌍'},
+  {label:'América',mult:4,src:8,ico:'🌎'},
+  {label:'Carrera',mult:1,src:9,ico:'⚽'},
+  {label:'Carrera',mult:3,src:9,ico:'⚽'},
+  {label:'Goles de cabeza',mult:10,src:10,ico:'🎯'},
+  {label:'Goles olímpicos',mult:500,src:11,ico:'🚩'},
+  {label:'Mundiales',mult:100,src:12,ico:'🏅'},
+  {label:'Final de Champions',mult:300,src:13,ico:'🌟'},
+  {label:'Final de Libertadores',mult:500,src:14,ico:'🥇'},
+  {label:'Final del Mundial',mult:1000,src:15,ico:'👑'}
+];
+const N=SLOTS.length;
+
+const RAW=[
+['Lionel Messi','🇦🇷',129,0,474,0,0,22,0,122,80,900,28,0,21,2,0,2],
+['Cristiano Ronaldo','🇵🇹',140,103,311,81,0,0,3,141,0,960,150,0,8,4,0,0],
+['Pelé','🇧🇷',0,0,0,0,0,0,0,77,680,760,90,0,12,0,3,3],
+['Robert Lewandowski','🇵🇱',109,0,85,0,312,0,0,88,0,700,90,0,2,0,0,0],
+['Zlatan Ibrahimović','🇸🇪',48,17,16,156,0,113,35,62,53,570,50,0,0,0,0,0],
+['Luis Suárez','🇺🇾',27,69,181,0,0,0,81,69,75,570,35,0,7,1,0,0],
+['Neymar','🇧🇷',43,0,68,0,0,82,0,79,140,440,15,0,8,1,1,0],
+['Kylian Mbappé','🇫🇷',70,0,75,0,0,191,0,66,0,420,20,0,22,0,0,4],
+['Erling Haaland','🇳🇴',57,130,0,0,62,0,0,57,0,340,30,0,7,0,0,0],
+['Harry Kane','🏴󠁧󠁢󠁥󠁮󠁧󠁿',54,213,0,0,100,0,0,81,0,450,40,0,14,0,0,0],
+['Diego Maradona','🇦🇷',0,0,22,81,0,0,0,34,150,350,10,0,8,0,0,0],
+['Ronaldo Nazário','🇧🇷',14,0,117,58,0,0,42,62,40,415,15,0,15,0,0,2],
+['Zinedine Zidane','🇫🇷',14,0,37,24,0,34,0,31,0,125,10,0,5,1,0,3],
+['Raúl','🇪🇸',71,0,228,0,28,0,0,44,0,400,40,0,4,2,0,0],
+['Gerd Müller','🇩🇪',34,0,0,0,365,0,0,68,38,570,60,0,14,3,0,1],
+['Alfredo Di Stéfano','🇦🇷',49,0,227,0,0,0,0,29,140,500,20,0,0,7,0,0],
+['Ferenc Puskás','🇭🇺',36,0,156,0,0,0,0,88,0,700,15,0,4,7,0,1],
+['Eusébio','🇵🇹',46,0,0,0,0,0,317,41,0,470,25,0,9,3,0,0],
+['Sergio Ramos','🇪🇸',16,0,72,0,0,4,0,23,7,130,60,0,0,1,0,0],
+['Gabigol','🇧🇷',1,0,0,1,0,0,0,5,220,250,15,0,0,0,4,0],
+['Martín Palermo','🇦🇷',0,0,28,0,0,0,0,9,280,300,60,0,1,0,2,0],
+['Thierry Henry','🇫🇷',50,175,35,0,0,20,0,51,51,360,10,0,6,0,0,0],
+['Didier Drogba','🇨🇮',44,104,0,0,0,39,0,65,21,300,40,0,2,1,0,0],
+['Edinson Cavani','🇺🇾',35,17,12,112,0,138,0,58,60,430,50,0,4,0,0,0],
+['Mohamed Salah','🇪🇬',50,190,0,35,0,0,0,60,0,400,15,0,2,1,0,0],
+['Marco van Basten','🇳🇱',8,0,0,90,0,0,128,24,0,300,25,0,0,2,0,0],
+['Gabriel Batistuta','🇦🇷',3,0,0,184,0,0,0,56,35,330,40,0,10,0,0,0],
+['Ronaldinho','🇧🇷',22,0,70,26,0,17,0,33,70,300,5,0,2,0,0,0],
+['Andrés Iniesta','🇪🇸',9,0,35,0,0,0,0,13,0,90,2,0,2,0,0,1],
+['Ángel Di María','🇦🇷',24,4,36,10,0,92,7,31,16,270,5,0,3,1,0,1],
+['Romário','🇧🇷',4,0,34,0,0,0,98,55,500,770,10,0,5,0,0,0],
+['Geoff Hurst','🏴󠁧󠁢󠁥󠁮󠁧󠁿',0,180,0,0,0,0,0,24,8,250,30,0,5,0,0,3],
+['Juan Román Riquelme','🇦🇷',3,0,47,0,0,0,0,17,110,220,5,0,0,0,3,0],
+['Karim Benzema','🇫🇷',90,0,238,0,0,43,0,37,0,450,50,0,3,0,0,0],
+['Wayne Rooney','🏴󠁧󠁢󠁥󠁮󠁧󠁿',30,208,0,0,0,0,0,53,25,310,30,0,1,0,0,0],
+['Sergio Agüero','🇦🇷',41,184,74,0,0,0,0,41,23,400,15,0,2,0,0,0],
+['Gonzalo Higuaín','🇦🇷',24,5,121,125,0,0,0,31,45,330,25,0,5,0,0,0],
+['Antoine Griezmann','🇫🇷',40,0,195,0,0,0,0,44,0,350,15,0,4,0,0,0],
+['Francesco Totti','🇮🇹',17,0,0,250,0,0,0,9,0,310,10,0,1,0,0,0],
+['Alessandro Del Piero','🇮🇹',42,0,0,188,0,0,0,27,0,290,10,0,1,0,0,0],
+['Paolo Rossi','🇮🇹',4,0,0,103,0,0,0,20,0,150,15,0,9,0,0,1],
+['Michel Platini','🇫🇷',11,0,0,68,0,156,0,41,0,350,10,0,5,1,0,0],
+['Just Fontaine','🇫🇷',10,0,0,0,0,164,0,30,0,250,30,0,13,0,0,0],
+['Johan Cruyff','🇳🇱',15,0,48,0,0,0,201,33,26,400,15,0,3,2,0,0],
+['Thomas Müller','🇩🇪',57,0,0,0,150,0,0,45,15,250,20,0,10,0,0,0],
+['Miroslav Klose','🇩🇪',20,0,0,64,121,0,0,71,0,320,80,0,16,0,0,0],
+['Jürgen Klinsmann','🇩🇪',10,30,0,34,110,0,0,47,5,290,40,0,11,0,0,0],
+['Karl-Heinz Rummenigge','🇩🇪',25,0,0,42,162,0,0,45,0,320,25,0,9,0,0,0],
+['Bobby Charlton','🏴󠁧󠁢󠁥󠁮󠁧󠁿',22,199,0,0,0,0,0,49,0,260,10,0,4,2,0,0],
+['Alan Shearer','🏴󠁧󠁢󠁥󠁮󠁧󠁿',12,260,0,0,0,0,0,30,0,380,60,0,2,0,0,0],
+['Gary Lineker','🏴󠁧󠁢󠁥󠁮󠁧󠁿',0,192,42,0,0,0,0,48,0,280,30,0,10,0,0,0],
+['Dennis Bergkamp','🇳🇱',5,87,0,11,0,0,103,37,0,240,5,0,6,0,0,0],
+['Christian Vieri','🇮🇹',17,0,24,142,0,0,0,23,0,240,40,0,9,0,0,0],
+['Hernán Crespo','🇦🇷',25,25,0,153,0,0,0,35,30,300,40,0,4,0,2,0],
+['Carlos Tévez','🇦🇷',15,84,0,39,0,0,0,13,130,290,15,0,2,0,1,0],
+['Radamel Falcao','🇨🇴',5,5,65,0,0,63,41,36,35,340,45,0,1,0,0,0],
+['Rivaldo','🇧🇷',27,0,130,4,0,0,0,35,50,300,10,0,8,0,0,0],
+['Kaká','🇧🇷',30,0,23,77,0,0,0,29,47,180,3,0,1,0,0,0],
+["Samuel Eto'o",'🇨🇲',30,12,108,35,0,0,0,56,0,360,30,0,2,2,0,0],
+['Luka Modrić','🇭🇷',12,17,33,3,0,0,0,28,0,120,2,0,2,0,0,0],
+['Sadio Mané','🇸🇳',27,111,0,0,11,0,0,49,0,260,20,0,1,1,0,0],
+['Vinícius Júnior','🇧🇷',30,0,75,0,0,0,0,14,15,150,5,0,5,1,0,0],
+['Jude Bellingham','🏴󠁧󠁢󠁥󠁮󠁧󠁿',10,10,45,0,10,0,0,14,0,90,5,0,7,0,0,0],
+['Lamine Yamal','🇪🇸',8,0,30,0,0,0,0,12,0,55,1,0,2,0,0,0],
+['Hugo Sánchez','🇲🇽',6,0,234,0,0,0,0,29,110,400,60,0,1,0,0,0],
+['Javier «Chicharito» Hernández','🇲🇽',15,39,39,0,32,0,0,52,70,240,30,0,4,0,0,0],
+['Alexis Sánchez','🇨🇱',20,80,47,40,0,0,0,51,60,270,10,0,2,0,0,0],
+['Iván Zamorano','🇨🇱',13,0,100,11,0,0,0,34,60,250,50,0,0,0,0,0],
+['Fernando Torres','🇪🇸',28,85,105,1,0,0,0,38,0,260,15,0,1,0,0,0],
+['David Villa','🇪🇸',25,0,185,0,0,0,0,59,77,340,20,0,9,1,0,0],
+['Diego Forlán','🇺🇾',12,17,128,17,0,0,0,36,50,300,15,0,5,0,0,0],
+['Roger Milla','🇨🇲',0,0,0,0,0,152,0,43,0,220,10,0,5,0,0,0],
+['George Weah','🇱🇷',12,13,0,46,0,66,0,18,0,190,15,0,0,0,0,0],
+['Bebeto','🇧🇷',5,0,68,0,0,0,0,39,200,300,15,0,6,0,0,0],
+['Jairzinho','🇧🇷',0,0,0,0,0,0,0,33,300,350,20,0,9,0,0,1],
+['Garrincha','🇧🇷',0,0,0,0,0,0,0,12,240,260,5,0,5,0,0,0],
+['Zico','🇧🇷',0,0,0,22,0,0,0,48,500,510,20,0,5,0,4,0],
+['Mario Kempes','🇦🇷',0,0,116,0,0,0,0,20,80,250,10,0,6,0,0,2],
+['Olivier Giroud','🇫🇷',21,90,0,49,0,45,0,57,5,290,60,0,4,0,0,0],
+['Henrik Larsson','🇸🇪',20,14,13,0,0,0,26,37,0,330,25,0,5,0,0,0],
+// Defensas
+['Carles Puyol','🇪🇸','DEF',3,0,12,0,0,0,0,3,0,18,10,0,1,0,0,0],
+['Paolo Maldini','🇮🇹','DEF',3,0,0,29,0,0,0,7,0,40,10,0,0,1,0,0],
+['Franz Beckenbauer','🇩🇪','DEF',6,0,0,0,44,0,0,14,21,100,5,0,5,0,0,0],
+['Cafú','🇧🇷','DEF',3,0,0,5,0,0,0,5,20,30,3,0,0,0,0,0],
+['Roberto Carlos','🇧🇷','DEF',16,0,47,2,0,0,0,11,20,110,3,0,1,0,0,0],
+// Centrocampistas
+['Xavi Hernández','🇪🇸','MED',12,0,58,0,0,0,0,13,0,90,1,0,0,0,0,0],
+['Lothar Matthäus','🇩🇪','MED',7,0,0,40,121,0,0,23,0,200,5,0,6,0,0,0],
+['Ruud Gullit','🇳🇱','MED',3,4,0,35,0,0,90,17,0,170,30,0,0,2,0,0],
+['Sócrates','🇧🇷','MED',0,0,0,6,0,0,0,22,180,220,10,0,3,0,0,0],
+// --- Más delanteros y extremos ---
+['Julián Álvarez','🇦🇷','DEL',25,19,35,0,0,0,0,15,50,130,10,0,4,0,0,0],
+['Lautaro Martínez','🇦🇷','DEL',25,0,0,120,0,0,0,35,30,200,25,0,0,0,0,0],
+['Ferran Torres','🇪🇸','DEL',8,16,55,0,0,0,0,28,0,120,5,0,3,0,0,1],
+['Telmo Zarra','🇪🇸','DEL',0,0,251,0,0,0,0,20,0,290,80,0,1,0,0,0],
+['Jean-Pierre Papin','🇫🇷','DEL',20,0,0,20,10,140,0,30,0,300,30,0,2,0,0,0],
+// --- Más centrocampistas ---
+// --- Más defensas ---
+// --- Máximos goleadores de ligas, clubes y selecciones ---
+['Raúl Tamudo','🇪🇸','DEL',0,0,137,0,0,0,0,3,0,170,20,0,0,0,0,0],
+['Ousmane Dembélé','🇫🇷','DEL',20,0,40,0,10,60,0,15,0,150,3,0,7,0,0,0],
+['Raphinha','🇧🇷','DEL',15,10,45,0,0,10,15,10,10,120,5,0,0,0,0,0],
+['Rodrygo','🇧🇷','DEL',20,0,45,0,0,0,0,8,10,90,5,0,0,0,0,0],
+['Paulo Dybala','🇦🇷','DEL',15,0,0,130,0,0,0,7,20,180,5,0,0,0,0,0],
+['Victor Osimhen','🇳🇬','DEL',12,0,0,80,5,18,0,25,0,150,30,0,0,0,0,0],
+['Alexander Isak','🇸🇪','DEL',5,60,6,0,13,0,0,15,0,110,10,0,0,0,0,0],
+['Darwin Núñez','🇺🇾','DEL',10,25,10,0,0,0,26,15,15,100,15,0,0,0,0,0],
+['Bukayo Saka','🏴󠁧󠁢󠁥󠁮󠁧󠁿','DEL',12,60,0,0,0,0,0,13,0,90,3,0,3,0,0,0],
+['Marcus Rashford','🏴󠁧󠁢󠁥󠁮󠁧󠁿','DEL',15,90,3,0,0,0,0,17,0,140,5,0,3,0,0,0],
+['Jamie Vardy','🏴󠁧󠁢󠁥󠁮󠁧󠁿','DEL',3,145,0,0,0,0,0,7,0,190,20,0,1,0,0,0],
+['Michael Owen','🏴󠁧󠁢󠁥󠁮󠁧󠁿','DEL',22,150,13,0,0,0,0,40,0,220,15,0,4,0,0,0],
+['Adriano','🇧🇷','DEL',10,0,0,60,0,0,0,27,40,150,10,0,2,0,0,0],
+['Álvaro Morata','🇪🇸','DEL',25,16,60,60,0,0,0,37,0,250,40,0,2,0,0,0],
+['Nico Williams','🇪🇸','DEL',3,0,30,0,0,0,0,9,0,45,2,0,1,0,0,0],
+['Julio Salinas','🇪🇸','DEL',5,0,140,0,0,0,0,22,0,200,20,0,3,0,0,0],
+['Emilio Butragueño','🇪🇸','DEL',8,0,123,0,0,0,0,26,0,180,10,0,5,0,0,0],
+['Iago Aspas','🇪🇸','DEL',2,1,170,0,0,0,0,6,0,220,10,0,0,0,0,0],
+['Fernando Morientes','🇪🇸','DEL',24,8,120,0,0,10,0,27,0,220,50,0,3,0,0,0],
+['Quini','🇪🇸','DEL',3,0,219,0,0,0,0,8,0,260,30,0,0,0,0,0],
+['Francisco Gento','🇪🇸','DEL',30,0,128,0,0,0,0,5,0,180,3,0,0,1,0,0],
+['Luis Enrique','🇪🇸','MED',8,0,73,0,0,0,0,12,0,110,10,0,1,0,0,0],
+['Fernando Hierro','🇪🇸','DEF',12,0,102,0,0,0,0,29,0,160,40,0,2,0,0,0],
+['Gerard Piqué','🇪🇸','DEF',16,2,32,0,0,0,0,5,0,60,30,0,0,0,0,0],
+['Xabi Alonso','🇪🇸','MED',7,15,20,0,10,0,0,16,0,70,3,0,1,1,0,0],
+['Rodri','🇪🇸','MED',6,17,10,0,0,0,0,5,0,40,3,0,0,1,0,0],
+['Kevin De Bruyne','🇧🇪','MED',16,72,0,0,30,0,0,32,5,150,5,0,1,0,0,0],
+['Eden Hazard','🇧🇪','MED',10,85,4,0,0,36,0,33,0,180,5,0,3,0,0,0],
+['Romelu Lukaku','🇧🇪','DEL',25,121,0,90,0,0,0,89,0,380,40,0,5,0,0,0],
+['Toni Kroos','🇩🇪','MED',15,0,28,0,20,0,0,17,0,90,2,0,1,0,0,0],
+['Michael Ballack','🇩🇪','MED',15,17,0,0,77,0,0,42,0,160,30,0,3,0,0,0],
+['Lukas Podolski','🇩🇪','DEL',8,5,0,1,80,0,0,49,0,170,10,0,5,0,0,0],
+['Mario Götze','🇩🇪','MED',10,0,0,0,68,0,0,17,0,100,3,0,2,0,0,1],
+['Rudi Völler','🇩🇪','DEL',10,0,0,45,132,20,0,47,0,290,20,0,8,0,0,1],
+['Andrea Pirlo','🇮🇹','MED',7,0,0,41,0,0,0,13,3,70,0,0,1,0,0,0],
+['Roberto Baggio','🇮🇹','DEL',7,0,0,205,0,0,0,27,0,290,5,0,9,0,0,0],
+['Filippo Inzaghi','🇮🇹','DEL',46,0,0,156,0,0,0,25,0,290,25,0,1,2,0,0],
+['Ciro Immobile','🇮🇹','DEL',20,0,4,201,3,0,0,17,0,290,25,0,0,0,0,0],
+['Mario Balotelli','🇮🇹','DEL',8,30,0,90,0,45,0,14,0,200,10,0,1,0,0,0],
+['Marco Materazzi','🇮🇹','DEF',3,2,0,40,0,0,0,2,0,60,20,0,2,0,0,1],
+['Fabio Cannavaro','🇮🇹','DEF',0,0,2,7,0,0,0,2,0,18,10,0,0,0,0,0],
+['Steven Gerrard','🏴󠁧󠁢󠁥󠁮󠁧󠁿','MED',30,120,0,0,0,0,0,21,5,190,10,0,3,1,0,0],
+['Frank Lampard','🏴󠁧󠁢󠁥󠁮󠁧󠁿','MED',23,177,0,0,0,0,0,29,15,270,10,0,0,0,0,0],
+['David Beckham','🏴󠁧󠁢󠁥󠁮󠁧󠁿','MED',15,62,13,2,0,0,0,17,20,130,0,0,3,0,0,0],
+['Paul Scholes','🏴󠁧󠁢󠁥󠁮󠁧󠁿','MED',24,107,0,0,0,0,0,14,0,155,10,0,1,0,0,0],
+['Ryan Giggs','🏴󠁧󠁢󠁷󠁬󠁳󠁿','MED',28,109,0,0,0,0,0,12,0,168,5,0,0,0,0,0],
+['Gareth Bale','🏴󠁧󠁢󠁷󠁬󠁳󠁿','MED',17,55,81,0,0,0,0,41,3,190,15,0,1,3,0,0],
+['Ian Rush','🏴󠁧󠁢󠁷󠁬󠁳󠁿','DEL',14,229,0,7,0,0,0,28,0,340,20,0,0,0,0,0],
+['Kenny Dalglish','🏴󠁧󠁢󠁳󠁣󠁴󠁿','DEL',12,118,0,0,0,0,0,30,0,230,10,0,2,1,0,0],
+['Ole Gunnar Solskjær','🇳🇴','DEL',8,91,0,0,0,0,0,23,0,160,10,0,0,1,0,0],
+['Robbie Keane','🇮🇪','DEL',2,126,0,1,0,0,0,68,83,300,15,0,3,0,0,0],
+['Wesley Sneijder','🇳🇱','MED',12,0,7,15,0,0,40,31,0,120,3,0,5,0,0,0],
+['Arjen Robben','🇳🇱','MED',31,15,11,0,99,0,26,37,0,220,5,0,6,1,0,0],
+['Robin van Persie','🇳🇱','DEL',19,144,0,0,0,0,30,50,0,260,20,0,5,0,0,0],
+['Ruud van Nistelrooy','🇳🇱','DEL',56,95,46,0,5,0,75,35,0,347,25,0,1,0,0,0],
+['Patrick Kluivert','🇳🇱','DEL',29,0,90,6,0,0,39,40,0,190,20,0,3,1,0,0],
+['Virgil van Dijk','🇳🇱','DEF',8,24,0,0,0,0,12,10,0,70,40,0,0,0,0,0],
+['Luís Figo','🇵🇹','MED',15,0,66,7,0,0,16,32,0,140,5,0,0,0,0,0],
+['Deco','🇵🇹','MED',12,0,20,0,0,0,25,5,10,80,2,0,1,1,0,0],
+['Pauleta','🇵🇹','DEL',12,0,60,0,0,109,20,47,0,290,25,0,3,0,0,0],
+['Bruno Fernandes','🇵🇹','MED',15,70,0,30,0,0,35,25,0,190,3,0,2,0,0,0],
+['Bernardo Silva','🇵🇹','MED',15,55,0,0,0,10,0,13,0,110,2,0,0,0,0,0],
+['Diogo Jota','🇵🇹','DEL',10,55,0,0,0,0,10,15,0,110,15,0,0,0,0,0],
+['Franck Ribéry','🇫🇷','MED',15,0,0,10,86,20,0,16,0,150,5,0,1,0,0,0],
+['Nicolas Anelka','🇫🇷','DEL',15,90,25,20,0,50,0,14,0,250,10,0,0,0,0,0],
+['David Trezeguet','🇫🇷','DEL',20,0,0,138,0,45,0,34,13,300,40,0,1,0,0,0],
+['Patrick Vieira','🇫🇷','MED',2,29,0,6,0,3,0,6,0,55,10,0,2,0,0,0],
+['Emmanuel Petit','🇫🇷','MED',1,11,3,0,0,10,0,6,0,40,3,0,1,0,0,1],
+['Paul Pogba','🇫🇷','MED',5,29,0,31,0,0,0,11,0,80,10,0,3,0,0,1],
+['Andriy Shevchenko','🇺🇦','DEL',48,9,0,127,0,0,0,48,0,320,30,0,2,0,0,0],
+['Hristo Stoichkov','🇧🇬','DEL',20,0,77,0,0,0,0,37,22,220,5,0,6,0,0,0],
+['Davor Šuker','🇭🇷','DEL',10,10,78,0,0,0,0,45,0,250,20,0,6,0,0,0],
+['Mario Mandžukić','🇭🇷','DEL',20,0,22,44,48,0,0,33,0,230,50,0,3,2,0,1],
+['Ivan Perišić','🇭🇷','MED',10,10,0,55,10,0,0,33,0,160,15,0,5,0,0,1],
+['Gheorghe Hagi','🇷🇴','MED',10,0,14,14,0,0,0,35,0,230,5,0,3,0,0,0],
+['Edin Džeko','🇧🇦','DEL',30,50,0,120,66,0,0,70,0,400,60,0,1,0,0,0],
+['Ali Daei','🇮🇷','DEL',0,0,0,0,26,0,0,108,0,220,30,0,0,0,0,0],
+['Son Heung-min','🇰🇷','DEL',30,127,0,0,29,0,0,51,15,300,10,0,3,0,0,0],
+['Pierre-Emerick Aubameyang','🇬🇦','DEL',30,92,20,7,98,71,0,30,0,340,20,0,0,0,0,0],
+['Claudio Caniggia','🇦🇷','DEL',3,7,0,25,0,0,0,16,20,110,5,0,4,0,0,0],
+['Jorge Valdano','🇦🇷','DEL',3,0,95,0,0,0,0,7,10,140,10,0,4,0,0,1],
+['Diego Milito','🇦🇷','DEL',6,0,70,74,0,0,0,4,30,200,20,0,0,2,0,0],
+['Diego Simeone','🇦🇷','MED',3,0,18,25,0,0,0,11,20,80,20,0,0,0,0,0],
+['Dani Alves','🇧🇷','DEF',14,0,21,3,0,3,0,8,15,70,3,0,0,0,0,0],
+['James Rodríguez','🇨🇴','MED',8,0,29,0,10,0,25,30,20,150,3,0,6,0,0,0],
+['Carlos Valderrama','🇨🇴','MED',0,0,0,0,0,7,0,11,50,80,2,0,1,0,0,0],
+['Luis Díaz','🇨🇴','DEL',15,41,0,0,20,0,40,20,10,140,5,0,0,0,0,0],
+['Cuauhtémoc Blanco','🇲🇽','MED',0,0,10,0,0,0,0,39,180,250,5,0,3,0,0,0],
+['Christian Pulisic','🇺🇸','DEL',15,26,0,30,10,0,0,35,0,110,5,0,1,0,0,0],
+['Jimmy Greaves','🏴󠁧󠁢󠁥󠁮󠁧󠁿','DEL',0,357,0,9,0,0,0,44,0,420,20,0,1,0,0,0],
+['David Silva','🇪🇸','MED',10,60,40,0,0,0,0,35,0,150,5,0,0,0,0,0],
+['Cesc Fàbregas','🇪🇸','MED',8,50,42,0,0,5,0,15,0,130,5,0,0,0,0,0],
+['Bastian Schweinsteiger','🇩🇪','MED',12,3,0,0,45,0,0,24,3,110,10,0,2,0,0,0],
+['Mesut Özil','🇩🇪','MED',10,33,19,0,3,0,0,23,0,90,2,0,2,0,0,0],
+['Mario Gómez','🇩🇪','DEL',25,0,0,7,170,0,0,31,0,280,60,0,0,0,0,0],
+['Marco Reus','🇩🇪','MED',20,0,0,0,132,0,0,15,0,180,5,0,0,0,0,0],
+['Luca Toni','🇮🇹','DEL',12,0,0,157,38,0,0,16,0,290,60,0,2,0,0,0],
+['Enzo Fernández','🇦🇷','MED',5,15,0,0,0,0,5,5,10,40,1,0,1,0,0,0],
+['Marcelo','🇧🇷','DEF',16,0,29,0,0,0,0,6,5,60,3,0,0,0,0,0],
+['Thiago Silva','🇧🇷','DEF',5,4,0,8,0,7,0,7,10,45,25,0,1,0,0,0],
+['Casemiro','🇧🇷','MED',10,15,31,0,0,0,3,7,5,75,20,0,1,0,0,0],
+['Philippe Coutinho','🇧🇷','MED',10,47,26,5,0,0,0,21,20,120,2,0,2,0,0,0],
+['Federico Valverde','🇺🇾','MED',15,0,40,0,0,0,0,10,5,70,3,0,0,0,0,0],
+['Rafa Márquez','🇲🇽','DEF',5,0,13,0,0,3,0,17,20,50,25,0,3,0,0,0],
+['Landon Donovan','🇺🇸','MED',0,2,0,0,0,0,0,57,144,180,10,0,5,0,0,0],
+['Christian Eriksen','🇩🇰','MED',10,60,0,10,0,0,50,45,0,180,3,0,1,0,0,0]
+];
+const POS_EX={'Sergio Ramos':'DEF','Andrés Iniesta':'MED','Luka Modrić':'MED','David Beckham':'MED','Frank Lampard':'MED','Steven Gerrard':'MED','Juan Román Riquelme':'MED','Zinedine Zidane':'MED','Michel Platini':'MED','Kaká':'MED','Gheorghe Hagi':'MED','Jude Bellingham':'MED','James Rodríguez':'MED','Ángel Di María':'MED','Ronaldinho':'MED','Diego Maradona':'MED','Zico':'MED','Rivaldo':'MED','Eden Hazard':'MED','Bobby Charlton':'MED','Gareth Bale':'MED','Sadio Mané':'DEL'};
+
+
+const PLAYERS=RAW.map(r=>{
+  const hasPos=typeof r[2]==='string';
+  const pos=hasPos?r[2]:(POS_EX[r[0]]||'DEL');
+  const vals=r.slice(hasPos?3:2);
+  return {name:r[0],flag:r[1],pos,base:vals,v:vals.slice()};
+});
+const POS_NAME={DEF:'Defensa',MED:'Centrocampista',DEL:'Delantero'};
+
+const $=id=>document.getElementById(id);
+const fmt=n=>Math.round(n).toLocaleString('es-ES');
+const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const wait=ms=>new Promise(r=>setTimeout(r,reduceMotion?0:ms));
+function target(){const t=parseInt($('target').value,10);return Number.isFinite(t)&&t>0?t:15000;}
+
+function countTo(el,to,dur){
+  dur=dur||600;
+  const from=Number(el.dataset.v||0);
+  if(reduceMotion||from===to){el.textContent=fmt(to);el.dataset.v=to;return Promise.resolve();}
+  const t0=performance.now();
+  return new Promise(res=>{
+    function step(t){
+      const p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,3);
+      el.textContent=fmt(from+(to-from)*e);
+      if(p<1)requestAnimationFrame(step);else{el.textContent=fmt(to);el.dataset.v=to;res();}
+    }
+    requestAnimationFrame(step);
+  });
+}
+
+// ---- almacenamiento ----
+const KEY='reto15k-v2';
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return {};}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(store));}catch(e){}}
+const store=load();
+store.games=store.games||0;store.wins=store.wins||0;store.best=store.best||0;
+
+
+// ---- mazo ----
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+let deck=[];
+function drawMany(n){
+  const out=[];
+  while(out.length<n){
+    if(!deck.length)deck=shuffle(PLAYERS.map((_,i)=>i));
+    const i=deck.pop();
+    if(!out.includes(i))out.push(i);
+  }
+  return out.map(i=>PLAYERS[i]);
+}
+function tierOf(p){const c=Number(p.v[9])||0;return c>=350?'t-gold':(c>=120?'t-silver':'t-bronze');}
+
+// ---- tablero ----
+const board=$('board');
+const slotEls=SLOTS.map((s,i)=>{
+  const li=document.createElement('li');
+  const b=document.createElement('button');b.type='button';b.className='slot';b.dataset.i=i;b.disabled=true;
+  b.innerHTML='<span class="ico" aria-hidden="true">'+s.ico+'</span><span class="lab">'+s.label+'<span class="mul">×'+s.mult+'</span></span><span class="who">Libre</span><span class="pts" data-v="0"></span>';
+  li.appendChild(b);board.appendChild(li);
+  return b;
+});
+
+let game=null,busy=false;
+const LEAGUE_SLOTS=[1,2,3,4,5,6];
+function multOf(i){return (game&&i===game.boost)?5:SLOTS[i].mult;}
+function paintMults(){slotEls.forEach((b,i)=>{b.querySelector('.mul').textContent='×'+multOf(i);b.classList.toggle('boost',!!game&&i===game.boost);});}
+
+function resetBoard(){
+  slotEls.forEach(b=>{b.className='slot';b.disabled=true;b.querySelector('.who').textContent='Libre';const p=b.querySelector('.pts');p.textContent='';p.dataset.v=0;p.className='pts';});
+  $('total').textContent='0';$('total').dataset.v=0;$('total').classList.remove('gold');
+  $('dockTotal').hidden=true;$('progress').hidden=true;
+  setProgress(0);
+  $('result').hidden=true;
+}
+function setProgress(t){
+  const goal=target(),pct=Math.min(100,100*t/goal);
+  const pr=$('progress');pr.querySelector('i').style.width=pct+'%';pr.classList.toggle('over',t>=goal);
+  $('pctLabel').textContent=t>=goal?'Objetivo superado':fmt(goal-t)+' para el objetivo';
+  $('total').classList.toggle('gold',t>=goal);
+}
+
+function newGame(){
+  game={q:drawMany(N),i:0,slots:new Array(N).fill(null),total:0,boost:LEAGUE_SLOTS[Math.floor(Math.random()*LEAGUE_SLOTS.length)]};
+  resetBoard();paintMults();
+  showCard();
+}
+
+async function showCard(){
+  const p=game.q[game.i];
+  $('cFlag').textContent=p.flag;$('cName').textContent=p.name;$('cPos').textContent=POS_NAME[p.pos]||'';
+  $('cardBack').className='face back '+tierOf(p);
+  $('step').textContent='Jugador '+(game.i+1)+' de '+N;
+  $('cta').innerHTML=(game.i===0?'Esta partida <b>'+SLOTS[game.boost].label+'</b> vale ×5. ':'')+'¿Dónde colocas a <b>'+p.name+'</b>?';
+  $('flip').classList.add('flipped');
+  await wait(380);
+  slotEls.forEach((b,i)=>{if(!game.slots[i]){b.disabled=false;b.classList.add('open');}});
+}
+
+async function place(i){
+  if(!game||busy||game.slots[i])return;
+  busy=true;
+  slotEls.forEach(b2=>{b2.disabled=true;b2.classList.remove('open');});
+  const p=game.q[game.i],s=SLOTS[i];
+  const mult=multOf(i),goals=Number(p.v[s.src])||0,pts=goals*mult;
+  game.slots[i]={p,goals,pts,mult};game.total+=pts;
+  const b=slotEls[i],ptsEl=b.querySelector('.pts');
+  b.classList.add('filled','flash');
+  b.querySelector('.who').textContent=p.flag+' '+p.name;
+  ptsEl.textContent='';ptsEl.className='pts';
+  $('cta').innerHTML='<b>'+p.name+'</b> colocado en '+s.label+'.';
+  $('flip').classList.remove('flipped');
+  await wait(520);
+  b.classList.remove('flash');
+  game.i++;
+  if(game.i<N){await showCard();}
+  else finish();
+  busy=false;
+}
+
+function optimalTotal(){
+  const pts=game.q.map(p=>SLOTS.map((s,i)=>(Number(p.v[s.src])||0)*multOf(i)));
+  const full=(1<<N)-1,dp=new Float64Array(1<<N).fill(-1),pc=new Uint8Array(1<<N);
+  for(let m=1;m<=full;m++)pc[m]=pc[m>>1]+(m&1);
+  dp[0]=0;
+  for(let m=0;m<full;m++){
+    if(dp[m]<0)continue;
+    const i=pc[m],row=pts[i],base=dp[m];
+    for(let s=0;s<N;s++){
+      if(m&(1<<s))continue;
+      const nm=m|(1<<s),v=base+row[s];
+      if(v>dp[nm])dp[nm]=v;
+    }
+  }
+  return dp[full];
+}
+
+let lastResult=null;
+async function finish(){
+  const t=game.total,goal=target(),best=optimalTotal();
+  $('step').textContent='Recuento';$('cta').textContent='Vamos a ver cuánto has sumado…';
+  $('dockTotal').hidden=false;$('progress').hidden=false;
+  $('p-play').scrollIntoView({behavior:reduceMotion?'auto':'smooth',block:'start'});
+  await wait(600);
+  let run=0;
+  for(let i=0;i<N;i++){
+    const x=game.slots[i],b=slotEls[i],pe=b.querySelector('.pts');
+    b.classList.add('flash');
+    b.querySelector('.who').textContent=x.p.flag+' '+x.p.name+'  ·  '+fmt(x.goals)+' × '+x.mult;
+    pe.dataset.v=0;pe.textContent='0';pe.classList.toggle('zero',x.pts===0);pe.classList.toggle('big',x.pts>=1000);
+    run+=x.pts;
+    await Promise.all([countTo(pe,x.pts,x.pts===0?150:480),countTo($('total'),run,x.pts===0?150:480)]);
+    setProgress(run);
+    await wait(x.pts===0?120:260);
+    b.classList.remove('flash');
+  }
+  $('step').textContent='Partida terminada';$('cta').textContent='Este ha sido tu resultado.';
+  $('rNum').dataset.v=0;$('rNum').textContent='0';
+  $('result').hidden=false;
+  countTo($('rNum'),t,1000);
+  const v=$('rVerdict'),pass=t>=goal;
+  v.textContent=pass?'¡Reto superado!':'No llegas: te faltan '+fmt(goal-t);
+  v.className='verdict '+(pass?'pass':'fail');
+  $('rOpt').textContent=best>t?'La mejor colocación posible de estos 17 daba '+fmt(best)+' puntos'+(best>=goal&&!pass?', suficientes para el reto.':'.'):'Colocación perfecta: no se podía sacar más con estos 17.';
+  const sum=$('summary');sum.innerHTML='';
+  game.slots.map((x,i)=>({x,i})).sort((a,b)=>b.x.pts-a.x.pts).forEach(({x,i},k)=>{
+    const li=document.createElement('li');if(k<3&&x.pts>0)li.className='top';
+    li.innerHTML='<span>'+SLOTS[i].ico+' <b>'+x.p.name+'</b> en '+SLOTS[i].label+' ×'+x.mult+'</span><span class="p">'+fmt(x.pts)+'</span>';
+    sum.appendChild(li);
+  });
+  lastResult={t,goal,pass,best};
+  store.games++;if(pass)store.wins++;if(t>store.best)store.best=t;save();
+  renderStats();
+  if(pass)confetti();
+  $('result').scrollIntoView({behavior:reduceMotion?'auto':'smooth',block:'start'});
+}
+function renderStats(){
+  $('sGames').textContent=store.games;$('sWins').textContent=store.wins;
+  $('sBest').textContent=store.best?fmt(store.best):'–';
+}
+renderStats();
+
+async function share(){
+  if(!lastResult)return;
+  const r=lastResult;
+  const text='He hecho '+fmt(r.t)+' puntos en el Reto de los 15.000 goles ⚽ '+(r.pass?'¡Reto superado!':'(objetivo '+fmt(r.goal)+')')+' ¿Lo superas tú? '+location.href;
+  try{
+    if(navigator.share){await navigator.share({text});return;}
+    await navigator.clipboard.writeText(text);
+    $('btnShare').textContent='Copiado';setTimeout(()=>{$('btnShare').textContent='Compartir resultado';},1500);
+  }catch(e){}
+}
+
+function confetti(){
+  if(reduceMotion)return;
+  const c=$('confetti'),ctx=c.getContext('2d');
+  c.hidden=false;c.width=innerWidth;c.height=innerHeight;
+  const cols=['#f3c545','#ffe08a','#63e0a1','#f5f8f3','#ff6b5c'];
+  const ps=Array.from({length:140},()=>({x:Math.random()*c.width,y:-20-Math.random()*c.height*.5,r:4+Math.random()*5,vy:2+Math.random()*3,vx:-1+Math.random()*2,rot:Math.random()*6,vr:-.1+Math.random()*.2,col:cols[Math.floor(Math.random()*cols.length)]}));
+  const t0=performance.now();
+  (function frame(t){
+    ctx.clearRect(0,0,c.width,c.height);
+    ps.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.rot+=p.vr;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.fillStyle=p.col;ctx.fillRect(-p.r/2,-p.r/2,p.r,p.r*1.6);ctx.restore();});
+    if(t-t0<3200)requestAnimationFrame(frame);else{ctx.clearRect(0,0,c.width,c.height);c.hidden=true;}
+  })(t0);
+}
+
+board.addEventListener('click',e=>{const b=e.target.closest('.slot');if(b&&!b.disabled)place(Number(b.dataset.i));});
+$('btnAgain').addEventListener('click',()=>{$('result').hidden=true;newGame();window.scrollTo({top:$('p-play').offsetTop-8,behavior:reduceMotion?'auto':'smooth'});});
+$('btnShare').addEventListener('click',share);
+$('target').addEventListener('input',()=>{if(game)setProgress(game.total);});
+newGame();
+
+})();
+</script>
+</body>
+</html>
