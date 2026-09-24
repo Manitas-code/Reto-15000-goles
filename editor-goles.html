@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Editor · Gol del día</title>
+<style>
+:root{--bg:#0b1411;--panel:#121d19;--line:rgba(242,244,239,.12);--chalk:#f2f4ef;--dim:#98a19a;--led:#ffb41f;--ok:#63e0a1;--bad:#ff6b5c}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--chalk);font:15px/1.4 system-ui,sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:18px 14px 60px}
+h1{font-size:22px;margin:0 0 4px}
+p.help{color:var(--dim);margin:0 0 16px;max-width:70ch}
+.layout{display:grid;grid-template-columns:280px 1fr;gap:16px}
+@media (max-width:760px){.layout{grid-template-columns:1fr}}
+.list{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:auto;max-height:78vh}
+.it{display:flex;gap:8px;align-items:center;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);color:var(--chalk);padding:9px 12px;cursor:pointer;font:inherit}
+.it.on{background:rgba(255,180,31,.12)}
+.it small{display:block;color:var(--dim);font-size:12px}
+.dot{width:10px;height:10px;border-radius:50%;flex:none;background:var(--bad)}
+.dot.ok{background:var(--ok)}
+.ed{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px}
+.ed h2{margin:0 0 2px;font-size:20px}
+.ed .mt{color:var(--dim);margin:0 0 12px;font-size:13px}
+label{display:block;font-size:13px;color:var(--dim);margin:0 0 4px}
+input[type=text],input[type=number]{width:100%;background:#0a110e;border:1px solid var(--line);color:var(--chalk);border-radius:8px;padding:9px 10px;font:inherit}
+.player{position:relative;aspect-ratio:16/9;background:#000;border-radius:8px;overflow:hidden;margin:12px 0}
+.player>div,.player iframe{position:absolute;inset:0;width:100%;height:100%}
+.empty{display:flex;align-items:center;justify-content:center;color:var(--dim);height:100%;padding:20px;text-align:center}
+.marks{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.mk{background:#0a110e;border:1px solid var(--line);border-radius:8px;padding:10px}
+.mk b{display:block;font-size:13px;margin-bottom:6px}
+.mk button{width:100%;margin-top:6px}
+.b{display:inline-block;background:var(--led);color:#1b1407;border:0;border-radius:8px;padding:9px 12px;font:600 14px system-ui,sans-serif;cursor:pointer}
+.b.g{background:none;color:var(--chalk);border:1px solid var(--line)}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.warn{color:var(--bad);font-size:13px;margin-top:8px;min-height:18px}
+.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:0 0 14px}
+.bar .n{color:var(--dim)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Editor del Gol del día</h1>
+  <p class="help">Elige un gol, busca el vídeo en YouTube, copia el enlace y pégalo abajo. Dale al play y pulsa los botones en el momento justo: <b>inicio</b> de la jugada, <b>corte</b> justo antes de que entre el balón y <b>fin</b> después de la celebración. Se guarda solo en este navegador. Cuando acabes, descarga el goles.js y súbelo a GitHub.</p>
+  <div class="bar">
+    <button class="b" id="dl">Descargar goles.js</button>
+    <button class="b g" id="cp">Copiar goles.js</button>
+    <span class="n" id="count"></span>
+  </div>
+  <div class="layout">
+    <nav class="list" id="list"></nav>
+    <section class="ed" id="ed"></section>
+  </div>
+</div>
+
+<script src="goles.js"></script>
+<script>
+const KEY='gd_editor_v1';
+const saved=(()=>{try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return {}}})();
+const G=GOLES.map((g,i)=>Object.assign({},g,saved[i]||{}));
+let cur=0,player=null,apiReady=false;
+const $=id=>document.getElementById(id);
+
+function persist(){const o={};G.forEach((g,i)=>{o[i]={yt:g.yt,desde:g.desde,corte:g.corte,hasta:g.hasta}});try{localStorage.setItem(KEY,JSON.stringify(o))}catch(e){}}
+function idFrom(s){s=(s||'').trim();if(/^[\w-]{11}$/.test(s))return s;
+  const m=s.match(/(?:v=|youtu\.be\/|shorts\/|embed\/|live\/)([\w-]{11})/);return m?m[1]:'';}
+function done(g){return g.yt&&g.corte>g.desde}
+function renderList(){
+  $('list').innerHTML=G.map((g,i)=>`<button class="it${i===cur?' on':''}" data-i="${i}"><span class="dot${done(g)?' ok':''}"></span><span>Día ${i+1} · ${g.name}<small>${g.mt.split('·')[0]}</small></span></button>`).join('');
+  $('list').querySelectorAll('.it').forEach(b=>b.onclick=()=>{cur=+b.dataset.i;renderList();renderEd()});
+  $('count').textContent=`${G.filter(done).length} de ${G.length} listos`;
+}
+function t(){return player&&player.getCurrentTime?Math.round(player.getCurrentTime()*10)/10:0}
+function renderEd(){
+  const g=G[cur];
+  $('ed').innerHTML=`<h2>Día ${cur+1} · ${g.name}</h2><p class="mt">${g.mt}</p>
+  <label for="url">Enlace de YouTube</label>
+  <input type="text" id="url" placeholder="https://www.youtube.com/watch?v=…" value="${g.yt?'https://youtu.be/'+g.yt:''}">
+  <div class="row"><a class="b g" style="text-decoration:none;padding:9px 12px;border-radius:8px" target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=${encodeURIComponent(g.name+' '+g.mt.split('·').slice(0,2).join(' ')+' gol')}">Buscar en YouTube</a></div>
+  <div class="player"><div id="yt">${g.yt?'':'<div class="empty">Pega un enlace para cargar el vídeo</div>'}</div></div>
+  <div class="marks">
+    ${['desde','corte','hasta'].map(k=>`<div class="mk"><b>${{desde:'Inicio de la jugada',corte:'Corte (antes del gol)',hasta:'Fin del clip'}[k]}</b>
+      <input type="number" step="0.1" min="0" id="f_${k}" value="${g[k]??''}">
+      <button class="b" data-k="${k}">${{desde:'Inicio aquí',corte:'Corte aquí',hasta:'Fin aquí'}[k]}</button></div>`).join('')}
+  </div>
+  <div class="row"><button class="b g" id="test">▶ Probar la pregunta (inicio → corte)</button><button class="b g" id="next">Siguiente gol</button></div>
+  <div class="warn" id="warn"></div>`;
+  $('url').oninput=e=>{const id=idFrom(e.target.value);if(id&&id!==g.yt){g.yt=id;persist();renderList();load()}};
+  ['desde','corte','hasta'].forEach(k=>{$('f_'+k).onchange=e=>{g[k]=e.target.value===''?undefined:+e.target.value;persist();renderList();check()}});
+  $('ed').querySelectorAll('.mk button').forEach(b=>b.onclick=()=>{g[b.dataset.k]=t();$('f_'+b.dataset.k).value=g[b.dataset.k];persist();renderList();check()});
+  $('test').onclick=()=>{if(!player||!player.seekTo)return;player.seekTo(g.desde||0,true);player.playVideo();
+    clearInterval(window._w);window._w=setInterval(()=>{if(t()>=g.corte){player.pauseVideo();clearInterval(window._w)}},100)};
+  $('next').onclick=()=>{cur=(cur+1)%G.length;renderList();renderEd()};
+  load();check();
+}
+function check(){const g=G[cur],w=$('warn');if(!w)return;
+  w.textContent=!g.yt?'Falta el vídeo.':!(g.corte>(g.desde||0))?'El corte tiene que ir después del inicio.':(g.hasta&&g.hasta<=g.corte)?'El fin tiene que ir después del corte.':'';
+  w.style.color=w.textContent?'var(--bad)':'var(--ok)';if(!w.textContent)w.textContent='Listo ✔';}
+function load(){
+  const g=G[cur];if(!g.yt||!apiReady)return;
+  if(player&&player.destroy){player.destroy();player=null}
+  $('yt').innerHTML='<div id="ytp"></div>';
+  player=new YT.Player('ytp',{videoId:g.yt,playerVars:{rel:0,modestbranding:1,playsinline:1},
+    events:{onError:e=>{$('warn').style.color='var(--bad)';$('warn').textContent=(e.data===101||e.data===150)?'Este vídeo no deja insertarse en otras webs. Busca otro.':'Vídeo no disponible. Prueba otro enlace.'}}});
+}
+window.onYouTubeIframeAPIReady=()=>{apiReady=true;load()};
+
+function fileText(){
+  const q=s=>"'"+String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'")+"'";
+  const out=G.map(g=>{const p=[];
+    p.push(`yt:${q(g.yt||'')}`);if(g.video)p.push(`video:${q(g.video)}`);
+    p.push(`desde:${g.desde||0}`,`corte:${g.corte||0}`);if(g.hasta)p.push(`hasta:${g.hasta}`);
+    if(g.tapar)p.push(`tapar:${JSON.stringify(g.tapar)}`);if(g.color)p.push('color:true');
+    return `{${p.join(',')},\n name:${q(g.name)},flag:${q(g.flag)},\n h:[${g.h.map(q).join(',')}],\n mt:${q(g.mt)},\n tx:${q(g.tx)}}`;});
+  return `/* GOL DEL DÍA · calendario de goles (generado con editor-goles.html)\n   Para probar un gol concreto antes de su día:  gol-del-dia.html?dia=5 */\nconst INICIO=${q(INICIO)};\n\nconst GOLES=[\n${out.join(',\n\n')}\n];\n`;
+}
+$('dl').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([fileText()],{type:'text/javascript'}));a.download='goles.js';a.click()};
+$('cp').onclick=async()=>{try{await navigator.clipboard.writeText(fileText());$('cp').textContent='Copiado ✔'}catch(e){$('cp').textContent='No se pudo copiar'}};
+
+renderList();renderEd();
+const s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s);
+</script>
+</body>
+</html>
