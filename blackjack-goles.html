@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#06241a">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2222%22%20fill%3D%22%2306241a%22/%3E%3Cg%20transform%3D%22translate%286%2C8%29%20scale%280.88%29%22%3E%3Cdefs%3E%3CclipPath%20id%3D%22gdhf1%22%3E%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%22100%22%20height%3D%2263%22%3E%3C/rect%3E%3C/clipPath%3E%3CclipPath%20id%3D%22gddf1%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2260%22%20r%3D%2231.5%22%3E%3C/circle%3E%3C/clipPath%3E%3C/defs%3E%3Cg%20clip-path%3D%22url%28%23gdhf1%29%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2260%22%20r%3D%2232%22%20fill%3D%22%23f5f8f3%22%3E%3C/circle%3E%3Cg%20clip-path%3D%22url%28%23gddf1%29%22%3E%3Cpolygon%20points%3D%2250.00%2C33.00%2059.51%2C39.91%2055.88%2C51.09%2044.12%2C51.09%2040.49%2C39.91%22%20fill%3D%22%2306241a%22%3E%3C/polygon%3E%3C/g%3E%3C/g%3E%3Cpath%20d%3D%22M9%2072H91%22%20stroke%3D%22%23f5f8f3%22%20stroke-width%3D%227%22%20stroke-linecap%3D%22round%22%3E%3C/path%3E%3C/g%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;800;900&family=Barlow:wght@400;600;700&family=Noto+Color+Emoji&family=Doto:wght@900&display=swap" rel="stylesheet">
+<script>/* fondo del estadio al instante (evita el parpadeo negro al cambiar de página) */try{var fgc=JSON.parse(localStorage.getItem('fg_bg')),fgt=localStorage.getItem('fg_team');if(fgc&&fgc.url&&fgt&&fgt!=='none'&&fgc.t===fgt){document.documentElement.classList.add('fgbg');var fgs=document.createElement('style');fgs.textContent='html.fgbg{background:#050912}html.fgbg::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:#050912 url("'+fgc.url+'") center top/cover no-repeat}html.fgbg body{background:transparent!important}';document.head.appendChild(fgs)}}catch(e){}</script>
+<title>Blackjack · GOALDAY</title>
+<meta name="description" content="Dos futbolistas. ¿Quién tiene más goles? Aguanta la racha.">
+<style>
+:root{
+  --night:#06241a;--glass:rgba(5,28,19,.82);--glass-2:rgba(255,255,255,.06);--glass-3:rgba(255,255,255,.11);
+  --chalk:#f5f8f3;--chalk-2:rgba(245,248,243,.68);--chalk-3:rgba(245,248,243,.38);--line:rgba(245,248,243,.14);
+  --gold:#f3c545;--gold-2:#ffe08a;--pass:#63e0a1;--fail:#ff6b5c;--btn:#f3c545;--btn-ink:#1b1a0f;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{min-height:100vh;background:radial-gradient(ellipse at 50% -10%,#145c40 0,var(--night) 60%) fixed,var(--night);color:var(--chalk);font-family:Barlow,system-ui,sans-serif;-webkit-font-smoothing:antialiased;padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
+button{font:inherit;touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer}
+.wrap{max-width:720px;margin:0 auto;padding:14px 16px 40px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.back{color:var(--chalk-2);text-decoration:none;font-weight:700;font-size:14px;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:var(--glass)}
+.brand{font-family:"Barlow Condensed";font-weight:900;letter-spacing:.12em;font-size:18px}
+h1{font-family:"Barlow Condensed";font-weight:900;font-size:clamp(38px,10vw,60px);line-height:.92;margin:18px 0 6px;text-transform:uppercase;text-align:center}
+h1 em{font-style:normal;color:var(--gold)}
+.sub{color:var(--chalk-2);text-align:center;margin:0 0 14px;font-weight:600}
+.sub b{color:var(--gold-2)}
+.stage{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:#000;aspect-ratio:16/9}
+.stage video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.stage.bn video{filter:grayscale(1) contrast(1.12) brightness(1.05)}
+.cover{position:absolute;background:#050d09;border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:"Barlow Condensed";font-weight:900;letter-spacing:.14em;font-size:clamp(9px,2.2vw,14px);color:rgba(245,248,243,.45)}
+.overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:16px;font-family:"Barlow Condensed";font-weight:900;color:var(--chalk);text-shadow:0 4px 24px rgba(0,0,0,.7)}
+.overlay.dim{background:rgba(0,0,0,.45)}
+.overlay .count{font-size:min(26vw,140px);animation:pop .9s ease-out}
+.overlay .q{font-size:clamp(30px,8vw,54px);color:var(--gold);animation:pop .6s ease-out}
+.overlay .msg{font-family:Barlow;font-weight:600;font-size:15px;max-width:420px;line-height:1.4;text-shadow:none;color:var(--chalk-2)}
+.overlay .play{pointer-events:auto}
+@keyframes pop{0%{transform:scale(.4);opacity:0}30%{transform:scale(1.08);opacity:1}100%{transform:scale(1);opacity:1}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:14px;padding:14px 20px;background:var(--btn);color:var(--btn-ink);font-family:"Barlow Condensed";font-weight:800;font-size:20px;letter-spacing:.04em;text-transform:uppercase;box-shadow:0 10px 26px rgba(243,197,69,.22)}
+.btn.ghost{background:var(--glass-2);color:var(--chalk);border:1px solid var(--line);box-shadow:none}
+.btn.small{font-size:16px;padding:10px 14px;border-radius:12px}
+.ctrl{display:flex;gap:8px;justify-content:flex-end;margin:10px 0 4px}
+.hints{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+.hint{border:1px dashed rgba(243,197,69,.5);background:rgba(243,197,69,.06);color:var(--gold-2);border-radius:12px;padding:10px 8px;font-weight:700;font-size:13px;text-align:center;min-height:54px}
+.hint.open{border-style:solid;border-color:var(--line);background:var(--glass-2);color:var(--chalk);font-weight:600;cursor:default}
+.hint:disabled:not(.open){opacity:.5;cursor:default}
+.hint small{display:block;color:var(--chalk-3);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+@media (max-width:480px){.hints{grid-template-columns:1fr}.hint{min-height:0}}
+.guess{position:relative;display:flex;gap:8px}
+.guess input{flex:1;min-width:0;border-radius:12px;border:1px solid var(--line);background:rgba(0,0,0,.28);color:var(--chalk);padding:13px 14px;font:600 17px Barlow,sans-serif;outline:none}
+.guess input:focus{border-color:var(--gold)}
+.sug{position:absolute;left:0;right:0;bottom:calc(100% + 6px);z-index:5;background:#0a2e21;border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 -10px 30px rgba(0,0,0,.4)}
+.sug button{display:block;width:100%;text-align:left;border:0;background:transparent;color:var(--chalk);padding:11px 14px;font-weight:600;font-size:16px}
+.sug button+button{border-top:1px solid var(--line)}
+.sug button.on,.sug button:hover{background:var(--glass-3)}
+.tries{display:flex;gap:6px;align-items:center;margin:10px 0 0;font-size:14px;color:var(--chalk-2)}
+.tries span{width:22px;height:6px;border-radius:3px;background:var(--glass-3)}
+.tries span.x{background:var(--fail)}
+.fb{min-height:22px;margin:8px 0 0;font-weight:700}
+.fb.bad{color:var(--fail)}.fb.good{color:var(--pass)}
+.guesses{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.guesses span{font-size:13px;padding:4px 10px;border-radius:999px;background:rgba(255,107,92,.15);color:#ffb1a8;text-decoration:line-through}
+.reveal{margin-top:12px;border-radius:16px;padding:16px;background:linear-gradient(160deg,rgba(243,197,69,.18),rgba(5,28,19,.9) 70%);border:1px solid rgba(243,197,69,.45)}
+.reveal .nm{font-family:"Barlow Condensed";font-weight:900;font-size:32px;text-transform:uppercase;line-height:1}
+.reveal .mt{color:var(--chalk-2);margin:6px 0 10px;font-weight:600}
+.reveal p{margin:0 0 12px;line-height:1.45;color:var(--chalk-2)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+.stat{background:var(--glass-2);border-radius:12px;padding:10px;text-align:center}
+.stat b{display:block;font-family:"Barlow Condensed";font-size:28px;color:var(--gold)}
+.stat span{font-size:12px;color:var(--chalk-2)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.muted{color:var(--chalk-3);font-size:13px}
+.test{background:#6b1d15;color:#fff;border-radius:10px;padding:8px 12px;font-weight:700;font-size:13px;margin-top:12px;text-align:center}
+[hidden]{display:none!important}
+.emoji{font-family:"Noto Color Emoji",sans-serif}
+</style><style>
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.mode{border:1px solid var(--line);background:var(--glass);border-radius:16px;padding:16px;text-align:left;color:var(--chalk)}
+.mode b{display:block;font-family:"Barlow Condensed";font-size:24px;text-transform:uppercase;line-height:1}
+.mode span{display:block;color:var(--chalk-2);font-size:13px;margin-top:6px;line-height:1.35}
+.mode.gold{border-color:rgba(243,197,69,.5);background:linear-gradient(160deg,rgba(243,197,69,.2),rgba(5,28,19,.9) 70%)}
+.mode:disabled{opacity:.55;cursor:default}
+.bar{display:flex;justify-content:space-between;align-items:center;margin:8px 0;font-weight:700;color:var(--chalk-2)}
+.bar b{color:var(--gold);font-family:"Barlow Condensed";font-size:26px}
+.cat{text-align:center;margin:6px 0 10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-2);font-size:13px}
+.duel{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:stretch}
+.vs{align-self:center;font-family:"Barlow Condensed";font-weight:900;color:var(--chalk-3);font-size:20px}
+.choice{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.choice .btn{font-size:24px;padding:18px}
+.choice .btn.less{background:var(--glass-3);color:var(--chalk);box-shadow:none;border:1px solid var(--line)}
+.hand{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;min-height:44px}
+.chip{border-radius:12px;background:var(--glass-2);border:1px solid var(--line);padding:8px 12px;font-weight:700;font-size:14px}
+.chip b{color:var(--gold);margin-left:6px}
+.total{display:flex;justify-content:space-between;align-items:flex-end;border-radius:16px;padding:14px 16px;background:var(--glass);border:1px solid var(--line);margin:10px 0}
+.total div{text-align:center}
+.total small{display:block;color:var(--chalk-3);font-size:11px;text-transform:uppercase;letter-spacing:.08em}
+.total b{font-family:"Barlow Condensed";font-weight:900;font-size:40px;line-height:1}
+.total .t b{color:var(--gold)}
+.total .s b{color:var(--chalk)}
+.total .s b.bust{color:var(--fail)}
+.next{border-radius:16px;border:1px dashed rgba(243,197,69,.5);background:rgba(243,197,69,.06);padding:16px;text-align:center;margin:10px 0}
+.next .nm{font-family:"Barlow Condensed";font-weight:900;font-size:30px;text-transform:uppercase;line-height:1}
+.next .pos{font-size:12px;color:var(--chalk-3);text-transform:uppercase;letter-spacing:.06em;margin-top:4px}
+.acts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 0}
+.acts .btn{font-size:17px;padding:14px 8px}
+.acts .btn.ghost{color:var(--chalk)}
+.res{margin-top:12px;border-radius:16px;padding:16px;background:linear-gradient(160deg,rgba(243,197,69,.18),rgba(5,28,19,.9) 70%);border:1px solid rgba(243,197,69,.45);text-align:center}
+.res .big{font-family:"Barlow Condensed";font-weight:900;font-size:56px;line-height:1;color:var(--gold)}
+.res .sm{color:var(--chalk-2);margin:6px 0 12px;font-weight:600}
+.rounds{display:flex;gap:6px;justify-content:center;margin:8px 0}
+.rounds span{width:26px;height:8px;border-radius:4px;background:var(--glass-3)}
+.rounds span.ok{background:var(--pass)}.rounds span.ko{background:var(--fail)}.rounds span.now{background:var(--gold)}
+.center{text-align:center}
+@media (max-width:420px){.duel{grid-template-columns:1fr 1fr;gap:8px}.vs{display:none}}
+</style><style>
+/* ===== Marcador LED (pantalla de juego) ===== */
+:root{--led:#ffc23a;--led-dim:rgba(255,194,58,.16);--up:#39d98a;--down:#ff5a4e;--board:#050c08;--frame:#1f2e26}
+body.playing h1,body.playing .sub{display:none}
+.board{margin-top:14px;border-radius:18px;background-color:var(--board);
+  background-image:radial-gradient(rgba(255,255,255,.055) 1px,transparent 1.3px);background-size:6px 6px;
+  border:2px solid var(--frame);box-shadow:inset 0 0 0 6px #030805,inset 0 0 0 7px var(--frame),0 20px 50px rgba(0,0,0,.5);overflow:hidden}
+.strip{display:flex;align-items:center;gap:14px;padding:12px 18px;border-bottom:2px solid var(--frame);font-family:"Barlow Condensed";font-weight:800;font-size:17px;color:var(--chalk-2)}
+.strip .ct{flex:1;color:var(--chalk);font-size:18px}
+.strip b{font-family:Doto,"Barlow Condensed",monospace;font-weight:900;font-size:24px;color:var(--led);text-shadow:0 0 10px rgba(255,194,58,.5);margin-left:4px}
+.duel2{display:grid;grid-template-rows:1fr auto 1fr}
+.side{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:4px;padding:22px 16px;min-height:220px;transition:background .3s}
+.side .fl{font-size:44px;line-height:1;margin-bottom:4px}
+.side .nm{font-family:"Barlow Condensed";font-weight:900;font-size:clamp(26px,7vw,40px);line-height:.95;text-transform:uppercase;color:var(--chalk);max-width:14ch}
+.side .pos{font-size:13px;color:var(--chalk-3);font-weight:600}
+.led{font-family:Doto,"Barlow Condensed",monospace;font-weight:900;font-size:clamp(64px,19vw,104px);line-height:1;color:var(--led);text-shadow:0 0 18px rgba(255,194,58,.55),0 0 2px rgba(255,194,58,.9);margin-top:6px;font-variant-numeric:tabular-nums}
+.led.q{color:var(--led-dim);text-shadow:none;animation:blink 1.6s steps(2) infinite}
+@keyframes blink{50%{opacity:.45}}
+.side .unit{font-size:13px;color:var(--chalk-3);font-weight:600;margin-top:-2px}
+.mid{position:relative;height:0;display:flex;align-items:center;justify-content:center;border-top:2px solid var(--frame)}
+.mid span{position:absolute;width:46px;height:46px;border-radius:50%;background:var(--board);border:2px solid var(--frame);display:flex;align-items:center;justify-content:center;font-family:"Barlow Condensed";font-weight:900;font-size:19px;color:var(--chalk-2);z-index:2}
+.choice2{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;max-width:380px;margin-top:16px}
+.choice2 button{border:0;border-radius:12px;padding:16px 8px;font-family:"Barlow Condensed";font-weight:900;font-size:24px;letter-spacing:.03em;color:#04120a}
+.choice2 .up{background:var(--up);box-shadow:0 0 22px rgba(57,217,138,.3)}
+.choice2 .down{background:var(--down);color:#1d0503;box-shadow:0 0 22px rgba(255,90,78,.3)}
+.choice2 button:active{transform:translateY(2px)}
+.choice2 button:focus-visible{outline:3px solid var(--chalk);outline-offset:2px}
+.choice2[hidden]{display:grid!important;visibility:hidden}
+.side.ok{background:rgba(57,217,138,.12)}
+.side.ok .led{color:var(--up);text-shadow:0 0 18px rgba(57,217,138,.6)}
+.side.ko{background:rgba(255,90,78,.12);animation:shake .45s}
+.side.ko .led{color:var(--down);text-shadow:0 0 18px rgba(255,90,78,.6)}
+@keyframes shake{20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
+.fb2{min-height:24px;text-align:center;padding:10px 16px 14px;font-weight:700;color:var(--chalk-2)}
+.fb2.bad{color:#ff9d94}
+/* entrada: el de la derecha/abajo sube al sitio del primero y entra uno nuevo */
+.side.inA{animation:inA .45s cubic-bezier(.2,.8,.2,1)}
+.side.inB{animation:inB .45s cubic-bezier(.2,.8,.2,1)}
+@keyframes inA{from{transform:translateY(60%);opacity:.2}to{transform:none;opacity:1}}
+@keyframes inB{from{transform:translateY(30%);opacity:0}to{transform:none;opacity:1}}
+@media (min-width:680px){
+  .duel2{grid-template-rows:none;grid-template-columns:1fr auto 1fr}
+  .side{min-height:340px}
+  .mid{height:auto;width:0;border-top:0;border-left:2px solid var(--frame)}
+  @keyframes inA{from{transform:translateX(60%);opacity:.2}to{transform:none;opacity:1}}
+  @keyframes inB{from{transform:translateX(30%);opacity:0}to{transform:none;opacity:1}}
+}
+@media (prefers-reduced-motion:reduce){.side.inA,.side.inB,.side.ko,.led.q{animation:none}}
+#cB{padding-top:34px}
+@media (min-width:680px){#cB{padding-top:22px}}
+/* resultado */
+.res{background-color:var(--board);background-image:radial-gradient(rgba(255,255,255,.055) 1px,transparent 1.3px);background-size:6px 6px;border:2px solid var(--frame);box-shadow:inset 0 0 0 6px #030805,inset 0 0 0 7px var(--frame);padding:26px 16px}
+.res .lbl{font-family:"Barlow Condensed";font-weight:800;font-size:18px;color:var(--chalk-2)}
+.res .big{font-family:Doto,"Barlow Condensed",monospace;font-size:120px;color:var(--led);text-shadow:0 0 22px rgba(255,194,58,.55)}
+</style><style>
+/* ===== v2: caras, alineación y más presencia ===== */
+body.playing .wrap{max-width:940px}
+.side{justify-content:flex-start;gap:0;padding:26px 18px 20px}
+#cB{padding-top:26px}
+.face{position:relative;width:92px;height:92px;flex:none;margin-bottom:12px}
+.face .ph{position:absolute;inset:0;border-radius:50%;overflow:hidden;background:radial-gradient(circle at 50% 35%,#24352c,#0b150f 70%);border:3px solid var(--frame);display:flex;align-items:center;justify-content:center}
+.face img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 18%;opacity:0;transition:opacity .35s}
+.face img.on{opacity:1}
+.face .ini{font-family:"Barlow Condensed";font-weight:900;font-size:34px;color:var(--chalk-3)}
+.face .flag{position:absolute;right:-6px;bottom:-2px;font-size:26px;line-height:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.6))}
+#cA .face .ph{border-color:rgba(255,194,58,.75);box-shadow:0 0 22px rgba(255,194,58,.25)}
+.side.ok .face .ph{border-color:var(--up);box-shadow:0 0 22px rgba(57,217,138,.35)}
+.side.ko .face .ph{border-color:var(--down);box-shadow:0 0 22px rgba(255,90,78,.35)}
+.side .nm{height:1.9em;display:flex;align-items:center;justify-content:center;font-size:clamp(24px,6.4vw,36px);max-width:16ch;line-height:.95}
+.side .pos{margin-top:4px;font-size:14px}
+.led{margin-top:8px;font-size:clamp(66px,18vw,112px)}
+.foot{margin-top:auto;padding-top:14px;height:78px;width:100%;display:flex;align-items:center;justify-content:center}
+.side .unit{margin:2px 0 0;font-size:15px}
+.led.q+.unit{visibility:hidden}
+.choice2{margin-top:0}
+.choice2 button{font-size:26px;padding:17px 8px}
+.strip{font-size:18px}.strip .ct{font-size:20px}
+@media (min-width:680px){
+  .side{padding:30px 26px 24px;min-height:0}
+  .face{width:132px;height:132px;margin-bottom:16px}
+  .face .ini{font-size:46px}.face .flag{font-size:34px}
+  .side .nm{font-size:40px}
+  .foot{height:88px}
+  #cB{padding-top:30px}
+}
+@media (max-width:679px){#cA .foot{display:none}}
+@media (max-width:420px){.side{padding:18px 14px 14px}#cB{padding-top:30px}.face{width:78px;height:78px;margin-bottom:8px}.led{font-size:68px;margin-top:4px}.foot{height:70px;padding-top:8px}}
+</style>
+<style>.gdlogo{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--chalk,#f5f8f3);font-family:"Barlow Condensed",sans-serif;font-weight:900;font-size:22px;letter-spacing:.12em}.gdlogo svg{width:34px;height:34px;flex:none}</style><style>
+/* ===== camisetas ===== */
+.kit{width:128px;height:128px;flex:none;margin:-6px 0 6px;filter:drop-shadow(0 10px 18px rgba(0,0,0,.55))}
+.kit svg{width:100%;height:100%;display:block}
+.side.ok .kit{filter:drop-shadow(0 0 16px rgba(57,217,138,.55))}
+.side.ko .kit{filter:drop-shadow(0 0 16px rgba(255,90,78,.55))}
+.side .pos .flag{font-size:15px}
+.side{justify-content:center}.side .nm{font-size:clamp(30px,8vw,48px)}
+@media (min-width:680px){#cA,#cB{padding-top:34px}}
+@media (min-width:680px){.kit{width:168px;height:168px}}
+@media (max-width:420px){.kit{width:86px;height:86px;margin:-6px 0 0}.side{min-height:0}.led{font-size:60px}}
+</style>
+<style>
+/* ===== Blackjack contra la banca ===== */
+.bj-sec{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px;padding:16px 18px}
+.bj-lbl{font-family:"Barlow Condensed";font-weight:900;font-size:15px;letter-spacing:.14em;color:var(--chalk-3);text-transform:uppercase}
+.bj-sec .led{font-size:clamp(46px,13vw,76px);margin:0;text-align:right;min-width:3ch}
+.bj-cards{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px;min-height:36px}
+.bj-sec{padding:12px 16px}
+.pcard{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.05);border:1px solid var(--frame);border-radius:10px;padding:7px 11px;font-weight:700;font-size:14px;color:var(--chalk);animation:dealIn .35s cubic-bezier(.2,.8,.2,1)}
+.pcard b{font-family:Doto,"Barlow Condensed",monospace;font-weight:900;font-size:17px;color:var(--led)}
+.pcard.hid{color:var(--chalk-3);letter-spacing:.1em}
+.pcard.hid b{color:var(--led-dim)}
+@keyframes dealIn{from{transform:translateY(-8px) scale(.96);opacity:0}to{transform:none;opacity:1}}
+.bj-target{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:center;gap:4px 12px;padding:10px;border-top:2px solid var(--frame);border-bottom:2px solid var(--frame);background:rgba(255,194,58,.04)}
+.bj-target span{font-family:"Barlow Condensed";font-weight:900;letter-spacing:.14em;color:var(--chalk-2);font-size:15px}
+.bj-target b{font-family:Doto,"Barlow Condensed",monospace;font-weight:900;font-size:34px;color:var(--led);text-shadow:0 0 12px rgba(255,194,58,.5)}
+.bj-sec.win .led{color:var(--up);text-shadow:0 0 18px rgba(57,217,138,.6)}
+.bj-sec.lose .led{color:var(--down);text-shadow:0 0 18px rgba(255,90,78,.6)}
+.bj-act{padding:14px 16px 18px;border-top:2px solid var(--frame)}
+.nextp{text-align:center;margin-bottom:12px}
+.nextp small{display:block;color:var(--chalk-3);font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+.nextp .nm{font-family:"Barlow Condensed";font-weight:900;font-size:clamp(28px,8vw,40px);line-height:1;text-transform:uppercase;color:var(--chalk);margin-top:4px}
+.nextp .pos{color:var(--chalk-3);font-size:14px;font-weight:600;margin-top:4px}
+.bj-btns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.bj-btns button,.bets button,.bj-deal{border:0;border-radius:12px;padding:15px 6px;font-family:"Barlow Condensed";font-weight:900;font-size:20px;letter-spacing:.02em;cursor:pointer}
+.b-take{background:var(--up);color:#04120a}
+.b-stand{background:#e9ecef;color:#0b1a13}
+.b-double{background:var(--led);color:#1b1402}
+.bj-btns button:disabled,.bets button:disabled{opacity:.35;cursor:default}
+.bets{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}
+.bets button{background:rgba(255,255,255,.07);color:var(--chalk);border:1px solid var(--frame)}
+.bets button.on{background:rgba(255,194,58,.18);border-color:var(--led);color:var(--led)}
+.bj-deal{width:100%;background:var(--led);color:#1b1402;font-size:24px}
+.betline{display:flex;justify-content:center;align-items:baseline;gap:10px}
+.betline span{color:var(--chalk-3);font-weight:800;letter-spacing:.12em;font-size:13px;text-transform:uppercase}
+.betline b{font-family:Doto,"Barlow Condensed",monospace;font-weight:900;font-size:40px;color:var(--led);text-shadow:0 0 12px rgba(255,194,58,.5)}
+.bj-msg{text-align:center;font-family:"Barlow Condensed";font-weight:900;font-size:28px;line-height:1.1;margin:4px 0 12px}
+.bj-msg.good{color:var(--up)}.bj-msg.bad{color:var(--down)}.bj-msg.even{color:var(--chalk-2)}
+.bj-msg small{display:block;font-family:inherit;font-size:15px;color:var(--chalk-2);font-weight:700;margin-top:4px}
+.rules{margin-top:12px;color:var(--chalk-2);font-size:14px;line-height:1.5;background:var(--glass);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.rules b{color:var(--chalk)}
+.rules p{margin:0 0 6px}
+.rank{margin-top:12px;background:var(--glass);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.rank h3{margin:0 0 10px;font-family:"Barlow Condensed";font-weight:900;font-size:20px;text-transform:uppercase;letter-spacing:.04em}
+.rtabs{display:flex;gap:6px;margin-bottom:10px}
+.rtabs button{flex:1;border:1px solid var(--line);background:transparent;color:var(--chalk-2);border-radius:999px;padding:7px;font-weight:700;cursor:pointer}
+.rtabs button.on{background:rgba(255,194,58,.16);border-color:var(--led);color:var(--led)}
+.rrow{display:grid;grid-template-columns:28px 1fr auto;gap:8px;padding:7px 2px;border-bottom:1px solid rgba(255,255,255,.06);font-weight:700}
+.rrow:last-child{border-bottom:0}
+.rrow .n{color:var(--chalk-3)}.rrow .c{font-family:Doto,"Barlow Condensed",monospace;font-weight:900;color:var(--led)}
+.rrow.me{color:var(--led)}
+.b-cash{width:100%;margin-top:10px;border:1px solid var(--up);background:rgba(57,217,138,.12);color:var(--up);border-radius:12px;padding:13px;font-family:"Barlow Condensed";font-weight:900;font-size:20px;cursor:pointer}
+.namebox{display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+.namebox input{font:700 17px Barlow,system-ui,sans-serif;padding:11px 12px;border-radius:12px;border:1px solid var(--line);background:rgba(0,0,0,.35);color:var(--chalk);width:190px}.rules p:last-child{margin:0}
+</style>
+
+<style>
+/* ===================== BLACKJACK · mesa ===================== */
+:root{--felt:#0d5a39;--felt-2:#073a25;--felt-line:rgba(255,236,170,.35);--card:#fbf7ec;--card-2:#efe6d0;--ink:#15130e;--red:#c8322a}
+body.playing h1,body.playing .sub{display:none}
+.hud{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:6px 0 8px}
+.hud-l{display:flex;flex-direction:column;line-height:1.05}
+.hud-mode{font-family:"Barlow Condensed";font-weight:900;font-size:22px;text-transform:uppercase;letter-spacing:.04em}
+.hud-hand{color:var(--chalk-3);font-weight:700;font-size:13px}
+.hud-hand b{color:var(--chalk-2)}
+.hud-chips{display:flex;align-items:center;gap:10px;background:rgba(0,0,0,.35);border:1px solid rgba(255,194,58,.35);border-radius:999px;padding:6px 16px 6px 6px}
+.hud-chips b{font-family:Doto,"Barlow Condensed",monospace;font-weight:900;font-size:28px;color:var(--led);text-shadow:0 0 12px rgba(255,194,58,.5);line-height:1}
+.hud-chips.up b{color:var(--up);text-shadow:0 0 14px rgba(57,217,138,.6)}
+.hud-chips.down b{color:var(--down);text-shadow:0 0 14px rgba(255,90,78,.6)}
+/* ficha de casino */
+.cchip{--c:#1f5fbf;width:34px;height:34px;border-radius:50%;flex:none;background:radial-gradient(circle at 50% 50%,var(--c) 0 44%,#fff 45% 49%,var(--c) 50% 100%);box-shadow:inset 0 0 0 3px rgba(0,0,0,.18),0 2px 4px rgba(0,0,0,.45);position:relative}
+.cchip::before{content:"";position:absolute;inset:0;border-radius:50%;background:repeating-conic-gradient(#fff 0 12deg,transparent 12deg 45deg);-webkit-mask:radial-gradient(circle,transparent 0 62%,#000 63% 100%);mask:radial-gradient(circle,transparent 0 62%,#000 63% 100%);opacity:.9}
+/* mesa */
+.table{position:relative;border-radius:26px;padding:12px 10px 12px;background:radial-gradient(ellipse at 50% 38%,#12704a 0,var(--felt) 42%,var(--felt-2) 100%);border:9px solid #3a2414;box-shadow:inset 0 0 0 2px rgba(255,236,170,.18),inset 0 0 60px rgba(0,0,0,.45),0 0 0 2px #1d1108,0 22px 50px rgba(0,0,0,.55);overflow:hidden}
+.table::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.035) 1px,transparent 1.2px);background-size:4px 4px;pointer-events:none}
+.table::after{content:"";position:absolute;left:50%;top:47%;width:130%;aspect-ratio:1;transform:translate(-50%,0);border:2px solid var(--felt-line);border-radius:50%;pointer-events:none;opacity:.45}
+.zone{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:8px}
+.zlabel{display:flex;align-items:center;gap:8px;font-family:"Barlow Condensed";font-weight:900;font-size:15px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,236,170,.75)}
+.tot{min-width:52px;text-align:center;font-family:Doto,"Barlow Condensed",monospace;font-weight:900;font-size:22px;letter-spacing:0;color:var(--led);background:rgba(0,0,0,.45);border:1px solid rgba(255,194,58,.35);border-radius:999px;padding:3px 12px;text-shadow:0 0 10px rgba(255,194,58,.45);transition:color .2s,border-color .2s}
+.tot.bust,.tot.lose{color:var(--down);border-color:var(--down);text-shadow:0 0 10px rgba(255,90,78,.5)}
+.tot.win{color:var(--up);border-color:var(--up);text-shadow:0 0 10px rgba(57,217,138,.5)}
+.hand{display:flex;justify-content:center;min-height:116px;padding:0 6px}
+.hand .card+.card{margin-left:var(--ov,-30px)}
+.tmid{position:relative;z-index:1;min-height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:6px 0}
+.felt-t{text-align:center;color:rgba(255,236,170,.85);font-family:"Barlow Condensed";font-weight:900;text-transform:uppercase;line-height:1}
+.felt-t b{display:block;font-size:30px;letter-spacing:.08em;color:#ffe9a8;text-shadow:0 2px 0 rgba(0,0,0,.35)}
+.felt-t small{display:block;font-size:12px;letter-spacing:.2em;margin-top:5px;color:rgba(255,236,170,.6)}
+.spot{margin-top:12px;width:104px;height:104px;border-radius:50%;border:2px dashed rgba(255,236,170,.45);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.spot b{font-family:Doto,"Barlow Condensed",monospace;font-weight:900;font-size:22px;color:#ffe9a8}
+.stack{display:flex;flex-direction:column-reverse;align-items:center;height:44px;justify-content:flex-start}
+.stack .cchip{width:40px;height:40px;margin-top:-30px}
+.stack .cchip:first-child{margin-top:0}
+.nextbox{display:flex;align-items:center;gap:14px;margin-top:12px}
+.nextbox .q{font-family:"Barlow Condensed";font-weight:900;font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,236,170,.8);max-width:92px;line-height:1.1}
+.minispot{display:flex;flex-direction:column;align-items:center;gap:4px;color:#ffe9a8;font-family:Doto,"Barlow Condensed",monospace;font-weight:900;font-size:18px}
+/* carta */
+.card{width:82px;height:116px;perspective:700px;flex:none;position:relative}
+.card .in{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.3,.7,.2,1)}
+.card.down .in{transform:rotateY(180deg)}
+.card .f,.card .b{position:absolute;inset:0;border-radius:9px;backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:0 6px 14px rgba(0,0,0,.45),0 1px 0 rgba(255,255,255,.4) inset}
+.card .f{background:linear-gradient(160deg,var(--card) 0,var(--card-2) 100%);color:var(--ink);overflow:hidden}
+.card .f::after{content:"";position:absolute;inset:5px;border:1px solid rgba(21,19,14,.12);border-radius:6px;pointer-events:none}
+.card .b{transform:rotateY(180deg);background:
+  repeating-linear-gradient(45deg,rgba(255,236,170,.14) 0 2px,transparent 2px 9px),
+  repeating-linear-gradient(-45deg,rgba(255,236,170,.14) 0 2px,transparent 2px 9px),
+  linear-gradient(160deg,#0f5132,#062a1b);border:4px solid #fbf7ec;display:flex;align-items:center;justify-content:center}
+.card .b svg{width:40px;height:40px;filter:drop-shadow(0 1px 1px rgba(0,0,0,.5))}
+.idx{position:absolute;display:flex;flex-direction:column;align-items:center;line-height:1}
+.idx b{font-family:"Barlow Condensed";font-weight:900;font-size:18px;letter-spacing:-.02em}
+.idx i{font-style:normal;font-size:11px;margin-top:1px}
+.idx.tl{top:6px;left:7px}.idx.br{bottom:6px;right:7px;transform:rotate(180deg)}
+.idx.unk b{color:var(--red)}
+.card .c{position:absolute;inset:22px 4px 20px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.card .c .fl{font-family:"Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji",sans-serif;font-size:24px;line-height:1;margin-bottom:4px}
+.card .c .fn{font-family:Barlow;font-weight:700;font-size:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;text-transform:uppercase;letter-spacing:.06em;color:#5a5446;line-height:1.1}
+.card .c .ln{font-family:"Barlow Condensed";font-weight:900;text-transform:uppercase;line-height:.95;white-space:nowrap;max-width:100%;overflow:hidden}
+.card .c .ps{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#8a826d;margin-top:3px}
+.card.big{width:112px;height:158px}
+.card.big .idx b{font-size:26px}
+.card.big .c{inset:30px 6px 28px}.card.big .c .fl{font-size:34px}.card.big .c .fn{font-size:10px}.card.big .c .ps{font-size:9px}
+.card.deal{animation:deal .5s cubic-bezier(.2,.8,.2,1) both}
+@keyframes deal{from{transform:translate(160px,-200px) rotate(24deg);opacity:0}to{transform:none;opacity:1}}
+.card.pop{animation:popc .45s cubic-bezier(.2,.8,.2,1) both}
+@keyframes popc{from{transform:scale(.6) rotate(-6deg);opacity:0}to{transform:none;opacity:1}}
+.card.win .f{box-shadow:0 0 0 3px var(--up),0 8px 18px rgba(0,0,0,.45)}
+.card.gone{animation:gone .35s ease-in forwards}
+@keyframes gone{to{transform:translate(180px,-40px) rotate(18deg);opacity:0}}
+/* cartel de resultado */
+.banner{position:relative;z-index:3;white-space:nowrap;text-align:center;padding:12px 22px;border-radius:16px;background:rgba(3,14,9,.86);border:2px solid var(--led);box-shadow:0 10px 40px rgba(0,0,0,.6);min-width:210px;animation:bann .5s cubic-bezier(.2,.9,.2,1.2) both}
+.banner b{display:block;font-family:"Barlow Condensed";font-weight:900;font-size:30px;line-height:1;text-transform:uppercase}
+.banner span{display:block;margin-top:5px;font-family:Doto,"Barlow Condensed",monospace;font-weight:900;font-size:22px}
+.banner.good{border-color:var(--up)}.banner.good b,.banner.good span{color:var(--up)}
+.banner.bad{border-color:var(--down)}.banner.bad b,.banner.bad span{color:var(--down)}
+@keyframes bann{from{transform:scale(.6);opacity:0}}
+/* panel de controles */
+.panel{margin-top:12px;min-height:118px}
+.chips-row{display:flex;justify-content:center;gap:12px;margin-bottom:12px}
+.pchip{--c:#1f5fbf;width:64px;height:64px;border-radius:50%;border:0;cursor:pointer;position:relative;background:radial-gradient(circle at 50% 50%,var(--c) 0 50%,#fff 51% 54%,var(--c) 55% 100%);box-shadow:inset 0 0 0 4px rgba(0,0,0,.2),0 4px 10px rgba(0,0,0,.5);color:#fff;font-family:"Barlow Condensed";font-weight:900;font-size:15px;text-shadow:0 1px 2px rgba(0,0,0,.6);transition:transform .15s}
+.pchip::before{content:"";position:absolute;inset:0;border-radius:50%;background:repeating-conic-gradient(#fff 0 12deg,transparent 12deg 45deg);-webkit-mask:radial-gradient(circle,transparent 0 64%,#000 65% 100%);mask:radial-gradient(circle,transparent 0 64%,#000 65% 100%)}
+.pchip span{position:relative}
+.pchip.on{transform:translateY(-6px);box-shadow:inset 0 0 0 4px rgba(0,0,0,.2),0 0 0 3px var(--led),0 10px 18px rgba(0,0,0,.5)}
+.pchip:focus-visible{outline:3px solid var(--chalk);outline-offset:3px}
+.bigbtn{width:100%;border:0;border-radius:14px;padding:16px;font-family:"Barlow Condensed";font-weight:900;font-size:24px;letter-spacing:.03em;text-transform:uppercase;cursor:pointer;background:var(--led);color:#1b1402;box-shadow:0 6px 0 #a5780f,0 10px 20px rgba(0,0,0,.4)}
+.bigbtn:active{transform:translateY(3px);box-shadow:0 3px 0 #a5780f}
+.cashbtn{display:block;margin:12px auto 0;background:none;border:0;color:var(--up);font-weight:800;font-size:16px;cursor:pointer;text-decoration:underline;text-underline-offset:4px}
+.acts3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.acts3 button{border:0;border-radius:14px;padding:14px 4px 12px;font-family:"Barlow Condensed";font-weight:900;font-size:19px;text-transform:uppercase;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;line-height:1}
+.acts3 button small{font-family:Barlow;font-weight:700;font-size:11px;text-transform:none;opacity:.75}
+.acts3 .t{background:var(--up);color:#04120a;box-shadow:0 5px 0 #1f8d58}
+.acts3 .s{background:#eef1ea;color:#0b1a13;box-shadow:0 5px 0 #9aa399}
+.acts3 .d{background:var(--led);color:#1b1402;box-shadow:0 5px 0 #a5780f}
+.acts3 button:active{transform:translateY(3px);box-shadow:none}
+.acts3 button:disabled{opacity:.35;cursor:default;transform:none}
+.wait{text-align:center;color:var(--chalk-3);font-weight:700;padding-top:18px}
+/* portada */
+.hero{display:flex;justify-content:center;margin:6px 0 14px;height:150px}
+.hero .card{transform-origin:50% 120%}
+.hero .card:nth-child(1){transform:rotate(-14deg) translateY(10px)}
+.hero .card:nth-child(2){transform:translateY(-4px);z-index:2;margin-left:-26px}
+.hero .card:nth-child(3){transform:rotate(14deg) translateY(10px);margin-left:-26px}
+details.rules summary{cursor:pointer;font-weight:800;color:var(--chalk);list-style:none}
+details.rules summary::after{content:" ▾";color:var(--chalk-3)}
+details.rules[open] summary{margin-bottom:8px}
+@media (min-width:680px){
+  .card{width:96px;height:136px}.card .c{inset:26px 6px 24px}.card .c .fl{font-size:28px}.card .c .fn{font-size:9px}
+  .card.big{width:128px;height:180px}
+  .hand{min-height:138px}.hand .card+.card{margin-left:-28px}
+  .tmid{min-height:220px}
+}
+@media (max-width:380px){.card{width:74px;height:106px}.card.big{width:100px;height:142px}.hand{min-height:106px}}
+@media (prefers-reduced-motion:reduce){.card.deal,.card.pop,.card.gone,.banner{animation:none}.card .in{transition:none}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="top"><a class="back" href="./">← Juegos</a><a class="brand gdlogo" href="./" aria-label="GOALDAY"><svg width="34" height="34" viewBox="0 0 100 100" aria-hidden="true"><defs><clipPath id="gdhh4"><rect x="0" y="0" width="100" height="63"></rect></clipPath><clipPath id="gddh4"><circle cx="50" cy="60" r="31.5"></circle></clipPath></defs><g clip-path="url(#gdhh4)"><circle cx="50" cy="60" r="32" fill="#f5f8f3"></circle><g clip-path="url(#gddh4)"><polygon points="50.00,33.00 59.51,39.91 55.88,51.09 44.12,51.09 40.49,39.91" fill="#06241a"></polygon><path d="M50.00 33.00L50.00 26.00" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="50.00,25.50 40.96,18.94 44.42,8.31 55.58,8.31 59.04,18.94" fill="#06241a"></polygon><path d="M59.51 39.91L66.17 37.75" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="66.64,37.59 70.09,26.97 81.26,26.97 84.71,37.59 75.68,44.16" fill="#06241a"></polygon><path d="M55.88 51.09L59.99 56.75" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="60.29,57.16 71.45,57.16 74.91,67.78 65.87,74.34 56.84,67.78" fill="#06241a"></polygon><path d="M44.12 51.09L40.01 56.75" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="39.71,57.16 43.16,67.78 34.13,74.34 25.09,67.78 28.55,57.16" fill="#06241a"></polygon><path d="M40.49 39.91L33.83 37.75" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="33.36,37.59 24.32,44.16 15.29,37.59 18.74,26.97 29.91,26.97" fill="#06241a"></polygon></g></g><path d="M9 72H91" stroke="#f5f8f3" stroke-width="7" stroke-linecap="round"></path></svg><span>GOALDAY</span></a></div>
+  <h1>Black<em>jack</em></h1>
+  <p class="sub" id="sub">Juega contra la banca con fichas. Ves el nombre del jugador, pero no sus goles: cógelo o plántate sin pasarte del objetivo.</p>
+
+  <div id="home">
+    <div class="hero" id="hero"></div>
+    <div class="modes" id="modesBox"></div>
+    <div class="stats" id="homeStats"></div>
+    <div class="rank" id="rankBox"></div>
+    <details class="rules">
+      <summary>Cómo se juega</summary>
+      <p>Empiezas con 1.000 fichas. En cada mano apuestas y te reparten dos jugadores; la banca también recibe dos, uno boca abajo.</p>
+      <p>Sale el siguiente jugador: lo coges (suma sus goles), te plantas o doblas la apuesta cogiéndolo y plantándote.</p>
+      <p>Si te pasas del objetivo, pierdes. Si no, la banca pide hasta llegar a su mínimo y gana quien más se acerque. El empate es para la banca.</p>
+      <p>No hay límite de manos. La apuesta mínima es el 10 % de tus fichas. Retírate cuando quieras para guardar tus fichas en el ranking; si te quedas sin fichas, vuelves a empezar.</p>
+    </details>
+  </div>
+
+  <div id="game" hidden>
+    <div class="hud">
+      <div class="hud-l"><span class="hud-mode" id="cat"></span><span class="hud-hand">Mano <b id="handLbl">1</b></span></div>
+      <div class="hud-chips" id="hudChips"><span class="cchip" style="--c:#c8322a"></span><b id="chips">1.000</b></div>
+    </div>
+    <div class="table" id="table">
+      <div class="zone"><div class="zlabel">Banca <span class="tot" id="dSum">–</span></div><div class="hand" id="dCards"></div></div>
+      <div class="tmid" id="mid"></div>
+      <div class="zone"><div class="hand" id="pCards"></div><div class="zlabel">Tú <span class="tot" id="pSum">–</span></div></div>
+    </div>
+    <div class="panel" id="act"></div>
+  </div>
+
+  <div class="res" id="res" hidden></div>
+</main>
+<script src="players.js"></script>
+<script src="mas-o-menos-jugadores.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const store={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const fmt=n=>n.toLocaleString('es-ES');
+const POS_NAME={DEF:'Defensa',MED:'Centrocampista',DEL:'Delantero'};
+const POS_SHORT={DEF:'Defensa',MED:'Medio',DEL:'Delantero'};
+const P=window.GD_PLAYERS.concat(window.GD_MM_EXTRA||[]);
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+async function share(t,el){try{if(navigator.share)await navigator.share({text:t});else{await navigator.clipboard.writeText(t);if(el)el.textContent='Copiado ✔'}}catch(e){}}
+const esc=x=>String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const LOGO=document.querySelector('.gdlogo svg')?document.querySelector('.gdlogo svg').outerHTML:'';
+
+// Modalidades. En cada mano sale un objetivo al azar entre lo y hi; la banca se planta al llegar al sf del objetivo.
+// Te reparten 2 jugadores de salida. Simulado: a ciegas se pierde claramente, un jugador normal pierde poco
+// y solo quien sabe mucho de fútbol le gana a la banca a la larga.
+// Equilibrio medido con simulaciones: quien sabe de fútbol gana a la larga; quien juega a ciegas pierde.
+const MODES=[
+ {k:'carrera',n:'Carrera',t:'Goles en toda su carrera',lo:600,hi:1500,step:50,sf:0.85},
+ {k:'seleccion',n:'Selección',t:'Goles con su selección',lo:50,hi:80,step:5,sf:0.75}
+];
+const START=1000,FLOOR=100,SKEY='gd_bj3_stats';
+// Apuesta mínima: 10 % de tus fichas (mínimo 100). Así no se sube en el ranking apostando siempre poco.
+const minBet=c=>Math.max(FLOOR,Math.round(c*0.10/50)*50);
+const CHIP_COLORS=['#1f5fbf','#1d8a4e','#c8322a','#16110b'];
+let T=0,STAND=0,M=null,deck=[],chips=0,hand=0,bet=FLOOR,pc=[],dc=[],nextCard=null,busy=false,log=[],rankMode='carrera';
+
+// ---- ranking mundial (Supabase, mismo proyecto y mismo nombre que el Reto) ----
+const SB_URL='https://mvcvqzbosnwkhnlfvsuf.supabase.co';
+const SB_KEY='sb_publishable_2l-zuNvtSO2SoiPfPDaOow_V1yl8zp0';
+const SB_H={'apikey':SB_KEY,'Content-Type':'application/json'};
+const RKEY='reto15k-v2';
+const me=()=>{try{return JSON.parse(localStorage.getItem(RKEY))||{}}catch(e){return {}}};
+function saveMe(pid,name){const o=me();o.pid=pid;o.name=name;try{localStorage.setItem(RKEY,JSON.stringify(o))}catch(e){}}
+function newId(){if(window.crypto&&crypto.randomUUID)return crypto.randomUUID();return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{const r=Math.random()*16|0;return (c==='x'?r:(r&3|8)).toString(16)})}
+async function sbRpc(fn,args){const r=await fetch(SB_URL+'/rest/v1/rpc/'+fn,{method:'POST',headers:SB_H,body:JSON.stringify(args)});if(!r.ok){const e=new Error('HTTP '+r.status);e.status=r.status;throw e}}
+async function postScore(mode,ch){const u=me();if(!u.pid||!u.name)return false;
+  const r=await fetch(SB_URL+'/rest/v1/blackjack_scores',{method:'POST',headers:Object.assign({'Prefer':'return=minimal'},SB_H),body:JSON.stringify({player_id:u.pid,name:u.name,mode,chips:ch})});
+  if(!r.ok){const e=new Error('HTTP '+r.status);e.status=r.status;try{e.body=await r.text()}catch(x){}throw e}return true}
+async function top10(mode){
+  const r=await fetch(SB_URL+'/rest/v1/blackjack_scores?select=name,chips&mode=eq.'+mode+'&order=chips.desc&limit=500',{headers:SB_H});
+  if(!r.ok)throw new Error('HTTP '+r.status);
+  const rows=await r.json(),seen=new Set(),out=[];
+  for(const x of rows){if(seen.has(x.name))continue;seen.add(x.name);out.push(x);if(out.length>=10)break}
+  return out;
+}
+async function renderRank(){
+  const box=$('rankBox');
+  box.innerHTML=`<h3>🌍 Ranking mundial</h3><div class="rtabs">${MODES.map(m=>`<button data-r="${m.k}" class="${m.k===rankMode?'on':''}">${m.n}</button>`).join('')}</div><div id="rankList" class="muted">Cargando…</div>`;
+  box.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{rankMode=b.dataset.r;renderRank()});
+  try{
+    const list=await top10(rankMode),my=me().name;
+    $('rankList').className='';
+    $('rankList').innerHTML=list.length?list.map((x,i)=>`<div class="rrow${x.name===my?' me':''}"><span class="n">${i+1}</span><span>${esc(x.name)}</span><span class="c">${fmt(x.chips)}</span></div>`).join(''):'<p class="muted">Todavía no hay nadie. ¡Sé el primero!</p>';
+  }catch(e){$('rankList').innerHTML='<p class="muted">Ranking no disponible ahora mismo.</p>'}
+}
+
+// ---- cartas ----
+const PART=/^(van|von|der|den|de|di|del|della|da|dos|das|le|la)$/i;
+function splitName(n){const nick=n.match(/«(.+?)»/);if(nick)return ['',nick[1]];const w=n.split(' ');if(w.length===1)return ['',n];
+  let i=w.length-1;while(i>1&&PART.test(w[i-1]))i--;return [w.slice(0,i).join(' '),w.slice(i).join(' ')]}
+function lnSize(t,big){const L=t.length;const b=L<=5?17:L<=7?15:L<=9?13:L<=11?11.5:10;return (big?b*1.35:b).toFixed(1)}
+function cardHTML(p,{show=true,down=false,big=false,cls=''}={}){
+  const [fn,ln]=splitName(p.name),g=show?fmt(V(p)):'?';
+  return `<div class="card${big?' big':''}${down?' down':''} ${cls}"><div class="in">
+    <div class="f"><div class="idx tl${show?'':' unk'}"><b>${g}</b></div>
+      <div class="c"><div class="fl">${p.flag}</div>${fn?`<div class="fn">${esc(fn)}</div>`:''}<div class="ln" style="font-size:${lnSize(ln,big)}px">${esc(ln)}</div><div class="ps">${POS_SHORT[p.pos]||''}</div></div>
+      <div class="idx br${show?'':' unk'}"><b>${g}</b></div></div>
+    <div class="b">${LOGO}</div></div></div>`;
+}
+const backHTML=(cls='')=>`<div class="card down ${cls}"><div class="in"><div class="f"></div><div class="b">${LOGO}</div></div></div>`;
+function addCard(box,html){const t=document.createElement('div');t.innerHTML=html.trim();const el=t.firstChild;box.appendChild(el);fitHand(box);return el}
+function fitHand(box){const n=box.children.length;box.style.setProperty('--ov',n>=8?'-60px':n>=7?'-56px':n>=6?'-52px':n>=5?'-46px':n>=4?'-38px':'-30px')}
+
+function stats(){const s=store.get(SKEY)||{};s.best=s.best||{};s.games=s.games||0;s.hands=s.hands||0;return s}
+function renderHome(){
+  const s=stats();
+  const pick=n=>P.find(p=>p.name===n);
+  M=MODES[0];
+  const h=[pick('Lionel Messi'),pick('Cristiano Ronaldo')].filter(Boolean);
+  $('hero').innerHTML=(h[0]?cardHTML(h[0]):'')+(h[1]?cardHTML(h[1],{show:false}):'')+backHTML();
+  $('modesBox').innerHTML=MODES.map((c,i)=>`<button class="mode${i===0?' gold':''}" data-m="${c.k}"><b>▶ ${c.n}</b><span>${c.t}. Objetivo entre ${fmt(c.lo)} y ${fmt(c.hi)}.<br>Récord: ${fmt(s.best[c.k]||0)} fichas</span></button>`).join('');
+  document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>start(b.dataset.m));
+  const best=Math.max(0,...Object.values(s.best));
+  $('homeStats').innerHTML=`<div class="stat"><b>${fmt(best)}</b><span>Récord de fichas</span></div><div class="stat"><b>${s.games}</b><span>Partidas</span></div><div class="stat"><b>${s.hands}</b><span>Manos</span></div>`;
+  renderRank();
+  syncBest();
+}
+// Si tu mejor retirada no llegó al ranking (por ejemplo, porque la tabla aún no existía), se sube ahora
+async function syncBest(){
+  const u=me(),s=stats();s.sent=s.sent||{};
+  const pend=MODES.filter(m=>(s.best[m.k]||0)>(s.sent[m.k]||0));
+  if(!pend.length)return;
+  const box=$('rankBox');let st=box.querySelector('.rsync');if(!st){st=document.createElement('p');st.className='muted rsync';st.style.marginTop='8px';box.appendChild(st)}
+  if(!u.pid||!u.name){st.textContent='Tu récord ('+fmt(s.best[pend[0].k])+' fichas) aún no está en el ranking porque en este navegador no tienes nombre. Retírate una vez y elige tu nombre.';return}
+  let changed=false,err='';
+  for(const m of pend){try{await postScore(m.k,s.best[m.k]);s.sent[m.k]=s.best[m.k];changed=true}catch(e){err=(e.status||'sin conexión')+(e.body?' · '+String(e.body).slice(0,140):'')}}
+  if(changed){store.set(SKEY,s);await renderRank()}
+  if(err){st=$('rankBox').querySelector('.rsync')||st;if(!st.isConnected)$('rankBox').appendChild(st);st.textContent='No se ha podido subir tu récord al ranking. Motivo: '+err}
+}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+const V=p=>p[M.k];
+const total=cs=>cs.reduce((s,p)=>s+V(p),0);
+function draw(){if(!deck.length)deck=shuffle(P.filter(p=>typeof V(p)==='number'&&V(p)>=1));return deck.pop()}
+function setChips(v,anim){
+  const el=$('chips'),from=chips;chips=v;const box=$('hudChips');
+  if(!anim){el.textContent=fmt(v);return}
+  box.className='hud-chips '+(v>from?'up':'down');
+  const t0=performance.now();const f=()=>{const k=Math.min(1,(performance.now()-t0)/700);el.textContent=fmt(Math.round(from+(v-from)*(1-Math.pow(1-k,3))));if(k<1)requestAnimationFrame(f);else setTimeout(()=>box.className='hud-chips',900)};f();
+}
+function setTot(id,v,cls){const e=$(id);e.textContent=v;e.className='tot'+(cls?' '+cls:'')}
+function stackHTML(v){const n=Math.min(5,Math.max(1,Math.round(Math.log2(Math.max(1,v/FLOOR))+1)));let s='';for(let i=0;i<n;i++)s+=`<span class="cchip" style="--c:${CHIP_COLORS[i%4]}"></span>`;return `<div class="stack">${s}</div>`}
+function feltHTML(){return `<div class="felt-t"><b>Objetivo ${fmt(T)}</b><small>La banca se planta en ${fmt(STAND)}</small></div>`}
+
+function start(k){
+  M=MODES.find(x=>x.k===k)||MODES[0];
+  deck=shuffle(P.filter(p=>typeof V(p)==='number'&&V(p)>=1));
+  hand=0;log=[];setChips(START,false);bet=minBet(START);
+  document.body.classList.add('playing');
+  $('home').hidden=true;$('res').hidden=true;$('game').hidden=false;
+  $('cat').textContent=M.n;
+  betPhase();
+}
+function betPhase(){
+  pc=[];dc=[];nextCard=null;busy=false;
+  T=Math.round((M.lo+Math.random()*(M.hi-M.lo))/M.step)*M.step;STAND=Math.round(T*M.sf/M.step)*M.step;
+  $('dCards').innerHTML='';$('pCards').innerHTML='';setTot('dSum','–');setTot('pSum','–');
+  $('handLbl').textContent=hand+1;
+  const mb=minBet(chips);bet=Math.min(Math.max(mb,bet),chips);
+  const r50=v=>Math.max(mb,Math.round(v/50)*50);
+  const opts=[...new Set([mb,r50(chips*0.25),r50(chips*0.5)])].filter(v=>v<chips);
+  const all=opts.map((v,i)=>({v,c:CHIP_COLORS[i],t:fmt(v)})).concat([{v:chips,c:'#16110b',t:'Todo',all:1}]);
+  $('mid').innerHTML=feltHTML()+`<div class="spot">${stackHTML(bet)}<b>${fmt(bet)}</b></div>`;
+  $('act').innerHTML=`<div class="chips-row">${all.map(o=>`<button class="pchip${o.v===bet?' on':''}" style="--c:${o.c}" data-b="${o.all?'all':o.v}"><span>${o.t}</span></button>`).join('')}</div>
+    <button class="bigbtn" id="bDeal">Repartir</button>
+    ${hand>0?`<button class="cashbtn" id="bCash">💰 Retirarme con ${fmt(chips)} fichas</button>`:''}`;
+  document.querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>{bet=b.dataset.b==='all'?chips:+b.dataset.b;betPhase()});
+  $('bDeal').onclick=deal;
+  if($('bCash'))$('bCash').onclick=()=>finish(true);
+}
+async function deal(){
+  if(busy)return;busy=true;
+  $('act').innerHTML='<div class="wait">Repartiendo…</div>';
+  $('mid').innerHTML=feltHTML()+`<div class="spot">${stackHTML(bet)}<b>${fmt(bet)}</b></div>`;
+  pc=[draw()];addCard($('pCards'),cardHTML(pc[0],{cls:'deal'}));setTot('pSum',fmt(total(pc)));await wait(380);
+  dc=[draw()];addCard($('dCards'),cardHTML(dc[0],{cls:'deal'}));setTot('dSum',fmt(V(dc[0]))+'+');await wait(380);
+  pc.push(draw());addCard($('pCards'),cardHTML(pc[1],{cls:'deal'}));setTot('pSum',fmt(total(pc)),total(pc)>T?'bust':'');await wait(380);
+  dc.push(draw());addCard($('dCards'),cardHTML(dc[1],{down:true,cls:'deal'}));await wait(450);
+  busy=false;
+  if(total(pc)>T){busy=true;return settle('bust')}
+  if(total(pc)===T){busy=true;return dealerPlay(true)}
+  offer();
+}
+function offer(){
+  nextCard=draw();
+  const canDouble=chips>=bet*2;
+  $('mid').innerHTML=`<div class="felt-t"><b>Objetivo ${fmt(T)}</b></div>
+    <div class="nextbox"><div class="q">¿Lo coges?</div>${cardHTML(nextCard,{show:false,big:true,cls:'pop'})}<div class="minispot">${stackHTML(bet)}${fmt(bet)}</div></div>`;
+  $('act').innerHTML=`<div class="acts3"><button class="t" id="bTake">✔ Lo cojo<small>suma sus goles</small></button><button class="s" id="bStand">✋ Me planto<small>juega la banca</small></button><button class="d" id="bDouble" ${canDouble?'':'disabled'}>×2 Doblo<small>lo cojo y me planto</small></button></div>`;
+  $('bTake').onclick=()=>take(false);$('bStand').onclick=stand;$('bDouble').onclick=()=>take(true);
+}
+async function take(dbl){
+  if(busy)return;busy=true;
+  if(dbl)bet*=2;
+  const c=nextCard;nextCard=null;pc.push(c);
+  $('act').innerHTML='<div class="wait">&nbsp;</div>';
+  $('mid').innerHTML=feltHTML()+`<div class="spot">${stackHTML(bet)}<b>${fmt(bet)}</b></div>`;
+  addCard($('pCards'),cardHTML(c,{cls:'deal'}));
+  const s=total(pc);setTot('pSum',fmt(s),s>T?'bust':'');await wait(550);
+  if(s>T)return settle('bust');
+  if(s===T)return dealerPlay(true);
+  if(dbl)return dealerPlay(false);
+  busy=false;offer();
+}
+async function stand(){if(busy)return;busy=true;
+  const el=$('mid').querySelector('.card');if(el){el.classList.remove('pop');el.classList.add('gone')}
+  await wait(300);dealerPlay(false)}
+async function dealerPlay(exact){
+  $('act').innerHTML='<div class="wait">Juega la banca…</div>';
+  $('mid').innerHTML=feltHTML()+`<div class="spot">${stackHTML(bet)}<b>${fmt(bet)}</b></div>`;
+  // girar la carta oculta
+  const hid=$('dCards').children[1];
+  if(hid){hid.outerHTML=cardHTML(dc[1],{down:true});const h2=$('dCards').children[1];void h2.offsetWidth;await wait(60);h2.classList.remove('down')}
+  setTot('dSum',fmt(total(dc)));await wait(800);
+  while(total(dc)<STAND){const c=draw();dc.push(c);addCard($('dCards'),cardHTML(c,{cls:'deal'}));await wait(350);setTot('dSum',fmt(total(dc)),total(dc)>T?'bust':'');await wait(450)}
+  const p=total(pc),d=total(dc);
+  if(exact)return settle(d===p?'lose':'exact');
+  if(d>T)return settle('dbust');
+  if(p>d)return settle('win');
+  return settle(p===d?'tie':'lose');
+}
+function settle(r){
+  const p=total(pc),d=total(dc);let delta=0,msg='';
+  if(r==='exact'){delta=bet*2;msg='¡Clavado!'}
+  else if(r==='win'){delta=bet;msg='¡Ganas la mano!'}
+  else if(r==='dbust'){delta=bet;msg='¡La banca se pasa!'}
+  else if(r==='bust'){delta=-bet;msg='Te has pasado'}
+  else if(r==='tie'){delta=-bet;msg='Empate: gana la banca'}
+  else {delta=-bet;msg='Gana la banca'}
+  const good=delta>0;
+  hand++;log.push(good?'🟩':'🟥');
+  setTot('pSum',fmt(p),good?'win':'lose');if(dc.length&&r!=='bust')setTot('dSum',fmt(d),good?'lose':'win');
+  if(good)[...$('pCards').children].forEach(c=>c.classList.add('win'));else if(r!=='bust')[...$('dCards').children].forEach(c=>c.classList.add('win'));
+  $('mid').innerHTML=`<div class="banner ${good?'good':'bad'}"><b>${msg}</b><span>${good?'+':'−'}${fmt(Math.abs(delta))} fichas</span></div>`;
+  setChips(chips+delta,true);
+  const s=stats();s.hands++;store.set(SKEY,s);
+  const broke=chips<FLOOR;
+  $('act').innerHTML=`<button class="bigbtn" id="bNext">${broke?'Ver resultado':'Siguiente mano'}</button>`;
+  $('bNext').onclick=()=>{if(broke)finish(false);else betPhase()};
+  busy=false;bet=Math.min(bet,chips);
+}
+function finish(cashed){
+  const s=stats();s.games++;
+  const final=cashed?chips:0;
+  const prev=s.best[M.k]||0;const record=cashed&&final>prev;if(cashed)s.best[M.k]=Math.max(prev,final);store.set(SKEY,s);
+  const strip=log.slice(-30).join('');
+  const text=cashed?`GOALDAY ⚽ Blackjack · ${M.t}\n💰 Me he retirado con ${fmt(final)} fichas tras ${hand} manos\n${strip}\n${location.origin+location.pathname}`
+                   :`GOALDAY ⚽ Blackjack · ${M.t}\n💸 Me he quedado sin fichas en la mano ${hand}\n${strip}\n${location.origin+location.pathname}`;
+  document.body.classList.remove('playing');$('game').hidden=true;$('res').hidden=false;
+  const u=me();
+  $('res').innerHTML=`<div class="lbl">${M.t}</div><div class="big">${fmt(final)}</div>
+   <div class="sm">${cashed?'Te retiras con '+fmt(final)+' fichas tras '+hand+' manos':'Te has quedado sin fichas: vuelves al principio'}${record?' · ¡nuevo récord!':''}</div>
+   <div class="sm">${strip}</div>
+   <div id="rankMsg" class="sm"></div>
+   <div class="row" style="justify-content:center;margin-top:12px"><button class="btn" id="bShare">Compartir</button><button class="btn ghost" id="bAgain">Otra vez</button><button class="btn ghost" id="bHome">Inicio</button></div><div class="sm" id="shareOk"></div>`;
+  $('bShare').onclick=()=>share(text,$('shareOk'));
+  $('bAgain').onclick=()=>start(M.k);
+  $('bHome').onclick=()=>{$('res').hidden=true;$('home').hidden=false;renderHome()};
+  if(cashed&&final>0){if(u.pid&&u.name)sendScore(final);else askName(final)}
+}
+async function sendScore(v){
+  $('rankMsg').textContent='Guardando en el ranking mundial…';
+  try{await postScore(M.k,v);const s=stats();s.sent=s.sent||{};s.sent[M.k]=Math.max(s.sent[M.k]||0,v);store.set(SKEY,s);$('rankMsg').textContent='🌍 Guardado en el ranking mundial como '+me().name}
+  catch(e){
+    const b=(e.body||'');
+    $('rankMsg').textContent=(e.status===404||/42P01|does not exist|schema cache/i.test(b))?'No se ha podido guardar: falta crear la tabla del ranking en Supabase.'
+      :(e.status===401||e.status===403||/42501|permission|policy/i.test(b))?'No se ha podido guardar: la tabla del ranking no tiene permisos.'
+      :'No se ha podido guardar en el ranking ('+(e.status||'sin conexión')+').';
+  }
+}
+function askName(v){
+  $('rankMsg').innerHTML=`Elige tu nombre para salir en el ranking mundial:<div class="namebox"><input id="nmIn" maxlength="16" placeholder="Tu nombre"><button class="btn" id="nmOk">Guardar</button></div><div id="nmErr" class="sm"></div>`;
+  $('nmOk').onclick=async()=>{
+    const n=($('nmIn').value||'').replace(/\s+/g,' ').trim().slice(0,16);
+    if(n.length<2){$('nmErr').textContent='Mínimo 2 caracteres.';return}
+    $('nmOk').disabled=true;
+    try{const pid=newId();await sbRpc('register_name',{pid,n});saveMe(pid,n);sendScore(v)}
+    catch(e){$('nmOk').disabled=false;$('nmErr').textContent=e.status===409?'Ese nombre ya lo tiene otro jugador. Elige otro.':'No se ha podido guardar. Revisa la conexión.'}
+  };
+}
+// encoger el apellido si no cabe en la carta
+function fitNames(root){(root||document).querySelectorAll('.card .ln').forEach(el=>{let fs=parseFloat(el.style.fontSize)||15,g=0;while(el.scrollWidth>el.clientWidth+1&&fs>7&&g++<20){fs-=0.5;el.style.fontSize=fs+'px'}})}
+new MutationObserver(()=>fitNames()).observe(document.querySelector('main'),{childList:true,subtree:true});
+renderHome();
+</script>
+<script src="lang.js"></script>
+<script src="stadiums.js"></script>
+</body>
+</html>
