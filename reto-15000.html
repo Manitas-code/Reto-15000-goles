@@ -1,0 +1,2369 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>GOALDAY — Reto de los 15.000 goles</title>
+<meta name="description" content="Juego del reto de los 15.000 goles: salen 17 futbolistas al azar y colocas cada uno en una categoría (Champions ×10, Selección ×10, Mundiales ×100, finales…). ¿Llegas a 15.000?">
+<meta property="og:title" content="GOALDAY">
+<meta property="og:site_name" content="GOALDAY">
+<meta name="application-name" content="GOALDAY">
+<meta name="apple-mobile-web-app-title" content="GOALDAY">
+<meta property="og:description" content="Coloca 17 futbolistas en las casillas del reto y suma sus goles con multiplicadores. ¿Pasas de 15.000?">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://manitas-code.github.io/Reto-15000-goles/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://manitas-code.github.io/Reto-15000-goles/og-image.png">
+<meta name="theme-color" content="#0a3324">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2222%22%20fill%3D%22%2306241a%22/%3E%3Cg%20transform%3D%22translate%286%2C8%29%20scale%280.88%29%22%3E%3Cdefs%3E%3CclipPath%20id%3D%22gdhf1%22%3E%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%22100%22%20height%3D%2263%22%3E%3C/rect%3E%3C/clipPath%3E%3CclipPath%20id%3D%22gddf1%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2260%22%20r%3D%2231.5%22%3E%3C/circle%3E%3C/clipPath%3E%3C/defs%3E%3Cg%20clip-path%3D%22url%28%23gdhf1%29%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2260%22%20r%3D%2232%22%20fill%3D%22%23f5f8f3%22%3E%3C/circle%3E%3Cg%20clip-path%3D%22url%28%23gddf1%29%22%3E%3Cpolygon%20points%3D%2250.00%2C33.00%2059.51%2C39.91%2055.88%2C51.09%2044.12%2C51.09%2040.49%2C39.91%22%20fill%3D%22%2306241a%22%3E%3C/polygon%3E%3C/g%3E%3C/g%3E%3Cpath%20d%3D%22M9%2072H91%22%20stroke%3D%22%23f5f8f3%22%20stroke-width%3D%227%22%20stroke-linecap%3D%22round%22%3E%3C/path%3E%3C/g%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600&family=Barlow+Condensed:wght@600;800;900&family=Barlow:wght@400;600;700&family=Noto+Color+Emoji&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pitch:#0d4a33; --pitch-2:#0b4530; --night:#06241a;
+  --glass:rgba(5,28,19,.82); --glass-2:rgba(255,255,255,.06); --glass-3:rgba(255,255,255,.11);
+  --chalk:#f5f8f3; --chalk-2:rgba(245,248,243,.68); --chalk-3:rgba(245,248,243,.38);
+  --line:rgba(245,248,243,.14);
+  --gold:#f3c545; --gold-2:#ffe08a; --pass:#63e0a1; --fail:#ff6b5c;
+  --btn:#f3c545; --btn-ink:#1b1a0f;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  font-family:Barlow,"Noto Color Emoji",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color:var(--chalk);
+  background:var(--night);
+  min-height:100vh;
+  position:relative;
+  overflow-x:hidden;
+}
+/* césped con franjas, luz de foco y líneas de cal */
+body::before{
+  content:"";position:fixed;inset:0;z-index:-2;
+  background:
+    radial-gradient(120% 60% at 50% -10%,rgba(255,255,230,.22),transparent 60%),
+    repeating-linear-gradient(90deg,var(--pitch) 0 84px,var(--pitch-2) 84px 168px);
+}
+body::after{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(circle at 50% 42%,transparent 0 118px,rgba(245,248,243,.22) 118px 121px,transparent 121px),
+    linear-gradient(rgba(245,248,243,.22),rgba(245,248,243,.22)) 50% 42%/2px 100% no-repeat,
+    radial-gradient(80% 60% at 50% 100%,rgba(0,0,0,.55),transparent 70%);
+}
+.wrap{max-width:620px;margin:0 auto;padding:22px 14px 80px}
+
+.hero{text-align:center;padding:12px 0 6px}
+.home-link{display:inline-block;color:var(--chalk-2);text-decoration:none;font-weight:700;font-size:14px;padding:7px 12px;border:1px solid var(--line);border-radius:999px;background:var(--glass)}
+.home-link:hover{color:var(--chalk)}
+.kicker{display:inline-block;font-weight:700;font-size:13px;letter-spacing:.06em;color:var(--gold);border:1px solid rgba(243,197,69,.5);border-radius:999px;padding:5px 12px;margin-bottom:12px}
+h1{
+  font-family:"Barlow Condensed",Impact,"Arial Narrow",sans-serif;font-weight:900;
+  font-size:clamp(52px,13vw,96px);line-height:.86;margin:0;
+  letter-spacing:-.01em;text-shadow:0 6px 30px rgba(0,0,0,.45);
+}
+h1 em{font-style:normal;display:block;color:var(--gold);text-shadow:0 0 30px rgba(243,197,69,.35),0 6px 30px rgba(0,0,0,.45)}
+.lead{margin:14px auto 0;max-width:44ch;font-size:16px;line-height:1.5;color:var(--chalk-2)}
+details.how{margin:12px auto 0;max-width:46ch;text-align:left;color:var(--chalk-2);font-size:15px;line-height:1.5}
+details.how summary{cursor:pointer;color:var(--chalk);font-weight:600;text-align:center;list-style:none}
+details.how summary::-webkit-details-marker{display:none}
+details.how summary::after{content:" ▾";color:var(--chalk-3)}
+details.how[open] summary::after{content:" ▴"}
+details.how ol{margin:8px 0 0;padding-left:20px}
+details.how li{margin:4px 0}
+
+.bar{display:flex;gap:10px;align-items:center;margin:18px 0 10px;flex-wrap:wrap}
+.tabs{display:flex;gap:4px;flex:1;min-width:200px;background:rgba(0,0,0,.35);padding:5px;border-radius:14px;border:1px solid var(--line)}
+.tab{flex:1;border:0;background:transparent;color:var(--chalk-2);font:700 15px Barlow,sans-serif;padding:10px 8px;border-radius:10px;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--chalk);color:#0d2b1e}
+.icon-btn{border:1px solid rgba(245,248,243,.28);background:rgba(3,8,16,.78);color:var(--chalk);font-family:Barlow,system-ui,sans-serif;font-weight:700;border-radius:12px;padding:10px 12px;font-size:15px;cursor:pointer;line-height:1;min-height:44px;display:inline-flex;align-items:center;gap:6px}
+.brand{display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:14px}
+.brand .logo-mark{display:flex;width:46px;height:46px}
+.brand .logo-mark svg{width:100%;height:100%}
+.bname{font-family:Jost,"Century Gothic",Futura,sans-serif;font-weight:600;font-size:30px;letter-spacing:.12em;color:var(--chalk);line-height:1}
+.bname em{font-style:normal;color:var(--gold)}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:22px 0 12px}
+.mode{display:flex;flex-direction:column;gap:4px;align-items:flex-start;text-align:left;border:0;border-radius:16px;padding:15px 16px;cursor:pointer;background:var(--btn);color:var(--btn-ink);box-shadow:0 10px 26px rgba(243,197,69,.22)}
+.mode.ghost{background:var(--glass);color:var(--chalk);border:1px solid var(--line);box-shadow:none}
+.mtit{font-family:"Barlow Condensed",sans-serif;font-weight:900;font-size:24px;line-height:1}
+.msub{font-size:12.5px;opacity:.75;line-height:1.25}
+body:not(.playing):not(.done) #p-play{display:none}
+@media (max-width:420px){.modes{grid-template-columns:1fr}}
+.dailybar{margin:0 0 10px;text-align:center;font-size:14px;color:var(--gold);font-weight:600}
+.dailybar[hidden]{display:none}
+.skips{display:flex;align-items:center;gap:10px;margin-top:10px}
+.skips[hidden]{display:none}
+.btn.small{padding:7px 12px;font-size:14px;border-width:1px}
+.skipdots{color:var(--chalk-3);font-size:13px;font-weight:600}
+.medal{display:flex;flex-direction:column;align-items:center;gap:3px;margin:-4px 0 16px;padding:18px 14px 16px;border-radius:16px;
+  background:radial-gradient(120% 90% at 50% 0%,rgba(243,197,69,.22),rgba(243,197,69,.05) 60%,transparent);
+  border:1px solid rgba(243,197,69,.35)}
+.medal[hidden]{display:none}
+.medal.pop .mico{animation:medIn .6s cubic-bezier(.2,1.4,.4,1) both}
+.medal.pop .mname,.medal.pop .msubt,.medal.pop .mpct{animation:medTx .5s .18s cubic-bezier(.2,1,.3,1) both}
+@keyframes medIn{from{transform:scale(.3) rotate(-25deg);opacity:0}to{transform:none;opacity:1}}
+@keyframes medTx{from{transform:translateY(12px);opacity:0}to{transform:none;opacity:1}}
+.mico{font-size:66px;line-height:1;filter:drop-shadow(0 6px 16px rgba(243,197,69,.35))}
+.mname{font-family:"Barlow Condensed",sans-serif;font-weight:900;font-size:44px;color:var(--gold);line-height:1;letter-spacing:.01em}
+.msubt{font-size:14px;color:var(--chalk-2);font-weight:600}
+.mpct{margin-top:8px;font-size:12px;font-weight:600;color:var(--gold-2);background:rgba(255,255,255,.06);border:1px solid rgba(243,197,69,.35);border-radius:999px;padding:5px 12px;letter-spacing:.02em}
+.mpct b{font-weight:800;letter-spacing:.06em}
+.mtag{font-size:11px;font-weight:800;letter-spacing:.12em;color:var(--chalk-3)}
+.mrew{margin-top:8px;font-size:12.5px;line-height:1.5;color:var(--chalk-2);font-weight:600}
+.mtag.up{color:var(--gold);animation:medTx .5s both}
+.rankbar{height:8px;width:min(100%,280px);background:rgba(0,0,0,.45);border:1px solid var(--line);border-radius:99px;overflow:hidden;margin:12px 0 7px}
+.rankbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#f3c545,#ffe08a);transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.rank li.now{background:rgba(243,197,69,.12);border-radius:8px}
+.rank li.now .s{color:var(--gold);font-size:13px;font-weight:800;letter-spacing:.06em}
+.rank li.me{background:rgba(255,255,255,.05);border-radius:8px}
+.pass[hidden]{display:none}
+.pass-head{display:flex;align-items:center;gap:12px;padding:12px 14px;margin-bottom:12px;border-radius:14px;
+  background:linear-gradient(135deg,rgba(243,197,69,.16),rgba(243,197,69,.04));border:1px solid rgba(243,197,69,.3)}
+.ph-ico{font-size:42px;line-height:1}
+.ph-tx{display:flex;flex-direction:column;gap:2px;min-width:0}
+.ph-name{font-family:"Barlow Condensed",sans-serif;font-weight:900;font-size:28px;line-height:1;color:var(--gold)}
+.ph-sub{font-size:12.5px;color:var(--chalk-2);font-weight:600}
+.track{display:flex;gap:0;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:4px 2px 12px;scroll-snap-type:x proximity}
+.track::-webkit-scrollbar{height:4px}
+.track::-webkit-scrollbar-thumb{background:var(--line);border-radius:9px}
+.node{flex:none;width:104px;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;scroll-snap-align:center;padding-top:16px}
+.node::before{content:'';position:absolute;top:34px;left:-50%;width:100%;height:3px;background:var(--line);z-index:0}
+.node:first-child::before{display:none}
+.node.on::before{background:var(--gold)}
+.node .dot{position:relative;z-index:1;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:26px;background:rgba(0,0,0,.45);border:2px solid var(--line);filter:grayscale(1);opacity:.55}
+.node.on .dot{filter:none;opacity:1;border-color:var(--gold);background:linear-gradient(160deg,rgba(243,197,69,.35),rgba(243,197,69,.08))}
+.node.now .dot{border-width:3px;box-shadow:0 0 0 5px rgba(243,197,69,.18);animation:nowPulse 1.8s ease-in-out infinite}
+@keyframes nowPulse{50%{box-shadow:0 0 0 10px rgba(243,197,69,.07)}}
+.node .nn{font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:15px;line-height:1;text-align:center;color:var(--chalk-2)}
+.node.on .nn{color:var(--chalk)}
+.node .np{font-size:11px;color:var(--chalk-3);font-weight:600}
+.node .nr{font-size:10.5px;line-height:1.25;text-align:center;color:var(--chalk-3);padding:0 4px;min-height:26px}
+.node.on .nr{color:var(--gold-2)}
+.node .tagnow{position:absolute;top:0;font-size:9.5px;font-weight:800;letter-spacing:.1em;color:var(--gold)}
+.lvlbar{height:8px;background:rgba(0,0,0,.4);border-radius:99px;margin:14px auto 6px;max-width:320px;overflow:hidden;border:1px solid var(--line)}
+.lvlbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#3fb47a,#63e0a1);transition:width .7s ease}
+.lvltext{margin:0;font-size:13px;color:var(--chalk-3);font-weight:600}
+.unlocked{list-style:none;margin:14px auto 0;padding:0;max-width:340px}
+.unlocked[hidden]{display:none}
+.unlocked li{background:rgba(243,197,69,.14);border:1px solid rgba(243,197,69,.4);border-radius:10px;padding:8px 12px;margin:6px 0;font-size:14px;color:var(--gold-2);font-weight:600}
+#p-rank{margin-top:16px}
+.ranktabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.rtab{flex:1;min-width:90px;border:1px solid var(--line);background:transparent;color:var(--chalk-2);font:700 14px Barlow,sans-serif;padding:9px 6px;border-radius:10px;cursor:pointer}
+.rtab[aria-selected="true"]{background:var(--glass-3);color:var(--chalk)}
+.rank{list-style:none;margin:0;padding:0;counter-reset:r}
+.rank li{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;padding:9px 4px;border-bottom:1px solid var(--line);font-size:15px}
+.rank li::before{counter-increment:r;content:counter(r);font-family:"Barlow Condensed",sans-serif;font-weight:900;color:var(--chalk-3);text-align:center}
+.rank li:nth-child(1)::before{color:var(--gold)}
+.rank li .s{font-family:"Barlow Condensed",sans-serif;font-weight:900;font-size:22px;font-variant-numeric:tabular-nums}
+.rank li .d{color:var(--chalk-3);font-size:13px}
+.rank li.locked{opacity:.45}
+.rankfoot[hidden]{display:none}
+.rankfoot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px;font-size:13px;color:var(--chalk-2);font-weight:600}
+.namebox{background:var(--glass);border:1px solid var(--line);border-radius:18px;padding:22px 18px;display:flex;flex-direction:column;align-items:center;gap:6px;max-width:360px;width:100%}
+.nb-ico{font-size:44px;line-height:1}
+.nb-tit{font-family:"Barlow Condensed",sans-serif;font-weight:900;font-size:30px;color:var(--gold)}
+.namebox input{width:100%;max-width:280px;border:1px solid var(--line);background:rgba(0,0,0,.35);color:var(--chalk);border-radius:12px;padding:12px 14px;font:700 18px Barlow,sans-serif;text-align:center}
+.namebox input:focus{outline:3px solid var(--gold);outline-offset:1px}
+.nb-err{min-height:18px;margin:2px 0 0;color:var(--fail);font-size:13px;font-weight:600}
+.rank li.mine{background:rgba(243,197,69,.12);border-radius:8px}
+.rank li.mine b{color:var(--gold)}
+.rank li.sep{grid-template-columns:1fr;justify-content:center;color:var(--chalk-3);counter-increment:none}
+.rank li.sep::before{content:none}
+.rank li.done .s{color:var(--pass)}
+.rank li.medhead{border-bottom:2px solid var(--line);color:var(--chalk-3);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding-top:14px}
+.rank li.medhead::before{content:''}
+/* ---- duelos ---- */
+.mode.duel{background:linear-gradient(160deg,rgba(255,107,92,.26),rgba(5,28,19,.85) 70%);color:var(--chalk);border:1px solid rgba(255,107,92,.5);box-shadow:none}
+.duelbar{display:flex;align-items:center;gap:10px;margin-top:8px;font-size:13px;font-weight:700;color:var(--chalk-2)}
+.duelbar[hidden]{display:none}
+.duelbar .dbn{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:45%}
+.duelbar .dbprog{flex:1;height:7px;background:rgba(0,0,0,.45);border:1px solid var(--line);border-radius:99px;overflow:hidden}
+.duelbar .dbprog i{display:block;height:100%;width:0;background:var(--fail);transition:width .5s ease}
+.duelbar .dbtime{font:900 20px "Barlow Condensed",sans-serif;min-width:44px;text-align:right;color:var(--chalk);font-variant-numeric:tabular-nums}
+.duelbar .dbtime.hot{color:var(--fail)}
+.duelres{margin:0 0 18px;padding:16px 14px;border-radius:16px;border:1px solid rgba(255,107,92,.45);background:linear-gradient(180deg,rgba(255,107,92,.14),rgba(0,0,0,.15))}
+.duelres[hidden]{display:none}
+.duelres{scroll-margin-top:210px}
+.duelres.win{border-color:rgba(99,224,161,.55);background:linear-gradient(180deg,rgba(99,224,161,.16),rgba(0,0,0,.15))}
+.dr-top{font:900 30px/1.05 "Barlow Condensed",sans-serif;color:var(--chalk)}
+.duelres.win .dr-top{color:var(--pass)}
+.duelres.loss .dr-top{color:var(--fail)}
+.dr-score{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:10px;margin:14px 0 6px}
+.dr-p{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0}
+.dr-n{font-size:13px;font-weight:700;color:var(--chalk-2);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dr-s{font:900 40px/1 "Barlow Condensed",sans-serif;font-variant-numeric:tabular-nums;color:var(--chalk)}
+.dr-p.best .dr-s{color:var(--gold)}
+.dr-vs{font:900 18px "Barlow Condensed",sans-serif;color:var(--chalk-3);padding-bottom:8px}
+.dr-sub{margin:4px 0 0;font-size:14px;font-weight:600;color:var(--chalk-2)}
+.dr-sub b{color:var(--chalk)}
+.dr-sub .up{color:var(--pass)}.dr-sub .down{color:var(--fail)}
+.duelres .actions{margin-top:12px}
+.cmp{margin-top:12px;text-align:left}
+.cmp summary{cursor:pointer;text-align:center;font-weight:700;color:var(--chalk-2);font-size:14px}
+.cmphead,.cmp li{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:6px;align-items:center;font-size:12.5px}
+.cmphead{margin-top:10px;padding:0 4px 4px;color:var(--chalk-3);font-weight:700}
+.cmphead span:nth-child(3),.cmp .cb{text-align:right}
+.cmp ul{list-style:none;margin:0;padding:0}
+.cmp li{padding:6px 4px;border-top:1px solid var(--line);color:var(--chalk-2)}
+.cmp li b{font-family:"Barlow Condensed",sans-serif;font-size:16px;color:var(--chalk)}
+.cmp li.w .ca b{color:var(--pass)}.cmp li.l .cb b{color:var(--pass)}
+.cmp .cs{color:var(--chalk-3)}
+.dm-clock{font:900 44px "Barlow Condensed",sans-serif;color:var(--gold);font-variant-numeric:tabular-nums;margin:4px 0}
+.dm-rival{display:flex;flex-direction:column;align-items:center;gap:2px;margin:6px 0}
+.dm-rival b{font:900 30px "Barlow Condensed",sans-serif;color:var(--chalk)}
+.duelbox .actions{justify-content:center}
+.rank li.plain::before{content:'';counter-increment:none}
+.rank li.plain .s{font-size:18px}
+.rank li.plain.w .s{color:var(--pass)}.rank li.plain.l .s{color:var(--fail)}
+.champ{display:flex;align-items:center;gap:12px;margin:0 0 12px;padding:12px 14px;border-radius:14px;
+  background:linear-gradient(135deg,rgba(243,197,69,.28),rgba(243,197,69,.06));border:1px solid rgba(243,197,69,.6)}
+.champ[hidden]{display:none}
+.champ .ch-ico{font-size:34px;line-height:1}
+.champ .ch-tx{display:flex;flex-direction:column;gap:2px;min-width:0}
+.champ .ch-tag{font-size:12px;font-weight:700;color:var(--gold-2)}
+.champ .ch-name{font:900 26px/1 "Barlow Condensed",sans-serif;color:var(--gold)}
+.champ .ch-sub{font-size:12.5px;color:var(--chalk-2);font-weight:600}
+.mypos{display:flex;flex-direction:column;gap:3px;width:100%;margin:0 0 12px;padding:12px 14px;border-radius:14px;border:1px solid rgba(243,197,69,.35);background:rgba(243,197,69,.08);color:var(--chalk);text-align:left;cursor:pointer;font:600 14px Barlow,sans-serif}
+.mypos[hidden]{display:none}
+.mypos b{color:var(--gold)}
+.mypos .mp-sub{font-size:12.5px;color:var(--chalk-2)}
+.worldpos{margin:10px auto 0;max-width:360px;padding:9px 12px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid var(--line);font-size:14px;font-weight:600;color:var(--chalk-2);line-height:1.45}
+.worldpos[hidden]{display:none}
+.worldpos b{color:var(--gold)}
+.modal{position:fixed;inset:0;z-index:60;background:rgba(3,16,11,.9);display:flex;align-items:center;justify-content:center;padding:18px}
+.modal[hidden]{display:none}
+.modal-in{max-width:420px;width:100%;text-align:center}
+.modal-in img{width:100%;border-radius:14px;box-shadow:0 20px 50px rgba(0,0,0,.5)}
+.note{color:var(--chalk-2);font-size:14px;line-height:1.45}
+.btn:focus-visible,.slot:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.target{display:flex;align-items:center;gap:8px;font-weight:600;color:var(--chalk-2);font-size:14px}
+.target input{width:88px;border:1px solid var(--line);border-radius:10px;padding:9px 10px;font:700 18px "Barlow Condensed",sans-serif;text-align:right;background:rgba(0,0,0,.35);color:var(--gold)}
+
+.panel{background:rgba(8,20,14,.9);border:1px solid var(--line);border-radius:22px;padding:16px 16px 22px;box-shadow:0 8px 24px rgba(0,0,0,.45)}
+.panel[hidden]{display:none}
+
+/* ---- dock ---- */
+.dock{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:linear-gradient(180deg,rgba(5,28,19,.98),rgba(5,28,19,.94));margin:-16px -16px 0;padding:14px 16px 12px;border-radius:22px 22px 0 0;border-bottom:1px solid var(--line)}
+.dock-row{display:flex;align-items:center;gap:14px}
+.flip{perspective:900px;width:118px;height:158px;flex:none}
+.flip .inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+.flip.flipped .inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;border-radius:14px;display:flex;align-items:center;justify-content:center;backface-visibility:hidden;overflow:hidden}
+.face.front{background:linear-gradient(160deg,#173d2e,#0a2419);border:2px solid rgba(245,248,243,.25);font:900 74px "Barlow Condensed",sans-serif;color:var(--chalk-3)}
+.face.front::after{content:"";position:absolute;inset:8px;border:1px dashed rgba(245,248,243,.2);border-radius:10px}
+.face.back{transform:rotateY(180deg);flex-direction:column;justify-content:flex-start;gap:0;padding:10px 8px 8px;text-align:center;color:#1a1608;border:2px solid rgba(255,255,255,.45)}
+.face.back.t-gold{background:linear-gradient(160deg,#fff1a8 0%,#f3c545 45%,#c9931a 100%)}
+.face.back.t-silver{background:linear-gradient(160deg,#ffffff 0%,#d7dde2 45%,#9aa6ae 100%)}
+.face.back.t-bronze{background:linear-gradient(160deg,#f5d6b8 0%,#d0935c 45%,#8f5a2b 100%)}
+.face.back::before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.55) 45%,transparent 60%);transform:translateX(-120%)}
+.flip.flipped .face.back::before{animation:shine 1.1s .45s ease-out 1}
+@keyframes shine{to{transform:translateX(120%)}}
+.face .flag{font-family:"Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji",sans-serif;font-size:40px;line-height:1;margin-top:4px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.25))}
+.face .name{font-family:"Barlow Condensed",sans-serif;font-weight:900;font-size:21px;line-height:.98;margin-top:8px;flex:1;display:flex;align-items:center}
+.face .pos{font-size:11px;font-weight:700;letter-spacing:.06em;background:rgba(0,0,0,.18);border-radius:999px;padding:3px 9px;margin-top:6px}
+.dock-info{flex:1;min-width:0}
+.dock-info .step{font-size:13px;color:var(--chalk-3);font-weight:600}
+.dock-info .cta{font-weight:600;line-height:1.3;margin-top:3px;font-size:15px}
+.dock-info .cta b{color:var(--gold)}
+.dock-total{margin-top:10px}
+.dock-total[hidden],.progress[hidden]{display:none}
+.dock-total .tlabel{font-size:12px;color:var(--chalk-3);font-weight:600}
+.num{font-family:"Barlow Condensed",sans-serif;font-weight:900;font-size:46px;line-height:.95;color:var(--chalk);font-variant-numeric:tabular-nums}
+.num.gold{color:var(--gold)}
+.progress{position:relative;height:10px;background:rgba(0,0,0,.4);border-radius:99px;margin-top:12px;overflow:hidden;border:1px solid var(--line)}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#3fb47a,#63e0a1);border-radius:99px;transition:width .6s cubic-bezier(.2,.7,.2,1)}
+.progress.over i{background:linear-gradient(90deg,#f3c545,#ffe08a)}
+.progress b{position:absolute;right:0;top:-18px;font-size:11px;color:var(--chalk-3);font-weight:600}
+
+/* ---- tablero ---- */
+.board{list-style:none;margin:8px 0 0;padding:0}
+/* --- durante la partida: las 17 casillas visibles, sin cortar --- */
+body.playing .hero,body.playing .bar,body.playing .modes,body.playing #p-rank,body.playing footer{display:none}
+body.playing,body.playing html{height:100%}
+body.playing .wrap{max-width:560px;min-height:100%;padding:6px 8px 10px;display:flex;flex-direction:column}
+body.playing #p-play{flex:1;display:flex;flex-direction:column;min-height:0;padding:8px 8px 10px;border-radius:14px}
+body.playing .dock{margin:-8px -8px 0;padding:8px 8px 6px;border-radius:14px 14px 0 0}
+body.playing .stats,body.playing .result{display:none}
+body.playing .dailybar{margin:0 0 6px;font-size:12px}
+body.playing .flip{width:74px;height:100px}
+body.playing .face.front{font-size:36px}
+body.playing .face .flag{font-size:22px;margin-top:2px}
+body.playing .face .name{font-size:14px;margin-top:3px;line-height:1}
+body.playing .face .pos{font-size:9px;padding:1px 6px;margin-top:2px}
+body.playing .dock-row{gap:10px}
+body.playing .dock-info .step{font-size:12px}
+body.playing .dock-info .cta{font-size:13.5px;line-height:1.25}
+body.playing .skips{margin-top:6px}
+body.playing .btn.small{padding:6px 10px;font-size:13px}
+body.playing .skipdots{font-size:12px}
+body.playing .board{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;
+  grid-template-rows:repeat(9,minmax(30px,1fr));gap:4px;margin:6px 0 0}
+body.playing .board li{min-height:0;display:flex}
+body.playing .board li:first-child{grid-column:1/-1}
+body.playing .slot{display:flex;align-items:center;gap:6px;padding:3px 7px;border:1px solid var(--line);
+  border-radius:8px;width:100%;overflow:hidden}
+body.playing .slot .ico{font-size:14px;flex:none}
+body.playing .slot .lab{font-size:12px;line-height:1.05;gap:4px;min-width:0;flex:1;
+  display:flex;align-items:center;overflow:hidden}
+body.playing .slot .mul{font-size:10.5px;padding:1px 5px;flex:none}
+body.playing .slot .who{display:none}
+body.playing .slot .pts{display:none}
+body.playing .slot.filled{background:rgba(255,255,255,.07);opacity:.55}
+body.playing .slot.filled .lab{text-decoration:line-through;text-decoration-color:var(--chalk-3)}
+@media (min-width:600px){body.playing .board{grid-template-columns:1fr 1fr 1fr;grid-template-rows:repeat(6,minmax(34px,1fr))}body.playing .board li:first-child{grid-column:auto}}
+@media (max-height:620px){body.playing .flip{width:62px;height:84px}body.playing .slot .lab{font-size:11px}body.playing .board{gap:3px}}
+.slot{display:grid;grid-template-columns:34px 1fr auto;column-gap:10px;width:100%;text-align:left;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--chalk);padding:9px 6px;font:inherit;cursor:pointer;align-items:center;border-radius:10px;transition:background .15s}
+.slot:disabled{cursor:default}
+.slot .ico{font-family:"Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji",sans-serif;grid-row:1/3;font-size:22px;text-align:center;line-height:1;filter:drop-shadow(0 2px 2px rgba(0,0,0,.35))}
+.slot .lab{font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.slot .mul{font:800 12px "Barlow Condensed",sans-serif;font-size:13px;padding:2px 7px;border-radius:6px;background:var(--glass-3);color:var(--chalk-2)}
+.slot .who{grid-column:2;color:var(--chalk-3);font-size:13px;min-height:17px;margin-top:2px}
+.slot .pts{grid-row:1/3;grid-column:3;font-family:"Barlow Condensed",sans-serif;font-weight:900;font-size:28px;text-align:right;min-width:74px;font-variant-numeric:tabular-nums}
+.slot.open:not(:disabled){background:var(--glass-2);box-shadow:inset 0 0 0 1px rgba(245,248,243,.18)}
+.slot.open:not(:disabled):hover{background:var(--glass-3)}
+.slot.open:not(:disabled) .who{color:var(--chalk-2)}
+.slot .pts.preview{color:var(--chalk-2);font-weight:800;font-size:24px}
+.slot .pts.preview.hot{color:var(--gold)}
+.slot .pts.preview.nil{color:var(--chalk-3);font-weight:700}
+.slot.filled{opacity:.92}
+.slot.filled .who{color:var(--chalk-2)}
+.slot.filled .pts.big{color:var(--gold);text-shadow:0 0 14px rgba(243,197,69,.35)}
+.slot.filled .pts.zero{color:var(--chalk-3);font-weight:700}
+.slot.flash{background:rgba(243,197,69,.18)}
+.slot.boost .mul{background:var(--gold);color:#1b1a0f;animation:pulse 1.6s ease-in-out infinite}
+.slot.boost .lab{color:var(--gold-2)}
+@keyframes pulse{50%{box-shadow:0 0 0 5px rgba(243,197,69,.18)}}
+
+.actions{display:flex;justify-content:center;gap:10px;margin-top:18px;flex-wrap:wrap}
+.btn{border:0;border-radius:12px;padding:13px 22px;font:700 16px Barlow,sans-serif;cursor:pointer;background:var(--btn);color:var(--btn-ink);box-shadow:0 8px 22px rgba(243,197,69,.25)}
+.btn.ghost{background:transparent;color:var(--chalk);border:2px solid rgba(245,248,243,.35);box-shadow:none}
+.btn[hidden]{display:none}
+
+/* ---- resultado ---- */
+.result{margin-top:16px;padding:22px 14px 8px;border-top:1px solid var(--line);text-align:center}
+.result[hidden]{display:none}
+.result .rlabel{font-size:13px;color:var(--chalk-3);font-weight:600}
+.result .num{font-size:74px}
+.verdict{font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:26px;line-height:1.1;margin-top:6px}
+.verdict.pass{color:var(--pass)}
+.verdict.fail{color:var(--fail)}
+.result .opt{color:var(--chalk-2);margin:10px auto 0;max-width:40ch;line-height:1.45;font-size:15px}
+.summary{list-style:none;margin:16px 0 0;padding:0;text-align:left}
+.summary li{display:grid;grid-template-columns:1fr auto;gap:8px;padding:6px 0;border-bottom:1px solid var(--line);font-size:14px;color:var(--chalk-2)}
+.summary li span b{color:var(--chalk);font-weight:700}
+.summary li .p{font-family:"Barlow Condensed",sans-serif;font-weight:900;font-size:19px;color:var(--chalk);font-variant-numeric:tabular-nums}
+.summary li.top .p{color:var(--gold)}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:20px 0 0;padding-top:14px;border-top:1px solid var(--line)}
+.stats div{display:flex;flex-direction:column;gap:3px;text-align:center}
+.stats dt{font-size:12px;color:var(--chalk-3);font-weight:600}
+.stats dd{margin:0;font-family:"Barlow Condensed",sans-serif;font-weight:900;font-size:28px;line-height:1}
+
+footer{margin-top:26px;text-align:center;color:var(--chalk-3);font-size:13px;line-height:1.5}
+
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:50}
+.toasts{position:fixed;left:0;right:0;top:env(safe-area-inset-top,0px);z-index:70;display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px;pointer-events:none}
+.toast{background:linear-gradient(135deg,rgba(243,197,69,.96),rgba(255,224,138,.96));color:#1b1a0f;font-weight:700;font-size:14px;padding:10px 16px;border-radius:999px;box-shadow:0 10px 26px rgba(0,0,0,.4);display:flex;align-items:center;gap:8px;max-width:92%;
+  animation:toastIn .45s cubic-bezier(.2,1.4,.4,1) both,toastOut .4s 3.1s both}
+.toast b{font-weight:900}
+@keyframes toastIn{from{transform:translateY(-26px) scale(.9);opacity:0}to{transform:none;opacity:1}}
+@keyframes toastOut{to{transform:translateY(-20px);opacity:0}}
+.rankup{position:fixed;inset:0;z-index:75;display:flex;align-items:center;justify-content:center;padding:20px;
+  background:radial-gradient(circle at 50% 45%,rgba(243,197,69,.22),rgba(4,22,15,.95) 55%)}
+.rankup[hidden]{display:none}
+.ru-in{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;animation:ruIn .5s cubic-bezier(.2,1.2,.4,1) both}
+@keyframes ruIn{from{transform:scale(.85);opacity:0}to{transform:none;opacity:1}}
+.ru-tag{font-size:12px;font-weight:800;letter-spacing:.18em;color:var(--gold)}
+.ru-ico{font-size:96px;line-height:1;filter:drop-shadow(0 10px 26px rgba(243,197,69,.5));animation:medIn .7s .1s cubic-bezier(.2,1.5,.4,1) both}
+.ru-name{font-family:"Barlow Condensed",sans-serif;font-weight:900;font-size:58px;line-height:1;color:var(--chalk)}
+.ru-rar{font-size:12px;font-weight:800;letter-spacing:.1em;border:1px solid;border-radius:999px;padding:4px 12px}
+.ru-rew{margin:14px 0 4px;font-size:15px;color:var(--chalk-2);font-weight:600;max-width:30ch;line-height:1.4}
+.ru-in .btn{margin-top:10px}
+.intro{position:fixed;inset:0;z-index:55;display:flex;align-items:center;justify-content:center;pointer-events:none;background:radial-gradient(circle at 50% 50%,rgba(6,36,26,.94),rgba(6,36,26,.75) 60%,transparent)}
+.intro[hidden]{display:none}
+.intro-in{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.intro .ib{font-size:54px;line-height:1}
+.intro .it{font-family:"Barlow Condensed",sans-serif;font-weight:900;font-size:clamp(40px,12vw,72px);color:var(--chalk);letter-spacing:.02em;line-height:1}
+.intro .is{font-weight:700;color:var(--gold);font-size:16px}
+.intro.go .ib{animation:ibIn .5s cubic-bezier(.2,1.3,.4,1) both}
+.intro.go .it{animation:itIn .55s .08s cubic-bezier(.2,1,.3,1) both,fadeOut .35s 1.1s both}
+.intro.go .is{animation:itIn .55s .18s cubic-bezier(.2,1,.3,1) both,fadeOut .35s 1.1s both}
+.intro.go .ib{animation:ibIn .5s cubic-bezier(.2,1.3,.4,1) both,fadeOut .35s 1.1s both}
+.intro.go{animation:fadeOut .4s 1.1s both}
+@keyframes ibIn{from{transform:scale(.2) rotate(-180deg);opacity:0}to{transform:none;opacity:1}}
+@keyframes itIn{from{transform:translateY(22px) scale(.92);opacity:0;letter-spacing:.3em}to{transform:none;opacity:1}}
+@keyframes fadeOut{to{opacity:0}}
+@media (prefers-reduced-motion: reduce){.intro{display:none}}
+
+@media (max-width:420px){
+  .panel{padding:14px 12px 20px}
+  .dock{margin:-14px -12px 0;padding:12px 12px 10px}
+  .flip{width:104px;height:140px}
+  .face .flag{font-size:34px}
+  .face .name{font-size:18px}
+  .num{font-size:40px}
+  .slot{grid-template-columns:28px 1fr auto;column-gap:8px;padding:8px 4px}
+  .slot .ico{font-size:19px}
+  .slot .pts{font-size:24px;min-width:64px}
+  .scroll{margin:0 -12px;padding:0 12px}
+}
+@media (prefers-reduced-motion: reduce){
+  .flip .inner,.progress i,.slot{transition:none}
+  .flip.flipped .face.back::before,.slot.boost .mul{animation:none}
+}
+
+/* ===== estadio de fondo y selector de equipo ===== */
+#fgStadium{position:fixed;inset:0;z-index:-1;pointer-events:none;background:#050912 center top / cover no-repeat;transform:translateZ(0);will-change:transform}
+body.hasteam::before{display:none}
+body.hasteam{background:#050912}
+#teamPick{position:fixed;inset:0;z-index:60;background:rgba(3,8,16,.94);display:flex;align-items:stretch;justify-content:center;padding:0}
+#teamPick[hidden]{display:none}
+body.tp-open{overflow:hidden}
+.tp-in{width:100%;max-width:560px;height:100%;display:flex;flex-direction:column;background:#0d1424;padding:calc(16px + env(safe-area-inset-top,0px)) 16px calc(16px + env(safe-area-inset-bottom,0px));box-sizing:border-box;overflow:hidden}
+@media (min-width:640px){#teamPick{align-items:center;padding:24px}.tp-in{height:auto;max-height:86vh;border-radius:22px;border:1px solid var(--line)}}
+.tp-step{display:flex;flex-direction:column;min-height:0;flex:1}
+.tp-step[hidden]{display:none}
+.tp-h{font:900 30px/1 "Barlow Condensed",sans-serif;margin:0 0 4px}
+.tp-p{margin:0 0 14px;color:var(--chalk-2);font-size:14px;line-height:1.35}
+.tp-scroll{overflow-y:auto;-webkit-overflow-scrolling:touch;min-height:0;flex:1;padding-bottom:6px}
+.tp-leagues{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.tp-lg{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--chalk);border-radius:14px;padding:14px;cursor:pointer;min-height:84px;min-width:0}
+.tp-lg:last-child:nth-child(odd){grid-column:1 / -1;flex-direction:row;align-items:center;gap:12px;min-height:64px}
+.tp-lg b{font:900 20px/1 "Barlow Condensed",sans-serif}
+.tp-lg small{font-size:12px;color:var(--chalk-3)}
+.tp-lg .fl,.tp-lgname .fl{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:24px;padding:0 7px;border-radius:7px;font:900 13px/1 "Barlow Condensed",sans-serif;letter-spacing:.04em;color:#0b0f1c;background:var(--lc,#f3c545);vertical-align:middle;margin-right:6px}
+.tp-back{background:none;border:0;color:var(--gold);font-weight:700;font-size:15px;cursor:pointer;padding:4px 0 10px;text-align:left;align-self:flex-start}
+.tp-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.tp-team{display:flex;align-items:center;gap:10px;text-align:left;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--chalk);border-radius:12px;padding:10px 12px;cursor:pointer;min-height:54px;min-width:0}
+.tp-team.on{border-color:var(--gold);background:rgba(243,197,69,.12)}
+.tp-dot{width:16px;height:16px;border-radius:50%;background:var(--c);flex:none;border:2px solid rgba(255,255,255,.35)}
+.tp-txt{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
+.tp-n,.tp-s{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}
+.tp-n{font:800 15px/1.1 "Barlow Condensed",sans-serif}
+.tp-s{font-size:11px;color:var(--chalk-3)}
+.tp-skip{display:block;margin:12px auto 0;background:none;border:0;color:var(--chalk-2);font-weight:600;cursor:pointer;padding:8px 12px;flex:none}
+
+button,.slot,.mode,.btn,.tp-team,.tp-tab{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+body.hasteam::after{display:none}
+body::before,body::after{transform:translateZ(0)}
+
+/* legibilidad sobre el estadio */
+body.hasteam .hero{position:relative}
+body.hasteam .hero::before{content:"";position:absolute;inset:-40px -30px -20px;z-index:-1;background:radial-gradient(ellipse at 50% 45%,rgba(3,8,16,.72) 0 45%,rgba(3,8,16,0) 75%)}
+body.hasteam .lead{color:var(--chalk);text-shadow:0 1px 3px rgba(0,0,0,.9),0 0 14px rgba(0,0,0,.7)}
+body.hasteam .hero h1{text-shadow:0 3px 10px rgba(0,0,0,.9),0 8px 32px rgba(0,0,0,.7)}
+body.hasteam .kicker,body.hasteam .how,body.hasteam summary,body.hasteam .bar,body.hasteam .icon-btn{background:rgba(3,8,16,.72)}
+body.hasteam .kicker{text-shadow:0 1px 2px rgba(0,0,0,.8)}
+body.hasteam .hero button{text-shadow:0 1px 3px rgba(0,0,0,.9)}
+body.hasteam .mode.ghost,body.hasteam .mode.duel{background-color:rgba(4,20,14,.94)}
+body.hasteam .panel{background:rgba(6,16,11,.94)}
+
+/* acento según el estadio: sobre estadios amarillos o claros el dorado no se lee */
+body.hasteam[data-bg="yellow"] .hero h1 span{color:#ffffff;text-shadow:0 3px 10px rgba(0,0,0,.95),0 0 26px rgba(0,0,0,.8)}
+body.hasteam[data-bg="yellow"] .kicker{color:#ffffff;border-color:rgba(255,255,255,.55)}
+body.hasteam[data-bg="yellow"] .hero::before{background:radial-gradient(ellipse at 50% 45%,rgba(3,8,16,.86) 0 50%,rgba(3,8,16,0) 78%)}
+body.hasteam[data-bg="light"] .hero::before{background:radial-gradient(ellipse at 50% 45%,rgba(3,8,16,.84) 0 50%,rgba(3,8,16,0) 78%)}
+body.hasteam[data-bg="light"] .hero h1{text-shadow:0 3px 10px rgba(0,0,0,.95),0 8px 40px rgba(0,0,0,.9)}
+</style>
+</head>
+<body>
+<div id="fgStadium" aria-hidden="true"></div>
+<div id="teamPick" hidden><div class="tp-in">
+<div class="tp-step" data-step="league"><h2 class="tp-h">¿De qué equipo eres?</h2><p class="tp-p">Elige primero tu liga. Tu estadio será el fondo del juego y podrás cambiarlo cuando quieras.</p><div class="tp-scroll"><div class="tp-leagues"></div></div><button type="button" class="tp-skip">Sin equipo, gracias</button></div>
+<div class="tp-step" data-step="team" hidden><button type="button" class="tp-back">‹ Ligas</button><h2 class="tp-h tp-lgname"></h2><div class="tp-scroll"><div class="tp-grid"></div></div></div>
+</div></div>
+<canvas id="confetti" hidden></canvas>
+<div class="toasts" id="toasts"></div>
+<div class="rankup" id="rankUp" hidden>
+  <div class="ru-in">
+    <span class="ru-tag">HAS SUBIDO DE RANGO</span>
+    <span class="ru-ico" id="ruIco"></span>
+    <span class="ru-name" id="ruName"></span>
+    <span class="ru-rar" id="ruRar"></span>
+    <span class="ru-rew" id="ruRew"></span>
+    <button class="btn" id="ruOk">Continuar</button>
+  </div>
+</div>
+<div class="intro" id="intro" hidden><div class="intro-in"><span class="ib">⚽</span><span class="it" id="introTit"></span><span class="is" id="introSub"></span></div></div>
+<main class="wrap">
+  <a class="home-link" href="./">← Juegos</a>
+  <header class="hero">
+    <div class="brand" aria-label="GOALDAY"><span class="logo-mark" aria-hidden="true"><svg width="44" height="44" viewBox="0 0 100 100" aria-hidden="true"><defs><clipPath id="gdhh4"><rect x="0" y="0" width="100" height="63"></rect></clipPath><clipPath id="gddh4"><circle cx="50" cy="60" r="31.5"></circle></clipPath></defs><g clip-path="url(#gdhh4)"><circle cx="50" cy="60" r="32" fill="#f5f8f3"></circle><g clip-path="url(#gddh4)"><polygon points="50.00,33.00 59.51,39.91 55.88,51.09 44.12,51.09 40.49,39.91" fill="#06241a"></polygon><path d="M50.00 33.00L50.00 26.00" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="50.00,25.50 40.96,18.94 44.42,8.31 55.58,8.31 59.04,18.94" fill="#06241a"></polygon><path d="M59.51 39.91L66.17 37.75" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="66.64,37.59 70.09,26.97 81.26,26.97 84.71,37.59 75.68,44.16" fill="#06241a"></polygon><path d="M55.88 51.09L59.99 56.75" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="60.29,57.16 71.45,57.16 74.91,67.78 65.87,74.34 56.84,67.78" fill="#06241a"></polygon><path d="M44.12 51.09L40.01 56.75" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="39.71,57.16 43.16,67.78 34.13,74.34 25.09,67.78 28.55,57.16" fill="#06241a"></polygon><path d="M40.49 39.91L33.83 37.75" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="33.36,37.59 24.32,44.16 15.29,37.59 18.74,26.97 29.91,26.97" fill="#06241a"></polygon></g></g><path d="M9 72H91" stroke="#f5f8f3" stroke-width="7" stroke-linecap="round"></path></svg></span><span class="bname">GOALDAY</span></div>
+    <span class="kicker">GOALDAY · 17 jugadores · 17 casillas · un objetivo</span>
+    <h1>Reto de los<em>15.000 goles</em></h1>
+    <p class="lead">Van saliendo futbolistas al azar, uno a uno, y tú decides en qué casilla colocar a cada uno, de memoria. Al acabar, el recuento revela cuánto ha sumado cada uno. Cada casilla solo se usa una vez.</p>
+    <details class="how">
+      <summary>Cómo se juega</summary>
+      <ol>
+        <li>Sale una carta con un jugador. Toca la casilla donde quieras ponerlo. No verás los puntos hasta el final: el recuento se hace de golpe, casilla por casilla.</li>
+        <li>Suma sus goles en esa categoría por el multiplicador: Champions ×10, Selección ×10, Mundiales ×100, final del Mundial ×1000…</li>
+        <li>En cada partida una de las seis ligas vale ×5 en vez de ×1.</li>
+        <li>Tras 17 jugadores, si pasas del objetivo has superado el reto. Al final verás cuántos puntos daba la mejor colocación posible.</li>
+      </ol>
+    </details>
+  </header>
+
+  <div class="champ" id="champ" hidden></div>
+  <button class="mypos" id="myPos" hidden></button>
+  <div class="modes" id="modes">
+    <button class="mode" id="tab-diario"><span class="mtit">Reto diario</span><span class="msub" id="dailySub">Los mismos 17 jugadores para todo el mundo</span></button>
+    <button class="mode ghost" id="tab-libre"><span class="mtit">Partida libre</span><span class="msub">Juega las veces que quieras</span></button>
+    <button class="mode duel" id="tab-online"><span class="mtit">⚔️ Duelo online</span><span class="msub">Contra un rival en directo, mismos 17 jugadores. Asciende de la liga de San Marino al Mundial</span></button>
+    <button class="mode duel" id="tab-enlace"><span class="mtit">🔗 Reta a un amigo</span><span class="msub">Le mandas un enlace y jugáis a la vez los mismos 17, en directo</span></button>
+  </div>
+  <div class="bar">
+    <button class="icon-btn" id="btnSound" aria-label="Sonido" title="Sonido">🔊</button>
+    <button class="icon-btn" id="btnTeam" title="Elige tu equipo">🏟️ Equipo</button>
+    <button class="icon-btn" id="btnLang" title="Idioma / Language">🌐 EN</button>
+  </div>
+  <p class="dailybar" id="dailyBar" hidden></p>
+
+  <section id="p-play" class="panel">
+    <div class="dock">
+      <div class="dock-row">
+        <div class="flip" id="flip" aria-live="polite">
+          <div class="inner">
+            <div class="face front" aria-hidden="true">?</div>
+            <div class="face back" id="cardBack"><span class="flag" id="cFlag"></span><span class="name" id="cName"></span><span class="pos" id="cPos"></span></div>
+          </div>
+        </div>
+        <div class="dock-info">
+          <div class="step" id="step">Jugador 1 de 17</div>
+          <div class="cta" id="cta">Sacando al primer jugador…</div>
+          <div class="dock-total" id="dockTotal" hidden>
+            <div class="tlabel">Total</div>
+            <div class="num" id="total" data-v="0">0</div>
+          </div>
+        </div>
+      </div>
+      <div class="progress" id="progress" hidden><b id="pctLabel"></b><i></i></div>
+      <div class="duelbar" id="duelBar" hidden><span class="dbn" id="dbName"></span><span class="dbprog"><i id="dbFill"></i></span><span class="dbtime" id="dbTime"></span></div>
+      <div class="skips" id="skips">
+        <button class="btn ghost small" id="btnSkip">Descartar jugador</button>
+        <span class="skipdots" id="skipDots"></span>
+      </div>
+    </div>
+
+    <ul class="board" id="board"></ul>
+
+    <div class="result" id="result" hidden>
+      <div class="duelres" id="duelRes" hidden></div>
+      <div class="medal" id="medal" hidden>
+        <span class="mtag" id="mTag"></span>
+        <span class="mico" id="mIco"></span>
+        <span class="mname" id="mName"></span>
+        <span class="mpct" id="mPct"></span>
+        <div class="rankbar"><i id="rankFill"></i></div>
+        <span class="msubt" id="mSub"></span>
+        <span class="mrew" id="mRew"></span>
+      </div>
+      <div class="rlabel">Puntos totales</div>
+      <div class="num gold" id="rNum" data-v="0">0</div>
+      <div class="verdict" id="rVerdict"></div>
+      <div class="lvlbar"><i id="lvlFill"></i></div>
+      <p class="lvltext" id="lvlText"></p>
+      <p class="opt" id="rOpt"></p>
+      <p class="worldpos" id="worldPos" hidden></p>
+      <ul class="unlocked" id="unlocked" hidden></ul>
+      <div class="actions">
+        <button class="btn" id="btnAgain">Jugar otra vez</button>
+        <button class="btn ghost" id="btnShare">Compartir imagen</button>
+        <button class="btn ghost" id="btnRank">Ver mi rango</button>
+        <button class="btn ghost" id="btnHome">Inicio</button>
+      </div>
+      <ul class="summary" id="summary"></ul>
+    </div>
+
+    <dl class="stats">
+      <div><dt>Partidas</dt><dd id="sGames">0</dd></div>
+      <div><dt>Retos superados</dt><dd id="sWins">0</dd></div>
+      <div><dt>Mejor total</dt><dd id="sBest">–</dd></div>
+    </dl>
+  </section>
+
+  <section class="panel" id="p-rank">
+    <div class="ranktabs">
+      <button class="rtab" id="rt-day" aria-selected="true">🌍 Hoy</button>
+      <button class="rtab" id="rt-all" aria-selected="false">🌍 Mejores de siempre</button>
+      <button class="rtab" id="rt-med" aria-selected="false">Rangos y logros</button>
+      <button class="rtab" id="rt-duel" aria-selected="false">⚔️ Duelos</button>
+    </div>
+    <div class="pass" id="pass" hidden>
+      <div class="pass-head">
+        <span class="ph-ico" id="phIco"></span>
+        <div class="ph-tx"><span class="ph-name" id="phName"></span><span class="ph-sub" id="phSub"></span></div>
+      </div>
+      <div class="track" id="track"></div>
+    </div>
+    <ol class="rank" id="rankList"></ol>
+    <p class="note" id="rankNote"></p>
+    <div class="rankfoot" id="rankFoot" hidden><span id="rfName"></span><button class="btn ghost" id="btnName">Cambiar nombre</button></div>
+  </section>
+
+  <footer>Basado en el reto viral de los 15.000 goles. Cifras de goles aproximadas.<br>Tus resultados se guardan en este dispositivo.<br><b style="color:var(--gold)">v53</b></footer>
+  <div class="modal" id="nameModal" hidden>
+    <div class="namebox">
+      <span class="nb-ico">🌍</span>
+      <span class="nb-tit">Ranking mundial</span>
+      <p class="note">Elige tu nombre para salir en el ranking (2 a 16 caracteres). Es único: nadie más podrá usarlo.</p>
+      <input id="nameInput" maxlength="16" autocomplete="nickname" placeholder="Tu nombre">
+      <p class="nb-err" id="nameErr"></p>
+      <div class="actions">
+        <button class="btn" id="btnNameOk">Guardar</button>
+        <button class="btn ghost" id="btnNameSkip">Ahora no</button>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="duelModal" hidden>
+    <div class="namebox duelbox">
+      <span class="nb-ico" id="dmIco"></span>
+      <span class="nb-tit" id="dmTit"></span>
+      <p class="note" id="dmTxt"></p>
+      <div id="dmExtra"></div>
+      <div class="actions" id="dmAct"></div>
+    </div>
+  </div>
+  <canvas id="shareCanvas" width="1080" height="1350" hidden></canvas>
+  <div class="modal" id="shareModal" hidden>
+    <div class="modal-in">
+      <img id="shareImg" alt="Resultado">
+      <p class="note">Mantén pulsada la imagen para guardarla, o usa el botón.</p>
+      <div class="actions">
+        <button class="btn" id="btnShareNow">Compartir</button>
+        <button class="btn ghost" id="btnCloseShare">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+(function(){
+'use strict';
+
+const CATS=[
+  {k:'Champions',short:'Champ'},{k:'Premier League',short:'Prem'},{k:'La Liga',short:'Liga'},{k:'Serie A',short:'Serie A'},
+  {k:'Bundesliga',short:'Bund'},{k:'Ligue 1',short:'Ligue 1'},{k:'Eredivisie / Primeira Liga',short:'Ere/Por'},
+  {k:'Selección',short:'Selec'},{k:'América',short:'Amér'},{k:'Carrera',short:'Carrera'},{k:'Goles de cabeza',short:'Cabeza'},
+  {k:'Goles olímpicos',short:'Olímp'},{k:'Mundiales',short:'Mund'},{k:'Final de Champions',short:'F.Champ'},
+  {k:'Final de Libertadores',short:'F.Lib'},{k:'Final del Mundial',short:'F.Mund'}
+];
+const SLOTS=[
+  {label:'Champions',mult:10,src:0,ico:'🏆'},
+  {label:'Premier League',mult:1,src:1,ico:'🏴\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}'},
+  {label:'La Liga',mult:1,src:2,ico:'🇪🇸'},
+  {label:'Serie A',mult:1,src:3,ico:'🇮🇹'},
+  {label:'Bundesliga',mult:1,src:4,ico:'🇩🇪'},
+  {label:'Ligue 1',mult:1,src:5,ico:'🇫🇷'},
+  {label:'Eredivisie / Primeira',mult:1,src:6,ico:'🇳🇱'},
+  {label:'Selección',mult:10,src:7,ico:'🌍'},
+  {label:'América',mult:4,src:8,ico:'🌎'},
+  {label:'Carrera',mult:1,src:9,ico:'⚽'},
+  {label:'Carrera',mult:3,src:9,ico:'⚽'},
+  {label:'Goles de cabeza',mult:10,src:10,ico:'🎯'},
+  {label:'Goles olímpicos',mult:500,src:11,ico:'🚩'},
+  {label:'Mundiales',mult:100,src:12,ico:'🏅'},
+  {label:'Final de Champions',mult:300,src:13,ico:'🌟'},
+  {label:'Final de Libertadores',mult:500,src:14,ico:'🥇'},
+  {label:'Final del Mundial',mult:1000,src:15,ico:'👑'}
+];
+const N=SLOTS.length;
+
+const RAW=[
+['Lionel Messi','🇦🇷',129,0,474,0,0,22,0,125,100,936,28,0,21,2,0,2],
+['Cristiano Ronaldo','🇵🇹',141,103,311,81,0,0,3,146,0,973,150,0,11,4,0,0],
+['Pelé','🇧🇷',0,0,0,0,0,0,0,77,680,757,90,1,12,0,3,3],
+['Robert Lewandowski','🇵🇱',109,0,83,0,312,0,0,89,7,725,85,0,2,0,0,0],
+['Zlatan Ibrahimović','🇸🇪',49,17,16,156,0,113,35,62,53,558,50,0,0,0,0,0],
+['Luis Suárez','🇺🇾',31,69,176,0,0,0,91,69,94,601,35,0,7,1,0,0],
+['Neymar','🇧🇷',43,0,68,0,0,82,0,80,154,459,15,1,9,1,1,0],
+['Kylian Mbappé','🇫🇷',71,0,63,0,0,191,0,66,0,450,22,0,22,0,0,4],
+['Erling Haaland','🇳🇴',59,117,0,0,62,0,0,62,0,368,35,0,7,0,0,0],
+['Harry Kane','🏴\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}',55,213,0,0,101,0,0,85,0,544,45,0,14,0,0,0],
+['Diego Maradona','🇦🇷',2,0,27,81,0,0,0,34,151,346,10,1,8,0,0,0],
+['Ronaldo Nazário','🇧🇷',16,0,117,58,0,0,42,62,57,392,15,0,15,0,0,2],
+['Zinedine Zidane','🇫🇷',14,0,37,24,0,34,0,31,0,156,10,0,5,1,0,3],
+['Raúl','🇪🇸',71,0,228,0,28,0,0,44,9,427,40,0,5,2,0,0],
+['Gerd Müller','🇩🇪',34,0,0,0,365,0,0,68,40,735,60,0,14,3,0,1],
+['Alfredo Di Stéfano','🇦🇷',49,0,227,0,0,0,0,29,158,509,20,0,0,7,0,0],
+['Ferenc Puskás','🇭🇺',36,0,156,0,0,0,0,84,0,754,15,0,4,7,0,1],
+['Eusébio','🇵🇹',47,0,0,0,0,0,320,41,23,621,25,0,9,3,0,0],
+['Sergio Ramos','🇪🇸',17,0,77,0,0,4,0,23,7,148,60,0,0,2,0,0],
+['Gabigol','🇧🇷',0,0,0,1,0,0,0,5,276,285,15,0,0,0,4,0],
+['Martín Palermo','🇦🇷',0,0,19,0,0,0,0,9,236,266,60,0,1,0,0,0],
+['Thierry Henry','🇫🇷',51,175,35,3,0,20,0,51,52,411,10,1,6,0,0,0],
+['Didier Drogba','🇨🇮',44,104,0,0,0,39,0,65,39,367,40,0,2,1,0,0],
+['Edinson Cavani','🇺🇾',35,12,5,112,0,138,0,58,36,462,50,0,5,0,0,0],
+['Mohamed Salah','🇪🇬',54,193,0,35,0,0,0,66,0,407,15,0,3,1,0,0],
+['Marco van Basten','🇳🇱',19,0,0,90,0,0,128,24,0,307,25,0,0,2,0,0],
+['Gabriel Batistuta','🇦🇷',6,0,0,183,0,0,0,56,31,355,40,0,10,0,0,0],
+['Ronaldinho','🇧🇷',18,0,70,20,0,17,0,33,88,268,5,1,2,0,0,0],
+['Andrés Iniesta','🇪🇸',11,0,35,0,0,0,0,14,0,107,2,0,2,0,0,1],
+['Ángel Di María','🇦🇷',24,3,22,4,0,56,24,31,23,245,5,4,3,0,0,1],
+['Romário','🇧🇷',20,0,39,0,0,0,98,55,516,745,10,0,5,0,0,0],
+['Geoff Hurst','🏴\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}',0,210,0,0,0,0,0,24,9,324,30,0,5,0,0,3],
+['Juan Román Riquelme','🇦🇷',4,0,40,0,0,0,0,17,95,163,5,3,0,0,3,0],
+['Karim Benzema','🇫🇷',90,0,238,0,0,43,0,37,0,523,50,0,3,1,0,0],
+['Wayne Rooney','🏴\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}',34,208,0,0,0,0,0,53,25,366,30,0,1,1,0,0],
+['Sergio Agüero','🇦🇷',47,184,75,0,0,0,0,41,23,426,15,0,2,0,0,0],
+['Gonzalo Higuaín','🇦🇷',25,5,107,125,0,0,0,31,44,366,25,0,5,0,0,0],
+['Antoine Griezmann','🇫🇷',45,0,205,0,0,0,0,44,9,352,15,0,4,0,0,1],
+['Francesco Totti','🇮🇹',17,0,0,250,0,0,0,9,0,316,10,0,1,0,0,0],
+['Alessandro Del Piero','🇮🇹',44,0,0,188,0,0,0,27,0,343,10,0,2,1,0,0],
+['Paolo Rossi','🇮🇹',10,0,0,82,0,0,0,20,0,154,15,0,9,0,0,1],
+['Michel Platini','🇫🇷',17,0,0,68,0,139,0,41,0,354,10,0,5,1,0,0],
+['Just Fontaine','🇫🇷',10,0,0,0,0,164,0,30,0,288,30,0,13,0,0,0],
+['Johan Cruyff','🇳🇱',19,0,48,0,0,0,218,33,27,433,15,0,3,2,0,0],
+['Thomas Müller','🇩🇪',57,0,0,0,150,0,0,45,18,355,20,0,10,1,0,0],
+['Miroslav Klose','🇩🇪',15,0,0,54,121,0,0,71,0,329,80,0,16,0,0,0],
+['Jürgen Klinsmann','🇩🇪',4,29,0,36,110,29,0,47,0,331,40,0,11,0,0,0],
+['Karl-Heinz Rummenigge','🇩🇪',16,0,0,24,162,0,0,45,0,338,25,0,9,0,0,1],
+['Bobby Charlton','🏴\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}',10,199,0,0,0,0,0,49,0,312,10,0,4,2,0,0],
+['Alan Shearer','🏴\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}',8,283,0,0,0,0,0,30,0,404,60,0,2,0,0,0],
+['Gary Lineker','🏴\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}',0,145,42,0,0,0,0,48,0,331,30,0,10,0,0,0],
+['Dennis Bergkamp','🇳🇱',7,87,0,11,0,0,103,37,0,306,5,0,6,0,0,0],
+['Christian Vieri','🇮🇹',10,0,24,142,0,3,0,23,0,259,40,0,9,0,0,0],
+['Hernán Crespo','🇦🇷',28,20,0,153,0,0,0,35,36,307,40,0,4,2,2,0],
+['Carlos Tévez','🇦🇷',13,84,0,39,0,0,0,13,140,321,15,0,3,0,1,0],
+['Radamel Falcao','🇨🇴',14,5,61,0,0,65,41,36,23,355,45,0,1,0,0,0],
+['Rivaldo','🇧🇷',31,0,107,5,0,0,0,35,47,342,10,0,8,0,0,0],
+['Kaká','🇧🇷',30,0,23,77,0,0,0,29,58,220,3,0,1,0,0,0],
+["Samuel Eto'o",'🇨🇲',33,12,162,35,0,0,0,56,0,424,30,0,3,2,0,0],
+['Luka Modrić','🇭🇷',11,13,30,2,0,0,0,29,0,128,2,0,2,0,0,0],
+['Sadio Mané','🇸🇳',27,111,0,0,7,0,0,54,0,313,20,0,1,1,0,0],
+['Vinícius Júnior','🇧🇷',34,0,78,0,0,0,0,13,14,160,5,0,5,2,0,0],
+['Jude Bellingham','🏴\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}',15,0,37,0,12,0,0,13,0,90,5,0,8,0,0,0],
+['Lamine Yamal','🇪🇸',12,0,37,0,0,0,0,7,0,64,1,0,1,0,0,0],
+['Hugo Sánchez','🇲🇽',17,0,234,0,0,0,0,29,169,514,60,0,1,0,0,0],
+['Javier «Chicharito» Hernández','🇲🇽',14,53,8,0,28,0,0,52,83,262,30,0,4,0,0,0],
+['Alexis Sánchez','🇨🇱',18,63,42,38,0,14,0,51,17,266,10,0,1,0,0,0],
+['Iván Zamorano','🇨🇱',7,0,98,25,0,0,0,34,108,383,50,0,1,0,0,0],
+['Fernando Torres','🇪🇸',20,85,102,1,0,0,0,38,0,301,15,0,3,0,0,0],
+['David Villa','🇪🇸',16,0,185,0,0,0,0,59,80,426,20,0,9,1,0,0],
+['Diego Forlán','🇺🇾',9,10,128,2,0,0,0,36,69,309,15,0,6,0,0,0],
+['Roger Milla','🇨🇲',0,0,0,0,0,64,0,43,0,481,10,0,5,0,0,0],
+['George Weah','🇱🇷',14,4,0,46,0,84,0,18,0,211,15,0,0,0,0,0],
+['Bebeto','🇧🇷',0,0,86,0,0,0,0,38,95,235,15,0,6,0,0,0],
+['Jairzinho','🇧🇷',0,0,0,0,0,9,0,35,276,325,20,0,9,0,0,1],
+['Garrincha','🇧🇷',0,0,0,0,0,0,0,12,102,114,5,0,5,0,0,0],
+['Zico','🇧🇷',0,0,0,22,0,0,0,48,393,517,20,1,5,0,4,0],
+['Mario Kempes','🇦🇷',0,0,126,0,0,0,0,20,113,367,10,0,6,0,0,2],
+['Olivier Giroud','🇫🇷',25,90,0,39,0,41,0,57,5,360,60,0,5,0,0,0],
+['Henrik Larsson','🇸🇪',11,1,13,0,0,0,26,37,0,394,25,0,5,0,0,0],
+// Defensas
+['Carles Puyol','🇪🇸','DEF',2,0,13,0,0,0,0,3,0,28,10,0,1,0,0,0],
+['Paolo Maldini','🇮🇹','DEF',3,0,0,29,0,0,0,7,0,40,10,0,0,1,0,0],
+['Franz Beckenbauer','🇩🇪','DEF',4,0,0,0,44,0,0,14,23,112,5,0,5,0,0,0],
+['Cafú','🇧🇷','DEF',2,0,0,9,0,0,0,5,42,59,3,0,0,0,0,0],
+['Roberto Carlos','🇧🇷','DEF',17,0,47,5,0,0,0,10,26,127,3,1,1,0,0,0],
+// Centrocampistas
+['Xavi Hernández','🇪🇸','MED',12,0,58,0,0,0,0,12,0,124,1,0,0,0,0,0],
+['Lothar Matthäus','🇩🇪','MED',6,0,0,40,121,0,0,23,0,227,5,0,6,0,0,0],
+['Ruud Gullit','🇳🇱','MED',5,4,0,62,0,0,94,17,0,236,30,0,0,2,0,0],
+['Sócrates','🇧🇷','MED',0,0,0,3,0,0,0,22,233,258,10,0,4,0,0,0],
+// --- Más delanteros y extremos ---
+['Julián Álvarez','🇦🇷','DEL',25,20,25,0,0,0,0,15,56,156,10,0,5,0,0,0],
+['Lautaro Martínez','🇦🇷','DEL',25,0,0,136,0,0,0,40,27,246,25,0,3,0,0,0],
+['Ferran Torres','🇪🇸','DEL',21,9,47,0,0,4,0,25,0,123,5,0,3,0,0,1],
+['Telmo Zarra','🇪🇸','DEL',0,0,254,0,0,0,0,20,0,362,80,0,4,0,0,0],
+['Jean-Pierre Papin','🇫🇷','DEL',28,0,0,18,3,156,0,30,0,331,30,0,2,0,0,0],
+// --- Más centrocampistas ---
+// --- Más defensas ---
+// --- Máximos goleadores de ligas, clubes y selecciones ---
+['Raúl Tamudo','🇪🇸','DEL',0,0,146,0,0,0,0,5,0,176,25,0,0,0,0,0],
+['Ousmane Dembélé','🇫🇷','DEL',30,0,24,0,6,46,0,13,0,151,3,0,6,1,0,0],
+['Raphinha','🇧🇷','DEL',21,17,56,0,0,6,25,11,0,162,5,0,0,0,0,0],
+['Rodrygo','🇧🇷','DEL',26,0,33,0,0,0,0,9,17,99,5,0,0,0,0,0],
+['Paulo Dybala','🇦🇷','DEL',18,0,0,131,0,0,0,4,17,202,5,0,0,0,0,0],
+['Victor Osimhen','🇳🇬','DEL',16,0,0,65,0,13,0,35,0,214,30,0,0,0,0,0],
+['Alexander Isak','🇸🇪','DEL',1,61,33,0,0,0,13,18,0,170,10,0,1,0,0,0],
+['Darwin Núñez','🇺🇾','DEL',11,25,0,0,0,0,32,13,4,133,15,0,0,0,0,0],
+['Bukayo Saka','🏴\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}','DEL',13,63,0,0,0,0,0,17,0,123,3,0,6,0,0,0],
+['Marcus Rashford','🏴\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}','DEL',17,89,8,0,0,0,0,19,0,180,5,0,4,0,0,0],
+['Jamie Vardy','🏴\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}','DEL',2,145,0,7,0,0,0,7,0,251,20,0,0,0,0,0],
+['Michael Owen','🏴\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}','DEL',14,150,13,0,0,0,0,40,0,263,15,0,4,0,0,0],
+['Adriano','🇧🇷','DEL',18,0,0,77,0,0,0,27,63,196,10,0,2,0,0,0],
+['Álvaro Morata','🇪🇸','DEL',29,16,71,40,0,0,0,37,0,267,40,0,3,1,0,0],
+['Nico Williams','🇪🇸','DEL',0,0,23,0,0,0,0,6,0,53,2,0,0,0,0,0],
+['Julio Salinas','🇪🇸','DEL',3,0,152,0,0,0,0,22,0,255,20,0,3,0,0,0],
+['Emilio Butragueño','🇪🇸','DEL',17,0,123,0,0,0,0,26,11,223,10,0,5,0,0,0],
+['Iago Aspas','🇪🇸','DEL',0,0,171,0,0,0,0,6,0,250,10,0,1,0,0,0],
+['Fernando Morientes','🇪🇸','DEL',39,8,124,0,0,11,0,27,0,237,50,0,5,1,0,0],
+['Quini','🇪🇸','DEL',0,0,219,0,0,0,0,8,0,373,30,0,0,0,0,0],
+['Francisco Gento','🇪🇸','DEL',31,0,129,0,0,0,0,5,0,190,3,0,0,2,0,0],
+['Luis Enrique','🇪🇸','MED',20,0,103,0,0,0,0,12,0,155,10,0,2,0,0,0],
+['Fernando Hierro','🇪🇸','DEF',8,1,105,0,0,0,0,29,0,160,40,0,5,0,0,0],
+['Gerard Piqué','🇪🇸','DEF',16,0,32,0,0,0,0,5,0,63,30,0,0,0,0,0],
+['Xabi Alonso','🇪🇸','MED',6,14,13,0,5,0,0,16,0,59,3,0,2,1,0,0],
+['Rodri','🇪🇸','MED',3,23,4,0,0,0,0,4,0,39,3,0,0,1,0,0],
+['Kevin De Bruyne','🇧🇪','MED',16,72,0,6,23,0,0,38,0,199,5,0,3,0,0,0],
+['Eden Hazard','🇧🇪','MED',10,85,4,0,0,36,0,33,0,200,5,0,3,0,0,0],
+['Romelu Lukaku','🇧🇪','DEL',21,121,0,85,0,0,0,93,0,417,40,0,8,0,0,0],
+['Toni Kroos','🇩🇪','MED',11,0,22,0,23,0,0,17,0,90,2,1,3,0,0,0],
+['Michael Ballack','🇩🇪','MED',17,17,0,0,77,0,0,42,0,194,30,0,3,0,0,0],
+['Lukas Podolski','🇩🇪','DEL',13,19,0,1,70,0,0,49,0,287,10,0,5,0,0,0],
+['Mario Götze','🇩🇪','MED',15,0,0,0,66,0,9,17,0,153,3,0,2,0,0,1],
+['Rudi Völler','🇩🇪','DEL',2,0,0,45,132,24,0,47,0,362,20,0,8,0,0,1],
+['Andrea Pirlo','🇮🇹','MED',8,0,0,58,0,0,0,13,1,86,0,0,1,0,0,0],
+['Roberto Baggio','🇮🇹','DEL',5,0,0,205,0,0,0,27,0,316,5,0,9,0,0,0],
+['Filippo Inzaghi','🇮🇹','DEL',50,0,0,156,0,0,0,25,0,313,25,0,1,2,0,0],
+['Ciro Immobile','🇮🇹','DEL',13,0,2,201,3,2,0,17,0,367,25,0,0,0,0,0],
+['Mario Balotelli','🇮🇹','DEL',10,21,0,52,0,41,0,14,0,224,10,0,1,0,0,0],
+['Marco Materazzi','🇮🇹','DEF',1,1,0,35,0,0,0,2,0,55,20,0,2,0,0,1],
+['Fabio Cannavaro','🇮🇹','DEF',2,0,0,14,0,0,0,2,0,20,10,0,0,0,0,0],
+['Steven Gerrard','🏴\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}','MED',30,121,0,0,0,0,0,21,5,212,10,0,3,1,0,0],
+['Frank Lampard','🏴\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}','MED',23,177,0,0,0,0,0,29,15,302,10,0,0,1,0,0],
+['David Beckham','🏴\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}','MED',17,62,13,2,0,0,0,17,20,144,0,3,3,0,0,0],
+['Paul Scholes','🏴\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}','MED',25,107,0,0,0,0,0,14,0,169,10,0,1,0,0,0],
+['Ryan Giggs','🏴\u{E0067}\u{E0062}\u{E0077}\u{E006C}\u{E0073}\u{E007F}','MED',30,113,0,0,0,0,0,12,0,180,5,0,0,0,0,0],
+['Gareth Bale','🏴\u{E0067}\u{E0062}\u{E0077}\u{E006C}\u{E0073}\u{E007F}','MED',20,53,81,0,0,0,0,41,3,225,15,0,1,3,0,0],
+['Ian Rush','🏴\u{E0067}\u{E0062}\u{E0077}\u{E006C}\u{E0073}\u{E007F}','DEL',14,232,0,7,0,0,0,28,0,387,20,0,0,0,0,0],
+['Kenny Dalglish','🏴\u{E0067}\u{E0062}\u{E0073}\u{E0063}\u{E0074}\u{E007F}','DEL',15,118,0,0,0,0,0,30,0,375,10,0,2,1,0,0],
+['Ole Gunnar Solskjær','🇳🇴','DEL',20,91,0,0,0,0,0,23,0,184,10,0,0,1,0,0],
+['Robbie Keane','🇮🇪','DEL',2,126,0,0,0,0,0,68,104,394,15,0,3,0,0,0],
+['Wesley Sneijder','🇳🇱','MED',15,0,11,13,0,0,43,31,0,185,3,0,6,0,0,0],
+['Arjen Robben','🇳🇱','MED',32,15,11,0,99,0,25,37,0,246,5,0,6,1,0,0],
+['Robin van Persie','🇳🇱','DEL',27,144,0,0,0,0,35,50,0,324,20,0,6,0,0,0],
+['Ruud van Nistelrooy','🇳🇱','DEL',60,95,50,0,12,0,75,35,0,383,25,0,1,0,0,0],
+['Patrick Kluivert','🇳🇱','DEL',30,6,91,6,0,4,42,40,0,246,20,0,2,1,0,0],
+['Virgil van Dijk','🇳🇱','DEF',7,31,0,0,0,0,5,13,0,79,40,0,1,0,0,0],
+['Luís Figo','🇵🇹','MED',24,0,68,9,0,0,16,32,0,169,5,0,0,0,0,0],
+['Deco','🇵🇹','MED',17,5,11,0,0,0,34,5,7,88,2,0,1,1,0,0],
+['Pauleta','🇵🇹','DEL',1,0,33,0,0,141,0,47,0,294,25,0,4,0,0,0],
+['Bruno Fernandes','🇵🇹','MED',8,74,0,15,0,0,39,29,0,228,3,0,2,0,0,0],
+['Bernardo Silva','🇵🇹','MED',18,45,0,0,0,24,0,14,0,125,2,0,0,0,0,0],
+['Diogo Jota','🇵🇹','DEL',6,63,0,0,0,0,22,14,0,150,15,0,0,0,0,0],
+['Franck Ribéry','🇫🇷','MED',18,0,0,5,86,13,0,16,0,177,5,0,1,0,0,0],
+['Nicolas Anelka','🇫🇷','DEL',20,125,2,0,0,11,0,14,0,223,10,0,0,0,0,0],
+['David Trezeguet','🇫🇷','DEL',32,0,12,123,0,52,0,34,26,307,40,0,1,0,0,0],
+['Patrick Vieira','🇫🇷','MED',3,31,0,11,0,2,0,6,0,62,10,0,2,0,0,0],
+['Emmanuel Petit','🇫🇷','MED',0,11,1,0,0,4,0,6,0,26,3,0,2,0,0,1],
+['Paul Pogba','🇫🇷','MED',4,29,0,28,0,0,0,11,0,87,10,0,2,0,0,1],
+['Andriy Shevchenko','🇺🇦','DEL',59,9,0,127,0,0,0,48,0,390,30,0,2,0,0,0],
+['Hristo Stoichkov','🇧🇬','DEL',18,0,83,5,0,0,0,37,27,335,5,0,6,0,0,0],
+['Davor Šuker','🇭🇷','DEL',7,10,114,0,5,0,0,46,0,286,20,2,6,0,0,0],
+['Mario Mandžukić','🇭🇷','DEL',28,0,12,31,53,0,0,33,0,235,50,0,5,2,0,1],
+['Ivan Perišić','🇭🇷','MED',9,1,0,49,31,0,18,39,0,208,15,0,7,0,0,1],
+['Gheorghe Hagi','🇷🇴','MED',19,0,23,5,0,0,0,35,0,316,5,0,3,0,0,0],
+['Edin Džeko','🇧🇦','DEL',33,50,0,107,66,0,0,73,0,452,60,0,1,0,0,0],
+['Ali Daei','🇮🇷','DEL',4,0,0,0,19,0,0,108,0,242,30,0,0,0,0,0],
+['Son Heung-min','🇰🇷','DEL',21,127,0,0,41,0,0,56,20,314,10,1,3,0,0,0],
+['Pierre-Emerick Aubameyang','🇬🇦','DEL',22,69,16,0,98,68,0,40,0,430,20,0,0,0,0,0],
+['Claudio Caniggia','🇦🇷','DEL',5,0,0,33,0,0,8,15,30,140,5,0,4,0,0,0],
+['Jorge Valdano','🇦🇷','DEL',1,0,86,0,0,0,0,7,14,170,10,0,4,0,0,1],
+['Diego Milito','🇦🇷','DEL',9,0,51,86,0,0,0,4,59,257,20,0,0,2,0,0],
+['Diego Simeone','🇦🇷','MED',7,0,35,30,0,0,0,10,17,111,20,0,0,0,0,0],
+['Dani Alves','🇧🇷','DEF',12,0,26,2,0,2,0,8,13,73,3,0,0,0,0,0],
+['James Rodríguez','🇨🇴','MED',5,6,29,0,14,9,25,31,17,158,3,0,6,0,0,0],
+['Carlos Valderrama','🇨🇴','MED',0,0,1,0,0,4,0,11,57,74,2,0,1,0,0,0],
+['Luis Díaz','🇨🇴','DEL',18,29,0,0,16,0,26,23,23,155,5,0,1,0,0,0],
+['Cuauhtémoc Blanco','🇲🇽','MED',0,0,3,0,0,0,0,39,219,261,5,0,3,0,0,0],
+['Christian Pulisic','🇺🇸','DEL',12,20,0,32,13,0,0,33,0,121,5,1,1,0,0,0],
+['Jimmy Greaves','🏴\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}','DEL',0,360,0,13,0,0,0,44,0,513,20,0,1,0,0,0],
+['David Silva','🇪🇸','MED',13,60,31,0,0,0,0,35,0,159,5,0,0,0,0,0],
+['Cesc Fàbregas','🇪🇸','MED',24,50,28,0,0,3,0,15,0,140,5,0,0,0,0,0],
+['Bastian Schweinsteiger','🇩🇪','MED',13,1,0,0,45,0,0,24,8,106,10,0,2,0,0,0],
+['Mesut Özil','🇩🇪','MED',11,33,19,0,13,0,0,23,0,120,2,0,2,0,0,0],
+['Mario Gómez','🇩🇪','DEL',27,0,0,7,170,0,0,31,0,336,60,0,0,0,0,0],
+['Marco Reus','🇩🇪','MED',24,0,0,0,156,0,0,15,17,251,5,0,1,0,0,0],
+['Luca Toni','🇮🇹','DEL',3,0,0,157,38,0,0,16,0,317,60,0,2,0,0,0],
+['Enzo Fernández','🇦🇷','MED',5,20,0,0,0,0,1,8,13,58,1,0,3,0,0,0],
+['Marcelo','🇧🇷','DEF',9,0,26,0,0,0,0,6,11,58,3,0,0,1,0,0],
+['Thiago Silva','🇧🇷','DEF',4,8,0,5,0,9,0,7,23,62,25,0,1,0,0,0],
+['Casemiro','🇧🇷','MED',9,15,24,0,0,0,3,10,15,87,20,0,2,1,0,0],
+['Philippe Coutinho','🇧🇷','MED',12,47,21,3,8,0,0,21,22,157,2,0,2,0,0,0],
+['Federico Valverde','🇺🇾','MED',7,0,25,0,0,0,0,9,0,54,3,0,0,0,0,0],
+['Rafa Márquez','🇲🇽','DEF',1,0,9,0,0,5,0,17,8,43,25,0,3,0,0,0],
+['Landon Donovan','🇺🇸','MED',0,2,0,0,0,0,0,57,178,246,10,0,5,0,0,0],
+['Christian Eriksen','🇩🇰','MED',7,55,0,4,3,0,25,46,0,172,3,0,1,0,0,0]
+];
+const POS_EX={'Sergio Ramos':'DEF','Andrés Iniesta':'MED','Luka Modrić':'MED','David Beckham':'MED','Frank Lampard':'MED','Steven Gerrard':'MED','Juan Román Riquelme':'MED','Zinedine Zidane':'MED','Michel Platini':'MED','Kaká':'MED','Gheorghe Hagi':'MED','Jude Bellingham':'MED','James Rodríguez':'MED','Ángel Di María':'MED','Ronaldinho':'MED','Diego Maradona':'MED','Zico':'MED','Rivaldo':'MED','Eden Hazard':'MED','Bobby Charlton':'MED','Gareth Bale':'MED','Sadio Mané':'DEL'};
+
+
+const PLAYERS=RAW.map(r=>{
+  const hasPos=typeof r[2]==='string';
+  const pos=hasPos?r[2]:(POS_EX[r[0]]||'DEL');
+  const vals=r.slice(hasPos?3:2);
+  return {name:r[0],flag:r[1],pos,base:vals,v:vals.slice()};
+});
+const POS_NAME={DEF:'Defensa',MED:'Centrocampista',DEL:'Delantero'};
+
+const $=id=>document.getElementById(id);
+const fmt=n=>Math.round(n).toLocaleString('es-ES');
+const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const wait=ms=>new Promise(r=>setTimeout(r,reduceMotion?0:ms));
+function target(){return 15000;}
+
+function countTo(el,to,dur){
+  dur=dur||600;
+  const from=Number(el.dataset.v||0);
+  if(reduceMotion||from===to){el.textContent=fmt(to);el.dataset.v=to;return Promise.resolve();}
+  const t0=performance.now();
+  return new Promise(res=>{
+    function step(t){
+      const p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,3);
+      el.textContent=fmt(from+(to-from)*e);
+      if(p<1)requestAnimationFrame(step);else{el.textContent=fmt(to);el.dataset.v=to;res();}
+    }
+    requestAnimationFrame(step);
+  });
+}
+
+// ---- almacenamiento ----
+const KEY='reto15k-v2';
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return {};}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(store));}catch(e){}}
+const store=load();
+store.games=store.games||0;store.wins=store.wins||0;store.best=store.best||0;
+store.scores=store.scores||[];store.daily=store.daily||{};store.ach=store.ach||{};store.xp=store.xp||0;
+if(store.sound===undefined)store.sound=true;
+
+// ---- medallas, niveles y logros ----
+const RANKS=[
+ {t:0,ico:'🪑',name:'Banquillo',rar:'Común'},
+ {t:2000,ico:'👟',name:'Cantera',rar:'Común'},
+ {t:3500,ico:'⚽',name:'Suplente',rar:'Común'},
+ {t:5000,ico:'🥉',name:'Bronce',rar:'Común'},
+ {t:6000,ico:'⭐',name:'Titular',rar:'Poco común'},
+ {t:7000,ico:'🥈',name:'Plata',rar:'Poco común'},
+ {t:8500,ico:'🎖️',name:'Pichichi',rar:'Rara'},
+ {t:10500,ico:'🥇',name:'Oro',rar:'Épica'},
+ {t:12000,ico:'🏅',name:'Bota de Oro',rar:'Épica'},
+ {t:13000,ico:'🏆',name:'Champions',rar:'Legendaria'},
+ {t:15000,ico:'👑',name:'Leyenda',rar:'Legendaria'},
+ {t:17500,ico:'🌍',name:'Balón de Oro',rar:'Mítica'},
+ {t:20000,ico:'🐐',name:'GOAT',rar:'Mítica'}
+];
+const REWARDS={
+ 'Cantera':{txt:'Carta de bronce desbloqueada',css:'r-bronze'},
+ 'Suplente':{txt:'Marco de carta plateado',css:'r-silver'},
+ 'Bronce':{txt:'Insignia 🥉 junto a tu nombre en el ranking',css:'r-bronze'},
+ 'Titular':{txt:'Balón dorado en la portada',css:'r-gold'},
+ 'Plata':{txt:'Césped nocturno desbloqueado',css:'r-night'},
+ 'Pichichi':{txt:'Marco de carta dorado',css:'r-gold'},
+ 'Oro':{txt:'Confeti dorado al terminar la partida',css:'r-gold'},
+ 'Bota de Oro':{txt:'Insignia 🏅 y color épico en tu nombre',css:'r-epic'},
+ 'Champions':{txt:'Fondo de estadio con focos',css:'r-ucl'},
+ 'Leyenda':{txt:'Carta legendaria y corona 👑 en el ranking',css:'r-legend'},
+ 'Balón de Oro':{txt:'Marco mítico y efecto de brillo',css:'r-myth'},
+ 'GOAT':{txt:'Todo desbloqueado · eres el 0,0001%',css:'r-goat'}
+};
+const PCT={0:'100%',2000:'99%',3500:'91%',5000:'61%',6000:'38%',7000:'21%',8500:'6%',10500:'0,7%',12000:'0,06%',13000:'0,02%',15000:'0,002%',17500:'0,0005%',20000:'0,0001%'};
+function rankIdx(best){let i=0;for(let k=0;k<RANKS.length;k++)if(best>=RANKS[k].t)i=k;return i;}
+const MEDALS=RANKS.slice().reverse().map(r=>({t:r.t,ico:r.ico,name:r.name,rar:r.rar,pct:PCT[r.t],sub:''}));
+const medalOf=t=>MEDALS.find(m=>t>=m.t);
+const RARCOL={'Mítica':'#ff6b5c','Legendaria':'#f3c545','Épica':'#c084fc','Rara':'#63e0a1','Poco común':'#7dd3fc','Común':'rgba(245,248,243,.6)'};
+const LEVELS=[0,3000,9000,20000,40000,70000,110000,170000,250000];
+const LVNAME=['Cantera','Suplente','Titular','Capitán','Internacional','Crack','Estrella','Balón de Oro','Leyenda'];
+function levelOf(xp){let i=0;while(i+1<LEVELS.length&&xp>=LEVELS[i+1])i++;return i;}
+const has=(r,i)=>r.slots[i]&&r.slots[i].pts>0;
+const ACH=[
+ // primeros pasos
+ {id:'first',name:'Debut',desc:'Juega tu primera partida',test:()=>true},
+ {id:'p5',name:'Cinco partidas',desc:'Juega 5 partidas',test:()=>store.games>=5},
+ {id:'p25',name:'Veinticinco partidas',desc:'Juega 25 partidas',test:()=>store.games>=25},
+ {id:'p100',name:'Centenario',desc:'Juega 100 partidas',test:()=>store.games>=100},
+ // puntuación
+ {id:'b5',name:'Bronce',desc:'Pasa de 5.000 puntos',test:r=>r.t>=5000},
+ {id:'b7',name:'Plata',desc:'Pasa de 7.000 puntos',test:r=>r.t>=7000},
+ {id:'b10',name:'Oro',desc:'Pasa de 10.500 puntos',test:r=>r.t>=10500},
+ {id:'b12',name:'Doce mil',desc:'Pasa de 12.000 puntos',test:r=>r.t>=12000},
+ {id:'b15',name:'¡Reto superado!',desc:'Llega a 15.000 puntos',test:r=>r.t>=15000},
+ {id:'b20',name:'GOAT',desc:'Llega a 20.000 puntos',test:r=>r.t>=20000},
+ {id:'total100',name:'Cien mil',desc:'Suma 100.000 puntos en total',test:()=>store.xp>=100000},
+ // jugadas
+ {id:'big2',name:'Jugadón',desc:'Haz 2.000 puntos en una sola casilla',test:r=>r.slots.some(x=>x.pts>=2000)},
+ {id:'big4',name:'Bombazo',desc:'Haz 4.000 puntos en una sola casilla',test:r=>r.slots.some(x=>x.pts>=4000)},
+ {id:'final',name:'Final del Mundial',desc:'Puntúa en la casilla de la final del Mundial',test:r=>has(r,16)},
+ {id:'lib',name:'Noche de Libertadores',desc:'Puntúa en la final de Libertadores',test:r=>has(r,15)},
+ {id:'ucl',name:'Noche mágica',desc:'Puntúa en la final de Champions',test:r=>has(r,14)},
+ {id:'olimp',name:'Gol olímpico',desc:'Puntúa en la casilla de goles olímpicos',test:r=>has(r,12)},
+ {id:'trio',name:'Triplete de finales',desc:'Puntúa en las tres finales a la vez',test:r=>has(r,14)&&has(r,15)&&has(r,16)},
+ {id:'cab',name:'De cabeza',desc:'Haz 500+ puntos con goles de cabeza',test:r=>r.slots[11]&&r.slots[11].pts>=500},
+ {id:'boost',name:'Aprovechar el ×5',desc:'Haz 500+ puntos en la liga con ×5',test:r=>r.slots.some((x,i)=>x.mult===5&&x.pts>=500)},
+ // estilo de juego
+ {id:'perfect',name:'Colocación perfecta',desc:'Saca el máximo posible con tus jugadores',test:r=>r.t>=r.best},
+ {id:'noskip',name:'Sin red',desc:'Termina sin usar ningún descarte',test:r=>r.skipsUsed===0},
+ {id:'skip2',name:'Criba',desc:'Usa los dos descartes en una partida',test:r=>r.skipsUsed===2},
+ {id:'zero',name:'A quemar',desc:'Coloca a un jugador que suma 0',test:r=>r.slots.some(x=>x.pts===0)},
+ {id:'zero3',name:'Partida maldita',desc:'Tres casillas a 0 en la misma partida',test:r=>r.slots.filter(x=>x.pts===0).length>=3},
+ // constancia
+ {id:'daily1',name:'Primer diario',desc:'Juega un reto diario',test:r=>r.daily},
+ {id:'daily7',name:'Una semana',desc:'Juega 7 retos diarios',test:()=>Object.keys(store.daily).length>=7},
+ {id:'daily30',name:'Un mes entero',desc:'Juega 30 retos diarios',test:()=>Object.keys(store.daily).length>=30},
+ {id:'streak3',name:'En racha',desc:'3 partidas seguidas de 8.000+',test:()=>store.scores.slice(-3).length===3&&store.scores.slice(-3).every(s=>s.t>=8000)},
+ {id:'streak5',name:'Imparable',desc:'5 partidas seguidas de 8.000+',test:()=>store.scores.slice(-5).length===5&&store.scores.slice(-5).every(s=>s.t>=8000)},
+ {id:'meds6',name:'Vitrina',desc:'Consigue 6 medallas distintas',test:()=>Object.keys(store.meds||{}).length>=6},
+ // ocultos
+ {id:'x_clasico',name:'El Clásico',desc:'Coloca a Messi y a Cristiano en la misma partida',hidden:true,
+  test:r=>r.slots.some(x=>x.p.name==='Lionel Messi')&&r.slots.some(x=>x.p.name==='Cristiano Ronaldo')},
+ {id:'x_capicua',name:'Capicúa',desc:'Termina con una puntuación capicúa de 4 cifras o más',hidden:true,
+  test:r=>{const s=String(Math.round(r.t));return s.length>=4&&s===s.split('').reverse().join('');}},
+ {id:'x_banquillo',name:'Plantilla de bajas',desc:'Descarta a dos jugadores y aun así pasa de 9.000',hidden:true,
+  test:r=>r.skipsUsed===2&&r.t>=9000},
+ {id:'x_paseo',name:'Paseo militar',desc:'Que ninguna de las 17 casillas se quede a 0',hidden:true,
+  test:r=>r.slots.every(x=>x.pts>0)},
+ {id:'x_remontada',name:'Remontada',desc:'Supera tu récord por más de 2.000 puntos de golpe',hidden:true,
+  test:r=>store.best>0&&r.t>=store.best+2000}
+];
+
+// ---- sonido ----
+let actx=null;
+function beep(type){
+  if(!store.sound)return;
+  try{
+    actx=actx||new (window.AudioContext||window.webkitAudioContext)();
+    if(actx.state==='suspended')actx.resume();
+    const seq={place:[[440,0],[660,.07]],skip:[[300,0]],big:[[523,0],[659,.07],[784,.14]],win:[[523,0],[659,.1],[784,.2],[1046,.3]],lose:[[330,0],[247,.12]]}[type]||[[440,0]];
+    seq.forEach(([f,d])=>{
+      const o=actx.createOscillator(),g=actx.createGain(),t0=actx.currentTime+d;
+      o.type='triangle';o.frequency.setValueAtTime(f,t0);
+      g.gain.setValueAtTime(.0001,t0);g.gain.exponentialRampToValueAtTime(.18,t0+.012);
+      g.gain.exponentialRampToValueAtTime(.0001,t0+.22);
+      o.connect(g);g.connect(actx.destination);o.start(t0);o.stop(t0+.25);
+    });
+  }catch(e){}
+}
+$('btnSound').textContent=store.sound?'🔊':'🔇';
+$('btnSound').addEventListener('click',()=>{store.sound=!store.sound;save();$('btnSound').textContent=store.sound?'🔊':'🔇';if(store.sound)beep('place');});
+
+// ---- azar con semilla (reto diario) ----
+function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function todayKey(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function seedFrom(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
+let mode='libre';
+
+
+// ---- mazo ----
+function shuffle(a,rnd){rnd=rnd||Math.random;for(let i=a.length-1;i>0;i--){const j=Math.floor(rnd()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+let deck=[];
+function drawMany(n,rnd){
+  if(rnd){const idx=shuffle(PLAYERS.map((_,i)=>i),rnd).slice(0,n);return idx.map(i=>PLAYERS[i]);}
+  const out=[];
+  while(out.length<n){
+    if(!deck.length)deck=shuffle(PLAYERS.map((_,i)=>i));
+    const i=deck.pop();
+    if(!out.includes(i))out.push(i);
+  }
+  return out.map(i=>PLAYERS[i]);
+}
+function tierOf(p){const c=Number(p.v[9])||0;return c>=350?'t-gold':(c>=120?'t-silver':'t-bronze');}
+
+// ---- tablero ----
+const board=$('board');
+const slotEls=SLOTS.map((s,i)=>{
+  const li=document.createElement('li');
+  const b=document.createElement('button');b.type='button';b.className='slot';b.dataset.i=i;b.disabled=true;
+  b.innerHTML='<span class="ico" aria-hidden="true">'+s.ico+'</span><span class="lab">'+s.label+'<span class="mul">×'+s.mult+'</span></span><span class="who">Libre</span><span class="pts" data-v="0"></span>';
+  li.appendChild(b);board.appendChild(li);
+  return b;
+});
+
+let game=null,busy=false;
+const LEAGUE_SLOTS=[1,2,3,4,5,6];
+function multOf(i){return (game&&i===game.boost)?5:SLOTS[i].mult;}
+function paintMults(){slotEls.forEach((b,i)=>{b.querySelector('.mul').textContent='×'+multOf(i);b.classList.toggle('boost',!!game&&i===game.boost);});}
+
+function resetBoard(){
+  slotEls.forEach(b=>{b.className='slot';b.disabled=true;b.querySelector('.who').textContent='Libre';const p=b.querySelector('.pts');p.textContent='';p.dataset.v=0;p.className='pts';});
+  $('total').textContent='0';$('total').dataset.v=0;$('total').classList.remove('gold');
+  $('dockTotal').hidden=true;$('progress').hidden=true;
+  $('medal').hidden=true;$('unlocked').hidden=true;
+  setProgress(0);
+  $('result').hidden=true;$('duelRes').hidden=true;$('duelRes').innerHTML='';
+}
+function setProgress(t){
+  const goal=target(),pct=Math.min(100,100*t/goal);
+  const pr=$('progress');pr.querySelector('i').style.width=pct+'%';pr.classList.toggle('over',t>=goal);
+  $('pctLabel').textContent=t>=goal?'Objetivo superado':fmt(goal-t)+' para el objetivo';
+  $('total').classList.toggle('gold',t>=goal);
+}
+
+const SKIPS=2;
+let dailyOk=false;
+function newGame(){
+  const daily=mode==='diario';
+  if(daily&&(store.daily[todayKey()]||(store.dailyStart||{})[todayKey()])){showDailyDone();return;}
+  if(daily&&!dailyOk){
+    duelModal({ico:'📅',tit:'Reto diario',txt:'Tienes <b>un solo intento</b> al día. Si sales a medias o cierras la página, cuenta como jugado y no podrás volver a entrar hasta mañana.',
+      buttons:[{label:'Empezar',fn:()=>{closeDuelModal();dailyOk=true;newGame();dailyOk=false;}},{label:'Ahora no',ghost:true,fn:()=>{closeDuelModal();goHome();}}]});
+    return;
+  }
+  const dk=(duel&&(mode==='online'||mode==='enlace'))?duel.kind:null;
+  const seedStr=daily?todayKey():(dk?('duelo:'+duel.seed):null);
+  const rnd=seedStr?mulberry(seedFrom(seedStr)):null;
+  const q=drawMany(N+SKIPS,rnd);
+  if(daily){store.dailyStart={};store.dailyStart[todayKey()]=1;save();}
+  game={q,i:0,slots:new Array(N).fill(null),total:0,skips:SKIPS,skipsUsed:0,daily,duelKind:dk,
+        boost:LEAGUE_SLOTS[Math.floor((rnd?rnd():Math.random())*LEAGUE_SLOTS.length)]};
+  resetBoard();paintMults();paintSkips();
+  document.body.classList.add('playing');window.scrollTo(0,0);
+  intro(daily);
+  $('dailyBar').hidden=!daily&&!dk;
+  if(daily)$('dailyBar').textContent='Reto diario del '+todayKey().split('-').reverse().join('/')+' · mismos 17 jugadores para todo el mundo, una sola partida';
+  if(dk)$('dailyBar').textContent=duelBarText();
+  $('duelBar').hidden=dk!=='online';
+  if(dk==='online')paintRival(0);
+  $('skips').hidden=false;
+  showCard();
+}
+function paintSkips(){
+  $('btnSkip').disabled=!game||game.skips<=0;
+  $('skipDots').textContent=game?('Descartes: '+'●'.repeat(game.skips)+'○'.repeat(SKIPS-game.skips)):'';
+}
+function showDailyDone(){
+  const d=store.daily[todayKey()];
+  game=null;document.body.classList.remove('playing');document.body.classList.add('done');
+  $('skips').hidden=true;$('dailyBar').hidden=false;
+  $('dailyBar').textContent=d?('Ya has jugado el reto diario de hoy: '+fmt(d.t)+' puntos. Vuelve mañana.'):'Empezaste el reto diario de hoy y lo dejaste a medias: cuenta como jugado. Vuelve mañana.';
+  $('step').textContent='Reto diario completado';$('cta').textContent='Cambia a partida libre para seguir jugando.';
+  $('flip').classList.remove('flipped');
+  slotEls.forEach(b=>{b.disabled=true;b.classList.remove('open');});
+}
+function skipPlayer(){
+  if(!game||busy||game.skips<=0||game.i>=game.q.length-1)return;
+  beep('skip');
+  game.skips--;game.skipsUsed++;
+  game.q.splice(game.i,1);
+  paintSkips();
+  $('flip').classList.remove('flipped');
+  setTimeout(showCard,320);
+}
+$('btnSkip').addEventListener('click',skipPlayer);
+
+function intro(daily){
+  const el=$('intro');
+  $('introTit').textContent=game.duelKind==='online'?'DUELO ONLINE':(game.duelKind==='enlace'?'RETO A UN AMIGO':(daily?'RETO DIARIO':'PARTIDA LIBRE'));
+  $('introSub').textContent='Liga ×5 de hoy: '+SLOTS[game.boost].label;
+  el.hidden=false;el.classList.remove('go');
+  void el.offsetWidth;el.classList.add('go');
+  beep('big');
+  setTimeout(()=>{el.hidden=true;},reduceMotion?10:1500);
+}
+async function showCard(){
+  const p=game.q[game.i];
+  if(!p)return finish();
+  $('cFlag').textContent=p.flag;$('cName').textContent=p.name;$('cPos').textContent=POS_NAME[p.pos]||'';
+  $('cardBack').className='face back '+tierOf(p);
+  $('step').textContent='Jugador '+(game.i+1)+' de '+N;
+  $('cta').innerHTML=(game.i===0?'Esta partida <b>'+SLOTS[game.boost].label+'</b> vale ×5. ':'')+'¿Dónde colocas a <b>'+p.name+'</b>?';
+  $('flip').classList.add('flipped');
+  startPickTimer();
+  await wait(200);
+  slotEls.forEach((b,i)=>{if(!game.slots[i]){b.disabled=false;b.classList.add('open');}});
+}
+
+async function place(i){
+  if(!game||busy||game.slots[i])return;
+  busy=true;clearPickTimer();
+  slotEls.forEach(b2=>{b2.disabled=true;b2.classList.remove('open');});
+  const p=game.q[game.i],s=SLOTS[i];
+  const mult=multOf(i),goals=Number(p.v[s.src])||0,pts=goals*mult;
+  game.slots[i]={p,goals,pts,mult};game.total+=pts;
+  const b=slotEls[i],ptsEl=b.querySelector('.pts');
+  b.classList.add('filled','flash');
+  beep(pts>=1500?'big':'place');
+  b.querySelector('.who').textContent=p.flag+' '+p.name;
+  ptsEl.textContent='';ptsEl.className='pts';
+  $('cta').innerHTML='<b>'+p.name+'</b> → '+(s.ico?s.ico+' ':'')+s.label+'.';
+  $('flip').classList.remove('flipped');
+  await wait(260);
+  b.classList.remove('flash');
+  game.i++;
+  paintSkips();
+  duelProgress();
+  if(game.slots.filter(Boolean).length<N){await showCard();}
+  else finish();
+  busy=false;
+}
+
+function optimalTotal(){
+  const pts=game.q.map(p=>SLOTS.map((s,i)=>(Number(p.v[s.src])||0)*multOf(i)));
+  const full=(1<<N)-1,dp=new Float64Array(1<<N).fill(-1),pc=new Uint8Array(1<<N);
+  for(let m=1;m<=full;m++)pc[m]=pc[m>>1]+(m&1);
+  dp[0]=0;
+  for(let m=0;m<full;m++){
+    if(dp[m]<0)continue;
+    const i=pc[m],row=pts[i],base=dp[m];
+    for(let s=0;s<N;s++){
+      if(m&(1<<s))continue;
+      const nm=m|(1<<s),v=base+row[s];
+      if(v>dp[nm])dp[nm]=v;
+    }
+  }
+  return dp[full];
+}
+
+let lastResult=null;
+async function finish(){
+  const t=game.total,goal=target(),best=optimalTotal();
+  clearPickTimer();$('duelBar').hidden=true;
+  if(game.duelKind)duelSubmit(t);
+  document.body.classList.remove('playing');document.body.classList.add('done');
+  $('skips').hidden=true;
+  $('step').textContent='Recuento';$('cta').textContent='Vamos a ver cuánto has sumado…';
+  $('dockTotal').hidden=false;$('progress').hidden=false;
+  $('p-play').scrollIntoView({behavior:reduceMotion?'auto':'smooth',block:'start'});
+  await wait(600);
+  let run=0;
+  for(let i=0;i<N;i++){
+    const x=game.slots[i],b=slotEls[i],pe=b.querySelector('.pts');
+    b.classList.add('flash');
+    b.querySelector('.who').textContent=x.p.flag+' '+x.p.name+'  ·  '+fmt(x.goals)+' × '+x.mult;
+    pe.dataset.v=0;pe.textContent='0';pe.classList.toggle('zero',x.pts===0);pe.classList.toggle('big',x.pts>=1000);
+    run+=x.pts;
+    await Promise.all([countTo(pe,x.pts,x.pts===0?150:480),countTo($('total'),run,x.pts===0?150:480)]);
+    setProgress(run);
+    await wait(x.pts===0?120:260);
+    b.classList.remove('flash');
+  }
+  $('step').textContent='Partida terminada';$('cta').textContent='Este ha sido tu resultado.';
+  $('rNum').dataset.v=0;$('rNum').textContent='0';
+  $('result').hidden=false;
+  countTo($('rNum'),t,1000);
+  const v=$('rVerdict'),pass=t>=goal;
+  v.textContent=pass?'¡Reto superado!':'No llegas: te faltan '+fmt(goal-t);
+  v.className='verdict '+(pass?'pass':'fail');
+  $('rOpt').textContent=best>t?'La mejor colocación posible de estos 17 daba '+fmt(best)+' puntos'+(best>=goal&&!pass?', suficientes para el reto.':'.'):'Colocación perfecta: no se podía sacar más con estos 17.';
+  const sum=$('summary');sum.innerHTML='';
+  game.slots.map((x,i)=>({x,i})).sort((a,b)=>b.x.pts-a.x.pts).forEach(({x,i},k)=>{
+    const li=document.createElement('li');if(k<3&&x.pts>0)li.className='top';
+    li.innerHTML='<span>'+(SLOTS[i].ico?SLOTS[i].ico+' ':'')+'<b>'+x.p.name+'</b> en '+SLOTS[i].label+' ×'+x.mult+'</span><span class="p">'+fmt(x.pts)+'</span>';
+    sum.appendChild(li);
+  });
+  const prevBest=store.best||0,prevIdx=rankIdx(prevBest);
+  const shouldSubmit=game.daily||t>(store.sbBest||0);
+  const newBest=Math.max(prevBest,t),idx=rankIdx(newBest),cur=RANKS[idx],next=RANKS[idx+1];
+  const up=idx>prevIdx;
+  const med=Object.assign({},cur,{pct:PCT[cur.t]});
+  $('mTag').textContent=up?'¡HAS SUBIDO DE RANGO!':'TU RANGO';
+  $('mTag').classList.toggle('up',up);
+  $('mIco').textContent=cur.ico;$('mName').textContent=cur.name;
+  $('mPct').innerHTML='<b>'+cur.rar.toUpperCase()+'</b> · '+PCT[cur.t]+' de los jugadores llega aquí';
+  $('mPct').style.color=RARCOL[cur.rar];$('mPct').style.borderColor=RARCOL[cur.rar];
+  $('rankFill').style.width=(next?Math.max(3,Math.min(100,100*(newBest-cur.t)/(next.t-cur.t))):100)+'%';
+  $('mSub').textContent=next?('Siguiente: '+next.ico+' '+next.name+' · te faltan '+fmt(next.t-newBest)+' puntos en una partida'):'Rango máximo alcanzado';
+  $('mRew').innerHTML='';
+  $('medal').hidden=false;$('medal').classList.remove('pop');void $('medal').offsetWidth;$('medal').classList.add('pop');
+  if(up)setTimeout(()=>showRankUp(cur),400);
+  lastResult={t,goal,pass,best,med,slots:game.slots.map((x,i)=>({p:x.p,pts:x.pts,mult:x.mult,goals:x.goals,i})),skipsUsed:game.skipsUsed,daily:game.daily,date:todayKey()};
+  store.games++;if(pass)store.wins++;if(t>store.best)store.best=t;
+  store.scores.push({t,d:todayKey(),med:med.name,daily:game.daily});
+  if(store.scores.length>200)store.scores=store.scores.slice(-200);
+  if(game.daily)store.daily[todayKey()]={t,med:med.name};
+  const before=store.xp;store.xp+=t;
+  const lv=levelOf(store.xp),nextLv=LEVELS[lv+1];
+  $('lvlFill').style.width=(nextLv?Math.min(100,100*(store.xp-LEVELS[lv])/(nextLv-LEVELS[lv])):100)+'%';
+  $('lvlText').textContent='Nivel '+(lv+1)+' · '+LVNAME[lv]+(nextLv?' · '+fmt(nextLv-store.xp)+' XP para el siguiente nivel':' · máximo');
+  const got=[];
+  ACH.forEach(a=>{try{if(!store.ach[a.id]&&a.test(lastResult)){store.ach[a.id]=todayKey();got.push(a);}}catch(e){}});
+  const ul=$('unlocked');ul.innerHTML='';
+  if(got.length){
+    got.forEach((g,k)=>{
+      const li=document.createElement('li');li.textContent=(g.hidden?'❓ Logro oculto: ':'🏅 Logro: ')+g.name;ul.appendChild(li);
+      setTimeout(()=>{toast('<b>Logro desbloqueado</b> · '+g.name,g.hidden?'❓':'🏅');beep('place');},600+k*700);
+    });
+    ul.hidden=false;
+  }
+  save();
+  renderStats();renderRank();
+  if(shouldSubmit)setTimeout(()=>submitScore(t,game.daily),1400);
+  beep(pass?'win':(t>=7000?'big':'lose'));
+  if(pass&&!game.duelKind)confetti();
+  lastPrivate=!!(duel&&duel.private);
+  $('btnAgain').textContent=game.duelKind==='online'?(lastPrivate?'🔁 Jugar otra vez':'⚔️ Jugar otra vez'):(game.duelKind==='enlace'?'Crear otro reto':'Jugar otra vez');
+  if(game.duelKind)duelReveal();
+  (game.duelKind?$('duelRes'):$('result')).scrollIntoView({behavior:reduceMotion?'auto':'smooth',block:'start'});
+}
+// ---- ranking mundial (Supabase) ----
+const SB_URL='https://mvcvqzbosnwkhnlfvsuf.supabase.co';
+const SB_KEY='sb_publishable_2l-zuNvtSO2SoiPfPDaOow_V1yl8zp0';
+const SB_H={'apikey':SB_KEY,'Content-Type':'application/json'};
+async function sbGetVisible(q){
+  try{
+    const rows=await sbGet(q.replace('select=name,score,day','select=name,score,day,show_at'));
+    const now=Date.now();
+    return rows.filter(r=>!r.show_at||new Date(r.show_at).getTime()<=now);
+  }catch(e){
+    return sbGet(q);
+  }
+}
+async function sbGet(q){
+  const r=await fetch(SB_URL+'/rest/v1/scores?'+q,{headers:SB_H});
+  if(!r.ok)throw new Error('HTTP '+r.status);
+  return r.json();
+}
+async function sbPost(row){
+  const r=await fetch(SB_URL+'/rest/v1/scores',{method:'POST',headers:Object.assign({'Prefer':'return=minimal'},SB_H),body:JSON.stringify(row)});
+  if(!r.ok)throw new Error('HTTP '+r.status);
+}
+function escapeHtml(x){return String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function cleanName(x){return (x||'').replace(/\s+/g,' ').trim().slice(0,16);}
+async function sbRpc(fn,args){
+  const r=await fetch(SB_URL+'/rest/v1/rpc/'+fn,{method:'POST',headers:SB_H,body:JSON.stringify(args)});
+  if(!r.ok){const e=new Error('HTTP '+r.status);e.status=r.status;throw e;}
+}
+function newId(){
+  if(window.crypto&&crypto.randomUUID)return crypto.randomUUID();
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{const r=Math.random()*16|0;return (c==='x'?r:(r&3|8)).toString(16);});
+}
+const registered=()=>!!(store.pid&&store.name);
+let nameCb=null,nameBusy=false;
+function askName(cb){
+  nameCb=cb||null;
+  $('nameInput').value=store.name||'';$('nameErr').textContent='';
+  $('btnNameOk').disabled=false;$('btnNameOk').textContent='Guardar';
+  $('nameModal').hidden=false;setTimeout(()=>$('nameInput').focus(),50);
+}
+function closeName(){$('nameModal').hidden=true;const cb=nameCb;nameCb=null;return cb;}
+$('btnNameOk').addEventListener('click',async()=>{
+  if(nameBusy)return;
+  const n=cleanName($('nameInput').value);
+  if(n.length<2){$('nameErr').textContent='Mínimo 2 caracteres.';return;}
+  if(registered()&&n===store.name){closeName();return;}
+  nameBusy=true;$('btnNameOk').disabled=true;$('btnNameOk').textContent='Comprobando…';$('nameErr').textContent='';
+  const first=!registered();
+  try{
+    if(first){
+      const pid=newId();
+      await sbRpc('register_name',{pid,n});
+      store.pid=pid;
+    }else{
+      await sbRpc('rename_player',{pid:store.pid,n});
+    }
+    store.name=n;save();
+    const cb=closeName();
+    toast(first?'<b>Nombre registrado:</b> '+escapeHtml(n):'<b>Nombre cambiado:</b> '+escapeHtml(n),'🌍');
+    if(cb)cb();
+    else if(first&&(store.best||0)>0)submitScore(store.best,false);
+    renderRank();
+  }catch(e){
+    $('nameErr').textContent=e.status===409?'Ese nombre ya lo tiene otro jugador. Elige otro.':'No se ha podido guardar. Revisa la conexión.';
+  }finally{
+    nameBusy=false;$('btnNameOk').disabled=false;$('btnNameOk').textContent='Guardar';
+  }
+});
+$('nameInput').addEventListener('keydown',e=>{if(e.key==='Enter')$('btnNameOk').click();});
+$('btnNameSkip').addEventListener('click',()=>{closeName();});
+$('btnName').addEventListener('click',()=>askName(null));
+function submitScore(t,daily){
+  if(!registered()){askName(()=>submitScore(Math.max(t,daily?0:(store.best||0)),daily));return;}
+  const row={name:store.name,score:Math.round(t),daily:!!daily,day:todayKey(),player_id:store.pid};
+  sbPost(row).then(()=>{
+    if(!daily&&t>(store.sbBest||0)){store.sbBest=t;save();}
+    toast('<b>Puntuación subida</b> al ranking mundial','🌍');
+    renderRank();
+  }).catch(()=>toast('No se pudo subir la puntuación. Revisa la conexión.','⚠️'));
+}
+let rankTab='day';
+function renderRank(){
+  const ul=$('rankList');ul.innerHTML='';$('pass').hidden=true;$('rankFoot').hidden=true;
+  if(rankTab==='med'){
+    const best=store.best||0,idx=rankIdx(best),cur=RANKS[idx],nx=RANKS[idx+1];
+    $('pass').hidden=false;
+    $('phIco').textContent=cur.ico;$('phName').textContent=cur.name;
+    $('phSub').textContent=nx?('Mejor marca '+fmt(best)+' · te faltan '+fmt(nx.t-best)+' para '+nx.name):('Mejor marca '+fmt(best)+' · rango máximo');
+    const tr=$('track');tr.innerHTML='';
+    RANKS.forEach((m,i)=>{
+      const on=i<=idx,now=i===idx;
+      const d=document.createElement('div');d.className='node'+(on?' on':'')+(now?' now':'');
+      d.innerHTML=(now?'<span class="tagnow">AQUÍ</span>':'')+
+        '<span class="dot">'+(on?m.ico:'🔒')+'</span>'+
+        '<span class="nn">'+m.name+'</span>'+
+        '<span class="np">'+fmt(m.t)+' pts</span>'+
+        '<span class="nr" style="color:'+RARCOL[m.rar]+'">'+m.rar+'</span>';
+      tr.appendChild(d);
+    });
+    setTimeout(()=>{const n=tr.querySelector('.node.now');if(n)tr.scrollLeft=Math.max(0,n.offsetLeft-tr.clientWidth/2+52);},50);
+    const ah=document.createElement('li');ah.className='medhead';
+    ah.innerHTML='<span>Logros</span><span class="s"></span>';ul.appendChild(ah);
+    ACH.forEach(a=>{
+      const li=document.createElement('li');
+      const on=!!store.ach[a.id];
+      li.className=on?'done':'locked';
+      const nm=(!on&&a.hidden)?'Logro oculto':a.name;
+      const ds=(!on&&a.hidden)?'Descúbrelo jugando':a.desc;
+      li.innerHTML='<span>'+(on?'🏅 ':(a.hidden?'❓ ':'🔒 '))+nm+'<span class="d"> · '+ds+'</span></span><span class="s">'+(on?'✓':'')+'</span>';
+      ul.appendChild(li);
+    });
+    $('rankNote').textContent='Tu rango sube con tu mejor puntuación; una vez alcanzado no se pierde.';
+    const hid=ACH.filter(a=>a.hidden).length;
+    $('rankNote').textContent+=' Logros desbloqueados: '+Object.keys(store.ach).filter(k=>ACH.some(a=>a.id===k)).length+' de '+ACH.length+' ('+hid+' ocultos).';
+    return;
+  }
+  if(rankTab==='duel'){renderDuelTab(ul);return;}
+  $('rankFoot').hidden=false;
+  $('rfName').textContent=registered()?('Juegas como: '+store.name):'Aún no tienes nombre en el ranking';
+  $('btnName').textContent=registered()?'Cambiar nombre':'Elegir nombre';
+  const tab=rankTab;
+  $('rankNote').textContent='Cargando ranking mundial…';
+  const q=tab==='day'
+    ?'select=name,score,day&daily=eq.true&day=eq.'+todayKey()+'&order=score.desc&limit=1000'
+    :'select=name,score,day&order=score.desc&limit=2000';
+  (tab==='day'?ensureDaily():Promise.resolve()).then(()=>sbGetVisible(q)).then(rows=>{
+    if(rankTab!==tab)return;
+    ul.innerHTML='';
+    // una sola línea por persona: su mejor marca (récord)
+    const seen=new Set(),list=[];
+    rows.forEach(r=>{const k=r.name.trim().toLowerCase();if(!seen.has(k)){seen.add(k);list.push(r);}});
+    if(!list.length){
+      $('rankNote').textContent=tab==='day'?'Nadie ha jugado aún el reto de hoy. ¡Sé el primero!':'Todavía no hay puntuaciones. ¡Estrena el ranking!';
+      return;
+    }
+    const me=registered()?store.name.trim().toLowerCase():'';
+    const myPos=me?list.findIndex(r=>r.name.trim().toLowerCase()===me):-1;
+    const addRow=(r,pos)=>{
+      const li=document.createElement('li');
+      const isMe=me&&r.name.trim().toLowerCase()===me;
+      if(isMe)li.className='mine';
+      li.style.counterSet='r '+pos;
+      const rk=RANKS[rankIdx(r.score)];
+      li.innerHTML='<span>'+(isMe?'<b>'+escapeHtml(r.name)+'</b>':escapeHtml(r.name))+crown(r.name)+
+        '<span class="d"> · '+rk.ico+' '+rk.name+(tab==='all'?' · '+String(r.day).slice(0,10).split('-').reverse().join('/'):'')+'</span></span><span class="s">'+fmt(r.score)+'</span>';
+      ul.appendChild(li);
+    };
+    list.slice(0,20).forEach((r,i)=>addRow(r,i));
+    if(myPos>=20&&myPos<50){
+      const sp=document.createElement('li');sp.className='sep';sp.innerHTML='<span>⋯</span>';ul.appendChild(sp);
+      addRow(list[myPos],myPos);
+    }
+    $('rankNote').textContent=list.length+' jugador'+(list.length===1?'':'es')+(tab==='day'?' en el reto de hoy':' con récord')+
+      (myPos>=0?(myPos<50?' · vas '+(myPos+1)+'º':' · aún no estás en el top 50'):'')+(tab==='all'?'. Cada jugador aparece una vez, con su récord.':'.');
+  }).catch(()=>{
+    if(rankTab!==tab)return;
+    $('rankNote').textContent='No se ha podido cargar el ranking mundial. Revisa la conexión.';
+  });
+}
+[['rt-day','day'],['rt-all','all'],['rt-med','med'],['rt-duel','duel']].forEach(([id,k],_,all)=>{
+  $(id).addEventListener('click',()=>{rankTab=k;all.forEach(([i2])=>$(i2).setAttribute('aria-selected',i2===id));renderRank();});
+});
+renderRank();
+
+// ---- duelos: online competitivo y reto por enlace ----
+const PICK_SECS=20;
+const NOBODY='00000000-0000-0000-0000-000000000000';
+// Divisiones = ligas y competiciones del mundo, de peor a mejor. Todos empiezan con 1.000 (Saudi Pro League, a mitad de tabla).
+const DIVS=[
+ {t:0,   ico:'🇸🇲',name:'Liga de San Marino'},
+ {t:750, ico:'🇮🇳',name:'Indian Super League'},
+ {t:825, ico:'🇦🇺',name:'A-League'},
+ {t:900, ico:'🇺🇸',name:'MLS'},
+ {t:950, ico:'🇸🇦',name:'Saudi Pro League'},
+ {t:1050,ico:'🇦🇷',name:'Liga Argentina'},
+ {t:1100,ico:'🇳🇱',name:'Eredivisie'},
+ {t:1150,ico:'🇵🇹',name:'Liga Portugal'},
+ {t:1200,ico:'🇫🇷',name:'Ligue 1'},
+ {t:1250,ico:'🇩🇪',name:'Bundesliga'},
+ {t:1300,ico:'🇮🇹',name:'Serie A'},
+ {t:1350,ico:'🇪🇸',name:'LaLiga'},
+ {t:1400,ico:'🏴\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}',name:'Premier League'},
+ {t:1450,ico:'🟢',name:'Conference League'},
+ {t:1500,ico:'🟠',name:'Europa League'},
+ {t:1550,ico:'🌎',name:'Copa Libertadores'},
+ {t:1600,ico:'🏆',name:'Champions League'}
+];
+// El Mundial no va por puntos: son los 50 mejores del mundo que estén a nivel Champions (1.600+).
+const MUNDIAL={t:1600,ico:'🌍',name:'Mundial',top:50};
+function divOf(e,pos){
+  if(pos&&pos<=MUNDIAL.top&&e>=MUNDIAL.t)return MUNDIAL;
+  return DIVS.slice().reverse().find(d=>e>=d.t)||DIVS[0];
+}
+function divMove(elo,pos){
+  // Ascenso/descenso respecto a la última división que vio este jugador
+  const cur=divOf(elo,pos),prev=store.lastDiv;
+  store.lastDiv=cur.name;save();
+  if(!prev||prev===cur.name)return '';
+  const all=DIVS.concat([MUNDIAL]),a=all.findIndex(d=>d.name===prev),b=all.indexOf(cur);
+  if(a<0)return '';
+  return b>a?'<span class="up">⬆️ ¡Ascenso a '+cur.name+'!</span>':'<span class="down">⬇️ Desciendes a '+cur.name+'</span>';
+}
+let duel=null,pickTimer=null,searchClock=null,lastPrivate=false;
+
+async function sbCall(fn,args){
+  const r=await fetch(SB_URL+'/rest/v1/rpc/'+fn,{method:'POST',headers:SB_H,body:JSON.stringify(args||{})});
+  if(!r.ok){const e=new Error('HTTP '+r.status);e.status=r.status;throw e;}
+  const tx=await r.text();return tx?JSON.parse(tx):null;
+}
+function requireName(cb){if(registered())cb();else askName(cb);}
+function baseUrl(){return location.origin+location.pathname;}
+function newCode(){const a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let c='';const b=new Uint8Array(8);(window.crypto||{getRandomValues:x=>x.map(()=>Math.random()*256)}).getRandomValues(b);b.forEach(v=>c+=a[v%a.length]);return c;}
+function packSlots(){return game.slots.map(x=>[x.p.name,Math.round(x.pts)]);}
+function stopDuel(){
+  if(duel&&duel.poll)clearInterval(duel.poll);
+  if(duel&&duel.botTimer)clearTimeout(duel.botTimer);
+  if(duel&&duel.kind==='online'&&duel.id&&!duel.started)sbCall('duel_cancel',{d:duel.id,pid:store.pid}).catch(()=>{});
+  clearInterval(searchClock);clearPickTimer();
+  duel=null;$('duelModal').hidden=true;$('duelBar').hidden=true;
+}
+
+
+// ---- bots (juegan con los mismos 17 jugadores; nivel según su ELO) ----
+function botSkill(elo){return Math.max(0,Math.min(1,(elo-800)/900));}
+function seededDeal(seedStr){
+  const rnd=mulberry(seedFrom(seedStr));
+  const q=drawMany(N+SKIPS,rnd);
+  const boost=LEAGUE_SLOTS[Math.floor(rnd()*LEAGUE_SLOTS.length)];
+  return {q,boost};
+}
+function botPlay(q,boost,skill,rnd){
+  const mult=i=>i===boost?5:SLOTS[i].mult;
+  const avg=SLOTS.map((s,i)=>PLAYERS.reduce((a,p)=>a+(Number(p.v[s.src])||0),0)/PLAYERS.length*mult(i));
+  const slots=new Array(N).fill(null),sig=1.3*(1-skill)+0.12;let total=0;
+  for(let k=0;k<N;k++){
+    const p=q[k],left=N-k,lam=skill*Math.min(1,(left-1)/3),free=[];
+    for(let i=0;i<N;i++)if(!slots[i])free.push(i);
+    let bi=free[0],bv=-Infinity;
+    if(rnd()<(1-skill)*0.25)bi=free[Math.floor(rnd()*free.length)];
+    else free.forEach(i=>{
+      const est=(Number(p.v[SLOTS[i].src])||0)*mult(i)*Math.exp((rnd()*2-1)*sig);
+      const v=est-lam*avg[i];if(v>bv){bv=v;bi=i;}
+    });
+    const pts=(Number(p.v[SLOTS[bi].src])||0)*mult(bi);
+    slots[bi]=[p.name,Math.round(pts)];total+=pts;
+  }
+  return {total:Math.round(total),slots};
+}
+// Colocación óptima de 17 jugadores (programación dinámica) con reconstrucción
+function optimalAssign(q,boost){
+  const mult=i=>i===boost?5:SLOTS[i].mult;
+  const pts=q.map(p=>SLOTS.map((s,i)=>(Number(p.v[s.src])||0)*mult(i)));
+  const full=(1<<N)-1,dp=new Float64Array(1<<N).fill(-1),par=new Int8Array(1<<N),pc=new Uint8Array(1<<N);
+  for(let m=1;m<=full;m++)pc[m]=pc[m>>1]+(m&1);
+  dp[0]=0;
+  for(let m=0;m<full;m++){
+    if(dp[m]<0)continue;
+    const row=pts[pc[m]],base=dp[m];
+    for(let s=0;s<N;s++){if(m&(1<<s))continue;const nm=m|(1<<s),v=base+row[s];if(v>dp[nm]){dp[nm]=v;par[nm]=s;}}
+  }
+  const slotOf=new Array(N);let m=full;
+  while(m){const s=par[m];slotOf[pc[m]-1]=s;m^=1<<s;}
+  return {pts,slotOf,best:dp[full]};
+}
+// Partida de bot que saca un % concreto de la colocación perfecta
+function botResult(q,boost,ratio,cap,pre){
+  const o=pre||optimalAssign(q,boost),slotOf=o.slotOf.slice();
+  const tot=()=>slotOf.reduce((a,s,i)=>a+o.pts[i][s],0);
+  const goal=Math.min(o.best*ratio,cap||14999),low=goal-o.best*0.01;
+  let t=tot();
+  for(let it=0;it<4000&&t>goal;it++){
+    const a=Math.floor(Math.random()*N),b=Math.floor(Math.random()*N);if(a===b)continue;
+    const nt=t-o.pts[a][slotOf[a]]-o.pts[b][slotOf[b]]+o.pts[a][slotOf[b]]+o.pts[b][slotOf[a]];
+    if(nt<t&&nt>=low){const x=slotOf[a];slotOf[a]=slotOf[b];slotOf[b]=x;t=nt;}
+  }
+  const slots=new Array(N);
+  slotOf.forEach((s,i)=>{slots[s]=[q[i].name,Math.round(o.pts[i][s])];});
+  return {total:Math.round(t),slots,best:o.best};
+}
+// % de colocación perfecta según el ELO del bot (Mundial: 70-80 %)
+function botRatio(elo){
+  const pts=[[800,.35],[1000,.45],[1300,.58],[1600,.70],[1770,.80]];
+  let r=pts[0][1];
+  for(let i=0;i<pts.length;i++){
+    if(elo>=pts[i][0])r=pts[i][1];
+    if(i>0&&elo>=pts[i-1][0]&&elo<pts[i][0]){const[a,ra]=pts[i-1],[b,rb]=pts[i];r=ra+(rb-ra)*(elo-a)/(b-a);}
+  }
+  if(elo>=1600)r=Math.max(.71,Math.min(.80,r+(Math.random()*.06-.03)));
+  else r+=Math.random()*.06-.03;
+  // como las personas: a veces tienen un mal día (y alguna vez uno muy bueno)
+  const u=Math.random();
+  if(u<.12)r-=.12+Math.random()*.10;
+  else if(u<.17)r+=.03+Math.random()*.04;
+  return Math.max(.25,Math.min(.86,r));
+}
+// Techo de puntos: normalmente menos de 13.500, a veces hasta 13.999, muy pocas veces 14.000+ y nunca 15.000
+function scoreCap(rnd){
+  const u=(rnd||Math.random)();
+  return u<.03?14999:(u<.25?13999:13499);
+}
+function botPlan(seed,elo,startAt){
+  const {q,boost}=seededDeal('duelo:'+seed);
+  const r=botResult(q.slice(0,N),boost,botRatio(elo),scoreCap());
+  const times=[];let t=startAt+800;
+  for(let i=0;i<N;i++){t+=2500+Math.random()*(i<3?6500:8500);times.push(t);}
+  return {score:r.total,slots:r.slots,times,finishAt:times[N-1]};
+}
+function botProg(me){const b=me&&me.bot;return b?b.times.filter(t=>t<=Date.now()).length:0;}
+let dailySeeded=null;
+async function ensureDaily(){
+  await null;
+  const day=todayKey();
+  if(dailySeeded===day)return;
+  dailySeeded=day;
+  try{
+    const rnd=mulberry(seedFrom('bots:'+day));
+    const {q,boost}=seededDeal(day),q17=q.slice(0,N);
+    const opt=optimalAssign(q17,boost),sc=[],at=[];
+    const now=Date.now(),d0=new Date(day+'T00:00:00').getTime();
+    // top 10 del día: entre el 50 % y el 60 % de la colocación perfecta de hoy
+    for(let k=0;k<10;k++){
+      const r=botResult(q17,boost,0.50+rnd()*0.10,13499,opt);
+      if(r.total<1000||r.total>=15000)continue;
+      sc.push(r.total);
+      at.push(new Date(now-rnd()*Math.max(0,now-d0)).toISOString());
+    }
+    await sbCall('seed_daily',{d:day,sc,at});
+  }catch(e){}
+}
+
+// ---- ventana de duelo ----
+function duelModal(o){
+  $('dmIco').textContent=o.ico||'⚔️';$('dmTit').textContent=o.tit||'';
+  $('dmTxt').innerHTML=o.txt||'';$('dmExtra').innerHTML=o.extra||'';
+  const act=$('dmAct');act.innerHTML='';
+  (o.buttons||[]).forEach(b=>{const x=document.createElement('button');x.className='btn'+(b.ghost?' ghost':'');x.textContent=b.label;x.addEventListener('click',b.fn);act.appendChild(x);});
+  $('duelModal').hidden=false;
+}
+function closeDuelModal(){$('duelModal').hidden=true;}
+async function shareLink(url,text){
+  try{if(navigator.share){await navigator.share({text,url});return;}}catch(e){if(e&&e.name==='AbortError')return;}
+  try{await navigator.clipboard.writeText(text+' '+url);toast('<b>Enlace copiado.</b> Pégalo en WhatsApp o donde quieras.','🔗');}
+  catch(e){prompt('Copia este enlace:',url);}
+}
+
+// ---- barra del rival y reloj por jugador ----
+function duelBarText(){
+  if(!duel)return '';
+  if(duel.kind==='online')return (duel.private?'🤝 Duelo amistoso contra ':'⚔️ Duelo contra ')+duel.rivalName+' · mismos 17 jugadores para los dos';
+  if(duel.role==='rival')return '🔗 Reto de '+duel.creator+' · te tocan sus mismos 17 jugadores';
+  return '🔗 Tu reto · al terminar tendrás el enlace para mandarlo';
+}
+function paintRival(prog){
+  $('dbName').textContent='⚔️ '+(duel?duel.rivalName:'Rival')+' '+prog+'/'+N;
+  $('dbFill').style.width=(100*prog/N)+'%';
+}
+function clearPickTimer(){clearInterval(pickTimer);pickTimer=null;const t=$('dbTime');if(t){t.textContent='';t.classList.remove('hot');}}
+function startPickTimer(){
+  clearPickTimer();
+  if(!game||game.duelKind!=='online')return;
+  let left=PICK_SECS;
+  const paint=()=>{$('dbTime').textContent='⏱'+left;$('dbTime').classList.toggle('hot',left<=5);};
+  paint();
+  pickTimer=setInterval(()=>{
+    left--;paint();
+    if(left<=0){
+      clearPickTimer();
+      if(!game||busy)return;
+      const free=[];game.slots.forEach((x,i)=>{if(!x)free.push(i);});
+      if(!free.length)return;
+      toast('Se acabó el tiempo: jugador colocado al azar','⏱');
+      place(free[Math.floor(Math.random()*free.length)]);
+    }
+  },1000);
+}
+function duelProgress(){
+  if(!game||game.duelKind!=='online'||!duel||!duel.id)return;
+  sbCall('duel_progress',{d:duel.id,pid:store.pid,n:game.slots.filter(Boolean).length}).catch(()=>{});
+}
+
+// ---- DUELO ONLINE ----
+function startOnline(){
+  requireName(async()=>{
+    stopDuel();
+    duel={kind:'online',t0:Date.now()};
+    worldInfo().then(w=>{if(duel&&duel.kind==='online')duel.prev=w;}).catch(()=>{});
+    const me=duel;
+    showSearching();
+    try{me.id=await sbCall('duel_queue',{pid:store.pid,n:store.name});}
+    catch(e){if(duel===me){stopDuel();toast('No se ha podido buscar rival. Revisa la conexión.','⚠️');}return;}
+    if(duel!==me){sbCall('duel_cancel',{d:me.id,pid:store.pid}).catch(()=>{});return;}
+    me.poll=setInterval(pollOnline,1500);pollOnline();
+    // si en unos segundos no aparece nadie, rival bot de nivel parecido
+    me.botTimer=setTimeout(()=>{if(duel===me&&!me.started)sbCall('duel_bot',{d:me.id,pid:store.pid}).then(()=>pollOnline()).catch(()=>{});},8000+Math.random()*8000);
+  });
+}
+function showSearching(){
+  duelModal({ico:'⚔️',tit:'Buscando rival',
+    txt:'Te emparejamos con el primero que busque duelo. Los dos jugáis los mismos 17 jugadores a la vez, con 20 segundos por jugador. Gana quien más sume.',
+    extra:'<div class="dm-clock" id="dmClock">0:00</div>',
+    buttons:[{label:'Invitar a alguien',fn:()=>shareLink(baseUrl()+'?online=1','⚔️ Te reto a un duelo en el Reto de los 15.000 goles. Entra y dale a buscar rival:')},
+             {label:'Cancelar',ghost:true,fn:()=>{stopDuel();}}]});
+  clearInterval(searchClock);
+  searchClock=setInterval(()=>{
+    if(!duel||duel.started){clearInterval(searchClock);return;}
+    const s=Math.floor((Date.now()-duel.t0)/1000),c=$('dmClock');
+    if(c)c.textContent=Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+    if(s===45)$('dmTxt').innerHTML='Ahora mismo no hay nadie más buscando. Mándale el enlace a alguien: cuando entre y busque, os emparejamos al momento.';
+  },500);
+}
+async function pollOnline(){
+  const me=duel;
+  if(!me||me.kind!=='online'||!me.id||me.polling)return;
+  me.polling=true;
+  try{
+    const s=await sbCall('duel_state',{d:me.id,pid:store.pid});
+    if(duel!==me||!s)return;
+    me.state=s;
+    if(s.rival)me.rivalName=s.rival.name;
+    if(s.status==='ready'&&!me.readyShown){
+      me.readyShown=true;clearInterval(searchClock);
+      duelModal({ico:'🤝',tit:'¡'+escapeHtml(s.rival.name)+' ha entrado!',txt:'Empezáis en cuanto los dos tengáis la web abierta…',extra:'',buttons:[{label:'Cancelar',ghost:true,fn:()=>stopDuel()}]});
+      beep('big');
+    }
+    if(s.status==='playing'&&!me.started){
+      me.started=true;me.seed=s.seed;clearInterval(searchClock);
+      const dv=divOf(s.rival.elo,s.rival.pos);
+      let left=Math.max(1,Math.round((new Date(s.started_at)-new Date(s.now))/1000));
+      if(s.rival.bot){
+        me.bot=botPlan(s.seed,s.rival.elo,Date.now()+left*1000);
+        me.botReq=sbCall('duel_bot_submit',{d:me.id,pid:store.pid,sc:me.bot.score,sl:me.bot.slots});
+      }
+      const paint=()=>duelModal({ico:'⚔️',tit:s.private?'¡Duelo con tu amigo!':'¡Rival encontrado!',
+        txt:'',extra:'<div class="dm-rival"><b>'+escapeHtml(s.rival.name)+'</b><span class="note">'+(s.private?'Duelo amistoso · no cuenta para el ELO':dv.ico+' '+dv.name+' · '+fmt(s.rival.elo)+' ELO')+'</span></div><div class="dm-clock">'+left+'</div>',buttons:[]});
+      paint();beep('big');
+      const iv=setInterval(()=>{
+        if(duel!==me){clearInterval(iv);return;}
+        left--;
+        if(left>0){paint();beep('skip');return;}
+        clearInterval(iv);closeDuelModal();
+        mode='online';$('result').hidden=true;document.body.classList.remove('done');newGame();
+      },1000);
+    }else if(s.status==='playing'&&s.rival){
+      if(game&&game.duelKind==='online')paintRival(me.bot?botProg(me):s.rival.prog);
+      if(me.submitted&&me.revealed)renderOnline();
+    }else if(s.status==='done'){
+      const rk=JSON.stringify(s.rematch||null);
+      if(!s.private){clearInterval(me.poll);me.poll=null;}
+      if(me.revealed&&(me.rk!==rk||!me.shownDone)){me.rk=rk;me.shownDone=true;renderOnline();}
+      if(s.rematch&&!s.rematch.mine&&s.rematch.status==='waiting'&&!me.rmBeep){me.rmBeep=true;beep('big');}
+    }else if(s.status==='cancelled'&&!me.started&&me.private){
+      stopDuel();toast('La sala se ha cancelado.','⚠️');
+    }else if(s.status==='cancelled'&&me.started){
+      clearInterval(me.poll);me.poll=null;
+      if(me.revealed)renderOnline();
+    }
+  }catch(e){}
+  finally{me.polling=false;}
+}
+
+
+// ---- revancha con el mismo amigo, sin mandar otro enlace ----
+async function rematch(){
+  const old=duel;
+  if(!old||!old.private||!old.id){startRoom();return;}
+  const rival=old.rivalName||'tu amigo';
+  let r;
+  try{r=await sbCall('duel_rematch',{d:old.id,pid:store.pid});}
+  catch(e){toast('No se ha podido pedir la revancha. Revisa la conexión.','⚠️');return;}
+  if(!r||r.error){startRoom();return;}
+  stopDuel();
+  duel={kind:'online',private:true,t0:Date.now(),id:r.id,rivalName:rival};
+  duelModal({ico:'🔁',tit:r.joined?'¡Revancha!':'Revancha pedida',
+    txt:r.joined?'Preparando el duelo con '+escapeHtml(rival)+'…':'Esperando a que '+escapeHtml(rival)+' acepte. Le sale en su pantalla al acabar el duelo.',
+    buttons:[{label:'Cancelar',ghost:true,fn:()=>stopDuel()}]});
+  duel.poll=setInterval(pollOnline,1500);pollOnline();
+}
+
+// ---- RETA A UN AMIGO: sala privada, los dos jugáis a la vez ----
+function roomUrl(code){return baseUrl()+'?sala='+code;}
+function startRoom(){
+  requireName(async()=>{
+    stopDuel();
+    duel={kind:'online',private:true,t0:Date.now()};
+    const me=duel;
+    duelModal({ico:'🔗',tit:'Creando la sala…',txt:'',buttons:[]});
+    let r;
+    try{r=await sbCall('duel_room_create',{pid:store.pid,n:store.name});}
+    catch(e){if(duel===me){stopDuel();toast('No se ha podido crear la sala. Revisa la conexión.','⚠️');}return;}
+    if(duel!==me)return;
+    me.id=r.id;me.code=r.code;
+    const share=()=>shareLink(roomUrl(r.code),'⚔️ Te reto a un duelo en directo en el Reto de los 15.000 goles. Entra y jugamos a la vez:');
+    duelModal({ico:'🔗',tit:'Reta a un amigo',
+      txt:'Mándale el enlace. Cuando entre, empezáis los dos a la vez con los mismos 17 jugadores. <b>No cierres esta página.</b>',
+      extra:'<div class="dm-clock">'+r.code+'</div><p class="note">Código de la sala · caduca en 15 minutos</p>',
+      buttons:[{label:'Enviar enlace',fn:share},{label:'Cancelar',ghost:true,fn:()=>stopDuel()}]});
+    me.poll=setInterval(pollOnline,1500);pollOnline();
+  });
+}
+async function openRoom(code){
+  let p;
+  try{p=await sbCall('duel_room_peek',{c:code});}
+  catch(e){toast('No se ha podido abrir la sala. Revisa la conexión.','⚠️');return;}
+  if(!p||!p.ok){
+    duelModal({ico:'⌛',tit:'Sala no disponible',txt:p?'La sala de '+escapeHtml(p.host)+' ya ha empezado o ha caducado. Pídele que te mande un enlace nuevo.':'Ese enlace no es válido.',
+      buttons:[{label:'Crear mi sala',fn:()=>{closeDuelModal();startRoom();}},{label:'Cerrar',ghost:true,fn:closeDuelModal}]});
+    return;
+  }
+  duelModal({ico:'⚔️',tit:escapeHtml(p.host)+' te reta',
+    txt:'Duelo en directo: jugáis los dos a la vez con los mismos 17 jugadores y 20 segundos por jugador. Gana quien más sume. Es amistoso: no cuenta para el ELO.',
+    buttons:[{label:'¡Jugar!',fn:()=>joinRoom(code)},{label:'Ahora no',ghost:true,fn:closeDuelModal}]});
+}
+function joinRoom(code){
+  closeDuelModal();
+  requireName(async()=>{
+    stopDuel();
+    duel={kind:'online',private:true,t0:Date.now()};
+    const me=duel;
+    duelModal({ico:'⚔️',tit:'Entrando en la sala…',txt:'',buttons:[]});
+    let r;
+    try{r=await sbCall('duel_room_join',{c:code,pid:store.pid,n:store.name});}
+    catch(e){if(duel===me){stopDuel();toast('No se ha podido entrar. Revisa la conexión.','⚠️');}return;}
+    if(duel!==me)return;
+    if(!r||r.error){
+      stopDuel();
+      if(r&&r.error==='own')toast('Esa sala es tuya: mándale el enlace a tu amigo.','🔗');
+      else openRoom(code);
+      return;
+    }
+    me.id=r.id;me.rivalName=r.host;
+    duelModal({ico:'🤝',tit:'¡Dentro!',txt:'Esperando a que '+escapeHtml(r.host)+' esté listo…',buttons:[{label:'Cancelar',ghost:true,fn:()=>stopDuel()}]});
+    me.poll=setInterval(pollOnline,1500);pollOnline();
+  });
+}
+
+// ---- RETO POR ENLACE (antiguo: los enlaces viejos siguen funcionando) ----
+function startLink(){
+  requireName(()=>{
+    stopDuel();
+    duel={kind:'enlace',role:'creator',code:newCode()};
+    duel.seed=duel.code;
+    mode='enlace';$('result').hidden=true;document.body.classList.remove('done');newGame();
+  });
+}
+async function openLink(code){
+  let l;
+  try{l=await sbCall('link_get',{c:code,pid:store.pid||NOBODY});}
+  catch(e){toast('No se ha podido abrir el reto. Revisa la conexión.','⚠️');return;}
+  if(!l){toast('Ese reto no existe o el enlace está mal copiado.','⚠️');return;}
+  const nm=escapeHtml(l.creator_name);
+  if(l.mine){
+    duelModal({ico:'🔗',tit:'Tu reto',txt:'Hiciste <b>'+fmt(l.creator_score)+'</b> puntos.',extra:playsHtml(l.plays,l.creator_score),
+      buttons:[{label:'Volver a mandarlo',fn:()=>shareLink(baseUrl()+'?reto='+code,'⚔️ Te reto en el Reto de los 15.000 goles: te tocan mis mismos 17 jugadores. ¿Me ganas?')},{label:'Cerrar',ghost:true,fn:closeDuelModal}]});
+    return;
+  }
+  if(l.started&&l.my_score!=null){
+    const w=l.my_score>l.creator_score,d=l.my_score===l.creator_score;
+    duelModal({ico:w?'🏆':(d?'🤝':'😬'),tit:w?'Le ganaste':(d?'Empate':'Te ganó'),
+      txt:'Tú <b>'+fmt(l.my_score)+'</b> · '+nm+' <b>'+fmt(l.creator_score)+'</b>',extra:playsHtml(l.plays,l.creator_score,l.creator_name),
+      buttons:[{label:'Crear mi propio reto',fn:()=>{closeDuelModal();startLink();}},{label:'Cerrar',ghost:true,fn:closeDuelModal}]});
+    return;
+  }
+  if(l.started){
+    duelModal({ico:'⛔',tit:'Reto ya empezado',txt:'Empezaste el reto de '+nm+' y lo dejaste a medias. Cada reto solo se puede jugar una vez.',
+      buttons:[{label:'Crear mi propio reto',fn:()=>{closeDuelModal();startLink();}},{label:'Cerrar',ghost:true,fn:closeDuelModal}]});
+    return;
+  }
+  duelModal({ico:'⚔️',tit:nm+' te reta',
+    txt:'Te tocarán los mismos 17 jugadores, en el mismo orden y con la misma liga ×5 que le tocaron a '+nm+'. Verás su puntuación al terminar. <b>Solo tienes un intento:</b> si sales a medias, cuenta como jugado.',
+    buttons:[{label:'Aceptar el reto',fn:()=>acceptLink(code,l.creator_name)},{label:'Ahora no',ghost:true,fn:closeDuelModal}]});
+}
+function acceptLink(code,creator){
+  closeDuelModal();
+  requireName(async()=>{
+    let ok=false;
+    try{ok=await sbCall('link_start',{c:code,pid:store.pid,n:store.name});}
+    catch(e){toast('No se ha podido empezar el reto. Revisa la conexión.','⚠️');return;}
+    if(!ok){openLink(code);return;}
+    stopDuel();
+    duel={kind:'enlace',role:'rival',code,seed:code,creator};
+    mode='enlace';$('result').hidden=true;document.body.classList.remove('done');newGame();
+  });
+}
+function playsHtml(plays,creatorScore,creatorName){
+  if(!plays||!plays.length)return '<p class="note">Todavía no lo ha jugado nadie.</p>';
+  const rows=plays.map(p=>{
+    const done=p.score!=null,cls=!done?'':(p.score>creatorScore?'l':(p.score<creatorScore?'w':''));
+    return '<li class="plain '+cls+'"><span>'+escapeHtml(p.name)+'<span class="d"> · '+(!done?'a medias':(p.score>creatorScore?'ganó a '+escapeHtml(creatorName||'ti'):(p.score<creatorScore?'perdió':'empate')))+'</span></span><span class="s">'+(done?fmt(p.score):'–')+'</span></li>';
+  }).join('');
+  return '<ol class="rank" style="text-align:left;width:100%;margin-top:8px">'+rows+'</ol>';
+}
+
+// ---- al terminar la partida ----
+function duelSubmit(t){
+  if(!duel)return;
+  const me=duel,slots=packSlots();me.myScore=Math.round(t);me.mySlots=slots;me.submitted=true;
+  if(me.kind==='online'){
+    const bot=me.bot?(me.botReq||Promise.reject()).catch(()=>sbCall('duel_bot_submit',{d:me.id,pid:store.pid,sc:me.bot.score,sl:me.bot.slots})).catch(()=>{}):Promise.resolve();
+    me.req=bot.then(()=>sbCall('duel_submit',{d:me.id,pid:store.pid,sc:me.myScore,sl:slots}))
+      .then(s=>{if(duel===me&&s){me.state=s;if(me.revealed)renderOnline();}})
+      .catch(()=>{me.err=true;if(me.revealed)renderOnline();});
+  }else if(me.role==='creator'){
+    me.req=sbCall('link_create',{code:me.code,pid:store.pid,n:store.name,sc:me.myScore,sl:slots})
+      .then(()=>{me.saved=true;if(me.revealed)renderLink();})
+      .catch(()=>{me.err=true;if(me.revealed)renderLink();});
+  }else{
+    me.req=sbCall('link_finish',{c:me.code,pid:store.pid,sc:me.myScore,sl:slots})
+      .then(l=>{me.link=l;if(me.revealed)renderLink();})
+      .catch(()=>{me.err=true;if(me.revealed)renderLink();});
+  }
+}
+function duelReveal(){
+  if(!duel)return;
+  duel.revealed=true;
+  if(duel.kind==='online')renderOnline();else renderLink();
+}
+function scoreBox(myScore,rivalName,rivalScore,top,cls,sub,extra,cmp){
+  const box=$('duelRes');
+  box.className='duelres'+(cls?' '+cls:'');
+  const known=rivalScore!=null;
+  box.innerHTML='<div class="dr-top">'+top+'</div>'+
+    '<div class="dr-score"><div class="dr-p'+(known&&myScore>=rivalScore?' best':'')+'"><span class="dr-n">Tú</span><span class="dr-s">'+fmt(myScore)+'</span></div>'+
+    '<span class="dr-vs">vs</span>'+
+    '<div class="dr-p'+(known&&rivalScore>=myScore?' best':'')+'"><span class="dr-n">'+escapeHtml(rivalName)+'</span><span class="dr-s">'+(known?fmt(rivalScore):'?')+'</span></div></div>'+
+    (sub?'<p class="dr-sub">'+sub+'</p>':'')+(extra||'')+(cmp||'');
+  box.hidden=false;
+}
+function compareHtml(mine,theirs,rivalName){
+  if(!Array.isArray(mine)||!Array.isArray(theirs)||theirs.length!==N)return '';
+  let rows='';
+  for(let i=0;i<N;i++){
+    const a=mine[i]||['',0],b=theirs[i]||['',0],pa=Number(a[1])||0,pb=Number(b[1])||0;
+    rows+='<li class="'+(pa>pb?'w':(pb>pa?'l':''))+'"><span class="cs">'+(SLOTS[i].ico?SLOTS[i].ico+' ':'')+SLOTS[i].label+'</span>'+
+      '<span class="ca">'+escapeHtml(a[0])+' <b>'+fmt(pa)+'</b></span><span class="cb"><b>'+fmt(pb)+'</b> '+escapeHtml(b[0])+'</span></li>';
+  }
+  return '<details class="cmp"><summary>Comparar casilla por casilla</summary><div class="cmphead"><span></span><span>Tú</span><span>'+escapeHtml(rivalName)+'</span></div><ul>'+rows+'</ul></details>';
+}
+function renderOnline(){
+  const me=duel;if(!me||me.kind!=='online')return;
+  const s=me.state||{},rv=Object.assign({name:me.rivalName||'Rival'},s.rival||{});
+  if(me.bot&&Date.now()<me.bot.finishAt&&!me.err){
+    // el bot "sigue jugando": se enseña su progreso hasta que termine
+    rv.prog=botProg(me);rv.done=false;
+    clearTimeout(me.botView);me.botView=setTimeout(()=>{if(duel===me)renderOnline();},1500);
+    scoreBox(me.myScore,rv.name,null,'Esperando a '+escapeHtml(rv.name)+'…','','Va por el jugador '+Math.min(N,rv.prog+1)+' de '+N+'. Si se va, ganas tú.');
+    return;
+  }
+  if(me.err&&s.status!=='done'){scoreBox(me.myScore,rv.name,null,'Sin conexión','', 'No se ha podido enviar tu resultado. Comprueba la conexión: el duelo sigue abierto unos minutos.');return;}
+  if(s.status==='done'){
+    const res=s.result,dv=divOf(s.my_elo||1000,s.my_pos),dl=Number(s.my_delta)||0;
+    if(s.private){
+      const top=res==='win'?(s.forfeit?'🏆 Ganas: '+escapeHtml(rv.name)+' no terminó':'🏆 ¡Le has ganado!'):(res==='loss'?(s.forfeit?'Pierdes: no terminaste a tiempo':'Te ha ganado'):'🤝 Empate');
+      const rm=s.rematch,offer=rm&&!rm.mine&&rm.status==='waiting';
+      const act='<div class="actions">'+(offer
+        ?'<p class="dr-sub" style="width:100%"><span class="up">🔁 '+escapeHtml(rv.name)+' quiere la revancha</span></p><button class="btn" id="drAgain">¡Revancha!</button>'
+        :'<button class="btn" id="drAgain">🔁 Jugar otra vez</button>')+'<button class="btn ghost" id="drHome">Inicio</button></div>';
+      scoreBox(s.my_score!=null?s.my_score:me.myScore,rv.name,rv.score,top,res==='win'?'win':(res==='loss'?'loss':''),'🤝 Duelo amistoso: no cuenta para el ELO',act,compareHtml(me.mySlots,rv.slots,rv.name));
+      $('drAgain').addEventListener('click',rematch);$('drHome').addEventListener('click',goHome);
+      if(!me.celebrated){me.celebrated=true;if(res==='win'){beep('win');confetti();}else if(res==='loss')beep('lose');}
+      return;
+    }
+    if(me.move===undefined)me.move=divMove(s.my_elo||1000,s.my_pos);
+    if(!me.topReq)me.topReq=sbCall('duel_top').then(t=>{me.topAfter=t||[];if(duel===me)renderOnline();}).catch(()=>{});
+    const top=res==='win'?(s.forfeit?'🏆 Ganas: '+escapeHtml(rv.name)+' no terminó':'🏆 ¡Has ganado el duelo!'):(res==='loss'?(s.forfeit?'Pierdes: no terminaste a tiempo':'Has perdido el duelo'):'🤝 Empate');
+    const bn=Number(s.my_bonus)||0,g=Number(s.my_games)||0;
+    const sub=(me.move?me.move+'<br>':'')+(bn?'<span class="up">🔥 Bonus '+(bn>=10?'15K':'12K')+' +'+bn+'</span><br>':'')+dv.ico+' <b>'+dv.name+'</b> · '+fmt(s.my_elo)+' puntos <span class="'+(dl>=0?'up':'down')+'">('+(dl>=0?'+':'')+dl+')</span>'+(dv===MUNDIAL?' · '+s.my_pos+'º del mundo':'')+(g&&g<=10?'<br>Duelo '+g+' de 10 de clasificación: subes y bajas más rápido':'');
+    scoreBox(s.my_score!=null?s.my_score:me.myScore,rv.name,rv.score,top,res==='win'?'win':(res==='loss'?'loss':''),sub,duelPosLine(me,s)+'<div class="actions"><button class="btn" id="drAgain">⚔️ Jugar otra vez</button><button class="btn ghost" id="drHome">Inicio</button></div>',compareHtml(me.mySlots,rv.slots,rv.name));
+    $('drAgain').addEventListener('click',startOnline);$('drHome').addEventListener('click',goHome);
+    if(!me.celebrated){me.celebrated=true;if(res==='win'){beep('win');confetti();}else if(res==='loss')beep('lose');}
+    return;
+  }
+  if(s.status==='cancelled'){scoreBox(me.myScore,rv.name,null,'Duelo anulado','','Ninguno de los dos terminó. No cuenta para el ELO.');return;}
+  const prog=rv.prog||0;
+  scoreBox(me.myScore,rv.name,null,'Esperando a '+escapeHtml(rv.name)+'…','',
+    rv.done?'Ya ha terminado, calculando…':'Va por el jugador '+Math.min(N,prog+1)+' de '+N+'. Si se va, ganas tú.');
+}
+function renderLink(){
+  const me=duel;if(!me||me.kind!=='enlace')return;
+  if(me.role==='creator'){
+    if(me.err){scoreBox(me.myScore,'Tu rival',null,'No se ha podido crear el reto','','Revisa la conexión y vuelve a intentarlo.','<div class="actions"><button class="btn" id="drRetry">Reintentar</button></div>');
+      $('drRetry').addEventListener('click',()=>{me.err=false;me.revealed=true;duelSubmit(me.myScore);renderLink();});return;}
+    if(!me.saved){scoreBox(me.myScore,'Tu rival',null,'Creando tu reto…','','');return;}
+    const url=baseUrl()+'?reto='+me.code;
+    scoreBox(me.myScore,'Tu rival',null,'🔗 Reto listo','','Mándale el enlace a quien quieras: jugará tus mismos 17 jugadores sin ver tu puntuación hasta el final. Verás quién te gana en la pestaña ⚔️ Duelos.',
+      '<div class="actions"><button class="btn" id="drSend">Enviar el reto</button></div>');
+    $('drSend').addEventListener('click',()=>shareLink(url,'⚔️ He hecho '+fmt(me.myScore)+' puntos en el Reto de los 15.000 goles. Te tocan mis mismos 17 jugadores. ¿Me ganas?'));
+    return;
+  }
+  if(me.err){scoreBox(me.myScore,me.creator,null,'Sin conexión','','No se ha podido enviar tu resultado.','<div class="actions"><button class="btn" id="drRetry">Reintentar</button></div>');
+    $('drRetry').addEventListener('click',()=>{me.err=false;duelSubmit(me.myScore);renderLink();});return;}
+  if(!me.link){scoreBox(me.myScore,me.creator,null,'Comparando…','','');return;}
+  const l=me.link,cs=l.creator_score,w=me.myScore>cs,d=me.myScore===cs;
+  scoreBox(me.myScore,l.creator_name,cs,w?'🏆 ¡Le has ganado!':(d?'🤝 Empate':'Te ha ganado'),w?'win':(d?'':'loss'),'',
+    '<div class="actions"><button class="btn ghost" id="drMine">Crear mi propio reto</button></div>',compareHtml(me.mySlots,l.creator_slots,l.creator_name));
+  $('drMine').addEventListener('click',startLink);
+  if(!me.celebrated){me.celebrated=true;if(w){beep('win');confetti();}else if(!d)beep('lose');}
+}
+
+
+// ---- tu posición en el mundo ----
+function top50Line(elo,pos,elo50){
+  if(pos&&pos<=50){
+    if(elo>=MUNDIAL.t)return 'Estás en el <b>top 50</b> y juegas el Mundial';
+    return 'Estás en el <b>top 50</b> · te faltan <b>'+fmt(MUNDIAL.t-elo)+'</b> puntos para el Mundial';
+  }
+  if(elo50==null)return 'Top 50 por llenar: gana duelos para entrar';
+  return 'Te faltan <b>'+fmt(Math.max(1,elo50-elo+1))+'</b> puntos para entrar en el top 50';
+}
+async function worldInfo(){
+  if(!registered())return null;
+  const [me,top]=await Promise.all([sbCall('duel_me',{pid:store.pid}),sbCall('duel_top')]);
+  const games=me?(me.wins+me.losses+me.draws):0;
+  const elo50=top&&top.length>=50?top[49].elo:null;
+  return {elo:me?me.elo:1000,pos:games?me.pos:null,games,elo50};
+}
+async function recordPos(daily){
+  const q=daily
+    ?'select=name,score,day&daily=eq.true&day=eq.'+todayKey()+'&order=score.desc&limit=1000'
+    :'select=name,score,day&order=score.desc&limit=2000';
+  const rows=await sbGetVisible(q);
+  const seen=new Set(),list=[];
+  rows.forEach(r=>{const k=r.name.trim().toLowerCase();if(!seen.has(k)){seen.add(k);list.push(r);}});
+  const me=store.name.trim().toLowerCase(),i=list.findIndex(r=>r.name.trim().toLowerCase()===me);
+  return {pos:i>=0?i+1:null,total:list.length,score:i>=0?list[i].score:null,list};
+}
+function duelPosLine(me,s){
+  const pos=s.my_pos,prev=me.prev&&me.prev.pos,elo=s.my_elo||1000,top=me.topAfter;
+  const inTop=pos&&pos<=50;
+  let mv='';
+  if(inTop&&(!prev||prev>50)&&me.prev)mv=' <span class="up">⬆️ ¡entras en el top 50!</span>';
+  else if(inTop&&prev&&prev!==pos)mv=pos<prev?' <span class="up">⬆️ subes '+(prev-pos)+' puesto'+(prev-pos===1?'':'s')+'</span>':' <span class="down">⬇️ bajas '+(pos-prev)+' puesto'+(pos-prev===1?'':'s')+'</span>';
+  let next='';
+  if(inTop){
+    // en el top 50: lo que te falta para pasar al jugador de delante
+    if(pos===1)next='👑 ¡Eres el número 1 del mundo!';
+    else if(top&&top[pos-2]){const a=top[pos-2];next='Te faltan <b>'+fmt(Math.max(1,a.elo-elo+1))+'</b> puntos para pasar a '+escapeHtml(a.name)+' ('+(pos-1)+'º)';}
+  }else{
+    // fuera del top 50: lo que te falta para la siguiente categoría
+    const dv=divOf(elo,pos),nx=DIVS[DIVS.indexOf(dv)+1]||MUNDIAL;
+    if(nx===MUNDIAL){
+      const e50=top&&top.length>=50?top[49].elo:(me.prev?me.prev.elo50:null);
+      const need=Math.max(MUNDIAL.t-elo,e50!=null?e50-elo+1:0,1);
+      next='Siguiente categoría: '+MUNDIAL.ico+' Mundial a <b>'+fmt(need)+'</b> puntos';
+    }else next='Siguiente categoría: '+nx.ico+' '+nx.name+' a <b>'+fmt(Math.max(1,nx.t-elo))+'</b> puntos';
+  }
+  return '<p class="worldpos">'+(inTop?'🌍 Vas <b>'+pos+'º</b> del mundo en duelos'+mv+(next?'<br>':''):(prev&&prev<=50?'<span class="down">⬇️ Sales del top 50</span><br>':''))+next+'</p>';
+}
+async function showWorldPos(t,daily){
+  const el=$('worldPos');el.hidden=true;
+  if(!registered())return;
+  await new Promise(r=>setTimeout(r,2600));
+  try{
+    const r=await recordPos(daily);
+    if(!r.pos)return;
+    if(daily){
+      if(r.pos>50){el.innerHTML='🌍 En el reto de hoy aún no estás en el top 50 · te faltan <b>'+fmt(r.list[49].score-r.score+1)+'</b> puntos para entrar';el.hidden=false;return;}
+      el.innerHTML=r.pos===1?'🌍 En el reto de hoy vas <b>1º</b> de '+r.total+' · ¡vas primero!':'🌍 En el reto de hoy vas <b>'+r.pos+'º</b> de '+r.total+' · te faltan <b>'+fmt(r.list[r.pos-2].score-r.score+1)+'</b> puntos para pasar al '+(r.pos-1)+'º';
+    }else{
+      const nuevo=t>=r.score;
+      el.innerHTML=r.pos<=50
+        ?'🌍 Tu récord ('+fmt(r.score)+') va <b>'+r.pos+'º</b> del mundo'+(nuevo?' · ¡con esta partida!':'')
+        :'🌍 Aún no estás en el top 50 · a tu récord ('+fmt(r.score)+') le faltan <b>'+fmt(r.list[49].score-r.score+1)+'</b> puntos para entrar';
+    }
+    el.hidden=false;
+  }catch(e){}
+}
+async function paintMyPos(){
+  const el=$('myPos');
+  if(!registered()){el.hidden=true;return;}
+  try{
+    const w=await worldInfo();
+    const dv=divOf(w.elo,w.pos);
+    el.innerHTML='<span>⚔️ Duelos: <b>'+(w.pos&&w.pos<=50?w.pos+'º del mundo':(w.pos?'fuera del top 50':'sin clasificar'))+'</b> · '+dv.ico+' '+dv.name+' · '+fmt(w.elo)+' pts</span>'+
+      '<span class="mp-sub">'+(w.games?top50Line(w.elo,w.pos,w.elo50):'Juega un duelo online para entrar en la clasificación')+'</span>'+
+      (seasonCache&&seasonCache.current?'<span class="mp-sub">🏆 '+escapeHtml(seasonLabel(seasonCache.current))+' · quedan '+daysLeft()+' días</span>':'')+
+      '';
+    el.hidden=false;
+  }catch(e){el.hidden=true;}
+}
+
+
+
+// ---- homenaje al campeón de la temporada anterior ----
+function champOf(){const l=seasonCache&&seasonCache.last;return l&&l.podium&&l.podium[0]?{name:l.podium[0].name,elo:l.podium[0].elo,num:l.num,month:l.name}:null;}
+function crown(name){const c=champOf();return c&&String(name).trim().toLowerCase()===c.name.trim().toLowerCase()?' 👑':'';}
+function paintChamp(){
+  const el=$('champ'),c=champOf();
+  if(!c){el.hidden=true;return;}
+  const mine=registered()&&store.name.trim().toLowerCase()===c.name.trim().toLowerCase();
+  el.innerHTML='<span class="ch-ico">👑</span><span class="ch-tx"><span class="ch-tag">'+(mine?'¡Eres el campeón!':'Campeón de la temporada pasada')+'</span>'+
+    '<span class="ch-name">'+escapeHtml(c.name)+'</span>'+
+    '<span class="ch-sub">TOP 1 TEMPORADA '+c.num+' · '+escapeHtml(c.month)+' · '+fmt(c.elo)+' puntos</span></span>';
+  el.hidden=false;
+}
+
+// ---- temporadas mensuales y medallas ----
+let seasonCache=null;
+function seasonMedal(pos,elo,season){
+  const t=' TEMPORADA '+season;
+  if(pos<=50)return {ico:pos===1?'🥇':pos===2?'🥈':pos===3?'🥉':pos<=10?'🏅':'🎖️',txt:'TOP '+pos+t};
+  const dv=divOf(elo,pos);
+  return {ico:dv.ico,txt:dv.name.toUpperCase()+t};
+}
+function daysLeft(){
+  const n=new Date(),next=new Date(n.getFullYear(),n.getMonth()+1,1);
+  return Math.max(0,Math.ceil((next-n)/864e5));
+}
+function seasonLabel(c){return c?'Temporada '+c.num+' · '+c.name:'';}
+async function seasonLoad(){
+  seasonCache=await sbCall('season_info',{pid:store.pid||NOBODY});
+  return seasonCache;
+}
+async function seasonBoot(quiet){
+  try{
+    await sbCall('season_tick');
+    const info=await seasonLoad();
+    paintMyPos();paintChamp();if(rankTab!=='med')renderRank();
+    if(quiet||!registered()||!info||!info.current)return;
+    const cur=info.current.num;
+    if(store.seasonSeen==null){store.seasonSeen=cur;save();return;}
+    if(store.seasonSeen>=cur)return;
+    store.seasonSeen=cur;save();
+    const m=(info.medals||[]).find(x=>x.season===cur-1);
+    const me=await sbCall('duel_me',{pid:store.pid}).catch(()=>null);
+    if(!m){toast('<b>Empieza la '+escapeHtml(seasonLabel(info.current))+'</b>','🏆');return;}
+    const md=seasonMedal(m.pos,m.elo,m.season);
+    duelModal({ico:md.ico,tit:md.txt,
+      txt:'Fin de la Temporada '+m.season+' ('+escapeHtml(m.name)+'): '+(m.pos<=50?'quedaste <b>'+m.pos+'º del mundo</b>':'terminaste en <b>'+escapeHtml(divOf(m.elo,m.pos).name)+'</b>')+' con '+fmt(m.elo)+' puntos ('+m.wins+'-'+m.losses+(m.draws?'-'+m.draws:'')+').',
+      extra:'<p class="note">Empieza la <b>'+escapeHtml(seasonLabel(info.current))+'</b>. Los puntos se han reiniciado a mitad de camino'+(me?': ahora tienes <b>'+fmt(me.elo)+'</b>':'')+'. En los primeros duelos subes más rápido.</p>',
+      buttons:[{label:'¡A por ello!',fn:closeDuelModal},{label:'Ver mis medallas',ghost:true,fn:()=>{closeDuelModal();$('rt-duel').click();$('p-rank').scrollIntoView({behavior:reduceMotion?'auto':'smooth',block:'start'});}}]});
+    beep('win');if(m.pos<=3)confetti();
+  }catch(e){}
+}
+
+// ---- pestaña ⚔️ Duelos del ranking ----
+async function renderDuelTab(ul){
+  $('rankNote').textContent='Cargando duelos…';
+  const pid=registered()?store.pid:null;
+  let top,me,mine;
+  try{await sbCall('bots_tick').catch(()=>{});[top,me,mine]=await Promise.all([sbCall('duel_top'),pid?sbCall('duel_me',{pid}):null,null]);}
+  catch(e){if(rankTab==='duel')$('rankNote').textContent='No se han podido cargar los duelos. Revisa la conexión.';return;}
+  if(rankTab!=='duel')return;
+  ul.innerHTML='';
+  const games=me?(me.wins+me.losses+me.draws):0,elo=me?me.elo:1000,dv=divOf(elo,games?me.pos:null);
+  if(games)store.lastDiv=dv.name,save();
+  $('pass').hidden=false;
+  $('phIco').textContent=dv.ico;$('phName').textContent=dv.name;
+  const nxt=dv===MUNDIAL?null:(DIVS[DIVS.indexOf(dv)+1]||MUNDIAL);
+  $('phSub').textContent=(games?fmt(elo)+' puntos · ':'')+(dv===MUNDIAL?'Estás entre los 50 mejores del mundo':(nxt===MUNDIAL?'Para el Mundial: entrar en el top 50':(nxt?'Te faltan '+fmt(nxt.t-elo)+' para '+nxt.name:'')))+' · '+(games?(me.wins+(me.wins===1?' victoria':' victorias')+' · '+me.losses+(me.losses===1?' derrota':' derrotas')+(me.draws?' · '+me.draws+(me.draws===1?' empate':' empates'):'')+(me.pos<=50?' · vas '+me.pos+'º':' · fuera del top 50')+(games<10?' · te quedan '+(10-games)+' duelos de clasificación (subes más rápido)':'')):'Juega un duelo online para entrar en la clasificación');
+  const tr=$('track');tr.innerHTML='';
+  const ladder=DIVS.concat([MUNDIAL]),idx=ladder.indexOf(dv);
+  ladder.forEach((m,i)=>{
+    const d=document.createElement('div');d.className='node'+(i<=idx?' on':'')+(i===idx?' now':'');
+    d.innerHTML=(i===idx?'<span class="tagnow">AQUÍ</span>':'')+'<span class="dot">'+(i<=idx?m.ico:'🔒')+'</span><span class="nn">'+m.name+'</span><span class="np">'+(m===MUNDIAL?'Top 50':fmt(m.t)+' pts')+'</span>';
+    tr.appendChild(d);
+  });
+  setTimeout(()=>{const n=tr.querySelector('.node.now');if(n)tr.scrollLeft=Math.max(0,n.offsetLeft-tr.clientWidth/2+52);},50);
+  const head=(t)=>{const h=document.createElement('li');h.className='medhead';h.innerHTML='<span>'+t+'</span><span class="s"></span>';ul.appendChild(h);};
+  let info=seasonCache;
+  try{info=await seasonLoad();}catch(e){}
+  if(rankTab!=='duel')return;
+  if(info&&info.current)head('🏆 '+escapeHtml(seasonLabel(info.current))+' · quedan '+daysLeft()+' días');
+  if(info&&info.medals&&info.medals.length){
+    head('Tus medallas');
+    info.medals.forEach(m=>{
+      const md=seasonMedal(m.pos,m.elo,m.season),li=document.createElement('li');li.className='plain';
+      li.innerHTML='<span>'+md.ico+' <b>'+md.txt+'</b><span class="d"> · '+escapeHtml(m.name)+'</span></span><span class="s">'+fmt(m.elo)+'</span>';
+      ul.appendChild(li);
+    });
+  }
+  if(info&&info.last&&info.last.podium&&info.last.podium.length){
+    head('Campeones de la Temporada '+info.last.num+' · '+escapeHtml(info.last.name));
+    info.last.podium.forEach(x=>{
+      const li=document.createElement('li');li.className='plain';
+      li.innerHTML='<span>'+(['🥇','🥈','🥉'][x.pos-1]||'🏅')+' '+escapeHtml(x.name)+'<span class="d"> · TOP '+x.pos+' TEMPORADA '+info.last.num+'</span></span><span class="s">'+fmt(x.elo)+'</span>';
+      ul.appendChild(li);
+    });
+  }
+  head('Clasificación de duelos online');
+  const myName=registered()?store.name.trim().toLowerCase():'';
+  if(!top||!top.length){const li=document.createElement('li');li.className='plain';li.innerHTML='<span class="d">Aún no se ha jugado ningún duelo. Estrena la clasificación.</span><span></span>';ul.appendChild(li);}
+  const myIdx=(top||[]).findIndex(r=>myName&&r.name.trim().toLowerCase()===myName);
+  const shown=(top||[]).slice(0,20).map((r,i)=>[r,i]);
+  if(myIdx>=20&&myIdx<50)shown.push(null,[top[myIdx],myIdx]);
+  shown.forEach(x=>{
+    if(!x){const sp=document.createElement('li');sp.className='sep';sp.innerHTML='<span>⋯</span>';ul.appendChild(sp);return;}
+    const [r,i]=x;
+    const li=document.createElement('li');const isMe=myName&&r.name.trim().toLowerCase()===myName;
+    if(isMe)li.className='mine';li.style.counterSet='r '+i;
+    const d=divOf(r.elo,i+1);
+    li.innerHTML='<span>'+(isMe?'<b>'+escapeHtml(r.name)+'</b>':escapeHtml(r.name))+crown(r.name)+'<span class="d"> · '+d.ico+' '+d.name+'</span></span><span class="s">'+fmt(r.elo)+'</span>';
+    ul.appendChild(li);
+  });
+  if(mine&&((mine.created||[]).length||(mine.answered||[]).length)){
+    head('Tus retos por enlace');
+    (mine.created||[]).forEach(c=>{
+      const done=(c.plays||[]).filter(p=>p.score!=null);
+      if(!done.length){const li=document.createElement('li');li.className='plain';li.innerHTML='<span>Tu reto de '+fmt(c.score)+'<span class="d"> · nadie lo ha jugado aún</span></span><span class="s"></span>';ul.appendChild(li);return;}
+      done.forEach(p=>{
+        const li=document.createElement('li');li.className='plain '+(c.score>p.score?'w':(c.score<p.score?'l':''));
+        li.innerHTML='<span>'+escapeHtml(p.name)+' jugó tu reto<span class="d"> · '+(c.score>p.score?'le ganaste':(c.score<p.score?'te ganó':'empate'))+'</span></span><span class="s">'+fmt(c.score)+'–'+fmt(p.score)+'</span>';
+        ul.appendChild(li);
+      });
+    });
+    (mine.answered||[]).forEach(a=>{
+      const li=document.createElement('li');const done=a.score!=null;
+      li.className='plain '+(!done?'':(a.score>a.rival_score?'w':(a.score<a.rival_score?'l':'')));
+      li.innerHTML='<span>Reto de '+escapeHtml(a.rival)+'<span class="d"> · '+(!done?'a medias':(a.score>a.rival_score?'le ganaste':(a.score<a.rival_score?'te ganó':'empate')))+'</span></span><span class="s">'+(done?fmt(a.score)+'–'+fmt(a.rival_score):'–')+'</span>';
+      ul.appendChild(li);
+    });
+  }
+  $('rankNote').textContent='Cada mes es una temporada: el día 1 se guarda tu clasificación como medalla y los puntos se reinician a mitad de camino de 1.000. Todos empiezan con 1.000 puntos en la Saudi Pro League. Ganar un duelo suma y perderlo resta; ganar a alguien de una liga mejor da más. En los 10 primeros duelos se sube más rápido, y desde la Premier cuesta más. Bonus: +5 si haces 12.000 en el reto y +10 si llegas a 15.000, ganes o pierdas. El Mundial es para los 50 mejores del mundo que estén a nivel Champions. Los retos por enlace son amistosos y no cuentan.';
+}
+
+// ---- al abrir la web: enlaces de reto y avisos ----
+async function duelBoot(){
+  const qs=new URLSearchParams(location.search);
+  const code=(qs.get('reto')||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
+  const online=qs.has('online');
+  const sala=(qs.get('sala')||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
+  seasonBoot(!!(code||online||sala)).then(()=>sbCall('bots_tick')).catch(()=>{});
+  if(code||online||sala){try{history.replaceState(null,'',baseUrl());}catch(e){}}
+  if(sala)openRoom(sala);
+  else if(code)openLink(code);
+  else if(online)duelModal({ico:'⚔️',tit:'Duelo online',txt:'Te han invitado a un duelo. Dale a buscar rival y os emparejamos.',
+    buttons:[{label:'Buscar rival',fn:()=>{closeDuelModal();startOnline();}},{label:'Ahora no',ghost:true,fn:closeDuelModal}]});
+  if(!registered())return;
+  try{
+    const mine=await sbCall('link_mine',{pid:store.pid});
+    store.linkSeen=store.linkSeen||{};
+    let k=0;
+    (mine.created||[]).forEach(c=>{
+      (c.plays||[]).filter(p=>p.score!=null).forEach(p=>{
+        const key=c.code+':'+p.name;
+        if(store.linkSeen[key])return;
+        store.linkSeen[key]=1;
+        const txt=escapeHtml(p.name)+' ha jugado tu reto: '+fmt(p.score)+' contra tus '+fmt(c.score)+(p.score>c.score?' · te ha ganado':(p.score<c.score?' · le has ganado':' · empate'));
+        setTimeout(()=>toast(txt,'⚔️'),800+k++*1200);
+      });
+    });
+    save();
+  }catch(e){}
+}
+
+function toast(txt,ico){
+  const d=document.createElement('div');d.className='toast';
+  d.innerHTML=(ico?'<span>'+ico+'</span>':'')+'<span>'+txt+'</span>';
+  $('toasts').appendChild(d);
+  setTimeout(()=>d.remove(),3600);
+}
+function showRankUp(r,review){
+  $('rankUp').querySelector('.ru-tag').textContent=review?'TU RANGO ACTUAL':'HAS SUBIDO DE RANGO';
+  $('ruIco').textContent=r.ico;$('ruName').textContent=r.name;
+  const rr=$('ruRar');rr.textContent=r.rar.toUpperCase();rr.style.color=RARCOL[r.rar];rr.style.borderColor=RARCOL[r.rar];
+  const nx=RANKS[RANKS.indexOf(r)+1];
+  $('ruRew').textContent=nx?('Siguiente rango: '+nx.ico+' '+nx.name+' · desde '+fmt(nx.t)+' puntos'):'Has llegado al rango máximo';
+  $('rankUp').hidden=false;
+  beep('win');if(!review)confetti();
+}
+$('ruOk').addEventListener('click',()=>{$('rankUp').hidden=true;});
+$('rankUp').addEventListener('click',e=>{if(e.target===$('rankUp'))$('rankUp').hidden=true;});
+
+function renderStats(){
+  $('sGames').textContent=store.games;$('sWins').textContent=store.wins;
+  $('sBest').textContent=store.best?fmt(store.best):'–';
+}
+renderStats();
+
+const LOGO_SRC='data:image/svg+xml;charset=utf-8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" aria-hidden="true"><defs><clipPath id="gdhs5"><rect x="0" y="0" width="100" height="63"></rect></clipPath><clipPath id="gdds5"><circle cx="50" cy="60" r="31.5"></circle></clipPath></defs><g clip-path="url(#gdhs5)"><circle cx="50" cy="60" r="32" fill="#f5f8f3"></circle><g clip-path="url(#gdds5)"><polygon points="50.00,33.00 59.51,39.91 55.88,51.09 44.12,51.09 40.49,39.91" fill="#06241a"></polygon><path d="M50.00 33.00L50.00 26.00" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="50.00,25.50 40.96,18.94 44.42,8.31 55.58,8.31 59.04,18.94" fill="#06241a"></polygon><path d="M59.51 39.91L66.17 37.75" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="66.64,37.59 70.09,26.97 81.26,26.97 84.71,37.59 75.68,44.16" fill="#06241a"></polygon><path d="M55.88 51.09L59.99 56.75" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="60.29,57.16 71.45,57.16 74.91,67.78 65.87,74.34 56.84,67.78" fill="#06241a"></polygon><path d="M44.12 51.09L40.01 56.75" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="39.71,57.16 43.16,67.78 34.13,74.34 25.09,67.78 28.55,57.16" fill="#06241a"></polygon><path d="M40.49 39.91L33.83 37.75" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="33.36,37.59 24.32,44.16 15.29,37.59 18.74,26.97 29.91,26.97" fill="#06241a"></polygon></g></g><path d="M9 72H91" stroke="#f5f8f3" stroke-width="7" stroke-linecap="round"></path></svg>');
+let logoImg=null;
+function loadLogo(){if(logoImg)return logoImg;logoImg=new Promise(res=>{const i=new Image();i.onload=()=>res(i);i.onerror=()=>res(null);i.src=LOGO_SRC;});return logoImg;}
+async function drawShare(){
+  const logo=await loadLogo();try{await document.fonts.load('600 46px Jost');}catch(e){}
+  const r=lastResult,c=$('shareCanvas'),x=c.getContext('2d'),W=c.width,H=c.height;
+  x.fillStyle='#06241a';x.fillRect(0,0,W,H);
+  for(let i=0;i<W;i+=150){x.fillStyle=(i/150)%2?'#0d4a33':'#0b4530';x.fillRect(i,0,150,H);}
+  const g=x.createRadialGradient(W/2,0,0,W/2,0,H);g.addColorStop(0,'rgba(255,255,220,.18)');g.addColorStop(1,'rgba(0,0,0,.55)');
+  x.fillStyle=g;x.fillRect(0,0,W,H);
+  x.textAlign='center';
+  x.fillStyle='#f3c545';x.font='700 34px Barlow, sans-serif';
+  x.fillText((r.daily?'RETO DIARIO · '+r.date.split('-').reverse().join('/'):'RETO DE LOS 15.000 GOLES').toUpperCase(),W/2,110);
+  x.fillStyle='#f5f8f3';x.font='900 96px "Barlow Condensed", Impact, sans-serif';
+  x.fillText('RETO DE LOS',W/2,215);
+  x.fillStyle='#f3c545';x.fillText('15.000 GOLES',W/2,305);
+  x.font='900 200px "Barlow Condensed", Impact, sans-serif';
+  x.fillStyle=r.pass?'#63e0a1':'#f5f8f3';
+  x.fillText(fmt(r.t),W/2,520);
+  x.font='700 40px Barlow, sans-serif';x.fillStyle='#f5f8f3';
+  x.fillText('puntos',W/2,575);
+  
+  x.font='900 56px "Barlow Condensed", sans-serif';x.fillStyle='#f3c545';
+  x.save();x.font='90px "Noto Color Emoji",sans-serif';x.fillText(r.med.ico,W/2,700);x.restore();
+  x.fillText(r.med.name.toUpperCase(),W/2,770);
+  x.font='700 28px Barlow, sans-serif';x.fillStyle='rgba(245,248,243,.72)';
+  x.fillText('Medalla '+r.med.rar.toUpperCase()+' · la consiguen '+r.med.pct+' de los jugadores',W/2,815);
+  const top=r.slots.slice().sort((a,b)=>b.pts-a.pts).slice(0,3);
+  let y=880;
+  x.textAlign='left';
+  top.forEach(s=>{
+    x.fillStyle='rgba(255,255,255,.08)';x.fillRect(90,y-48,W-180,72);
+    x.fillStyle='#f5f8f3';x.font='700 38px Barlow, sans-serif';
+    let nm=s.p.name;if(nm.length>22)nm=nm.slice(0,21)+'…';
+    x.fillText(nm+'  ·  '+SLOTS[s.i].label,120,y);
+    x.textAlign='right';x.fillStyle='#f3c545';x.font='900 46px "Barlow Condensed", sans-serif';
+    x.fillText(fmt(s.pts),W-120,y);x.textAlign='left';
+    y+=100;
+  });
+  x.textAlign='center';x.fillStyle='rgba(245,248,243,.75)';x.font='600 34px Barlow, sans-serif';
+  x.fillText(r.pass?'¡Reto superado!':'Me faltaron '+fmt(r.goal-r.t)+' puntos',W/2,1210);
+  x.fillStyle='rgba(245,248,243,.5)';x.font='600 30px Barlow, sans-serif';
+  x.fillText('¿Lo superas tú?',W/2,1255);
+  x.font='600 46px Jost, "Century Gothic", sans-serif';
+  if('letterSpacing' in x)x.letterSpacing='6px';
+  const tw=x.measureText('GOALDAY').width,ms=64,gap=14,bx=W/2-(ms+gap+tw)/2;
+  if(logo)x.drawImage(logo,bx,1318-ms+10,ms,ms);
+  x.textAlign='left';x.fillStyle='#f5f8f3';x.fillText('GOALDAY',bx+ms+gap,1318);
+  if('letterSpacing' in x)x.letterSpacing='0px';x.textAlign='center';
+  return new Promise(res=>c.toBlob(b=>res(b),'image/png'));
+}
+let shareBlob=null;
+async function share(){
+  if(!lastResult)return;
+  shareBlob=await drawShare();
+  $('shareImg').src=URL.createObjectURL(shareBlob);
+  $('shareModal').hidden=false;
+}
+async function shareNow(){
+  const r=lastResult;
+  const text=(r.daily?'Reto diario ':'')+'Reto de los 15.000 goles ⚽ '+fmt(r.t)+' puntos · '+r.med.name+'. ¿Lo superas? '+location.href;
+  try{
+    const file=new File([shareBlob],'goalday-15000.png',{type:'image/png'});
+    if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],text});return;}
+    if(navigator.share){await navigator.share({text});return;}
+    const a=document.createElement('a');a.href=URL.createObjectURL(shareBlob);a.download='goalday-15000.png';a.click();
+  }catch(e){}
+}
+$('btnShareNow').addEventListener('click',shareNow);
+$('btnCloseShare').addEventListener('click',()=>{$('shareModal').hidden=true;});
+$('shareModal').addEventListener('click',e=>{if(e.target===$('shareModal'))$('shareModal').hidden=true;});
+
+function confetti(){
+  if(reduceMotion)return;
+  const c=$('confetti'),ctx=c.getContext('2d');
+  c.hidden=false;c.width=innerWidth;c.height=innerHeight;
+  const cols=['#f3c545','#ffe08a','#63e0a1','#f5f8f3','#ff6b5c'];
+  const ps=Array.from({length:140},()=>({x:Math.random()*c.width,y:-20-Math.random()*c.height*.5,r:4+Math.random()*5,vy:2+Math.random()*3,vx:-1+Math.random()*2,rot:Math.random()*6,vr:-.1+Math.random()*.2,col:cols[Math.floor(Math.random()*cols.length)]}));
+  const t0=performance.now();
+  (function frame(t){
+    ctx.clearRect(0,0,c.width,c.height);
+    ps.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.rot+=p.vr;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.fillStyle=p.col;ctx.fillRect(-p.r/2,-p.r/2,p.r,p.r*1.6);ctx.restore();});
+    if(t-t0<3200)requestAnimationFrame(frame);else{ctx.clearRect(0,0,c.width,c.height);c.hidden=true;}
+  })(t0);
+}
+
+[['tab-libre','libre'],['tab-diario','diario']].forEach(([id,m])=>{
+  $(id).addEventListener('click',()=>{stopDuel();mode=m;$('result').hidden=true;document.body.classList.remove('done');newGame();});
+});
+$('tab-online').addEventListener('click',startOnline);
+$('myPos').addEventListener('click',()=>{$('rt-duel').click();$('p-rank').scrollIntoView({behavior:reduceMotion?'auto':'smooth',block:'start'});});
+$('tab-enlace').addEventListener('click',startRoom);
+function goHome(){
+  paintMyPos();
+  stopDuel();if(mode==='online'||mode==='enlace')mode='libre';
+  document.body.classList.remove('playing','done');game=null;
+  $('result').hidden=true;$('dailyBar').hidden=true;$('skips').hidden=true;
+  const d=store.daily[todayKey()];
+  $('dailySub').textContent=d?('Hoy ya lo has jugado: '+fmt(d.t)+' puntos'):((store.dailyStart||{})[todayKey()]?'Hoy lo dejaste a medias. Vuelve mañana':'Los mismos 17 jugadores para todo el mundo. Un solo intento');
+  window.scrollTo({top:0,behavior:'auto'});
+}
+board.addEventListener('click',e=>{const b=e.target.closest('.slot');if(b&&!b.disabled)place(Number(b.dataset.i));});
+$('btnAgain').addEventListener('click',()=>{
+  if(mode==='online'){if(lastPrivate)rematch();else startOnline();return;}
+  if(mode==='enlace'){startLink();return;}
+  $('result').hidden=true;document.body.classList.remove('done');if(mode==='diario'&&(store.daily[todayKey()]||(store.dailyStart||{})[todayKey()])){mode='libre';}newGame();});
+$('btnHome').addEventListener('click',goHome);
+$('btnRank').addEventListener('click',()=>{showRankUp(RANKS[rankIdx(store.best||0)],true);});
+$('btnShare').addEventListener('click',share);
+goHome();
+duelBoot();
+
+})();
+</script>
+<script src="stadiums.js"></script>
+<script src="lang.js"></script>
+</body>
+</html>
