@@ -450,7 +450,7 @@ const START=1000,FLOOR=100,SKEY='gd_bj3_stats';
 // Apuesta mínima: 10 % de tus fichas (mínimo 100). Así no se sube en el ranking apostando siempre poco.
 const minBet=c=>Math.max(FLOOR,Math.round(c*0.10/50)*50);
 const CHIP_COLORS=['#1f5fbf','#1d8a4e','#c8322a','#16110b'];
-let T=0,STAND=0,M=null,deck=[],chips=0,hand=0,bet=FLOOR,pc=[],dc=[],nextCard=null,busy=false,log=[],rankMode='carrera';
+let T=0,STAND=0,M=null,deck=[],chips=0,hand=0,bet=FLOOR,pc=[],dc=[],nextCard=null,busy=false,log=[],rankMode='carrera',doubled=false,rankReq=0;
 
 // ---- ranking mundial (Supabase, mismo proyecto y mismo nombre que el Reto) ----
 const SB_URL='https://mvcvqzbosnwkhnlfvsuf.supabase.co';
@@ -475,11 +475,12 @@ async function renderRank(){
   const box=$('rankBox');
   box.innerHTML=`<h3>🌍 Ranking mundial</h3><div class="rtabs">${MODES.map(m=>`<button data-r="${m.k}" class="${m.k===rankMode?'on':''}">${m.n}</button>`).join('')}</div><div id="rankList" class="muted">Cargando…</div>`;
   box.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{rankMode=b.dataset.r;renderRank()});
+  const tok=++rankReq;
   try{
-    const list=await top10(rankMode),my=me().name;
+    const list=await top10(rankMode),my=me().name;if(tok!==rankReq)return;
     $('rankList').className='';
     $('rankList').innerHTML=list.length?list.map((x,i)=>`<div class="rrow${x.name===my?' me':''}"><span class="n">${i+1}</span><span>${esc(x.name)}</span><span class="c">${fmt(x.chips)}</span></div>`).join(''):'<p class="muted">Todavía no hay nadie. ¡Sé el primero!</p>';
-  }catch(e){$('rankList').innerHTML='<p class="muted">Ranking no disponible ahora mismo.</p>'}
+  }catch(e){if(tok===rankReq)$('rankList').innerHTML='<p class="muted">Ranking no disponible ahora mismo.</p>'}
 }
 
 // ---- cartas ----
@@ -520,9 +521,10 @@ async function syncBest(){
   if(!pend.length)return;
   const box=$('rankBox');let st=box.querySelector('.rsync');if(!st){st=document.createElement('p');st.className='muted rsync';st.style.marginTop='8px';box.appendChild(st)}
   if(!u.pid||!u.name){st.textContent='Tu récord ('+fmt(s.best[pend[0].k])+' fichas) aún no está en el ranking porque en este navegador no tienes nombre. Retírate una vez y elige tu nombre.';return}
-  let changed=false,err='';
-  for(const m of pend){try{await postScore(m.k,s.best[m.k]);s.sent[m.k]=s.best[m.k];changed=true}catch(e){err=(e.status||'sin conexión')+(e.body?' · '+String(e.body).slice(0,140):'')}}
-  if(changed){store.set(SKEY,s);await renderRank()}
+  let err='';const done={};
+  for(const m of pend){try{await postScore(m.k,s.best[m.k]);done[m.k]=s.best[m.k]}catch(e){err=(e.status||'sin conexión')+(e.body?' · '+String(e.body).slice(0,140):'')}}
+  // se relee: mientras subía, una partida puede haber guardado manos, partidas o un récord nuevo
+  if(Object.keys(done).length){const s2=stats();s2.sent=s2.sent||{};for(const k in done)s2.sent[k]=Math.max(s2.sent[k]||0,done[k]);store.set(SKEY,s2);await renderRank()}
   if(err){st=$('rankBox').querySelector('.rsync')||st;if(!st.isConnected)$('rankBox').appendChild(st);st.textContent='No se ha podido subir tu récord al ranking. Motivo: '+err}
 }
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
@@ -569,9 +571,11 @@ async function deal(){
   if(busy)return;busy=true;
   $('act').innerHTML='<div class="wait">Repartiendo…</div>';
   $('mid').innerHTML=feltHTML()+`<div class="spot">${stackHTML(bet)}<b>${fmt(bet)}</b></div>`;
-  pc=[draw()];addCard($('pCards'),cardHTML(pc[0],{cls:'deal'}));setTot('pSum',fmt(total(pc)));await wait(380);
+  // tus dos cartas de salida nunca se pasan del objetivo
+  let a=draw(),b=draw();for(let k=0;k<200&&V(a)+V(b)>T;k++){a=draw();b=draw()}
+  pc=[a];addCard($('pCards'),cardHTML(pc[0],{cls:'deal'}));setTot('pSum',fmt(total(pc)));await wait(380);
   dc=[draw()];addCard($('dCards'),cardHTML(dc[0],{cls:'deal'}));setTot('dSum',fmt(V(dc[0]))+'+');await wait(380);
-  pc.push(draw());addCard($('pCards'),cardHTML(pc[1],{cls:'deal'}));setTot('pSum',fmt(total(pc)),total(pc)>T?'bust':'');await wait(380);
+  pc.push(b);addCard($('pCards'),cardHTML(pc[1],{cls:'deal'}));setTot('pSum',fmt(total(pc)),total(pc)>T?'bust':'');await wait(380);
   dc.push(draw());addCard($('dCards'),cardHTML(dc[1],{down:true,cls:'deal'}));await wait(450);
   busy=false;
   if(total(pc)>T){busy=true;return settle('bust')}
@@ -588,7 +592,7 @@ function offer(){
 }
 async function take(dbl){
   if(busy)return;busy=true;
-  if(dbl)bet*=2;
+  if(dbl){bet*=2;doubled=true}
   const c=nextCard;nextCard=null;pc.push(c);
   $('act').innerHTML='<div class="wait">&nbsp;</div>';
   $('mid').innerHTML=feltHTML()+`<div class="spot">${stackHTML(bet)}<b>${fmt(bet)}</b></div>`;
@@ -634,6 +638,7 @@ function settle(r){
   const broke=chips<FLOOR;
   $('act').innerHTML=`<button class="bigbtn" id="bNext">${broke?'Ver resultado':'Siguiente mano'}</button>`;
   $('bNext').onclick=()=>{if(broke)finish(false);else betPhase()};
+  if(doubled){bet/=2;doubled=false}  // la siguiente mano vuelve a la apuesta de antes de doblar
   busy=false;bet=Math.min(bet,chips);
 }
 function finish(cashed){

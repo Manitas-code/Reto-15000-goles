@@ -101,6 +101,7 @@ var D={
 '¿De qué equipo eres?':'Which team do you support?','Elige primero tu liga. Tu estadio será el fondo del juego y podrás cambiarlo cuando quieras.':'Pick your league first. Your stadium will be the game background and you can change it any time.',
 'Elige tu liga. Tu estadio será el fondo de todos los juegos y puedes cambiarlo cuando quieras.':'Pick your league. Your stadium will be the background of every game and you can change it any time.',
 'Espera a que termine el recuento':'Wait for the count to finish',
+'Ya lo has probado. Elige otro jugador.':'You already tried him. Pick another player.',
 'Sin equipo, gracias':'No team, thanks','‹ Ligas':'‹ Leagues','Liga Argentina':'Argentine league','Liga MX':'Liga MX','20 equipos':'20 teams','18 equipos':'18 teams','30 equipos':'30 teams',
 // ---- partida ----
 'Sacando al primer jugador…':'Drawing the first player…','Total':'Total','Descartar jugador':'Discard player','Descartes:':'Discards:','Puntos totales':'Total points','Jugar otra vez':'Play again','🔁 Jugar otra vez':'🔁 Play again','⚔️ Jugar otra vez':'⚔️ Play again','Compartir imagen':'Share image','Ver mi rango':'See my rank','Ver mis medallas':'See my medals',

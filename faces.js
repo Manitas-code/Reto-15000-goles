@@ -22,27 +22,29 @@ async function byTitles(names){
   for(let i=0;i<names.length;i+=50){
     const part=names.slice(i,i+50),titles=part.map(n=>TITLE[n]||n);
     try{
-      const d=await (await fetch(API+'&titles='+encodeURIComponent(titles.join('|')))).json();
+      const r=await fetch(API+'&titles='+encodeURIComponent(titles.join('|')));if(!r.ok)throw 0;
+      const d=await r.json();if(d.error)throw 0;
       const q=d.query||{},hop={};
       (q.normalized||[]).forEach(x=>hop[x.from]=x.to);(q.redirects||[]).forEach(x=>hop[x.from]=x.to);
       const img={};Object.values(q.pages||{}).forEach(p=>{if(p.thumbnail)img[p.title]=p.thumbnail.source});
       part.forEach((n,j)=>{let t=titles[j],k=0;while(hop[t]&&k++<3)t=hop[t];if(img[t])out[n]=img[t]});
-    }catch(e){}
+    }catch(e){part.forEach(n=>out[n]=null)} // null = la petición falló: no se guarda en caché
   }
   return out;
 }
 async function bySearch(name){
   try{
-    const d=await (await fetch(API.replace('&redirects=1','')+'&generator=search&gsrlimit=1&gsrsearch='+encodeURIComponent(name+' futbolista'))).json();
-    const p=d.query&&Object.values(d.query.pages)[0];return (p&&p.thumbnail&&p.thumbnail.source)||'';
-  }catch(e){return ''}
+    const r=await fetch(API.replace('&redirects=1','')+'&generator=search&gsrlimit=1&gsrsearch='+encodeURIComponent(name+' futbolista'));if(!r.ok)return null;
+    const d=await r.json();if(d.error)return null;
+    const p=d.query&&d.query.pages&&Object.values(d.query.pages)[0];return (p&&p.thumbnail&&p.thumbnail.source)||'';
+  }catch(e){return null}
 }
 async function batch(names){
   const res={},todo=[];
   names.forEach(n=>{if(FIX[n])res[n]=FIX[n];else if(n in cache)res[n]=cache[n];else todo.push(n)});
   if(todo.length){
     const got=await byTitles(todo);
-    for(const n of todo){cache[n]=got[n]||await bySearch(n);res[n]=cache[n]}
+    for(const n of todo){const u=got[n]===null?null:(got[n]||await bySearch(n));if(u!==null)cache[n]=u;res[n]=u||''}
     save();
   }
   return res;
