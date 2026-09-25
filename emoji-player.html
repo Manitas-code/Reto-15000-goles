@@ -179,7 +179,9 @@ const $=id=>document.getElementById(id);
 const store={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 const pad=n=>String(n).padStart(2,'0');
 function dayKey(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
-const now=new Date(),today=new Date(now.getFullYear(),now.getMonth(),now.getDate()),TODAY=dayKey(today);
+// El día va por la hora de Madrid: mismo reto y mismo ranking para todo el mundo
+function madridDay(){const now=new Date();try{const p=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Madrid',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now),g=t=>+p.find(x=>x.type===t).value;return new Date(g('year'),g('month')-1,g('day'))}catch(e){return new Date(now.getFullYear(),now.getMonth(),now.getDate())}}
+const today=madridDay(),TODAY=dayKey(today);
 const fmt=n=>n.toLocaleString('es-ES');
 const POINTS=[600,400,200],TRIES=3,PER_DAY=5;
 
@@ -199,8 +201,10 @@ function picksFor(d){
   for(let k=0;k<2;k++)out.push(HARD_ORDER[m(i*2+k,HARD_ORDER.length)]);
   return shuffled(out,'day-'+dayKey(d));
 }
-const norm=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[«»"'’.-]/g,' ').replace(/\s+/g,' ').trim();
-function matches(q,p){q=norm(q);if(!q)return false;const n=norm(p.name);if(n.startsWith(q))return true;return n.split(' ').some(w=>w.startsWith(q))||n.replace(/ /g,'').startsWith(q.replace(/ /g,''));}
+const SPC={'ø':'o','æ':'ae','ß':'ss','đ':'d','ł':'l'};
+const norm=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[øæßđł]/g,c=>SPC[c]).replace(/[«»"'’.-]/g,' ').replace(/\s+/g,' ').trim();
+// lo escrito puede empezar en cualquier palabra del nombre ("van basten", "di maria", "alexander-arnold")
+function matches(q,p){q=norm(q);if(!q)return false;const w=norm(p.name).split(' '),q2=q.replace(/ /g,'');return w.some((_,i)=>{const r=w.slice(i);return r.join(' ').startsWith(q)||r.join('').startsWith(q2)});}
 
 // ---------- estado ----------
 const SKEY='gd_emoji_v1';
@@ -214,13 +218,15 @@ function updateStreak(s){
   s.streak=(s.lastDone===dayKey(y))?s.streak+1:1;s.lastDone=TODAY;
 }
 function renderHome(){
-  $('homeDate').textContent=today.toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});
-  const s=S();$('streakLine').textContent=s.streak?('🔥 Racha: '+s.streak+(s.streak===1?' día':' días')):'';
+  $('homeDate').textContent=today.toLocaleDateString(window.FG_LANG&&FG_LANG.get()==='en'?'en-GB':'es-ES',{weekday:'long',day:'numeric',month:'long'});
+  const s=S(),y=new Date(today);y.setDate(y.getDate()-1);const sk=(s.lastDone===TODAY||s.lastDone===dayKey(y))?s.streak:0;
+  $('streakLine').textContent=sk?('🔥 Racha: '+sk+(sk===1?' día':' días')):'';
   $('btnStart').textContent=day?(day.done?'Ver mi resultado de hoy':'▶ Continuar el reto de hoy'):'▶ Jugar el reto de hoy';
 }
 function start(){
   if(!day){day={res:[],score:0,done:false};st.days[TODAY]=day;saveS(st);}
-  if(day.done){showEnd();return;}
+  if(day.done){showEnd();if(day.sent||(me().pid&&me().name))sendScore();return;}
+  if(day.res.length>=PER_DAY){finish();return;}
   cur=day.res.length;$('home').hidden=true;$('end').hidden=true;$('game').hidden=false;renderPlayer();
 }
 function renderDots(){
@@ -228,14 +234,15 @@ function renderDots(){
   for(let i=0;i<PER_DAY;i++){const s=document.createElement('span');const r=day.res[i];if(r!==undefined)s.className=r===1?'g':r===2?'y':r===3?'o':'k';else if(i===cur)s.className='now';d.appendChild(s);}
 }
 function renderPlayer(){
-  fails=[];busy=false;const p=picks[cur];
+  fails=(day.cur&&day.cur.i===cur)?day.cur.fails.slice():[];busy=false;const p=picks[cur];
   $('idx').textContent=cur+1;$('pts').textContent=fmt(day.score);renderDots();
   $('emojis').innerHTML=p.emojis.map(e=>'<span>'+e+'</span>').join('');
-  $('worth').textContent=POINTS[0];$('tries').querySelectorAll('span').forEach(x=>x.className='');
-  $('guesses').innerHTML='';$('fb').textContent='';$('fb').className='fb';$('reveal').hidden=true;
+  $('worth').textContent=POINTS[fails.length];$('tries').querySelectorAll('span').forEach((x,i)=>x.className=i<fails.length?'x':'');
+  $('guesses').innerHTML='';fails.forEach(n=>{$('guesses').appendChild(document.createElement('span')).textContent=n;});
+  $('fb').textContent='';$('fb').className='fb';$('reveal').hidden=true;
   $('inp').value='';$('inp').disabled=false;$('btnGo').disabled=false;hideSug();setTimeout(()=>$('inp').focus(),50);
 }
-function hideSug(){$('sug').hidden=true;$('sug').innerHTML='';}
+function hideSug(){$('sug').hidden=true;$('sug').innerHTML='';sugList=[];sugIdx=0;}
 let sugIdx=0,sugList=[];
 function showSug(){
   const q=$('inp').value;if(norm(q).length<2){hideSug();return;}
@@ -255,7 +262,7 @@ $('inp').addEventListener('keydown',e=>{
 function paintSug(){$('sug').querySelectorAll('button').forEach((b,i)=>b.className=i===sugIdx?'on':'');}
 $('btnGo').addEventListener('click',()=>{
   if(busy)return;const q=$('inp').value;
-  let p=sugList.length?sugList[sugIdx]:ALL.find(x=>norm(x.name)===norm(q));
+  let p=(!$('sug').hidden&&sugList.length)?sugList[sugIdx]:ALL.find(x=>norm(x.name)===norm(q));
   if(!p){const l=ALL.filter(x=>matches(q,x));if(l.length===1)p=l[0];}
   if(!p){$('fb').textContent='Elige un jugador de la lista.';$('fb').className='fb bad';return;}
   hideSug();guess(p);
@@ -263,7 +270,8 @@ $('btnGo').addEventListener('click',()=>{
 function guess(p){
   if(busy)return;const target=picks[cur];
   if(p.name===target.name){resolve(fails.length+1);return;}
-  fails.push(p.name);
+  if(fails.includes(p.name)){$('inp').value='';$('fb').textContent='Ya lo has probado. Elige otro jugador.';$('fb').className='fb bad';return;}
+  fails.push(p.name);day.cur={i:cur,fails:fails.slice()};saveS(st);
   const sp=$('guesses').appendChild(document.createElement('span'));sp.textContent=p.name;
   $('tries').querySelectorAll('span')[fails.length-1].className='x';
   $('inp').value='';
@@ -274,7 +282,7 @@ function guess(p){
 }
 function resolve(attempt){
   busy=true;const p=picks[cur];const pts=attempt?POINTS[attempt-1]:0;
-  day.res[cur]=attempt;day.score+=pts;saveS(st);
+  day.res[cur]=attempt;day.score+=pts;delete day.cur;saveS(st);
   $('inp').disabled=true;$('btnGo').disabled=true;$('pts').textContent=fmt(day.score);renderDots();
   $('fb').textContent=attempt?'¡Acertaste!':'Se acabaron los intentos.';$('fb').className='fb '+(attempt?'good':'bad');
   $('rvName').textContent=p.name;$('rvPts').textContent=attempt?('+'+pts+' puntos · intento '+attempt):'0 puntos';$('rvWhy').textContent=p.why;
@@ -350,16 +358,16 @@ function askName(){
     catch(e){$('nmOk').disabled=false;$('nmErr').textContent=e.status===409?'Ese nombre ya lo tiene otro jugador. Elige otro.':'No se ha podido guardar. Revisa la conexión.'}
   };
 }
-let rankTab='week';
+let rankTab='week',rankReq=0;
 $('tabWeek').onclick=()=>{rankTab='week';$('tabWeek').className='on';$('tabDay').className='';renderRank();};
 $('tabDay').onclick=()=>{rankTab='day';$('tabDay').className='on';$('tabWeek').className='';renderRank();};
 async function renderRank(){
-  const ul=$('rankList');ul.innerHTML='<li class="muted">Cargando…</li>';
+  const ul=$('rankList'),tok=++rankReq;ul.innerHTML='<li class="muted">Cargando…</li>';
   try{
     const q=rankTab==='week'?('day=gte.'+weekStart(today)):('day=eq.'+TODAY);
     const r=await fetch(SB_URL+'/rest/v1/emoji_scores?select=name,score,day&'+q+'&limit=5000',{headers:SB_H});
     if(!r.ok)throw new Error('HTTP '+r.status);
-    const rows=await r.json(),sum={};
+    const rows=await r.json(),sum={};if(tok!==rankReq)return;
     rows.forEach(x=>{sum[x.name]=(sum[x.name]||0)+(x.score||0);});
     const list=Object.entries(sum).sort((a,b)=>b[1]-a[1]);
     ul.innerHTML='';
@@ -368,9 +376,13 @@ async function renderRank(){
     list.slice(0,20).forEach(([n,s],i)=>{const li=document.createElement('li');li.className=n===my?'me':'';li.innerHTML='<span><span class="n">'+(i<3?['🥇','🥈','🥉'][i]:(i+1))+'</span>'+esc(n)+'</span><span>'+fmt(s)+'</span>';ul.appendChild(li);});
     const pos=list.findIndex(([n])=>n===my);
     if(pos>=20){const li=document.createElement('li');li.className='me';li.innerHTML='<span><span class="n">'+(pos+1)+'</span>'+esc(my)+'</span><span>'+fmt(list[pos][1])+'</span>';ul.appendChild(li);}
-  }catch(e){ul.innerHTML='<li class="muted">Ranking no disponible ahora mismo.</li>';}
+  }catch(e){if(tok===rankReq)ul.innerHTML='<li class="muted">Ranking no disponible ahora mismo.</li>';}
 }
 renderHome();renderRank();
+// la fecha de la portada, ya con el idioma de lang.js
+document.addEventListener('DOMContentLoaded',renderHome);
+// si el resultado de hoy no llegó al ranking (sin conexión), se reintenta
+if(day&&day.done&&!day.sent&&me().pid&&me().name)sendScore();
 </script>
 <script src="lang.js"></script>
 <script src="stadiums.js"></script>

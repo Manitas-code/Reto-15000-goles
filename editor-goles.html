@@ -59,7 +59,8 @@ input[type=text],input[type=number]{width:100%;background:#0a110e;border:1px sol
 <script>
 const KEY='gd_editor_v1';
 const saved=(()=>{try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return {}}})();
-const G=GOLES.map((g,i)=>Object.assign({},g,saved[i]||{}));
+// goles.js puede faltar (el Gol del día se retiró): entonces G es null y el editor avisa sin romperse
+const G=typeof GOLES==='undefined'?null:GOLES.map((g,i)=>Object.assign({},g,saved[i]||{}));
 let cur=0,player=null,apiReady=false;
 const $=id=>document.getElementById(id);
 
@@ -119,8 +120,9 @@ function fileText(){
 $('dl').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([fileText()],{type:'text/javascript'}));a.download='goles.js';a.click()};
 $('cp').onclick=async()=>{try{await navigator.clipboard.writeText(fileText());$('cp').textContent='Copiado ✔'}catch(e){$('cp').textContent='No se pudo copiar'}};
 
-renderList();renderEd();
-const s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s);
+if(!G){$('dl').disabled=$('cp').disabled=true;$('ed').innerHTML='<p class="warn">Falta goles.js: sube goles.js junto a este archivo para usar el editor.</p>';}
+else{renderList();renderEd();
+const s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s);}
 </script>
 </body>
 </html>
