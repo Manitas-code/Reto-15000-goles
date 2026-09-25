@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#06241a">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;800;900&family=Barlow:wght@400;600;700&family=Noto+Color+Emoji&display=swap" rel="stylesheet">
+<script>/* fondo del estadio al instante */try{var fgc=JSON.parse(localStorage.getItem('fg_bg')),fgt=localStorage.getItem('fg_team');if(fgc&&fgc.url&&fgt&&fgt!=='none'&&fgc.t===fgt){document.documentElement.classList.add('fgbg');var fgs=document.createElement('style');fgs.textContent='html.fgbg{background:#050912}html.fgbg::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:#050912 url("'+fgc.url+'") center top/cover no-repeat}html.fgbg body{background:transparent!important}';document.head.appendChild(fgs)}}catch(e){}</script>
+<title>Emoji Player · GOALDAY</title>
+<meta name="description" content="Cinco futbolistas al día escondidos en emojis. Adivínalos en tres intentos.">
+<style>
+:root{
+  --night:#06241a;--glass:rgba(5,28,19,.82);--glass-2:rgba(255,255,255,.06);--glass-3:rgba(255,255,255,.11);
+  --chalk:#f5f8f3;--chalk-2:rgba(245,248,243,.68);--chalk-3:rgba(245,248,243,.38);--line:rgba(245,248,243,.14);
+  --gold:#f3c545;--gold-2:#ffe08a;--pass:#63e0a1;--fail:#ff6b5c;--btn:#f3c545;--btn-ink:#1b1a0f;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{min-height:100vh;background:radial-gradient(ellipse at 50% -10%,#145c40 0,var(--night) 60%) fixed,var(--night);color:var(--chalk);font-family:Barlow,system-ui,sans-serif;padding-bottom:env(safe-area-inset-bottom,0)}
+button{font:inherit;touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer}
+.wrap{max-width:640px;margin:0 auto;padding:14px 16px 40px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.back{color:var(--chalk-2);text-decoration:none;font-weight:700;font-size:14px;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:var(--glass-2)}
+.brand{font-family:"Barlow Condensed";font-weight:900;letter-spacing:.12em;font-size:18px}
+.set-btn{border:1px solid var(--line);background:var(--glass-2);color:var(--chalk);border-radius:999px;padding:8px 12px;font-weight:700;font-size:14px}
+h1{font-family:"Barlow Condensed";font-weight:900;font-size:clamp(38px,10vw,60px);line-height:.92;margin:18px 0 6px;text-transform:uppercase;text-align:center}
+h1 em{font-style:normal;color:var(--gold)}
+.sub{color:var(--chalk-2);text-align:center;margin:0 0 14px;font-weight:600}
+.sub b{color:var(--gold-2)}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:6px 0 10px;font-weight:700;font-size:14px;color:var(--chalk-2)}
+.bar .pts{color:var(--gold);font-family:"Barlow Condensed";font-size:24px}
+.dots{display:flex;gap:6px}
+.dots span{width:26px;height:8px;border-radius:4px;background:var(--glass-3)}
+.dots span.g{background:var(--pass)}.dots span.y{background:var(--gold)}.dots span.o{background:#ff9b4a}.dots span.k{background:#3a4a42}.dots span.now{outline:2px solid var(--chalk);outline-offset:2px}
+.stage{border-radius:20px;border:1px solid var(--line);background:var(--glass);padding:22px 12px;text-align:center}
+.emojis{font-family:"Noto Color Emoji",sans-serif;font-size:clamp(34px,11vw,58px);line-height:1.25;display:flex;flex-wrap:wrap;justify-content:center;gap:6px 14px;min-height:80px}
+.emojis span{display:inline-block;animation:pop .4s ease-out backwards}
+.emojis span:nth-child(2){animation-delay:.08s}.emojis span:nth-child(3){animation-delay:.16s}.emojis span:nth-child(4){animation-delay:.24s}
+@keyframes pop{0%{transform:scale(.5);opacity:0}70%{transform:scale(1.08);opacity:1}100%{transform:scale(1);opacity:1}}
+.worth{margin-top:10px;font-weight:700;color:var(--chalk-2);font-size:14px}
+.worth b{color:var(--gold-2);font-family:"Barlow Condensed";font-size:22px}
+.guess{position:relative;display:flex;gap:8px;margin-top:14px}
+.guess input{flex:1;min-width:0;border-radius:12px;border:1px solid var(--line);background:rgba(0,0,0,.28);color:var(--chalk);padding:13px 14px;font:600 17px Barlow,sans-serif;outline:0}
+.guess input:focus{border-color:var(--gold)}
+.sug{position:absolute;left:0;right:0;bottom:calc(100% + 6px);z-index:5;background:#0a2e21;border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.sug button{display:block;width:100%;text-align:left;border:0;background:transparent;color:var(--chalk);padding:11px 14px;font-weight:600;font-size:16px}
+.sug button+button{border-top:1px solid var(--line)}
+.sug button.on,.sug button:hover{background:var(--glass-3)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:14px;padding:14px 20px;background:var(--btn);color:var(--btn-ink);font-family:"Barlow Condensed";font-weight:900;font-size:20px;text-transform:uppercase;letter-spacing:.04em;box-shadow:0 8px 24px rgba(243,197,69,.25)}
+.btn.ghost{background:var(--glass-2);color:var(--chalk);border:1px solid var(--line);box-shadow:none}
+.btn.small{font-size:16px;padding:10px 14px;border-radius:12px}
+.btn:disabled{opacity:.5;cursor:default}
+.tries{display:flex;gap:6px;align-items:center;margin:10px 0 0;font-size:14px;color:var(--chalk-2)}
+.tries span{width:22px;height:6px;border-radius:3px;background:var(--glass-3)}
+.tries span.x{background:var(--fail)}
+.fb{min-height:22px;margin:8px 0 0;font-weight:700}
+.fb.bad{color:var(--fail)}.fb.good{color:var(--pass)}
+.guesses{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;justify-content:center}
+.guesses span{font-size:13px;padding:4px 10px;border-radius:999px;background:rgba(255,107,92,.15);color:#ffb1a8;text-decoration:line-through}
+.reveal{margin-top:12px;border-radius:16px;padding:16px;background:linear-gradient(160deg,rgba(243,197,69,.18),rgba(5,28,19,.9) 70%);border:1px solid rgba(243,197,69,.4);text-align:left}
+.reveal .nm{font-family:"Barlow Condensed";font-weight:900;font-size:32px;text-transform:uppercase;line-height:1}
+.reveal .mt{color:var(--gold-2);margin:6px 0 10px;font-weight:700}
+.reveal p{margin:0 0 12px;line-height:1.45;color:var(--chalk-2)}
+.done{margin-top:12px}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:14px 0}
+.cell{border-radius:12px;padding:10px 4px;text-align:center;font-family:"Noto Color Emoji",sans-serif;font-size:26px;background:var(--glass-2)}
+.cell.g{background:rgba(99,224,161,.25)}.cell.y{background:rgba(243,197,69,.3)}.cell.o{background:rgba(255,155,74,.3)}.cell.k{background:rgba(255,107,92,.18)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+.stat{background:var(--glass-2);border-radius:12px;padding:10px;text-align:center}
+.stat b{display:block;font-family:"Barlow Condensed";font-size:28px;color:var(--gold)}
+.stat span{font-size:12px;color:var(--chalk-2)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center}
+.muted{color:var(--chalk-3);font-size:13px}
+.rank{margin-top:22px;border-radius:16px;border:1px solid var(--line);background:var(--glass);padding:14px}
+.rank h2{font-family:"Barlow Condensed";font-weight:900;text-transform:uppercase;font-size:24px;margin:0 0 8px}
+.tabs{display:flex;gap:6px;margin-bottom:10px}
+.tabs button{flex:1;border:1px solid var(--line);background:var(--glass-2);color:var(--chalk-2);border-radius:10px;padding:8px;font-weight:700}
+.tabs button.on{background:var(--glass-3);color:var(--chalk)}
+.rank ol{list-style:none;margin:0;padding:0}
+.rank li{display:flex;justify-content:space-between;gap:10px;padding:8px 6px;border-top:1px solid var(--line);font-weight:600}
+.rank li.me{color:var(--gold-2)}
+.rank li .n{color:var(--chalk-3);width:28px}
+.namebox{display:flex;gap:8px;margin-top:8px}
+.namebox input{flex:1;min-width:0;border-radius:10px;border:1px solid var(--line);background:rgba(0,0,0,.28);color:var(--chalk);padding:10px 12px;font:600 16px Barlow,sans-serif}
+.sm{font-size:13px;color:var(--fail);margin-top:6px}
+[hidden]{display:none!important}
+.emoji{font-family:"Noto Color Emoji",sans-serif}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#0a2e21;color:var(--chalk);border:1px solid var(--line);padding:10px 16px;border-radius:999px;font-weight:700;opacity:0;transition:opacity .2s;pointer-events:none;z-index:9}
+.toast.on{opacity:1}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="top">
+    <a class="back" href="index.html">← Juegos</a>
+    <span class="brand">GOALDAY</span>
+    <button class="set-btn" id="btnLang" title="Idioma / Language">🌐 EN</button>
+  </div>
+  <h1>Emoji <em>Player</em></h1>
+  <p class="sub" id="subTitle">5 futbolistas escondidos en emojis. <b>3 intentos</b> para cada uno.</p>
+
+  <section id="home">
+    <div class="stage">
+      <div class="emojis"><span>🐐</span><span>🔟</span><span>❓</span><span>❓</span></div>
+      <p class="worth">Hoy: <b id="homeDate"></b></p>
+      <p class="muted">Acierta a la primera: 600 puntos · a la segunda: 400 · a la tercera: 200. Los mismos 5 jugadores para todo el mundo. Un solo intento al día.</p>
+      <p class="muted" id="streakLine"></p>
+      <div class="row" style="margin-top:10px"><button class="btn" id="btnStart">▶ Jugar el reto de hoy</button></div>
+      <div id="nameBox" hidden style="margin-top:14px;text-align:left">
+        <p class="worth" style="margin:0 0 4px">Elige tu nombre para el ranking mundial:</p>
+        <p class="muted" style="margin:0">Vale para todos los juegos de GOALDAY. Máximo 16 caracteres.</p>
+        <div class="namebox"><input id="nmIn0" maxlength="16" placeholder="Tu nombre"><button class="btn small" id="nmOk0">Guardar y jugar</button></div>
+        <div id="nmErr0" class="sm"></div>
+        <button class="set-btn" id="nmSkip0" style="margin-top:10px">Ahora no</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="game" hidden>
+    <div class="bar">
+      <span>Jugador <b id="idx">1</b> de 5</span>
+      <div class="dots" id="dots"></div>
+      <span class="pts" id="pts">0</span>
+    </div>
+    <div class="stage">
+      <div class="emojis" id="emojis"></div>
+      <p class="worth">Vale <b id="worth">600</b> puntos</p>
+      <div class="tries" id="tries"><span></span><span></span><span></span></div>
+      <div class="guesses" id="guesses"></div>
+      <div class="guess">
+        <div class="sug" id="sug" hidden></div>
+        <input id="inp" placeholder="Escribe el nombre del jugador" autocomplete="off" autocorrect="off" spellcheck="false">
+        <button class="btn small" id="btnGo">Probar</button>
+      </div>
+      <div class="fb" id="fb"></div>
+      <div class="reveal" id="reveal" hidden>
+        <div class="nm" id="rvName"></div>
+        <div class="mt" id="rvPts"></div>
+        <p id="rvWhy"></p>
+        <button class="btn" id="btnNext">Siguiente jugador →</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="end" hidden>
+    <div class="stage done">
+      <div class="nm" style="font-family:'Barlow Condensed';font-weight:900;font-size:34px;text-transform:uppercase">Reto de hoy completado</div>
+      <div class="grid" id="endGrid"></div>
+      <div class="stats">
+        <div class="stat"><b id="endPts">0</b><span>puntos de 3.000</span></div>
+        <div class="stat"><b id="endHits">0</b><span>aciertos de 5</span></div>
+        <div class="stat"><b id="endStreak">0</b><span>días seguidos</span></div>
+      </div>
+      <div class="row">
+        <button class="btn" id="btnShare">📤 Compartir resultado</button>
+        <button class="btn ghost" id="btnReview">Ver los jugadores</button>
+      </div>
+      <p class="muted" id="endNote">Mañana hay 5 jugadores nuevos.</p>
+      <div id="rankMsg" class="muted" style="margin-top:8px"></div>
+    </div>
+    <div id="review" hidden></div>
+  </section>
+
+  <section class="rank" id="rankBox">
+    <h2>🌍 Ranking semanal</h2>
+    <div class="tabs"><button class="on" id="tabWeek">Esta semana</button><button id="tabDay">Hoy</button></div>
+    <ol id="rankList"><li class="muted">Cargando…</li></ol>
+    <p class="muted">La semana se cierra el domingo a medianoche y el lunes empieza de cero. Los 3 primeros de cada semana ganan medalla.</p>
+  </section>
+</main>
+<div class="toast" id="toast"></div>
+
+<script src="emojis-jugadores.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const store={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const pad=n=>String(n).padStart(2,'0');
+function dayKey(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
+const now=new Date(),today=new Date(now.getFullYear(),now.getMonth(),now.getDate()),TODAY=dayKey(today);
+const fmt=n=>n.toLocaleString('es-ES');
+const POINTS=[600,400,200],TRIES=3,PER_DAY=5;
+
+// ---------- jugadores ----------
+const ALL=(window.GD_EMOJI||[]).map(r=>({name:r[0],emojis:r.slice(1,5),why:r[5]||''}));
+const isFlag=e=>/[\u{1F1E6}-\u{1F1FF}]/u.test(e)||e.startsWith('🏴');
+const EASY=ALL.filter(p=>p.emojis.some(isFlag)),HARD=ALL.filter(p=>!p.emojis.some(isFlag));
+function seeded(s){let h=1779033703^s.length;for(let i=0;i<s.length;i++){h=Math.imul(h^s.charCodeAt(i),3432918353);h=h<<13|h>>>19;}return function(){h=Math.imul(h^(h>>>16),2246822507);h=Math.imul(h^(h>>>13),3266489909);h^=h>>>16;return (h>>>0)/4294967296;};}
+function shuffled(arr,seed){const r=seeded(seed),a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+// Orden fijo de cada bolsa; cada día avanza 3 fáciles y 2 difíciles, así nadie se repite hasta agotar la bolsa.
+const EASY_ORDER=shuffled(EASY,'goalday-emoji-easy-v1'),HARD_ORDER=shuffled(HARD,'goalday-emoji-hard-v1');
+const EPOCH=new Date(2026,8,28); // lunes 28-09-2026 = día 0
+const dayIndex=d=>Math.round((d-EPOCH)/86400000);
+function picksFor(d){
+  const i=dayIndex(d),m=(n,l)=>((n%l)+l)%l,out=[];
+  for(let k=0;k<3;k++)out.push(EASY_ORDER[m(i*3+k,EASY_ORDER.length)]);
+  for(let k=0;k<2;k++)out.push(HARD_ORDER[m(i*2+k,HARD_ORDER.length)]);
+  return shuffled(out,'day-'+dayKey(d));
+}
+const norm=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[«»"'’.-]/g,' ').replace(/\s+/g,' ').trim();
+function matches(q,p){q=norm(q);if(!q)return false;const n=norm(p.name);if(n.startsWith(q))return true;return n.split(' ').some(w=>w.startsWith(q))||n.replace(/ /g,'').startsWith(q.replace(/ /g,''));}
+
+// ---------- estado ----------
+const SKEY='gd_emoji_v1';
+function S(){const s=store.get(SKEY)||{};s.days=s.days||{};s.streak=s.streak||0;return s}
+function saveS(s){store.set(SKEY,s)}
+let st=S(),day=st.days[TODAY]||null,picks=picksFor(today),cur=0,fails=[],busy=false;
+
+function updateStreak(s){
+  const y=new Date(today);y.setDate(y.getDate()-1);
+  if(s.lastDone===TODAY)return;
+  s.streak=(s.lastDone===dayKey(y))?s.streak+1:1;s.lastDone=TODAY;
+}
+function renderHome(){
+  $('homeDate').textContent=today.toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});
+  const s=S();$('streakLine').textContent=s.streak?('🔥 Racha: '+s.streak+(s.streak===1?' día':' días')):'';
+  $('btnStart').textContent=day?(day.done?'Ver mi resultado de hoy':'▶ Continuar el reto de hoy'):'▶ Jugar el reto de hoy';
+}
+function start(){
+  if(!day){day={res:[],score:0,done:false};st.days[TODAY]=day;saveS(st);}
+  if(day.done){showEnd();return;}
+  cur=day.res.length;$('home').hidden=true;$('end').hidden=true;$('game').hidden=false;renderPlayer();
+}
+function renderDots(){
+  const d=$('dots');d.innerHTML='';
+  for(let i=0;i<PER_DAY;i++){const s=document.createElement('span');const r=day.res[i];if(r!==undefined)s.className=r===1?'g':r===2?'y':r===3?'o':'k';else if(i===cur)s.className='now';d.appendChild(s);}
+}
+function renderPlayer(){
+  fails=[];busy=false;const p=picks[cur];
+  $('idx').textContent=cur+1;$('pts').textContent=fmt(day.score);renderDots();
+  $('emojis').innerHTML=p.emojis.map(e=>'<span>'+e+'</span>').join('');
+  $('worth').textContent=POINTS[0];$('tries').querySelectorAll('span').forEach(x=>x.className='');
+  $('guesses').innerHTML='';$('fb').textContent='';$('fb').className='fb';$('reveal').hidden=true;
+  $('inp').value='';$('inp').disabled=false;$('btnGo').disabled=false;hideSug();setTimeout(()=>$('inp').focus(),50);
+}
+function hideSug(){$('sug').hidden=true;$('sug').innerHTML='';}
+let sugIdx=0,sugList=[];
+function showSug(){
+  const q=$('inp').value;if(norm(q).length<2){hideSug();return;}
+  sugList=ALL.filter(p=>matches(q,p)&&!fails.includes(p.name)).slice(0,5);
+  if(!sugList.length){hideSug();return;}
+  sugIdx=0;const b=$('sug');b.innerHTML='';
+  sugList.forEach((p,i)=>{const x=document.createElement('button');x.type='button';x.textContent=p.name;x.className=i===0?'on':'';x.onclick=()=>{$('inp').value=p.name;hideSug();guess(p);};b.appendChild(x);});
+  b.hidden=false;
+}
+$('inp').addEventListener('input',showSug);
+$('inp').addEventListener('keydown',e=>{
+  if(e.key==='ArrowDown'&&sugList.length){sugIdx=(sugIdx+1)%sugList.length;paintSug();e.preventDefault();}
+  else if(e.key==='ArrowUp'&&sugList.length){sugIdx=(sugIdx-1+sugList.length)%sugList.length;paintSug();e.preventDefault();}
+  else if(e.key==='Enter'){e.preventDefault();$('btnGo').click();}
+  else if(e.key==='Escape')hideSug();
+});
+function paintSug(){$('sug').querySelectorAll('button').forEach((b,i)=>b.className=i===sugIdx?'on':'');}
+$('btnGo').addEventListener('click',()=>{
+  if(busy)return;const q=$('inp').value;
+  let p=sugList.length?sugList[sugIdx]:ALL.find(x=>norm(x.name)===norm(q));
+  if(!p){const l=ALL.filter(x=>matches(q,x));if(l.length===1)p=l[0];}
+  if(!p){$('fb').textContent='Elige un jugador de la lista.';$('fb').className='fb bad';return;}
+  hideSug();guess(p);
+});
+function guess(p){
+  if(busy)return;const target=picks[cur];
+  if(p.name===target.name){resolve(fails.length+1);return;}
+  fails.push(p.name);
+  const sp=$('guesses').appendChild(document.createElement('span'));sp.textContent=p.name;
+  $('tries').querySelectorAll('span')[fails.length-1].className='x';
+  $('inp').value='';
+  if(fails.length>=TRIES){resolve(0);return;}
+  $('worth').textContent=POINTS[fails.length];
+  $('fb').textContent=fails.length===1?'No es él. Te quedan 2 intentos.':'Tampoco. Último intento.';$('fb').className='fb bad';
+  setTimeout(()=>$('inp').focus(),30);
+}
+function resolve(attempt){
+  busy=true;const p=picks[cur];const pts=attempt?POINTS[attempt-1]:0;
+  day.res[cur]=attempt;day.score+=pts;saveS(st);
+  $('inp').disabled=true;$('btnGo').disabled=true;$('pts').textContent=fmt(day.score);renderDots();
+  $('fb').textContent=attempt?'¡Acertaste!':'Se acabaron los intentos.';$('fb').className='fb '+(attempt?'good':'bad');
+  $('rvName').textContent=p.name;$('rvPts').textContent=attempt?('+'+pts+' puntos · intento '+attempt):'0 puntos';$('rvWhy').textContent=p.why;
+  $('btnNext').textContent=cur===PER_DAY-1?'Ver resultado':'Siguiente jugador →';$('reveal').hidden=false;
+}
+$('btnNext').addEventListener('click',()=>{cur++;if(cur>=PER_DAY){finish();}else renderPlayer();});
+function finish(){day.done=true;updateStreak(st);saveS(st);showEnd();sendScore();}
+function showEnd(){
+  $('home').hidden=true;$('game').hidden=true;$('end').hidden=false;
+  const g=$('endGrid');g.innerHTML='';
+  day.res.forEach(r=>{const c=document.createElement('div');c.className='cell '+(r===1?'g':r===2?'y':r===3?'o':'k');c.textContent=r===1?'🟩':r===2?'🟨':r===3?'🟧':'⬛';g.appendChild(c);});
+  $('endPts').textContent=fmt(day.score);$('endHits').textContent=day.res.filter(r=>r>0).length;$('endStreak').textContent=S().streak;
+  const rv=$('review');rv.innerHTML='';
+  picks.forEach((p,i)=>{const d=document.createElement('div');d.className='reveal';const r=day.res[i];
+    d.innerHTML='<div class="emoji" style="font-size:26px">'+p.emojis.join(' ')+'</div><div class="nm">'+esc(p.name)+'</div><div class="mt">'+(r?('intento '+r+' · +'+POINTS[r-1]+' puntos'):'no acertado')+'</div><p>'+esc(p.why)+'</p>';rv.appendChild(d);});
+}
+$('btnReview').addEventListener('click',()=>{$('review').hidden=!$('review').hidden;});
+function shareText(){
+  const sq=day.res.map(r=>r===1?'🟩':r===2?'🟨':r===3?'🟧':'⬛').join('');
+  const d=today.getDate()+'/'+pad(today.getMonth()+1);
+  return 'GOALDAY · Emoji Player '+d+'\n'+sq+' '+fmt(day.score)+' pts'+(S().streak>1?' · 🔥'+S().streak:'')+'\n'+location.origin+location.pathname;
+}
+$('btnShare').addEventListener('click',async()=>{const t=shareText();try{if(navigator.share)await navigator.share({text:t});else{await navigator.clipboard.writeText(t);toast('Copiado ✔');}}catch(e){}});
+function esc(x){return String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),1600);}
+$('btnStart').addEventListener('click',()=>{
+  if(!day||!day.done){const u=me();if(!u.pid||!u.name){$('nameBox').hidden=false;$('btnStart').hidden=true;setTimeout(()=>$('nmIn0').focus(),50);return;}}
+  start();
+});
+$('nmSkip0').addEventListener('click',()=>{$('nameBox').hidden=true;$('btnStart').hidden=false;start();});
+$('nmIn0').addEventListener('keydown',e=>{if(e.key==='Enter')$('nmOk0').click();});
+$('nmOk0').addEventListener('click',async()=>{
+  const n=($('nmIn0').value||'').replace(/\s+/g,' ').trim().slice(0,16);
+  if(n.length<2){$('nmErr0').textContent='Mínimo 2 caracteres.';return}
+  $('nmOk0').disabled=true;$('nmOk0').textContent='Comprobando…';$('nmErr0').textContent='';
+  try{const pid=newId();await sbRpc('register_name',{pid,n});saveMe(pid,n);toast('Nombre registrado: '+n);$('nameBox').hidden=true;$('btnStart').hidden=false;start();}
+  catch(e){$('nmErr0').textContent=e.status===409?'Ese nombre ya lo tiene otro jugador. Elige otro.':'No se ha podido guardar. Revisa la conexión.';}
+  finally{$('nmOk0').disabled=false;$('nmOk0').textContent='Guardar y jugar';}
+});
+
+// ---------- ranking mundial (Supabase, mismo nombre que el Reto) ----------
+const SB_URL='https://mvcvqzbosnwkhnlfvsuf.supabase.co';
+const SB_KEY='sb_publishable_2l-zuNvtSO2SoiPfPDaOow_V1yl8zp0';
+const SB_H={'apikey':SB_KEY,'Content-Type':'application/json'};
+const RKEY='reto15k-v2';
+const me=()=>{try{return JSON.parse(localStorage.getItem(RKEY))||{}}catch(e){return {}}};
+function saveMe(pid,name){const o=me();o.pid=pid;o.name=name;try{localStorage.setItem(RKEY,JSON.stringify(o))}catch(e){}}
+function newId(){if(window.crypto&&crypto.randomUUID)return crypto.randomUUID();return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{const r=Math.random()*16|0;return (c==='x'?r:(r&3|8)).toString(16)})}
+async function sbRpc(fn,args){const r=await fetch(SB_URL+'/rest/v1/rpc/'+fn,{method:'POST',headers:SB_H,body:JSON.stringify(args)});if(!r.ok){const e=new Error('HTTP '+r.status);e.status=r.status;throw e}}
+function weekStart(d){const x=new Date(d);const w=(x.getDay()+6)%7;x.setDate(x.getDate()-w);return dayKey(x);}
+async function postScore(){
+  const u=me();if(!u.pid||!u.name)return false;
+  const r=await fetch(SB_URL+'/rest/v1/emoji_scores',{method:'POST',headers:Object.assign({'Prefer':'return=minimal,resolution=merge-duplicates'},SB_H),body:JSON.stringify({player_id:u.pid,name:u.name,day:TODAY,score:day.score})});
+  if(!r.ok){const e=new Error('HTTP '+r.status);e.status=r.status;try{e.body=await r.text()}catch(x){}throw e}return true;
+}
+async function sendScore(){
+  if(!day||!day.done)return;
+  if(day.sent){$('rankMsg').textContent='🌍 Guardado en el ranking como '+me().name;return;}
+  if(!me().pid||!me().name){askName();return;}
+  try{await postScore();day.sent=true;saveS(st);$('rankMsg').textContent='🌍 Guardado en el ranking mundial como '+me().name;renderRank();}
+  catch(e){const b=e.body||'';
+    $('rankMsg').textContent=(e.status===404||/42P01|does not exist|schema cache/i.test(b))?'No se ha podido guardar: falta crear la tabla del ranking en Supabase.'
+      :(e.status===401||e.status===403||/42501|permission|policy/i.test(b))?'No se ha podido guardar: la tabla del ranking no tiene permisos.'
+      :'No se ha podido guardar en el ranking ('+(e.status||'sin conexión')+').';}
+}
+function askName(){
+  $('rankMsg').innerHTML='Elige tu nombre para salir en el ranking mundial:<div class="namebox"><input id="nmIn" maxlength="16" placeholder="Tu nombre"><button class="btn small" id="nmOk">Guardar</button></div><div id="nmErr" class="sm"></div>';
+  $('nmOk').onclick=async()=>{
+    const n=($('nmIn').value||'').replace(/\s+/g,' ').trim().slice(0,16);
+    if(n.length<2){$('nmErr').textContent='Mínimo 2 caracteres.';return}
+    $('nmOk').disabled=true;
+    try{const pid=newId();await sbRpc('register_name',{pid,n});saveMe(pid,n);sendScore()}
+    catch(e){$('nmOk').disabled=false;$('nmErr').textContent=e.status===409?'Ese nombre ya lo tiene otro jugador. Elige otro.':'No se ha podido guardar. Revisa la conexión.'}
+  };
+}
+let rankTab='week';
+$('tabWeek').onclick=()=>{rankTab='week';$('tabWeek').className='on';$('tabDay').className='';renderRank();};
+$('tabDay').onclick=()=>{rankTab='day';$('tabDay').className='on';$('tabWeek').className='';renderRank();};
+async function renderRank(){
+  const ul=$('rankList');ul.innerHTML='<li class="muted">Cargando…</li>';
+  try{
+    const q=rankTab==='week'?('day=gte.'+weekStart(today)):('day=eq.'+TODAY);
+    const r=await fetch(SB_URL+'/rest/v1/emoji_scores?select=name,score,day&'+q+'&limit=5000',{headers:SB_H});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const rows=await r.json(),sum={};
+    rows.forEach(x=>{sum[x.name]=(sum[x.name]||0)+(x.score||0);});
+    const list=Object.entries(sum).sort((a,b)=>b[1]-a[1]);
+    ul.innerHTML='';
+    if(!list.length){ul.innerHTML='<li class="muted">Todavía no hay nadie. ¡Sé el primero!</li>';return;}
+    const my=me().name;
+    list.slice(0,20).forEach(([n,s],i)=>{const li=document.createElement('li');li.className=n===my?'me':'';li.innerHTML='<span><span class="n">'+(i<3?['🥇','🥈','🥉'][i]:(i+1))+'</span>'+esc(n)+'</span><span>'+fmt(s)+'</span>';ul.appendChild(li);});
+    const pos=list.findIndex(([n])=>n===my);
+    if(pos>=20){const li=document.createElement('li');li.className='me';li.innerHTML='<span><span class="n">'+(pos+1)+'</span>'+esc(my)+'</span><span>'+fmt(list[pos][1])+'</span>';ul.appendChild(li);}
+  }catch(e){ul.innerHTML='<li class="muted">Ranking no disponible ahora mismo.</li>';}
+}
+renderHome();renderRank();
+</script>
+<script src="lang.js"></script>
+<script src="stadiums.js"></script>
+</body>
+</html>
