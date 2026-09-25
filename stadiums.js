@@ -396,34 +396,40 @@ function svg(S,vbW,vbH){
 }
 var KEY='fg_team',bgEl,pick;
 function team(){var id=null;try{id=localStorage.getItem(KEY);}catch(e){}return TEAMS.find(function(t){return t.id===id;})||null;}
-var lastUrl=null,curTeam=null;
+var lastUrl=null,curTeam=null,gen=0,lbl=null,done=false;
 var CKEY='fg_bg';
-function sizeKey(){return (curTeam?curTeam.id:'')+'|'+window.innerWidth+'x'+window.innerHeight+'|'+Math.min(window.devicePixelRatio||1,2);}
+function sizeKey(id){return id+'|'+window.innerWidth+'x'+window.innerHeight+'|'+Math.min(window.devicePixelRatio||1,2);}
+// mismo equipo, ancho y dpr, y alto parecido (barra de URL del móvil): vale la imagen, que se pinta en modo cover
+function fits(a,b){var x=String(a).split('|'),y=String(b).split('|');if(x.length<3||x[0]!==y[0]||x[2]!==y[2])return false;x=x[1].split('x');y=y[1].split('x');return x[0]===y[0]&&Math.abs(x[1]-y[1])<0.25*Math.max(+x[1],+y[1]);}
 function readCache(){try{var c=JSON.parse(localStorage.getItem(CKEY));return c&&c.url?c:null;}catch(e){return null;}}
-function writeCache(url){try{localStorage.setItem(CKEY,JSON.stringify({k:sizeKey(),t:curTeam.id,url:url}));}catch(e){try{localStorage.removeItem(CKEY);}catch(x){}}}
+function writeCache(k,id,url){try{localStorage.setItem(CKEY,JSON.stringify({k:k,t:id,url:url}));}catch(e){try{localStorage.removeItem(CKEY);}catch(x){}}}
+function show(u){bgEl=bgEl||document.getElementById('fgStadium');if(u===lastUrl)return;lastUrl=u;bgEl.style.backgroundImage=u?'url("'+u+'")':'';}
 function paint(){
-  if(!curTeam)return;
-  bgEl=bgEl||document.getElementById('fgStadium');
-  var cached=readCache();
-  if(cached&&cached.t===curTeam.id){bgEl.style.backgroundImage='url("'+cached.url+'")';if(cached.k===sizeKey())return;}
+  var my=++gen,t=curTeam;
+  if(!t)return;
+  var k=sizeKey(t.id),cached=readCache();
+  if(cached&&cached.t===t.id){show(cached.url);if(fits(cached.k,k))return;}
   var dpr=Math.min(window.devicePixelRatio||1,2),vw=window.innerWidth,vh=window.innerHeight;
   // en pantallas anchas se abre el encuadre a los lados en vez de ampliar el dibujo
   var vbH=640,vbW=Math.max(390,Math.round(vbH*vw/vh));
-  var blob=new Blob([svg(curTeam.spec,vbW,vbH)],{type:'image/svg+xml;charset=utf-8'}),url=URL.createObjectURL(blob),img=new Image();
+  var blob=new Blob([svg(t.spec,vbW,vbH)],{type:'image/svg+xml;charset=utf-8'}),url=URL.createObjectURL(blob),img=new Image();
   img.onload=function(){
+    URL.revokeObjectURL(url);
+    if(my!==gen)return; // ya hay otro dibujo más nuevo (otro equipo u otro tamaño)
     var c=document.createElement('canvas');c.width=Math.round(vw*dpr);c.height=Math.round(vh*dpr);
     var ctx=c.getContext('2d');ctx.scale(dpr,dpr);
     var sc=Math.max(vw/vbW,vh/vbH),w=vbW*sc,h=vbH*sc;ctx.fillStyle='#050912';ctx.fillRect(0,0,vw,vh);ctx.drawImage(img,(vw-w)/2,0,w,h);
-    URL.revokeObjectURL(url);
     var dataUrl=c.toDataURL('image/jpeg',0.86);
-    bgEl.style.backgroundImage='url("'+dataUrl+'")';
-    writeCache(dataUrl);
+    show(dataUrl);
+    // si la ventana cambió mientras se dibujaba, no se guarda y se vuelve a dibujar
+    if(fits(k,sizeKey(t.id)))writeCache(k,t.id,dataUrl);else{clearTimeout(rt);rt=setTimeout(paint,250);}
   };
+  img.onerror=function(){URL.revokeObjectURL(url);};
   img.src=url;
 }
 function apply(t){
   bgEl=bgEl||document.getElementById('fgStadium');curTeam=t;
-  if(!t){try{localStorage.removeItem(CKEY);}catch(e){}document.documentElement.classList.remove('fgbg');document.body.classList.remove('hasteam');document.dispatchEvent(new CustomEvent('fg:team',{detail:null}));bgEl.style.backgroundImage='';delete document.body.dataset.bg;return;}
+  if(!t){gen++;try{localStorage.removeItem(CKEY);}catch(e){}document.documentElement.classList.remove('fgbg');document.body.classList.remove('hasteam');show(null);delete document.body.dataset.bg;var b0=document.getElementById('btnTeam');if(b0&&lbl!=null)b0.textContent=lbl;document.dispatchEvent(new CustomEvent('fg:team',{detail:null}));return;}
   document.body.classList.add('hasteam');paint();
   // clasificar el estadio para elegir el color de acento del texto
   function hex(c){c=c.replace('#','');return [parseInt(c.substr(0,2),16),parseInt(c.substr(2,2),16),parseInt(c.substr(4,2),16)];}
@@ -456,19 +462,27 @@ function open(){
     TEAMS.filter(function(t){return t.league===L[0];}).forEach(function(t){
       var b=document.createElement('button');b.type='button';b.className='tp-team'+(cur&&cur.id===t.id?' on':'');
       b.style.setProperty('--c',t.color);b.innerHTML='<span class="tp-dot"></span><span class="tp-txt"><span class="tp-n">'+t.name+'</span><span class="tp-s">'+t.stadium+'</span></span>';
-      b.onclick=function(){try{localStorage.setItem(KEY,t.id);}catch(e){}apply(t);pick.hidden=true;document.body.classList.remove('tp-open');};
+      b.onclick=function(){try{localStorage.setItem(KEY,t.id);}catch(e){}done=true;apply(t);shut();};
       grid.appendChild(b);
     });
     var sc=stepT.querySelector('.tp-scroll');if(sc)sc.scrollTop=0;
   }
   stepT.querySelector('.tp-back').onclick=showLeagues;
-  stepL.querySelector('.tp-skip').onclick=function(){try{localStorage.setItem(KEY,'none');}catch(e){}pick.hidden=true;document.body.classList.remove('tp-open');};
+  stepL.querySelector('.tp-skip').onclick=function(){try{localStorage.setItem(KEY,'none');}catch(e){}done=true;apply(null);shut();};
+  // cerrar sin elegir (×, Escape o clic fuera) solo si ya hay una elección guardada; la primera vez hay que elegir
+  var x=pick.querySelector('.tp-x');
+  if(!x){x=document.createElement('button');x.type='button';x.className='tp-x';x.setAttribute('aria-label','Cerrar');x.textContent='×';pick.querySelector('.tp-in').appendChild(x);}
+  x.onclick=function(){if(canClose())shut();};x.hidden=!canClose();
+  pick.onclick=function(e){if(e.target===pick&&canClose())shut();};
   if(cur){showTeams(LEAGUES.filter(function(L){return L[0]===cur.league;})[0]||LEAGUES[0]);}else showLeagues();
   pick.hidden=false;document.body.classList.add('tp-open');
 }
+function canClose(){var s=null;try{s=localStorage.getItem(KEY);}catch(e){}return done||!!s;}
+function shut(){if(pick)pick.hidden=true;document.body.classList.remove('tp-open');}
+document.addEventListener('keydown',function(e){if((e.key==='Escape'||e.key==='Esc')&&pick&&!pick.hidden&&canClose())shut();});
 /* Si la página no trae el fondo ni el selector (portada y otros juegos), se crean aquí */
 function ensure(){
-  var css='';
+  var css='.tp-in{position:relative}.tp-x{position:absolute;top:calc(10px + env(safe-area-inset-top,0px));right:10px;z-index:1;width:40px;height:40px;border-radius:50%;border:1px solid rgba(245,248,243,.14);background:rgba(255,255,255,.06);color:#f5f8f3;font:400 26px/1 system-ui,sans-serif;cursor:pointer;padding:0}.tp-x[hidden]{display:none}#teamPick .tp-h{padding-right:44px}';
   if(!document.getElementById('fgStadium')){
     var d=document.createElement('div');d.id='fgStadium';d.setAttribute('aria-hidden','true');document.body.insertBefore(d,document.body.firstChild);
     css+='#fgStadium{position:fixed;inset:0;z-index:-1;pointer-events:none;background:#050912 center top / cover no-repeat;transform:translateZ(0)}body.hasteam{background:#050912!important}';
@@ -483,6 +497,7 @@ function ensure(){
 }
 function boot(){
   ensure();
+  var b0=document.getElementById('btnTeam');if(b0)lbl=b0.textContent;
   var t=team();apply(t);
   var has=false;try{has=!!localStorage.getItem(KEY);}catch(e){}
   // el selector solo sale solo en páginas con botón de equipo (portada y reto)
