@@ -46,6 +46,11 @@ var D={
 'Goles en toda su carrera':'Career goals','Goles con su selección':'National team goals',
 'acierto seguido · ¡nuevo récord!':'correct in a row · new record!','aciertos seguidos · ¡nuevo récord!':'correct in a row · new record!',
 'Otra vez':'Play again','Copiado ✔':'Copied ✔',
+'10 segundos':'10 seconds','para cada respuesta':'to answer each one',
+'Los mismos jugadores para todo el mundo. Un solo intento al día.':'The same players for everyone. One attempt per day.',
+'Hoy lo dejaste a medias':'Left unfinished today','vuelve mañana':'come back tomorrow',
+'Se acabó el tiempo':'Time\'s up','acierto seguido':'correct in a row','aciertos seguidos':'correct in a row','mañana hay otro reto':'new challenge tomorrow',
+'Volver':'Back','Elige tu nombre para salir en el ranking':'Choose your name to appear in the ranking',
 // ---- Emoji Player ----
 'Emoji Player · GOALDAY':'Emoji Player · GOALDAY',
 '5 futbolistas escondidos en emojis. 3 intentos para cada uno. ¿Los pillas todos?':'5 footballers hidden in emojis. 3 guesses each. Can you get them all?',
@@ -160,6 +165,7 @@ var RULES=[
  [/^💸 Me he quedado sin fichas en la mano (\d+)$/,'💸 I ran out of chips on hand $1'],
  [/^Récord: ([\d.]+) fichas$/,'Record: $1 chips'],[/^Récord: (\d+)$/,'Record: $1'],
  [/^aciertos? seguidos? · récord: (\d+)$/,'correct in a row · record: $1'],
+ [/^Hoy: racha (\d+)$/,'Today: streak $1'],[/^Reto diario (\d+\/\d+(?:\/\d+)?)$/,'Daily challenge $1'],
  [/^(.+) tiene ([\d.]+) y (.+?) ([\d.]+)\.$/,'$1 has $2 and $3 has $4.'],[/^🔥 Racha de (\d+)$/,'🔥 Streak of $1'],
  // reto: partida
  [/^Jugador (\d+) de (\d+)$/,'Player $1 of $2'],[/^Liga ×5 de hoy: (.+)$/,'Today\'s ×5 league: $1'],[/^Descartes: (.*)$/,'Discards: $1'],

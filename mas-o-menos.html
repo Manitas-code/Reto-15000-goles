@@ -224,25 +224,48 @@ body.playing .wrap{max-width:940px}
 @media (min-width:680px){#cA,#cB{padding-top:34px}}
 @media (min-width:680px){.kit{width:168px;height:168px}}
 @media (max-width:420px){.kit{width:86px;height:86px;margin:-6px 0 0}.side{min-height:0}.led{font-size:60px}}
+</style><style>
+/* ===== reto diario, reloj de 10 s y ranking mundial ===== */
+.mode.day{grid-column:1/-1}
+.mode.done{opacity:.7}
+.strip{position:relative}
+.tbar{position:absolute;left:0;right:0;bottom:-2px;height:3px;background:var(--led);box-shadow:0 0 8px rgba(255,194,58,.6);transform-origin:left center}
+.tbar.low{background:var(--down);box-shadow:0 0 8px rgba(255,90,78,.6)}
+.mid span.t{font-family:Doto,"Barlow Condensed",monospace;font-size:26px;color:var(--led);border-color:rgba(255,194,58,.55)}
+.mid span.t.low{color:var(--down);border-color:var(--down)}
+.rank{margin-top:12px;background:var(--glass);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.rank h3{margin:0 0 10px;font-family:"Barlow Condensed";font-weight:900;font-size:20px;text-transform:uppercase;letter-spacing:.04em}
+.rtabs{display:flex;gap:6px;margin-bottom:10px}
+.rtabs button{flex:1;border:1px solid var(--line);background:transparent;color:var(--chalk-2);border-radius:999px;padding:7px;font-weight:700}
+.rtabs button.on{background:rgba(255,194,58,.16);border-color:var(--led);color:var(--led)}
+.rrow{display:grid;grid-template-columns:28px 1fr auto;gap:8px;padding:7px 2px;border-bottom:1px solid rgba(255,255,255,.06);font-weight:700}
+.rrow:last-child{border-bottom:0}
+.rrow .n{color:var(--chalk-3)}.rrow .c{font-family:Doto,"Barlow Condensed",monospace;font-weight:900;color:var(--led)}
+.rrow.me{color:var(--led)}
+.namebox{display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+.namebox input{font:700 17px Barlow,system-ui,sans-serif;padding:11px 12px;border-radius:12px;border:1px solid var(--line);background:rgba(0,0,0,.35);color:var(--chalk);width:190px;max-width:100%}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#0a2e21;color:var(--chalk);border:1px solid var(--line);padding:10px 16px;border-radius:999px;font-weight:700;opacity:0;transition:opacity .2s;pointer-events:none;z-index:9;max-width:calc(100% - 32px);text-align:center}
+.toast.on{opacity:1}
 </style>
 </head>
 <body>
 <main class="wrap">
   <div class="top"><a class="back" href="./">← Juegos</a><a class="brand gdlogo" href="./" aria-label="GOALDAY"><svg width="34" height="34" viewBox="0 0 100 100" aria-hidden="true"><defs><clipPath id="gdhh4"><rect x="0" y="0" width="100" height="63"></rect></clipPath><clipPath id="gddh4"><circle cx="50" cy="60" r="31.5"></circle></clipPath></defs><g clip-path="url(#gdhh4)"><circle cx="50" cy="60" r="32" fill="#f5f8f3"></circle><g clip-path="url(#gddh4)"><polygon points="50.00,33.00 59.51,39.91 55.88,51.09 44.12,51.09 40.49,39.91" fill="#06241a"></polygon><path d="M50.00 33.00L50.00 26.00" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="50.00,25.50 40.96,18.94 44.42,8.31 55.58,8.31 59.04,18.94" fill="#06241a"></polygon><path d="M59.51 39.91L66.17 37.75" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="66.64,37.59 70.09,26.97 81.26,26.97 84.71,37.59 75.68,44.16" fill="#06241a"></polygon><path d="M55.88 51.09L59.99 56.75" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="60.29,57.16 71.45,57.16 74.91,67.78 65.87,74.34 56.84,67.78" fill="#06241a"></polygon><path d="M44.12 51.09L40.01 56.75" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="39.71,57.16 43.16,67.78 34.13,74.34 25.09,67.78 28.55,57.16" fill="#06241a"></polygon><path d="M40.49 39.91L33.83 37.75" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="33.36,37.59 24.32,44.16 15.29,37.59 18.74,26.97 29.91,26.97" fill="#06241a"></polygon></g></g><path d="M9 72H91" stroke="#f5f8f3" stroke-width="7" stroke-linecap="round"></path></svg><span>GOALDAY</span></a></div>
   <h1>Higher or <em>Lower</em></h1>
-  <p class="sub" id="sub">Sale un jugador con sus goles. ¿El siguiente tiene más o menos?</p>
+  <p class="sub" id="sub">Sale un jugador con sus goles. ¿El siguiente tiene más o menos?<br>Tienes <b>10 segundos</b> para cada respuesta.</p>
 
   <div id="home">
     <div class="modes" id="modesBox"></div>
     <div class="stats" id="homeStats"></div>
+    <div class="rank" id="rankBox"><h3>🌍 Ranking mundial</h3><div class="rtabs" id="rTabs"></div><div id="rankList"></div></div>
   </div>
 
   <div id="game" hidden>
     <div class="board">
-      <div class="strip"><span class="ct" id="cat"></span><span>Racha<b id="streak">0</b></span><span>Récord<b id="rec">0</b></span></div>
+      <div class="strip"><span class="ct" id="cat"></span><span>Racha<b id="streak">0</b></span><span>Récord<b id="rec">0</b></span><i class="tbar" id="tBar"></i></div>
       <div class="duel2">
         <section class="side" id="cA"><div class="nm"></div><div class="pos"><span class="flag emoji"></span> <span class="pn"></span></div><div class="led"></div><div class="unit">goles</div><div class="foot"></div></section>
-        <div class="mid"><span>VS</span></div>
+        <div class="mid"><span id="tSec">VS</span></div>
         <section class="side" id="cB"><div class="nm"></div><div class="pos"><span class="flag emoji"></span> <span class="pn"></span></div><div class="led q">???</div><div class="unit">goles</div>
           <div class="foot"><div class="choice2" id="choice"><button class="up" id="bMore">▲ Más</button><button class="down" id="bLess">▼ Menos</button></div></div>
         </section>
@@ -253,6 +276,7 @@ body.playing .wrap{max-width:940px}
 
   <div class="res" id="res" hidden></div>
 </main>
+<div class="toast" id="toast"></div>
 <script src="players.js"></script>
 <script src="mas-o-menos-jugadores.js"></script>
 <script>
@@ -260,15 +284,19 @@ body.playing .wrap{max-width:940px}
 const $=id=>document.getElementById(id);
 const store={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 const pad=n=>String(n).padStart(2,'0');
-const now=new Date(),today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
-const TODAY=today.getFullYear()+'-'+pad(today.getMonth()+1)+'-'+pad(today.getDate());
+function dayKey(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
+// El día va por la hora de Madrid: mismo reto diario y mismo ranking para todo el mundo
+function madridDay(){const now=new Date();try{const p=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Madrid',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now),g=t=>+p.find(x=>x.type===t).value;return new Date(g('year'),g('month')-1,g('day'))}catch(e){return new Date(now.getFullYear(),now.getMonth(),now.getDate())}}
+const today=madridDay(),TODAY=dayKey(today);
 function seeded(seedStr){let h=1779033703^seedStr.length;for(let i=0;i<seedStr.length;i++){h=Math.imul(h^seedStr.charCodeAt(i),3432918353);h=h<<13|h>>>19;}
   return function(){h=Math.imul(h^(h>>>16),2246822507);h=Math.imul(h^(h>>>13),3266489909);h^=h>>>16;return (h>>>0)/4294967296;};}
 const fmt=n=>n.toLocaleString('es-ES');
+const esc=x=>String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const POS_NAME={DEF:'Defensa',MED:'Centrocampista',DEL:'Delantero'};
 const P=window.GD_PLAYERS.concat(window.GD_MM_EXTRA||[]);
 async function share(t,el){try{if(navigator.share)await navigator.share({text:t});else{await navigator.clipboard.writeText(t);if(el)el.textContent='Copiado ✔'}}catch(e){}}
 function countUp(el,to,ms){const t0=performance.now();const f=()=>{const p=Math.min(1,(performance.now()-t0)/ms);el.textContent=fmt(Math.round(to*(1-Math.pow(1-p,3))));if(p<1)requestAnimationFrame(f)};f();}
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('on'),2200);}
 
 const CATS=[
  {k:'carrera',t:'Goles en toda su carrera',n:'Carrera',d:'Goles totales en toda su carrera',min:0},
@@ -280,45 +308,63 @@ const CATS=[
 //   5-14          -> entran todos, diferencias medias (20-60 %)
 //   15 o más      -> duelos ajustados (10-55 %)
 // Nunca menos de un 10 % de diferencia (nada de 148 contra 150).
+// rnd: Math.random en las partidas libres; en el reto diario, el generador con semilla del día
+// (la racha también es igual para todos mientras aciertan, así que la cadena es la misma).
 const FAMOUS=new Set((window.GD_PLAYERS||[]).map(p=>p.name));
 function tier(){return streak<5?[0.40,0.85]:streak<15?[0.20,0.60]:[0.10,0.55]}
 const diff=(x,y)=>Math.abs(x-y)/Math.max(x,y);
-function pickB(a,pool,used){
+function pickB(a,pool,used,rnd){
   let base=pool.filter(p=>p!==a&&!used.has(p.name)&&p[cat.k]!==a[cat.k]);
   if(streak<5){const f=base.filter(p=>FAMOUS.has(p.name));if(f.length)base=f}
   const [lo,hi]=tier();
   const tries=[[lo,hi],[0.10,Math.max(hi,0.85)],[0.10,1]];
   for(const [l,h] of tries){
     const list=base.filter(p=>{const d=diff(a[cat.k],p[cat.k]);return d>=l&&d<=h});
-    if(list.length)return list[Math.floor(Math.random()*list.length)];
+    if(list.length)return list[Math.floor(rnd()*list.length)];
   }
-  return base.length?base[Math.floor(Math.random()*base.length)]:null;
+  return base.length?base[Math.floor(rnd()*base.length)]:null;
 }
-let mode=null,cat=null,pool=[],used=new Set(),A=null,B=null,streak=0,round=0,results=[],busy=false;
-const SKEY='gd_mm_stats';
-function stats(){const s=store.get(SKEY)||{};s.best=s.best||0;s.games=s.games||0;s.total=s.total||0;s.bestByCat=s.bestByCat||{};return s}
+let mode=null,cat=null,pool=[],used=new Set(),A=null,B=null,streak=0,round=0,results=[],busy=false,rnd=Math.random,flowT=0;
+const SKEY='gd_mm_stats',DKEY='gd_mm_daily',LIMIT=10000;
+function stats(){const s=store.get(SKEY)||{};s.best=s.best||0;s.games=s.games||0;s.total=s.total||0;s.bestByCat=s.bestByCat||{};s.sent=s.sent||{};return s}
+// Reto diario: {'2026-09-25':{start:1,done:1,streak:7,sent:1}}. Empezar ya cuenta como jugado.
+const daily=()=>store.get(DKEY)||{};
+function setDaily(d,o){const all=daily();all[d]=Object.assign(all[d]||{},o);const ks=Object.keys(all).sort();while(ks.length>7)delete all[ks.shift()];store.set(DKEY,all);return all[d]}
+const dmy=(d,y)=>pad(d.getDate())+'/'+pad(d.getMonth()+1)+(y?'/'+d.getFullYear():'');
 function renderHome(){
-  const s=stats();
-  $('modesBox').innerHTML=CATS.map((c,i)=>`<button class="mode${i===0?' gold':''}" data-cat="${c.k}"><b>▶ ${c.n}</b><span>${c.d}.<br>Récord: ${s.bestByCat[c.k]||0}</span></button>`).join('');
+  const s=stats(),dd=daily()[TODAY];
+  const dl=dd?(dd.done?'Hoy: racha '+(dd.streak||0)+' · vuelve mañana':'Hoy lo dejaste a medias · vuelve mañana'):'';
+  $('modesBox').innerHTML=`<button class="mode gold day${dd?' done':''}" id="bDaily"><b>📅 Reto diario</b><span>Los mismos jugadores para todo el mundo. Un solo intento al día.${dl?'<br>'+dl:''}</span></button>`+
+    CATS.map(c=>`<button class="mode" data-cat="${c.k}"><b>▶ ${c.n}</b><span>${c.d}.<br>Récord: ${s.bestByCat[c.k]||0}</span></button>`).join('');
+  $('bDaily').onclick=startDaily;
   document.querySelectorAll('[data-cat]').forEach(b=>b.onclick=()=>start(b.dataset.cat));
   $('homeStats').innerHTML=`<div class="stat"><b>${s.best}</b><span>Mejor racha</span></div><div class="stat"><b>${s.games}</b><span>Partidas</span></div><div class="stat"><b>${s.total}</b><span>Aciertos</span></div>`;
+  renderRank();syncBest();
 }
-function start(k){
-  mode='free';cat=CATS.find(c=>c.k===k)||CATS[0];
+function startDaily(){
+  const dd=daily()[TODAY];
+  if(dd){toast(dd.done?'Hoy: racha '+(dd.streak||0)+' · vuelve mañana':'Hoy lo dejaste a medias · vuelve mañana');return}
+  start('carrera',true);
+}
+function start(k,isDaily){
+  tStop();clearTimeout(flowT);
+  mode=isDaily?'daily':'free';cat=isDaily?CATS[0]:(CATS.find(c=>c.k===k)||CATS[0]);
+  rnd=isDaily?seeded('hl-'+TODAY):Math.random;
+  if(isDaily)setDaily(TODAY,{start:1});
   pool=P.filter(p=>typeof p[cat.k]==='number'&&p[cat.k]>=cat.min);
   streak=0;round=0;results=[];used=new Set();
   const fam=pool.filter(p=>FAMOUS.has(p.name));const st=fam.length?fam:pool;
-  A=st[Math.floor(Math.random()*st.length)];used.add(A.name);
-  B=pickB(A,pool,used);used.add(B.name);
+  A=st[Math.floor(rnd()*st.length)];used.add(A.name);
+  B=pickB(A,pool,used,rnd);used.add(B.name);
   document.body.classList.add('playing');
   $('home').hidden=true;$('res').hidden=true;$('game').hidden=false;
-  $('cat').textContent='Goles · '+cat.n;$('rec').textContent=stats().bestByCat[cat.k]||0;
+  $('cat').textContent=isDaily?'Reto diario':'Goles · '+cat.n;$('rec').textContent=isDaily?(stats().bestDaily||0):(stats().bestByCat[cat.k]||0);
   render(false);
 }
 // Tras acertar, el de la derecha pasa a la izquierda y sale uno nuevo.
 function next(){
-  let nb=pickB(B,pool,used);
-  if(!nb){used=new Set([B.name]);nb=pickB(B,pool,used)}
+  let nb=pickB(B,pool,used,rnd);
+  if(!nb){used=new Set([B.name]);nb=pickB(B,pool,used,rnd)}
   A=B;B=nb;used.add(B.name);
   render(true);
 }
@@ -335,32 +381,139 @@ function render(anim){
   $('choice').hidden=false;
   $('fb').textContent='';$('fb').className='fb2';
   $('streak').textContent=streak;
-  busy=false;
+  // los botones se activan (y arranca el reloj) cuando termina la animación de entrada
+  busy=true;tShow(LIMIT);
+  flowT=setTimeout(()=>{busy=false;tStart()},anim?450:0);
 }
+// ---- reloj: 10 s por respuesta, con hora límite (no se para aunque cambies de pestaña) ----
+let tEnd=0,tTO=0,tRAF=0;
+const tLeft=()=>tEnd-performance.now();
+function tShow(ms){const low=ms<=3000;$('tBar').style.transform='scaleX('+Math.max(0,ms/LIMIT)+')';$('tBar').classList.toggle('low',low);const t=$('tSec');t.className='t'+(low?' low':'');t.textContent=Math.max(0,Math.ceil(ms/1000));}
+function tStart(){tStop();tEnd=performance.now()+LIMIT;tTO=setTimeout(()=>{if(tEnd)timeUp()},LIMIT);tDraw();}
+function tDraw(){tRAF=0;if(!tEnd)return;const l=tLeft();if(l<=0){timeUp();return}tShow(l);tRAF=requestAnimationFrame(tDraw);}
+function tStop(){clearTimeout(tTO);if(tRAF)cancelAnimationFrame(tRAF);tEnd=0;tTO=tRAF=0;}
+function tReset(){tStop();$('tBar').style.transform='';$('tBar').classList.remove('low');$('tSec').className='';$('tSec').textContent='VS';}
+document.addEventListener('visibilitychange',()=>{if(tEnd&&tLeft()<=0)timeUp()});
+function timeUp(){if(busy||!tEnd)return;tShow(0);reveal(false,true);}
 function answer(more){
-  if(busy)return;busy=true;
-  const ok=more?B[cat.k]>A[cat.k]:B[cat.k]<A[cat.k];
+  if(busy)return;
+  if(tEnd&&tLeft()<=0){timeUp();return}
+  reveal(more?B[cat.k]>A[cat.k]:B[cat.k]<A[cat.k],false);
+}
+function reveal(ok,late){
+  busy=true;if(late)tStop();else tReset();
   $('choice').hidden=true;
   const v=$('cB').querySelector('.led');v.className='led';countUp(v,B[cat.k],700);
   $('cB').className='side '+(ok?'ok':'ko');
   results.push(ok);round++;
-  if(ok){streak++;$('streak').textContent=streak;setTimeout(next,1300);return}
-  $('fb').className='fb2 bad';
-  $('fb').textContent=`${B.name} tiene ${fmt(B[cat.k])} y ${A.name} ${fmt(A[cat.k])}.`;
-  setTimeout(finish,2000);
+  if(ok){streak++;$('streak').textContent=streak;flowT=setTimeout(next,1300);return}
+  $('fb').className='fb2 bad';$('fb').textContent='';
+  $('fb').append(late?'⏱️ Se acabó el tiempo. ':'',`${B.name} tiene ${fmt(B[cat.k])} y ${A.name} ${fmt(A[cat.k])}.`);
+  flowT=setTimeout(finish,late?2600:2000);
 }
 function finish(){
-  const s=stats();s.games++;s.total+=streak;const prevBest=s.bestByCat[cat.k]||0;const record=streak>0&&streak>prevBest;s.bestByCat[cat.k]=Math.max(prevBest,streak);s.best=Math.max(s.best,streak);store.set(SKEY,s);
-  const big=streak,sm=(streak===1?'acierto seguido':'aciertos seguidos')+(record?' · ¡nuevo récord!':' · récord: '+s.bestByCat[cat.k]);
-  const text=`GOALDAY ⚽ Higher or Lower · ${cat.t}\n🔥 Racha de ${streak}\n${location.origin+location.pathname}`;
+  tReset();clearTimeout(flowT);
+  const s=stats(),isDaily=mode==='daily';s.games++;s.total+=streak;s.best=Math.max(s.best,streak);
+  const prevBest=s.bestByCat[cat.k]||0,record=!isDaily&&streak>0&&streak>prevBest;
+  if(isDaily){s.bestDaily=Math.max(s.bestDaily||0,streak);setDaily(TODAY,{done:1,streak})}else s.bestByCat[cat.k]=Math.max(prevBest,streak);
+  store.set(SKEY,s);
+  const big=streak,unit=streak===1?'acierto seguido':'aciertos seguidos';
+  const sm=isDaily?unit+' · mañana hay otro reto':unit+(record?' · ¡nuevo récord!':' · récord: '+s.bestByCat[cat.k]);
+  const url=location.origin+location.pathname;
+  const text=isDaily?`GOALDAY ⚽ Higher or Lower · Reto diario ${dmy(today)}\n🔥 Racha de ${streak}\n${url}`:`GOALDAY ⚽ Higher or Lower · ${cat.t}\n🔥 Racha de ${streak}\n${url}`;
   document.body.classList.remove('playing');$('game').hidden=true;$('res').hidden=false;
-  $('res').innerHTML=`<div class="lbl">${cat.t}</div><div class="big">${big}</div><div class="sm">${sm}</div><div class="row" style="justify-content:center"><button class="btn" id="bShare">Compartir</button><button class="btn ghost" id="bAgain">Otra vez</button><button class="btn ghost" id="bHome">Inicio</button><span class="muted" id="shareOk"></span></div>`;
+  $('res').innerHTML=`<div class="lbl">${isDaily?'Reto diario · '+dmy(today,1):cat.t}</div><div class="big">${big}</div><div class="sm">${sm}</div><div id="rankMsg" class="sm"></div><div class="row" style="justify-content:center"><button class="btn" id="bShare">Compartir</button>${isDaily?'<button class="btn ghost" id="bHome">Volver</button>':'<button class="btn ghost" id="bAgain">Otra vez</button><button class="btn ghost" id="bHome">Inicio</button>'}<span class="muted" id="shareOk"></span></div>`;
   $('bShare').onclick=()=>share(text,$('shareOk'));
-  $('bAgain').onclick=()=>start(cat.k);
-  $('bHome').onclick=()=>{document.body.classList.remove('playing');$('res').hidden=true;$('home').hidden=false;renderHome()};
+  if(!isDaily)$('bAgain').onclick=()=>start(cat.k);
+  $('bHome').onclick=goHome;
+  const rm=$('rankMsg'),k=cat.k;
+  if(isDaily)sendDaily(TODAY,rm);
+  else if(record){if(me().pid&&me().name)saveBest(k,rm);else nameLine(k,rm)}
 }
+function goHome(){tReset();clearTimeout(flowT);document.body.classList.remove('playing');$('game').hidden=true;$('res').hidden=true;$('home').hidden=false;renderHome()}
 $('bMore').onclick=()=>answer(true);$('bLess').onclick=()=>answer(false);
+
+// ---- ranking mundial (Supabase, mismo proyecto y mismo nombre que el resto de juegos de GOALDAY) ----
+const SB_URL='https://mvcvqzbosnwkhnlfvsuf.supabase.co';
+const SB_KEY='sb_publishable_2l-zuNvtSO2SoiPfPDaOow_V1yl8zp0';
+const SB_H={'apikey':SB_KEY,'Content-Type':'application/json'};
+const RKEY='reto15k-v2';
+const me=()=>{try{return JSON.parse(localStorage.getItem(RKEY))||{}}catch(e){return {}}};
+function saveMe(pid,name){const o=me();o.pid=pid;o.name=name;try{localStorage.setItem(RKEY,JSON.stringify(o))}catch(e){}}
+function newId(){if(window.crypto&&crypto.randomUUID)return crypto.randomUUID();return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{const r=Math.random()*16|0;return (c==='x'?r:(r&3|8)).toString(16)})}
+async function sbRpc(fn,args){const r=await fetch(SB_URL+'/rest/v1/rpc/'+fn,{method:'POST',headers:SB_H,body:JSON.stringify(args)});if(!r.ok){const e=new Error('HTTP '+r.status);e.status=r.status;throw e}}
+// 409 = ya estaba guardado (un solo resultado por jugador y día en el reto diario)
+async function postScore(o){const u=me();if(!u.pid||!u.name)return false;
+  const r=await fetch(SB_URL+'/rest/v1/hl_scores',{method:'POST',headers:Object.assign({'Prefer':'return=minimal'},SB_H),body:JSON.stringify(Object.assign({player_id:u.pid,name:u.name},o))});
+  if(r.status===409)return true;
+  if(!r.ok){const e=new Error('HTTP '+r.status);e.status=r.status;try{e.body=await r.text()}catch(x){}throw e}return true}
+function errMsg(e){const b=(e.body||'');
+  return (e.status===404||/42P01|does not exist|schema cache/i.test(b))?'No se ha podido guardar: falta crear la tabla del ranking en Supabase.'
+    :(e.status===401||e.status===403||/42501|permission|policy/i.test(b))?'No se ha podido guardar: la tabla del ranking no tiene permisos.'
+    :'No se ha podido guardar en el ranking ('+(e.status||'sin conexión')+').';}
+const savedMsg=()=>'🌍 Guardado en el ranking mundial como '+me().name;
+async function sendDaily(d,rm){
+  const x=daily()[d];if(!x||!x.done)return;
+  if(x.sent){if(rm)rm.textContent=savedMsg();return}
+  if(!me().pid||!me().name){if(rm)askName(rm,()=>sendDaily(d,rm));return}
+  if(sendDaily.busy)return;sendDaily.busy=1;
+  if(rm)rm.textContent='Guardando en el ranking mundial…';
+  try{await postScore({mode:'diario',day:d,streak:x.streak||0});setDaily(d,{sent:1});if(rm)rm.textContent=savedMsg();renderRank()}
+  catch(e){if(rm)rm.textContent=errMsg(e)}
+  finally{sendDaily.busy=0}
+}
+// Récords de las partidas libres: se sube el mejor de cada categoría que aún no esté en el ranking.
+// En cola, para no subir dos veces el mismo récord; se relee stats() tras el await (una partida puede haber guardado algo).
+let syncQ=Promise.resolve({done:{},errs:{}});
+async function doSync(){
+  const u=me(),s=stats(),done={},errs={};
+  const pend=CATS.filter(c=>(s.bestByCat[c.k]||0)>(s.sent[c.k]||0));
+  if(!pend.length||!u.pid||!u.name)return {done,errs};
+  for(const c of pend){const v=s.bestByCat[c.k];try{await postScore({mode:c.k,streak:v});done[c.k]=v}catch(e){errs[c.k]=e}}
+  if(Object.keys(done).length){const s2=stats();for(const k in done)s2.sent[k]=Math.max(s2.sent[k]||0,done[k]);store.set(SKEY,s2);renderRank()}
+  return {done,errs};
+}
+const syncBest=()=>(syncQ=syncQ.then(doSync,doSync));
+function saveBest(k,rm){rm.textContent='Guardando en el ranking mundial…';syncBest().then(r=>{rm.textContent=r.errs[k]?errMsg(r.errs[k]):savedMsg()})}
+function nameLine(k,rm){
+  rm.innerHTML='<div>Elige tu nombre para salir en el ranking</div><button class="btn small ghost" id="bName" style="margin-top:8px">Elegir nombre</button>';
+  rm.querySelector('#bName').onclick=()=>askName(rm,()=>saveBest(k,rm));
+}
+function askName(rm,then){
+  rm.innerHTML=`Elige tu nombre para salir en el ranking mundial:<div class="namebox"><input id="nmIn" maxlength="16" placeholder="Tu nombre"><button class="btn small" id="nmOk">Guardar</button></div><div id="nmErr" class="sm"></div>`;
+  const inp=rm.querySelector('#nmIn'),ok=rm.querySelector('#nmOk'),er=rm.querySelector('#nmErr');
+  inp.onkeydown=e=>{if(e.key==='Enter')ok.click()};setTimeout(()=>inp.focus(),50);
+  ok.onclick=async()=>{
+    const n=(inp.value||'').replace(/\s+/g,' ').trim().slice(0,16);
+    if(n.length<2){er.textContent='Mínimo 2 caracteres.';return}
+    ok.disabled=true;
+    try{const pid=newId();await sbRpc('register_name',{pid,n});saveMe(pid,n);then()}
+    catch(e){ok.disabled=false;er.textContent=e.status===409?'Ese nombre ya lo tiene otro jugador. Elige otro.':'No se ha podido guardar. Revisa la conexión.'}
+  };
+}
+const RTABS=[{k:'diario',n:'Hoy'}].concat(CATS.map(c=>({k:c.k,n:c.n})));
+let rankTab='diario',rankReq=0;
+async function renderRank(){
+  $('rTabs').innerHTML=RTABS.map(t=>`<button data-r="${t.k}" class="${t.k===rankTab?'on':''}">${t.n}</button>`).join('');
+  $('rTabs').querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{rankTab=b.dataset.r;renderRank()});
+  const ul=$('rankList'),tok=++rankReq;ul.innerHTML='<p class="muted">Cargando…</p>';
+  try{
+    const q=rankTab==='diario'?'mode=eq.diario&day=eq.'+TODAY+'&order=streak.desc&limit=100':'mode=eq.'+rankTab+'&order=streak.desc&limit=500';
+    const r=await fetch(SB_URL+'/rest/v1/hl_scores?select=name,streak&'+q,{headers:SB_H});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const rows=await r.json();if(tok!==rankReq)return;
+    // un nombre por fila, con su mejor racha
+    const best={};rows.forEach(x=>{if(!(x.name in best)||x.streak>best[x.name])best[x.name]=x.streak});
+    const list=Object.entries(best).sort((a,b)=>b[1]-a[1]),my=me().name;
+    if(!list.length){ul.innerHTML='<p class="muted">Todavía no hay nadie. ¡Sé el primero!</p>';return}
+    const row=([n,v],i)=>`<div class="rrow${n===my?' me':''}"><span class="n">${i+1}</span><span>${esc(n)}</span><span class="c">${fmt(v)}</span></div>`;
+    const pos=my?list.findIndex(([n])=>n===my):-1;
+    ul.innerHTML=list.slice(0,10).map(row).join('')+(pos>=10?row(list[pos],pos):'');
+  }catch(e){if(tok===rankReq)ul.innerHTML='<p class="muted">Ranking no disponible ahora mismo.</p>'}
+}
 renderHome();
+// si el reto diario (de hoy o de ayer) no llegó al ranking (sin conexión), se reintenta
+{const y=new Date(today);y.setDate(y.getDate()-1);[dayKey(y),TODAY].forEach(d=>{const x=daily()[d];if(x&&x.done&&!x.sent&&me().pid&&me().name)sendDaily(d)})}
 </script>
 <script src="lang.js"></script>
 <script src="stadiums.js"></script>
