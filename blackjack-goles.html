@@ -267,7 +267,6 @@ body.playing .wrap{max-width:940px}
 .rrow:last-child{border-bottom:0}
 .rrow .n{color:var(--chalk-3)}.rrow .c{font-family:Doto,"Barlow Condensed",monospace;font-weight:900;color:var(--led)}
 .rrow.me{color:var(--led)}
-.b-cash{width:100%;margin-top:10px;border:1px solid var(--up);background:rgba(57,217,138,.12);color:var(--up);border-radius:12px;padding:13px;font-family:"Barlow Condensed";font-weight:900;font-size:20px;cursor:pointer}
 .namebox{display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap}
 .namebox input{font:700 17px Barlow,system-ui,sans-serif;padding:11px 12px;border-radius:12px;border:1px solid var(--line);background:rgba(0,0,0,.35);color:var(--chalk);width:190px}.rules p:last-child{margin:0}
 </style>
@@ -360,7 +359,6 @@ body.playing h1,body.playing .sub{display:none}
 .pchip:focus-visible{outline:3px solid var(--chalk);outline-offset:3px}
 .bigbtn{width:100%;border:0;border-radius:14px;padding:16px;font-family:"Barlow Condensed";font-weight:900;font-size:24px;letter-spacing:.03em;text-transform:uppercase;cursor:pointer;background:var(--led);color:#1b1402;box-shadow:0 6px 0 #a5780f,0 10px 20px rgba(0,0,0,.4)}
 .bigbtn:active{transform:translateY(3px);box-shadow:0 3px 0 #a5780f}
-.cashbtn{display:block;margin:12px auto 0;background:none;border:0;color:var(--up);font-weight:800;font-size:16px;cursor:pointer;text-decoration:underline;text-underline-offset:4px}
 .acts3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
 .acts3 button{border:0;border-radius:14px;padding:14px 4px 12px;font-family:"Barlow Condensed";font-weight:900;font-size:19px;text-transform:uppercase;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;line-height:1}
 .acts3 button small{font-family:Barlow;font-weight:700;font-size:11px;text-transform:none;opacity:.75}
@@ -387,43 +385,56 @@ details.rules[open] summary{margin-bottom:8px}
 }
 @media (max-width:380px){.card{width:74px;height:106px}.card.big{width:100px;height:142px}.hand{min-height:106px}}
 @media (prefers-reduced-motion:reduce){.card.deal,.card.pop,.card.gone,.banner{animation:none}.card .in{transition:none}}
+/* reto diario, apuestas fijas y reloj de 10 s */
+.mode.day{grid-column:1/-1}
+.mode.done{opacity:.7}
+.pchip:disabled{opacity:.3;cursor:default;transform:none}
+.tbar{position:absolute;left:0;right:0;bottom:0;height:4px;z-index:2;background:var(--led);box-shadow:0 0 8px rgba(255,194,58,.6);transform-origin:left center}
+.tbar.low{background:var(--down);box-shadow:0 0 8px rgba(255,90,78,.6)}
+.tsec{display:block;margin-top:6px;font-family:Doto,"Barlow Condensed",monospace;font-size:30px;letter-spacing:0;color:var(--led);text-shadow:0 0 10px rgba(255,194,58,.5)}
+.tsec.low{color:var(--down);text-shadow:0 0 10px rgba(255,90,78,.5)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#0a2e21;color:var(--chalk);border:1px solid var(--line);padding:10px 16px;border-radius:999px;font-weight:700;opacity:0;transition:opacity .2s;pointer-events:none;z-index:9;max-width:calc(100% - 32px);text-align:center}
+.toast.on{opacity:1}
 </style>
 </head>
 <body>
 <main class="wrap">
   <div class="top"><a class="back" href="./">← Juegos</a><a class="brand gdlogo" href="./" aria-label="GOALDAY"><svg width="34" height="34" viewBox="0 0 100 100" aria-hidden="true"><defs><clipPath id="gdhh4"><rect x="0" y="0" width="100" height="63"></rect></clipPath><clipPath id="gddh4"><circle cx="50" cy="60" r="31.5"></circle></clipPath></defs><g clip-path="url(#gdhh4)"><circle cx="50" cy="60" r="32" fill="#f5f8f3"></circle><g clip-path="url(#gddh4)"><polygon points="50.00,33.00 59.51,39.91 55.88,51.09 44.12,51.09 40.49,39.91" fill="#06241a"></polygon><path d="M50.00 33.00L50.00 26.00" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="50.00,25.50 40.96,18.94 44.42,8.31 55.58,8.31 59.04,18.94" fill="#06241a"></polygon><path d="M59.51 39.91L66.17 37.75" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="66.64,37.59 70.09,26.97 81.26,26.97 84.71,37.59 75.68,44.16" fill="#06241a"></polygon><path d="M55.88 51.09L59.99 56.75" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="60.29,57.16 71.45,57.16 74.91,67.78 65.87,74.34 56.84,67.78" fill="#06241a"></polygon><path d="M44.12 51.09L40.01 56.75" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="39.71,57.16 43.16,67.78 34.13,74.34 25.09,67.78 28.55,57.16" fill="#06241a"></polygon><path d="M40.49 39.91L33.83 37.75" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="33.36,37.59 24.32,44.16 15.29,37.59 18.74,26.97 29.91,26.97" fill="#06241a"></polygon></g></g><path d="M9 72H91" stroke="#f5f8f3" stroke-width="7" stroke-linecap="round"></path></svg><span>GOALDAY</span></a></div>
   <h1>Black<em>jack</em></h1>
-  <p class="sub" id="sub">Juega contra la banca con fichas. Ves el nombre del jugador, pero no sus goles: cógelo o plántate sin pasarte del objetivo.</p>
+  <p class="sub" id="sub">Juega contra la banca con fichas. Ves el nombre del jugador, pero no sus goles: cógelo o plántate sin pasarte del objetivo.<br>Tienes <b>10 segundos</b> para decidir.</p>
 
   <div id="home">
     <div class="hero" id="hero"></div>
     <div class="modes" id="modesBox"></div>
     <div class="stats" id="homeStats"></div>
-    <div class="rank" id="rankBox"></div>
+    <div class="rank" id="rankBox"><h3>🌍 Ranking mundial</h3><div class="rtabs" id="rTabs"></div><div id="rankList"></div></div>
     <details class="rules">
       <summary>Cómo se juega</summary>
-      <p>Empiezas con 1.000 fichas. En cada mano apuestas y te reparten dos jugadores; la banca también recibe dos, uno boca abajo.</p>
+      <p>Empiezas con 1.000 fichas y juegas 10 manos. En cada mano apuestas 100, 200 o 300 fichas y te reparten dos jugadores; la banca también recibe dos, uno boca abajo.</p>
       <p>Sale el siguiente jugador: lo coges (suma sus goles), te plantas o doblas la apuesta cogiéndolo y plantándote.</p>
       <p>Si te pasas del objetivo, pierdes. Si no, la banca pide hasta llegar a su mínimo y gana quien más se acerque. El empate es para la banca.</p>
-      <p>No hay límite de manos. La apuesta mínima es el 10 % de tus fichas. Retírate cuando quieras para guardar tus fichas en el ranking; si te quedas sin fichas, vuelves a empezar.</p>
+      <p>Tienes 10 segundos para decidir: si se acaba el tiempo, te plantas. Clavar el objetivo paga el doble. Si te quedan menos de 100 fichas, la partida termina antes.</p>
+      <p>Tu puntuación son las fichas con las que acabas. El reto diario tiene las mismas 10 manos para todo el mundo y un solo intento.</p>
     </details>
   </div>
 
   <div id="game" hidden>
     <div class="hud">
-      <div class="hud-l"><span class="hud-mode" id="cat"></span><span class="hud-hand">Mano <b id="handLbl">1</b></span></div>
+      <div class="hud-l"><span class="hud-mode" id="cat"></span><span class="hud-hand">Mano <b id="handLbl">1</b> de 10</span></div>
       <div class="hud-chips" id="hudChips"><span class="cchip" style="--c:#c8322a"></span><b id="chips">1.000</b></div>
     </div>
     <div class="table" id="table">
       <div class="zone"><div class="zlabel">Banca <span class="tot" id="dSum">–</span></div><div class="hand" id="dCards"></div></div>
       <div class="tmid" id="mid"></div>
       <div class="zone"><div class="hand" id="pCards"></div><div class="zlabel">Tú <span class="tot" id="pSum">–</span></div></div>
+      <i class="tbar" id="tBar" hidden></i>
     </div>
     <div class="panel" id="act"></div>
   </div>
 
   <div class="res" id="res" hidden></div>
 </main>
+<div class="toast" id="toast"></div>
 <script src="players.js"></script>
 <script src="mas-o-menos-jugadores.js"></script>
 <script>
@@ -438,21 +449,33 @@ async function share(t,el){try{if(navigator.share)await navigator.share({text:t}
 const esc=x=>String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const LOGO=document.querySelector('.gdlogo svg')?document.querySelector('.gdlogo svg').outerHTML:'';
 
-// Modalidades. En cada mano sale un objetivo al azar entre lo y hi; la banca se planta al llegar al sf del objetivo.
-// Te reparten 2 jugadores de salida. Simulado: a ciegas se pierde claramente, un jugador normal pierde poco
-// y solo quien sabe mucho de fútbol le gana a la banca a la larga.
-// Equilibrio medido con simulaciones: quien sabe de fútbol gana a la larga; quien juega a ciegas pierde.
-const MODES=[
- {k:'carrera',n:'Carrera',t:'Goles en toda su carrera',lo:600,hi:1500,step:50,sf:0.85},
- {k:'seleccion',n:'Selección',t:'Goles con su selección',lo:50,hi:80,step:5,sf:0.75}
-];
-const START=1000,FLOOR=100,SKEY='gd_bj3_stats';
-// Apuesta mínima: 10 % de tus fichas (mínimo 100). Así no se sube en el ranking apostando siempre poco.
-const minBet=c=>Math.max(FLOOR,Math.round(c*0.10/50)*50);
-const CHIP_COLORS=['#1f5fbf','#1d8a4e','#c8322a','#16110b'];
-let T=0,STAND=0,M=null,deck=[],chips=0,hand=0,bet=FLOOR,pc=[],dc=[],nextCard=null,busy=false,log=[],rankMode='carrera',doubled=false,rankReq=0;
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('on'),2200);}
+const pad=n=>String(n).padStart(2,'0');
+function dayKey(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
+// El día va por la hora de Madrid: mismo reto diario y mismo ranking para todo el mundo
+function madridDay(){const now=new Date();try{const p=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Madrid',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now),g=t=>+p.find(x=>x.type===t).value;return new Date(g('year'),g('month')-1,g('day'))}catch(e){return new Date(now.getFullYear(),now.getMonth(),now.getDate())}}
+const today=madridDay(),TODAY=dayKey(today);
+function seeded(seedStr){let h=1779033703^seedStr.length;for(let i=0;i<seedStr.length;i++){h=Math.imul(h^seedStr.charCodeAt(i),3432918353);h=h<<13|h>>>19;}
+  return function(){h=Math.imul(h^(h>>>16),2246822507);h=Math.imul(h^(h>>>13),3266489909);h^=h>>>16;return (h>>>0)/4294967296;};}
+const dmy=(d,y)=>pad(d.getDate())+'/'+pad(d.getMonth()+1)+(y?'/'+d.getFullYear():'');
+const manos=n=>n+(n===1?' mano':' manos');
 
-// ---- ranking mundial (Supabase, mismo proyecto y mismo nombre que el Reto) ----
+// Modalidades. En cada mano sale un objetivo al azar entre lo y hi; la banca se planta al llegar al sf del objetivo.
+// Te reparten 2 jugadores de salida que nunca se pasan del objetivo.
+// Equilibrio (elegido con simulaciones, partidas de 10 manos con apuesta fija): en Carrera la banca se planta
+// antes (80 % del objetivo) y en Selección los objetivos son más altos (100-150), así que la banca gana más a menudo.
+// A ciegas se pierde claramente, y el ranking lo deciden quienes saben de fútbol, no quien se lo juega todo a una mano.
+const MODES=[
+ {k:'carrera',n:'Carrera',t:'Goles en toda su carrera',lo:600,hi:1500,step:50,sf:0.80},
+ {k:'seleccion',n:'Selección',t:'Goles con su selección',lo:100,hi:150,step:5,sf:0.75}
+];
+// Partida: 10 manos, 1.000 fichas de salida y apuesta fija de 100, 200 o 300 (doblar solo afecta a esa mano).
+// Con menos de 100 fichas la partida se acaba antes. La puntuación son las fichas finales.
+const START=1000,HANDS=10,BETS=[100,200,300],MINBET=BETS[0],LIMIT=10000,SKEY='gd_bj10_stats',DKEY='gd_bj10_daily';
+const CHIP_COLORS=['#1f5fbf','#1d8a4e','#c8322a','#16110b'];
+let T=0,STAND=0,M=null,mode='free',deck=[],src=null,chips=0,hand=0,bet=MINBET,pc=[],dc=[],nextCard=null,busy=false,log=[],doubled=false;
+
+// ---- ranking mundial (Supabase, mismo proyecto y mismo nombre que el resto de juegos de GOALDAY) ----
 const SB_URL='https://mvcvqzbosnwkhnlfvsuf.supabase.co';
 const SB_KEY='sb_publishable_2l-zuNvtSO2SoiPfPDaOow_V1yl8zp0';
 const SB_H={'apikey':SB_KEY,'Content-Type':'application/json'};
@@ -461,26 +484,77 @@ const me=()=>{try{return JSON.parse(localStorage.getItem(RKEY))||{}}catch(e){ret
 function saveMe(pid,name){const o=me();o.pid=pid;o.name=name;try{localStorage.setItem(RKEY,JSON.stringify(o))}catch(e){}}
 function newId(){if(window.crypto&&crypto.randomUUID)return crypto.randomUUID();return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{const r=Math.random()*16|0;return (c==='x'?r:(r&3|8)).toString(16)})}
 async function sbRpc(fn,args){const r=await fetch(SB_URL+'/rest/v1/rpc/'+fn,{method:'POST',headers:SB_H,body:JSON.stringify(args)});if(!r.ok){const e=new Error('HTTP '+r.status);e.status=r.status;throw e}}
-async function postScore(mode,ch){const u=me();if(!u.pid||!u.name)return false;
-  const r=await fetch(SB_URL+'/rest/v1/blackjack_scores',{method:'POST',headers:Object.assign({'Prefer':'return=minimal'},SB_H),body:JSON.stringify({player_id:u.pid,name:u.name,mode,chips:ch})});
+// 409 = ya estaba guardado (un solo resultado por jugador y día en el reto diario)
+async function postScore(o){const u=me();if(!u.pid||!u.name)return false;
+  const r=await fetch(SB_URL+'/rest/v1/bj10_scores',{method:'POST',headers:Object.assign({'Prefer':'return=minimal'},SB_H),body:JSON.stringify(Object.assign({player_id:u.pid,name:u.name},o))});
+  if(r.status===409)return true;
   if(!r.ok){const e=new Error('HTTP '+r.status);e.status=r.status;try{e.body=await r.text()}catch(x){}throw e}return true}
-async function top10(mode){
-  const r=await fetch(SB_URL+'/rest/v1/blackjack_scores?select=name,chips&mode=eq.'+mode+'&order=chips.desc&limit=500',{headers:SB_H});
-  if(!r.ok)throw new Error('HTTP '+r.status);
-  const rows=await r.json(),seen=new Set(),out=[];
-  for(const x of rows){if(seen.has(x.name))continue;seen.add(x.name);out.push(x);if(out.length>=10)break}
-  return out;
+function errMsg(e){const b=(e.body||'');
+  return (e.status===404||/42P01|does not exist|schema cache/i.test(b))?'No se ha podido guardar: falta crear la tabla del ranking en Supabase.'
+    :(e.status===401||e.status===403||/42501|permission|policy/i.test(b))?'No se ha podido guardar: la tabla del ranking no tiene permisos.'
+    :'No se ha podido guardar en el ranking ('+(e.status||'sin conexión')+').';}
+const savedMsg=()=>'🌍 Guardado en el ranking mundial como '+me().name;
+// Reto diario: {'2026-09-25':{start:1,done:1,chips:1400,sent:1}}. Empezar ya cuenta como jugado.
+const daily=()=>store.get(DKEY)||{};
+function setDaily(d,o){const all=daily();all[d]=Object.assign(all[d]||{},o);const ks=Object.keys(all).sort();while(ks.length>7)delete all[ks.shift()];store.set(DKEY,all);return all[d]}
+async function sendDaily(d,rm){
+  const x=daily()[d];if(!x||!x.done)return;
+  if(x.sent){if(rm)rm.textContent=savedMsg();return}
+  if(!me().pid||!me().name){if(rm)askName(rm,()=>sendDaily(d,rm));return}
+  if(sendDaily.busy)return;sendDaily.busy=1;
+  if(rm)rm.textContent='Guardando en el ranking mundial…';
+  try{await postScore({mode:'diario',day:d,chips:x.chips||0});setDaily(d,{sent:1});if(rm)rm.textContent=savedMsg();renderRank()}
+  catch(e){if(rm)rm.textContent=errMsg(e)}
+  finally{sendDaily.busy=0}
 }
+// Récords de las partidas libres: se sube el mejor de cada modalidad que aún no esté en el ranking.
+// En cola, para no subir dos veces el mismo récord; se relee stats() tras el await (una partida puede haber guardado algo).
+let syncQ=Promise.resolve({done:{},errs:{}});
+async function doSync(){
+  const u=me(),s=stats(),done={},errs={};
+  const pend=MODES.filter(m=>(s.best[m.k]||0)>(s.sent[m.k]||0));
+  if(!pend.length||!u.pid||!u.name)return {done,errs};
+  for(const m of pend){const v=s.best[m.k];try{await postScore({mode:m.k,chips:v});done[m.k]=v}catch(e){errs[m.k]=e}}
+  if(Object.keys(done).length){const s2=stats();for(const k in done)s2.sent[k]=Math.max(s2.sent[k]||0,done[k]);store.set(SKEY,s2);renderRank()}
+  return {done,errs};
+}
+const syncBest=()=>(syncQ=syncQ.then(doSync,doSync));
+function saveBest(k,rm){rm.textContent='Guardando en el ranking mundial…';syncBest().then(r=>{rm.textContent=r.errs[k]?errMsg(r.errs[k]):savedMsg()})}
+function nameLine(k,rm){
+  rm.innerHTML='<div>Elige tu nombre para salir en el ranking</div><button class="btn small ghost" id="bName" style="margin-top:8px">Elegir nombre</button>';
+  rm.querySelector('#bName').onclick=()=>askName(rm,()=>saveBest(k,rm));
+}
+function askName(rm,then){
+  rm.innerHTML=`Elige tu nombre para salir en el ranking mundial:<div class="namebox"><input id="nmIn" maxlength="16" placeholder="Tu nombre"><button class="btn small" id="nmOk">Guardar</button></div><div id="nmErr" class="sm"></div>`;
+  const inp=rm.querySelector('#nmIn'),ok=rm.querySelector('#nmOk'),er=rm.querySelector('#nmErr');
+  inp.onkeydown=e=>{if(e.key==='Enter')ok.click()};setTimeout(()=>inp.focus(),50);
+  ok.onclick=async()=>{
+    const n=(inp.value||'').replace(/\s+/g,' ').trim().slice(0,16);
+    if(n.length<2){er.textContent='Mínimo 2 caracteres.';return}
+    ok.disabled=true;
+    try{const pid=newId();await sbRpc('register_name',{pid,n});saveMe(pid,n);then()}
+    catch(e){ok.disabled=false;er.textContent=e.status===409?'Ese nombre ya lo tiene otro jugador. Elige otro.':'No se ha podido guardar. Revisa la conexión.'}
+  };
+}
+const RTABS=[{k:'diario',n:'Hoy'}].concat(MODES.map(m=>({k:m.k,n:m.n})));
+let rankTab='diario',rankReq=0;
 async function renderRank(){
-  const box=$('rankBox');
-  box.innerHTML=`<h3>🌍 Ranking mundial</h3><div class="rtabs">${MODES.map(m=>`<button data-r="${m.k}" class="${m.k===rankMode?'on':''}">${m.n}</button>`).join('')}</div><div id="rankList" class="muted">Cargando…</div>`;
-  box.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{rankMode=b.dataset.r;renderRank()});
-  const tok=++rankReq;
+  $('rTabs').innerHTML=RTABS.map(t=>`<button data-r="${t.k}" class="${t.k===rankTab?'on':''}">${t.n}</button>`).join('');
+  $('rTabs').querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{rankTab=b.dataset.r;renderRank()});
+  const ul=$('rankList'),tok=++rankReq;ul.innerHTML='<p class="muted">Cargando…</p>';
   try{
-    const list=await top10(rankMode),my=me().name;if(tok!==rankReq)return;
-    $('rankList').className='';
-    $('rankList').innerHTML=list.length?list.map((x,i)=>`<div class="rrow${x.name===my?' me':''}"><span class="n">${i+1}</span><span>${esc(x.name)}</span><span class="c">${fmt(x.chips)}</span></div>`).join(''):'<p class="muted">Todavía no hay nadie. ¡Sé el primero!</p>';
-  }catch(e){if(tok===rankReq)$('rankList').innerHTML='<p class="muted">Ranking no disponible ahora mismo.</p>'}
+    const q=rankTab==='diario'?'mode=eq.diario&day=eq.'+TODAY+'&order=chips.desc&limit=100':'mode=eq.'+rankTab+'&order=chips.desc&limit=500';
+    const r=await fetch(SB_URL+'/rest/v1/bj10_scores?select=name,chips&'+q,{headers:SB_H});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const rows=await r.json();if(tok!==rankReq)return;
+    // un nombre por fila, con sus mejores fichas
+    const best={};rows.forEach(x=>{if(!(x.name in best)||x.chips>best[x.name])best[x.name]=x.chips});
+    const list=Object.entries(best).sort((a,b)=>b[1]-a[1]),my=me().name;
+    if(!list.length){ul.innerHTML='<p class="muted">Todavía no hay nadie. ¡Sé el primero!</p>';return}
+    const row=([n,v],i)=>`<div class="rrow${n===my?' me':''}"><span class="n">${i+1}</span><span>${esc(n)}</span><span class="c">${fmt(v)}</span></div>`;
+    const pos=my?list.findIndex(([n])=>n===my):-1;
+    ul.innerHTML=list.slice(0,10).map(row).join('')+(pos>=10?row(list[pos],pos):'');
+  }catch(e){if(tok===rankReq)ul.innerHTML='<p class="muted">Ranking no disponible ahora mismo.</p>'}
 }
 
 // ---- cartas ----
@@ -500,102 +574,137 @@ const backHTML=(cls='')=>`<div class="card down ${cls}"><div class="in"><div cla
 function addCard(box,html){const t=document.createElement('div');t.innerHTML=html.trim();const el=t.firstChild;box.appendChild(el);fitHand(box);return el}
 function fitHand(box){const n=box.children.length;box.style.setProperty('--ov',n>=8?'-60px':n>=7?'-56px':n>=6?'-52px':n>=5?'-46px':n>=4?'-38px':'-30px')}
 
-function stats(){const s=store.get(SKEY)||{};s.best=s.best||{};s.games=s.games||0;s.hands=s.hands||0;return s}
+function stats(){const s=store.get(SKEY)||{};s.best=s.best||{};s.sent=s.sent||{};s.games=s.games||0;s.hands=s.hands||0;return s}
+const dayMsg=dd=>dd.done?'Hoy: '+fmt(dd.chips||0)+' fichas · vuelve mañana':'Hoy lo dejaste a medias · vuelve mañana';
 function renderHome(){
-  const s=stats();
+  const s=stats(),dd=daily()[TODAY];
   const pick=n=>P.find(p=>p.name===n);
   M=MODES[0];
   const h=[pick('Lionel Messi'),pick('Cristiano Ronaldo')].filter(Boolean);
   $('hero').innerHTML=(h[0]?cardHTML(h[0]):'')+(h[1]?cardHTML(h[1],{show:false}):'')+backHTML();
-  $('modesBox').innerHTML=MODES.map((c,i)=>`<button class="mode${i===0?' gold':''}" data-m="${c.k}"><b>▶ ${c.n}</b><span>${c.t}. Objetivo entre ${fmt(c.lo)} y ${fmt(c.hi)}.<br>Récord: ${fmt(s.best[c.k]||0)} fichas</span></button>`).join('');
+  $('modesBox').innerHTML=`<button class="mode gold day${dd?' done':''}" id="bDaily"><b>📅 Reto diario</b><span>Goles en toda su carrera. Las mismas 10 manos para todo el mundo. Un solo intento al día.${dd?'<br>'+dayMsg(dd):''}</span></button>`+
+    MODES.map(c=>`<button class="mode" data-m="${c.k}"><b>▶ ${c.n}</b><span>${c.t}. Objetivo entre ${fmt(c.lo)} y ${fmt(c.hi)}.<br>Récord: ${fmt(s.best[c.k]||0)} fichas</span></button>`).join('');
+  $('bDaily').onclick=startDaily;
   document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>start(b.dataset.m));
   const best=Math.max(0,...Object.values(s.best));
   $('homeStats').innerHTML=`<div class="stat"><b>${fmt(best)}</b><span>Récord de fichas</span></div><div class="stat"><b>${s.games}</b><span>Partidas</span></div><div class="stat"><b>${s.hands}</b><span>Manos</span></div>`;
-  renderRank();
-  syncBest();
+  renderRank();syncBest();
 }
-// Si tu mejor retirada no llegó al ranking (por ejemplo, porque la tabla aún no existía), se sube ahora
-async function syncBest(){
-  const u=me(),s=stats();s.sent=s.sent||{};
-  const pend=MODES.filter(m=>(s.best[m.k]||0)>(s.sent[m.k]||0));
-  if(!pend.length)return;
-  const box=$('rankBox');let st=box.querySelector('.rsync');if(!st){st=document.createElement('p');st.className='muted rsync';st.style.marginTop='8px';box.appendChild(st)}
-  if(!u.pid||!u.name){st.textContent='Tu récord ('+fmt(s.best[pend[0].k])+' fichas) aún no está en el ranking porque en este navegador no tienes nombre. Retírate una vez y elige tu nombre.';return}
-  let err='';const done={};
-  for(const m of pend){try{await postScore(m.k,s.best[m.k]);done[m.k]=s.best[m.k]}catch(e){err=(e.status||'sin conexión')+(e.body?' · '+String(e.body).slice(0,140):'')}}
-  // se relee: mientras subía, una partida puede haber guardado manos, partidas o un récord nuevo
-  if(Object.keys(done).length){const s2=stats();s2.sent=s2.sent||{};for(const k in done)s2.sent[k]=Math.max(s2.sent[k]||0,done[k]);store.set(SKEY,s2);await renderRank()}
-  if(err){st=$('rankBox').querySelector('.rsync')||st;if(!st.isConnected)$('rankBox').appendChild(st);st.textContent='No se ha podido subir tu récord al ranking. Motivo: '+err}
+function startDaily(){
+  const dd=daily()[TODAY];
+  if(dd){toast(dayMsg(dd));return}
+  start('carrera',true);
 }
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 const V=p=>p[M.k];
 const total=cs=>cs.reduce((s,p)=>s+V(p),0);
-function draw(){if(!deck.length)deck=shuffle(P.filter(p=>typeof V(p)==='number'&&V(p)>=1));return deck.pop()}
+const cardPool=()=>P.filter(p=>typeof V(p)==='number'&&V(p)>=1);
+function draw(){if(!deck.length)deck=shuffle(cardPool());return deck.pop()}
+// Mano libre: objetivo al azar y cartas de la baraja barajada. Tus dos cartas de salida nunca se pasan del objetivo.
+function freeHand(){
+  T=Math.round((M.lo+Math.random()*(M.hi-M.lo))/M.step)*M.step;
+  let a=draw(),b=draw();for(let k=0;k<200&&V(a)+V(b)>T;k++){a=draw();b=draw()}
+  return {pair:[a,b],p:draw,d:draw};
+}
+// Mano del reto diario: igual para todo el mundo decidas lo que decidas. Cada mano tiene tres generadores con semilla
+// (objetivo, tus cartas y las de la banca): cuántas cartas cojas no cambia ni las de la banca ni las de la mano siguiente.
+// Tus cartas son siempre la misma lista (las 2 de salida y luego las que te van ofreciendo, en orden);
+// la banca no repite ninguna de las 20 primeras de esa lista.
+function dailyHand(i){
+  const s='bj-'+TODAY+'-'+i,rt=seeded(s+'-t'),rp=seeded(s+'-p'),rd=seeded(s+'-d'),pool=cardPool();
+  const one=(r,skip)=>{let c=null;for(let k=0;k<60;k++){c=pool[Math.floor(r()*pool.length)];if(!skip.has(c.name))break}return c};
+  T=Math.round((M.lo+rt()*(M.hi-M.lo))/M.step)*M.step;
+  let a=one(rp,new Set()),b=one(rp,new Set([a.name]));
+  for(let k=0;k<200&&V(a)+V(b)>T;k++){a=one(rp,new Set());b=one(rp,new Set([a.name]))}
+  const used=new Set([a.name,b.name]),seq=[],more=()=>{const c=one(rp,used);used.add(c.name);seq.push(c)};
+  for(let k=0;k<20;k++)more();
+  const dUsed=new Set(used);let n=0;
+  return {pair:[a,b],p:()=>{if(n>=seq.length)more();return seq[n++]},d:()=>{const c=one(rd,dUsed);dUsed.add(c.name);return c}};
+}
 function setChips(v,anim){
   const el=$('chips'),from=chips;chips=v;const box=$('hudChips');
-  if(!anim){el.textContent=fmt(v);return}
+  if(!anim){el.textContent=fmt(v);box.className='hud-chips';return}
   box.className='hud-chips '+(v>from?'up':'down');
   const t0=performance.now();const f=()=>{const k=Math.min(1,(performance.now()-t0)/700);el.textContent=fmt(Math.round(from+(v-from)*(1-Math.pow(1-k,3))));if(k<1)requestAnimationFrame(f);else setTimeout(()=>box.className='hud-chips',900)};f();
 }
 function setTot(id,v,cls){const e=$(id);e.textContent=v;e.className='tot'+(cls?' '+cls:'')}
-function stackHTML(v){const n=Math.min(5,Math.max(1,Math.round(Math.log2(Math.max(1,v/FLOOR))+1)));let s='';for(let i=0;i<n;i++)s+=`<span class="cchip" style="--c:${CHIP_COLORS[i%4]}"></span>`;return `<div class="stack">${s}</div>`}
+function stackHTML(v){const n=Math.min(5,Math.max(1,Math.round(Math.log2(Math.max(1,v/MINBET))+1)));let s='';for(let i=0;i<n;i++)s+=`<span class="cchip" style="--c:${CHIP_COLORS[i%4]}"></span>`;return `<div class="stack">${s}</div>`}
 function feltHTML(){return `<div class="felt-t"><b>Objetivo ${fmt(T)}</b><small>La banca se planta en ${fmt(STAND)}</small></div>`}
+const spotHTML=()=>`<div class="spot">${stackHTML(bet)}<b>${fmt(bet)}</b></div>`;
 
-function start(k){
-  M=MODES.find(x=>x.k===k)||MODES[0];
-  deck=shuffle(P.filter(p=>typeof V(p)==='number'&&V(p)>=1));
-  hand=0;log=[];setChips(START,false);bet=minBet(START);
+function start(k,isDaily){
+  tReset();
+  mode=isDaily?'daily':'free';
+  M=isDaily?MODES[0]:(MODES.find(x=>x.k===k)||MODES[0]);
+  if(isDaily)setDaily(TODAY,{start:1});
+  deck=isDaily?[]:shuffle(cardPool());
+  hand=0;log=[];doubled=false;setChips(START,false);bet=MINBET;
   document.body.classList.add('playing');
   $('home').hidden=true;$('res').hidden=true;$('game').hidden=false;
-  $('cat').textContent=M.n;
+  $('cat').textContent=isDaily?'Reto diario':M.n;
   betPhase();
 }
+// Cada mano se prepara una sola vez (objetivo y cartas); cambiar la apuesta no la vuelve a sortear.
 function betPhase(){
+  tReset();
   pc=[];dc=[];nextCard=null;busy=false;
-  T=Math.round((M.lo+Math.random()*(M.hi-M.lo))/M.step)*M.step;STAND=Math.round(T*M.sf/M.step)*M.step;
+  src=mode==='daily'?dailyHand(hand):freeHand();
+  STAND=Math.round(T*M.sf/M.step)*M.step;
   $('dCards').innerHTML='';$('pCards').innerHTML='';setTot('dSum','–');setTot('pSum','–');
   $('handLbl').textContent=hand+1;
-  const mb=minBet(chips);bet=Math.min(Math.max(mb,bet),chips);
-  const r50=v=>Math.max(mb,Math.round(v/50)*50);
-  const opts=[...new Set([mb,r50(chips*0.25),r50(chips*0.5)])].filter(v=>v<chips);
-  const all=opts.map((v,i)=>({v,c:CHIP_COLORS[i],t:fmt(v)})).concat([{v:chips,c:'#16110b',t:'Todo',all:1}]);
-  $('mid').innerHTML=feltHTML()+`<div class="spot">${stackHTML(bet)}<b>${fmt(bet)}</b></div>`;
-  $('act').innerHTML=`<div class="chips-row">${all.map(o=>`<button class="pchip${o.v===bet?' on':''}" style="--c:${o.c}" data-b="${o.all?'all':o.v}"><span>${o.t}</span></button>`).join('')}</div>
-    <button class="bigbtn" id="bDeal">Repartir</button>
-    ${hand>0?`<button class="cashbtn" id="bCash">💰 Retirarme con ${fmt(chips)} fichas</button>`:''}`;
-  document.querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>{bet=b.dataset.b==='all'?chips:+b.dataset.b;betPhase()});
+  if(bet>chips)bet=BETS.filter(v=>v<=chips).pop()||MINBET;
+  renderBet();
+}
+function renderBet(){
+  $('mid').innerHTML=feltHTML()+spotHTML();
+  $('act').innerHTML=`<div class="chips-row">${BETS.map((v,i)=>`<button class="pchip${v===bet?' on':''}" style="--c:${CHIP_COLORS[i]}" data-b="${v}"${v>chips?' disabled':''}><span>${fmt(v)}</span></button>`).join('')}</div>
+    <button class="bigbtn" id="bDeal">Repartir</button>`;
+  document.querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>{const v=+b.dataset.b;if(busy||v>chips)return;bet=v;renderBet()});
   $('bDeal').onclick=deal;
-  if($('bCash'))$('bCash').onclick=()=>finish(true);
 }
 async function deal(){
   if(busy)return;busy=true;
   $('act').innerHTML='<div class="wait">Repartiendo…</div>';
-  $('mid').innerHTML=feltHTML()+`<div class="spot">${stackHTML(bet)}<b>${fmt(bet)}</b></div>`;
-  // tus dos cartas de salida nunca se pasan del objetivo
-  let a=draw(),b=draw();for(let k=0;k<200&&V(a)+V(b)>T;k++){a=draw();b=draw()}
+  $('mid').innerHTML=feltHTML()+spotHTML();
+  const [a,b]=src.pair;
   pc=[a];addCard($('pCards'),cardHTML(pc[0],{cls:'deal'}));setTot('pSum',fmt(total(pc)));await wait(380);
-  dc=[draw()];addCard($('dCards'),cardHTML(dc[0],{cls:'deal'}));setTot('dSum',fmt(V(dc[0]))+'+');await wait(380);
+  dc=[src.d()];addCard($('dCards'),cardHTML(dc[0],{cls:'deal'}));setTot('dSum',fmt(V(dc[0]))+'+');await wait(380);
   pc.push(b);addCard($('pCards'),cardHTML(pc[1],{cls:'deal'}));setTot('pSum',fmt(total(pc)),total(pc)>T?'bust':'');await wait(380);
-  dc.push(draw());addCard($('dCards'),cardHTML(dc[1],{down:true,cls:'deal'}));await wait(450);
+  dc.push(src.d());addCard($('dCards'),cardHTML(dc[1],{down:true,cls:'deal'}));await wait(450);
   busy=false;
   if(total(pc)>T){busy=true;return settle('bust')}
   if(total(pc)===T){busy=true;return dealerPlay(true)}
   offer();
 }
 function offer(){
-  nextCard=draw();
+  nextCard=src.p();
   const canDouble=chips>=bet*2;
   $('mid').innerHTML=`<div class="felt-t"><b>Objetivo ${fmt(T)}</b></div>
-    <div class="nextbox"><div class="q">¿Lo coges?</div>${cardHTML(nextCard,{show:false,big:true,cls:'pop'})}<div class="minispot">${stackHTML(bet)}${fmt(bet)}</div></div>`;
+    <div class="nextbox"><div class="q">¿Lo coges?<b class="tsec" id="tSec">10</b></div>${cardHTML(nextCard,{show:false,big:true,cls:'pop'})}<div class="minispot">${stackHTML(bet)}${fmt(bet)}</div></div>`;
   $('act').innerHTML=`<div class="acts3"><button class="t" id="bTake">✔ Lo cojo<small>suma sus goles</small></button><button class="s" id="bStand">✋ Me planto<small>juega la banca</small></button><button class="d" id="bDouble" ${canDouble?'':'disabled'}>×2 Doblo<small>lo cojo y me planto</small></button></div>`;
-  $('bTake').onclick=()=>take(false);$('bStand').onclick=stand;$('bDouble').onclick=()=>take(true);
+  $('bTake').onclick=()=>take(false);$('bStand').onclick=()=>stand(false);$('bDouble').onclick=()=>take(true);
+  tStart();
 }
+// ---- reloj: 10 s por decisión, con hora límite (no se para aunque cambies de pestaña) ----
+let tEnd=0,tTO=0,tRAF=0;
+const tLeft=()=>tEnd-performance.now();
+function tShow(ms){const low=ms<=3000,b=$('tBar'),t=$('tSec');b.hidden=false;b.style.transform='scaleX('+Math.max(0,ms/LIMIT)+')';b.classList.toggle('low',low);if(t){t.className='tsec'+(low?' low':'');t.textContent=Math.max(0,Math.ceil(ms/1000))}}
+function tStart(){tStop();tEnd=performance.now()+LIMIT;tTO=setTimeout(()=>{if(tEnd)timeUp()},LIMIT);tDraw();}
+function tDraw(){tRAF=0;if(!tEnd)return;const l=tLeft();if(l<=0){timeUp();return}tShow(l);tRAF=requestAnimationFrame(tDraw);}
+function tStop(){clearTimeout(tTO);if(tRAF)cancelAnimationFrame(tRAF);tEnd=0;tTO=tRAF=0;}
+function tReset(){tStop();$('tBar').hidden=true;$('tBar').classList.remove('low');}
+document.addEventListener('visibilitychange',()=>{if(tEnd&&tLeft()<=0)timeUp()});
+// sin decidir a tiempo, te plantas
+function timeUp(){if(busy||!tEnd)return;tShow(0);stand(true);}
 async function take(dbl){
-  if(busy)return;busy=true;
+  if(busy)return;
+  if(tEnd&&tLeft()<=0){timeUp();return}
+  if(dbl&&chips<bet*2)return;
+  busy=true;tReset();
   if(dbl){bet*=2;doubled=true}
   const c=nextCard;nextCard=null;pc.push(c);
   $('act').innerHTML='<div class="wait">&nbsp;</div>';
-  $('mid').innerHTML=feltHTML()+`<div class="spot">${stackHTML(bet)}<b>${fmt(bet)}</b></div>`;
+  $('mid').innerHTML=feltHTML()+spotHTML();
   addCard($('pCards'),cardHTML(c,{cls:'deal'}));
   const s=total(pc);setTot('pSum',fmt(s),s>T?'bust':'');await wait(550);
   if(s>T)return settle('bust');
@@ -603,17 +712,21 @@ async function take(dbl){
   if(dbl)return dealerPlay(false);
   busy=false;offer();
 }
-async function stand(){if(busy)return;busy=true;
+async function stand(late){
+  if(busy)return;
+  if(!late&&tEnd&&tLeft()<=0){timeUp();return}
+  busy=true;tReset();
+  $('act').innerHTML='<div class="wait">'+(late?'✋ Te plantas: se acabó el tiempo':'Juega la banca…')+'</div>';
   const el=$('mid').querySelector('.card');if(el){el.classList.remove('pop');el.classList.add('gone')}
-  await wait(300);dealerPlay(false)}
-async function dealerPlay(exact){
-  $('act').innerHTML='<div class="wait">Juega la banca…</div>';
-  $('mid').innerHTML=feltHTML()+`<div class="spot">${stackHTML(bet)}<b>${fmt(bet)}</b></div>`;
+  await wait(300);dealerPlay(false,late)}
+async function dealerPlay(exact,late){
+  $('act').innerHTML='<div class="wait">'+(late?'✋ Te plantas: se acabó el tiempo':'Juega la banca…')+'</div>';
+  $('mid').innerHTML=feltHTML()+spotHTML();
   // girar la carta oculta
   const hid=$('dCards').children[1];
   if(hid){hid.outerHTML=cardHTML(dc[1],{down:true});const h2=$('dCards').children[1];void h2.offsetWidth;await wait(60);h2.classList.remove('down')}
   setTot('dSum',fmt(total(dc)));await wait(800);
-  while(total(dc)<STAND){const c=draw();dc.push(c);addCard($('dCards'),cardHTML(c,{cls:'deal'}));await wait(350);setTot('dSum',fmt(total(dc)),total(dc)>T?'bust':'');await wait(450)}
+  while(total(dc)<STAND){const c=src.d();dc.push(c);addCard($('dCards'),cardHTML(c,{cls:'deal'}));await wait(350);setTot('dSum',fmt(total(dc)),total(dc)>T?'bust':'');await wait(450)}
   const p=total(pc),d=total(dc);
   if(exact)return settle(d===p?'lose':'exact');
   if(d>T)return settle('dbust');
@@ -635,55 +748,43 @@ function settle(r){
   $('mid').innerHTML=`<div class="banner ${good?'good':'bad'}"><b>${msg}</b><span>${good?'+':'−'}${fmt(Math.abs(delta))} fichas</span></div>`;
   setChips(chips+delta,true);
   const s=stats();s.hands++;store.set(SKEY,s);
-  const broke=chips<FLOOR;
-  $('act').innerHTML=`<button class="bigbtn" id="bNext">${broke?'Ver resultado':'Siguiente mano'}</button>`;
-  $('bNext').onclick=()=>{if(broke)finish(false);else betPhase()};
   if(doubled){bet/=2;doubled=false}  // la siguiente mano vuelve a la apuesta de antes de doblar
-  busy=false;bet=Math.min(bet,chips);
+  // se acaba tras 10 manos, o antes si ya no llegas a la apuesta mínima
+  const over=hand>=HANDS||chips<MINBET;
+  $('act').innerHTML=`<button class="bigbtn" id="bNext">${over?'Ver resultado':'Siguiente mano'}</button>`;
+  $('bNext').onclick=()=>{if(over)finish();else betPhase()};
+  busy=false;
 }
-function finish(cashed){
-  const s=stats();s.games++;
-  const final=cashed?chips:0;
-  const prev=s.best[M.k]||0;const record=cashed&&final>prev;if(cashed)s.best[M.k]=Math.max(prev,final);store.set(SKEY,s);
-  const strip=log.slice(-30).join('');
-  const text=cashed?`GOALDAY ⚽ Blackjack · ${M.t}\n💰 Me he retirado con ${fmt(final)} fichas tras ${hand} manos\n${strip}\n${location.origin+location.pathname}`
-                   :`GOALDAY ⚽ Blackjack · ${M.t}\n💸 Me he quedado sin fichas en la mano ${hand}\n${strip}\n${location.origin+location.pathname}`;
+function finish(){
+  tReset();
+  const s=stats(),isDaily=mode==='daily',final=chips,k=M.k;s.games++;
+  const prev=s.best[k]||0,record=!isDaily&&final>prev;
+  if(isDaily){s.bestDaily=Math.max(s.bestDaily||0,final);setDaily(TODAY,{done:1,chips:final})}else if(record)s.best[k]=final;
+  store.set(SKEY,s);
+  const strip=log.join(''),url=location.origin+location.pathname,title=isDaily?'Reto diario · '+dmy(today,1):M.t;
+  const line=hand<HANDS?'No te quedan fichas para apostar tras '+manos(hand):'fichas tras '+manos(hand);
+  const sm=line+(isDaily?' · mañana hay otro reto':record?' · ¡nuevo récord!':' · récord: '+fmt(s.best[k]||0)+' fichas');
+  const text=`GOALDAY ⚽ Blackjack · ${isDaily?'Reto diario '+dmy(today,1):M.t}\n🃏 ${fmt(final)} fichas tras ${manos(hand)}\n${strip}\n${url}`;
   document.body.classList.remove('playing');$('game').hidden=true;$('res').hidden=false;
-  const u=me();
-  $('res').innerHTML=`<div class="lbl">${M.t}</div><div class="big">${fmt(final)}</div>
-   <div class="sm">${cashed?'Te retiras con '+fmt(final)+' fichas tras '+hand+' manos':'Te has quedado sin fichas: vuelves al principio'}${record?' · ¡nuevo récord!':''}</div>
+  $('res').innerHTML=`<div class="lbl">${title}</div><div class="big">${fmt(final)}</div>
+   <div class="sm">${sm}</div>
    <div class="sm">${strip}</div>
    <div id="rankMsg" class="sm"></div>
-   <div class="row" style="justify-content:center;margin-top:12px"><button class="btn" id="bShare">Compartir</button><button class="btn ghost" id="bAgain">Otra vez</button><button class="btn ghost" id="bHome">Inicio</button></div><div class="sm" id="shareOk"></div>`;
+   <div class="row" style="justify-content:center;margin-top:12px"><button class="btn" id="bShare">Compartir</button>${isDaily?'<button class="btn ghost" id="bHome">Volver</button>':'<button class="btn ghost" id="bAgain">Otra vez</button><button class="btn ghost" id="bHome">Inicio</button>'}</div><div class="sm" id="shareOk"></div>`;
   $('bShare').onclick=()=>share(text,$('shareOk'));
-  $('bAgain').onclick=()=>start(M.k);
-  $('bHome').onclick=()=>{$('res').hidden=true;$('home').hidden=false;renderHome()};
-  if(cashed&&final>0){if(u.pid&&u.name)sendScore(final);else askName(final)}
+  if(!isDaily)$('bAgain').onclick=()=>start(k);
+  $('bHome').onclick=goHome;
+  const rm=$('rankMsg');
+  if(isDaily)sendDaily(TODAY,rm);
+  else if(record){if(me().pid&&me().name)saveBest(k,rm);else nameLine(k,rm)}
 }
-async function sendScore(v){
-  $('rankMsg').textContent='Guardando en el ranking mundial…';
-  try{await postScore(M.k,v);const s=stats();s.sent=s.sent||{};s.sent[M.k]=Math.max(s.sent[M.k]||0,v);store.set(SKEY,s);$('rankMsg').textContent='🌍 Guardado en el ranking mundial como '+me().name}
-  catch(e){
-    const b=(e.body||'');
-    $('rankMsg').textContent=(e.status===404||/42P01|does not exist|schema cache/i.test(b))?'No se ha podido guardar: falta crear la tabla del ranking en Supabase.'
-      :(e.status===401||e.status===403||/42501|permission|policy/i.test(b))?'No se ha podido guardar: la tabla del ranking no tiene permisos.'
-      :'No se ha podido guardar en el ranking ('+(e.status||'sin conexión')+').';
-  }
-}
-function askName(v){
-  $('rankMsg').innerHTML=`Elige tu nombre para salir en el ranking mundial:<div class="namebox"><input id="nmIn" maxlength="16" placeholder="Tu nombre"><button class="btn" id="nmOk">Guardar</button></div><div id="nmErr" class="sm"></div>`;
-  $('nmOk').onclick=async()=>{
-    const n=($('nmIn').value||'').replace(/\s+/g,' ').trim().slice(0,16);
-    if(n.length<2){$('nmErr').textContent='Mínimo 2 caracteres.';return}
-    $('nmOk').disabled=true;
-    try{const pid=newId();await sbRpc('register_name',{pid,n});saveMe(pid,n);sendScore(v)}
-    catch(e){$('nmOk').disabled=false;$('nmErr').textContent=e.status===409?'Ese nombre ya lo tiene otro jugador. Elige otro.':'No se ha podido guardar. Revisa la conexión.'}
-  };
-}
+function goHome(){tReset();document.body.classList.remove('playing');$('game').hidden=true;$('res').hidden=true;$('home').hidden=false;renderHome()}
 // encoger el apellido si no cabe en la carta
 function fitNames(root){(root||document).querySelectorAll('.card .ln').forEach(el=>{let fs=parseFloat(el.style.fontSize)||15,g=0;while(el.scrollWidth>el.clientWidth+1&&fs>7&&g++<20){fs-=0.5;el.style.fontSize=fs+'px'}})}
 new MutationObserver(()=>fitNames()).observe(document.querySelector('main'),{childList:true,subtree:true});
 renderHome();
+// si el reto diario (de hoy o de ayer) no llegó al ranking (sin conexión), se reintenta
+{const y=new Date(today);y.setDate(y.getDate()-1);[dayKey(y),TODAY].forEach(d=>{const x=daily()[d];if(x&&x.done&&!x.sent&&me().pid&&me().name)sendDaily(d)})}
 </script>
 <script src="lang.js"></script>
 <script src="stadiums.js"></script>
