@@ -397,6 +397,72 @@ details.rules[open] summary{margin-bottom:8px}
 .toast.on{opacity:1}
 .banner{cursor:pointer}
 </style>
+<style>
+/* ===== partida a pantalla completa: todo lo necesario para jugar cabe sin hacer scroll =====
+   Durante la partida (body.playing) la página es una columna de 100dvh: cabecera, marcador (hud), mesa y botones.
+   La mesa ocupa el hueco que queda y su contenido (cartas, totales y centro) se escala con --z según la altura. */
+body.playing{min-height:0}
+body.playing .wrap{display:flex;flex-direction:column;
+  height:calc(100vh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));
+  height:calc(100dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));
+  padding:8px 16px 12px}
+body.playing .top,body.playing .hud,body.playing .panel{flex:none}
+body.playing .back{padding:5px 11px;font-size:13px}
+body.playing .gdlogo{font-size:18px}
+body.playing .gdlogo svg{width:28px;height:28px}
+body.playing #game{flex:1 1 auto;min-height:0;display:flex;flex-direction:column}
+body.playing .hud{margin:6px 0 8px}
+body.playing .hud-l{min-width:0}
+body.playing .hud-mode{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.playing .hud-chips{padding:4px 14px 4px 4px}
+body.playing .table{--z:1;flex:1 1 auto;min-height:0;display:flex;flex-direction:column;justify-content:space-evenly;padding:6px}
+body.playing .table>.zone,body.playing .table>.tmid{zoom:var(--z)}
+body.playing .zone{gap:6px}
+body.playing .table .hand{margin:0}
+body.playing .tot{font-size:19px;padding:2px 10px}
+body.playing .tmid{flex:none;margin:4px 0;min-height:196px}
+body.playing .nextbox{margin-top:8px}
+body.playing .spot{margin-top:10px}
+/* controles en una sola fila y de altura fija en todas las fases (apostar, decidir, esperar, siguiente mano) */
+body.playing .panel{display:flex;align-items:center;gap:12px;margin-top:10px;min-height:56px}
+body.playing .panel>*{flex:1 1 auto;min-width:0}
+body.playing .chips-row{flex:none;margin:0;gap:8px}
+body.playing .pchip{width:54px;height:54px;font-size:14px}
+body.playing .panel .bigbtn{padding:13px 10px}
+body.playing .chips-row+.bigbtn{font-size:clamp(18px,5.4vw,24px);padding:13px 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.playing .acts3 button{padding:10px 4px 9px;font-size:17px}
+body.playing .wait{padding:0}
+@media (max-width:380px){body.playing .tmid{min-height:180px}}
+@media (min-width:680px){body.playing .tmid{min-height:218px}}
+/* --z: escala del contenido de la mesa según la altura de la pantalla (cabe todo, con margen, en cada tramo de 20px).
+   Referencia: contenido de la mesa a escala 1 = 468px (≤380px de ancho), 504px (hasta 679px) y 570px (escritorio);
+   el resto de la pantalla (cabecera, marcador, botones y márgenes) ocupa unos 218px. */
+@media (min-width:381px) and (max-width:679px) and (min-height:800px){body.playing .table{--z:1.1}}
+@media (max-width:380px) and (max-height:685px){body.playing .table{--z:0.95}}
+@media (max-width:380px) and (max-height:665px){body.playing .table{--z:0.91}}
+@media (max-width:380px) and (max-height:645px){body.playing .table{--z:0.87}}
+@media (max-width:380px) and (max-height:625px){body.playing .table{--z:0.83}}
+@media (max-width:380px) and (max-height:605px){body.playing .table{--z:0.78}}
+@media (max-width:380px) and (max-height:585px){body.playing .table{--z:0.74}}
+@media (max-width:380px) and (max-height:565px){body.playing .table{--z:0.7}}
+@media (max-width:380px) and (max-height:545px){body.playing .table{--z:0.66}}
+@media (min-width:381px) and (max-width:679px) and (max-height:721px){body.playing .table{--z:0.96}}
+@media (min-width:381px) and (max-width:679px) and (max-height:701px){body.playing .table{--z:0.92}}
+@media (min-width:381px) and (max-width:679px) and (max-height:681px){body.playing .table{--z:0.88}}
+@media (min-width:381px) and (max-width:679px) and (max-height:661px){body.playing .table{--z:0.84}}
+@media (min-width:381px) and (max-width:679px) and (max-height:641px){body.playing .table{--z:0.8}}
+@media (min-width:381px) and (max-width:679px) and (max-height:621px){body.playing .table{--z:0.76}}
+@media (min-width:381px) and (max-width:679px) and (max-height:601px){body.playing .table{--z:0.72}}
+@media (min-width:381px) and (max-width:679px) and (max-height:581px){body.playing .table{--z:0.68}}
+@media (min-width:381px) and (max-width:679px) and (max-height:561px){body.playing .table{--z:0.64}}
+@media (min-width:680px) and (max-height:789px){body.playing .table{--z:0.96}}
+@media (min-width:680px) and (max-height:769px){body.playing .table{--z:0.93}}
+@media (min-width:680px) and (max-height:749px){body.playing .table{--z:0.88}}
+@media (min-width:680px) and (max-height:719px){body.playing .table{--z:0.82}}
+@media (min-width:680px) and (max-height:689px){body.playing .table{--z:0.77}}
+@media (min-width:680px) and (max-height:659px){body.playing .table{--z:0.7}}
+@media (min-width:680px) and (max-height:619px){body.playing .table{--z:0.64}}
+</style>
 </head>
 <body>
 <main class="wrap">
