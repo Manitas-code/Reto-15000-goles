@@ -312,7 +312,7 @@ body.playing h1,body.playing .sub{display:none}
 .minispot{display:flex;flex-direction:column;align-items:center;gap:4px;color:#ffe9a8;font-family:Doto,"Barlow Condensed",monospace;font-weight:900;font-size:18px}
 /* carta */
 .card{width:82px;height:116px;perspective:700px;flex:none;position:relative}
-.card .in{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.3,.7,.2,1)}
+.card .in{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .32s cubic-bezier(.3,.7,.2,1)}
 .card.down .in{transform:rotateY(180deg)}
 .card .f,.card .b{position:absolute;inset:0;border-radius:9px;backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:0 6px 14px rgba(0,0,0,.45),0 1px 0 rgba(255,255,255,.4) inset}
 .card .f{background:linear-gradient(160deg,var(--card) 0,var(--card-2) 100%);color:var(--ink);overflow:hidden}
@@ -335,12 +335,12 @@ body.playing h1,body.playing .sub{display:none}
 .card.big{width:112px;height:158px}
 .card.big .idx b{font-size:26px}
 .card.big .c{inset:30px 6px 28px}.card.big .c .fl{font-size:34px}.card.big .c .fn{font-size:10px}.card.big .c .ps{font-size:9px}
-.card.deal{animation:deal .5s cubic-bezier(.2,.8,.2,1) both}
+.card.deal{animation:deal .3s cubic-bezier(.2,.8,.2,1) both}
 @keyframes deal{from{transform:translate(160px,-200px) rotate(24deg);opacity:0}to{transform:none;opacity:1}}
 .card.pop{animation:popc .45s cubic-bezier(.2,.8,.2,1) both}
 @keyframes popc{from{transform:scale(.6) rotate(-6deg);opacity:0}to{transform:none;opacity:1}}
 .card.win .f{box-shadow:0 0 0 3px var(--up),0 8px 18px rgba(0,0,0,.45)}
-.card.gone{animation:gone .35s ease-in forwards}
+.card.gone{animation:gone .18s ease-in forwards}
 @keyframes gone{to{transform:translate(180px,-40px) rotate(18deg);opacity:0}}
 /* cartel de resultado */
 .banner{position:relative;z-index:3;white-space:nowrap;text-align:center;padding:12px 22px;border-radius:16px;background:rgba(3,14,9,.86);border:2px solid var(--led);box-shadow:0 10px 40px rgba(0,0,0,.6);min-width:210px;animation:bann .5s cubic-bezier(.2,.9,.2,1.2) both}
@@ -395,6 +395,7 @@ details.rules[open] summary{margin-bottom:8px}
 .tsec.low{color:var(--down);text-shadow:0 0 10px rgba(255,90,78,.5)}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#0a2e21;color:var(--chalk);border:1px solid var(--line);padding:10px 16px;border-radius:999px;font-weight:700;opacity:0;transition:opacity .2s;pointer-events:none;z-index:9;max-width:calc(100% - 32px);text-align:center}
 .toast.on{opacity:1}
+.banner{cursor:pointer}
 </style>
 </head>
 <body>
@@ -410,17 +411,17 @@ details.rules[open] summary{margin-bottom:8px}
     <div class="rank" id="rankBox"><h3>🌍 Ranking mundial</h3><div class="rtabs" id="rTabs"></div><div id="rankList"></div></div>
     <details class="rules">
       <summary>Cómo se juega</summary>
-      <p>Empiezas con 1.000 fichas y juegas 10 manos. En cada mano apuestas 100, 200 o 300 fichas y te reparten dos jugadores; la banca también recibe dos, uno boca abajo.</p>
+      <p>Empiezas con 1.000 fichas y juegas 7 manos. En cada mano apuestas 100, 200 o 300 fichas y te reparten dos jugadores; la banca también recibe dos, uno boca abajo.</p>
       <p>Sale el siguiente jugador: lo coges (suma sus goles), te plantas o doblas la apuesta cogiéndolo y plantándote.</p>
       <p>Si te pasas del objetivo, pierdes. Si no, la banca pide hasta llegar a su mínimo y gana quien más se acerque. El empate es para la banca.</p>
       <p>Tienes 10 segundos para decidir: si se acaba el tiempo, te plantas. Clavar el objetivo paga el doble. Si te quedan menos de 100 fichas, la partida termina antes.</p>
-      <p>Tu puntuación son las fichas con las que acabas. El reto diario tiene las mismas 10 manos para todo el mundo y un solo intento.</p>
+      <p>Tu puntuación son las fichas con las que acabas. El reto diario tiene las mismas 7 manos para todo el mundo y un solo intento.</p>
     </details>
   </div>
 
   <div id="game" hidden>
     <div class="hud">
-      <div class="hud-l"><span class="hud-mode" id="cat"></span><span class="hud-hand">Mano <b id="handLbl">1</b> de 10</span></div>
+      <div class="hud-l"><span class="hud-mode" id="cat"></span><span class="hud-hand">Mano <b id="handLbl">1</b> de 7</span></div>
       <div class="hud-chips" id="hudChips"><span class="cchip" style="--c:#c8322a"></span><b id="chips">1.000</b></div>
     </div>
     <div class="table" id="table">
@@ -462,18 +463,20 @@ const manos=n=>n+(n===1?' mano':' manos');
 
 // Modalidades. En cada mano sale un objetivo al azar entre lo y hi; la banca se planta al llegar al sf del objetivo.
 // Te reparten 2 jugadores de salida que nunca se pasan del objetivo.
-// Equilibrio (elegido con simulaciones, partidas de 10 manos con apuesta fija): en Carrera la banca se planta
+// Equilibrio (elegido con simulaciones, partidas cortas con apuesta fija): en Carrera la banca se planta
 // antes (80 % del objetivo) y en Selección los objetivos son más altos (100-150), así que la banca gana más a menudo.
 // A ciegas se pierde claramente, y el ranking lo deciden quienes saben de fútbol, no quien se lo juega todo a una mano.
 const MODES=[
  {k:'carrera',n:'Carrera',t:'Goles en toda su carrera',lo:600,hi:1500,step:50,sf:0.80},
  {k:'seleccion',n:'Selección',t:'Goles con su selección',lo:100,hi:150,step:5,sf:0.75}
 ];
-// Partida: 10 manos, 1.000 fichas de salida y apuesta fija de 100, 200 o 300 (doblar solo afecta a esa mano).
+// Partida de ~1 minuto: 7 manos, 1.000 fichas de salida y apuesta fija de 100, 200 o 300 (doblar solo afecta a esa mano).
 // Con menos de 100 fichas la partida se acaba antes. La puntuación son las fichas finales.
-const START=1000,HANDS=10,BETS=[100,200,300],MINBET=BETS[0],LIMIT=10000,SKEY='gd_bj10_stats',DKEY='gd_bj10_daily';
+// (Las claves gd_bj10_* son internas y se mantienen aunque ahora sean 7 manos.)
+// Tras cada mano se pasa sola a la siguiente (o al resultado) a los AUTO ms; un toque lo adelanta.
+const START=1000,HANDS=7,AUTO=1500,BETS=[100,200,300],MINBET=BETS[0],LIMIT=10000,SKEY='gd_bj10_stats',DKEY='gd_bj10_daily';
 const CHIP_COLORS=['#1f5fbf','#1d8a4e','#c8322a','#16110b'];
-let T=0,STAND=0,M=null,mode='free',deck=[],src=null,chips=0,hand=0,bet=MINBET,pc=[],dc=[],nextCard=null,busy=false,log=[],doubled=false;
+let gen=0,nextT=0,T=0,STAND=0,M=null,mode='free',deck=[],src=null,chips=0,hand=0,bet=MINBET,pc=[],dc=[],nextCard=null,busy=false,log=[],doubled=false;
 
 // ---- ranking mundial (Supabase, mismo proyecto y mismo nombre que el resto de juegos de GOALDAY) ----
 const SB_URL='https://mvcvqzbosnwkhnlfvsuf.supabase.co';
@@ -582,7 +585,7 @@ function renderHome(){
   M=MODES[0];
   const h=[pick('Lionel Messi'),pick('Cristiano Ronaldo')].filter(Boolean);
   $('hero').innerHTML=(h[0]?cardHTML(h[0]):'')+(h[1]?cardHTML(h[1],{show:false}):'')+backHTML();
-  $('modesBox').innerHTML=`<button class="mode gold day${dd?' done':''}" id="bDaily"><b>📅 Reto diario</b><span>Goles en toda su carrera. Las mismas 10 manos para todo el mundo. Un solo intento al día.${dd?'<br>'+dayMsg(dd):''}</span></button>`+
+  $('modesBox').innerHTML=`<button class="mode gold day${dd?' done':''}" id="bDaily"><b>📅 Reto diario</b><span>Goles en toda su carrera. Las mismas 7 manos para todo el mundo. Un solo intento al día.${dd?'<br>'+dayMsg(dd):''}</span></button>`+
     MODES.map(c=>`<button class="mode" data-m="${c.k}"><b>▶ ${c.n}</b><span>${c.t}. Objetivo entre ${fmt(c.lo)} y ${fmt(c.hi)}.<br>Récord: ${fmt(s.best[c.k]||0)} fichas</span></button>`).join('');
   $('bDaily').onclick=startDaily;
   document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>start(b.dataset.m));
@@ -632,8 +635,11 @@ function stackHTML(v){const n=Math.min(5,Math.max(1,Math.round(Math.log2(Math.ma
 function feltHTML(){return `<div class="felt-t"><b>Objetivo ${fmt(T)}</b><small>La banca se planta en ${fmt(STAND)}</small></div>`}
 const spotHTML=()=>`<div class="spot">${stackHTML(bet)}<b>${fmt(bet)}</b></div>`;
 
+// Esperas de la animación: si mientras tanto se sale a inicio o empieza otra partida (gen cambia), se corta.
+const pause=ms=>{const g=gen;return wait(ms).then(()=>g===gen)};
+function clearNext(){clearTimeout(nextT);nextT=0}
 function start(k,isDaily){
-  tReset();
+  tReset();clearNext();gen++;
   mode=isDaily?'daily':'free';
   M=isDaily?MODES[0]:(MODES.find(x=>x.k===k)||MODES[0]);
   if(isDaily)setDaily(TODAY,{start:1});
@@ -646,7 +652,7 @@ function start(k,isDaily){
 }
 // Cada mano se prepara una sola vez (objetivo y cartas); cambiar la apuesta no la vuelve a sortear.
 function betPhase(){
-  tReset();
+  tReset();clearNext();
   pc=[];dc=[];nextCard=null;busy=false;
   src=mode==='daily'?dailyHand(hand):freeHand();
   STAND=Math.round(T*M.sf/M.step)*M.step;
@@ -667,10 +673,10 @@ async function deal(){
   $('act').innerHTML='<div class="wait">Repartiendo…</div>';
   $('mid').innerHTML=feltHTML()+spotHTML();
   const [a,b]=src.pair;
-  pc=[a];addCard($('pCards'),cardHTML(pc[0],{cls:'deal'}));setTot('pSum',fmt(total(pc)));await wait(380);
-  dc=[src.d()];addCard($('dCards'),cardHTML(dc[0],{cls:'deal'}));setTot('dSum',fmt(V(dc[0]))+'+');await wait(380);
-  pc.push(b);addCard($('pCards'),cardHTML(pc[1],{cls:'deal'}));setTot('pSum',fmt(total(pc)),total(pc)>T?'bust':'');await wait(380);
-  dc.push(src.d());addCard($('dCards'),cardHTML(dc[1],{down:true,cls:'deal'}));await wait(450);
+  pc=[a];addCard($('pCards'),cardHTML(pc[0],{cls:'deal'}));setTot('pSum',fmt(total(pc)));if(!await pause(220))return;
+  dc=[src.d()];addCard($('dCards'),cardHTML(dc[0],{cls:'deal'}));setTot('dSum',fmt(V(dc[0]))+'+');if(!await pause(220))return;
+  pc.push(b);addCard($('pCards'),cardHTML(pc[1],{cls:'deal'}));setTot('pSum',fmt(total(pc)),total(pc)>T?'bust':'');if(!await pause(220))return;
+  dc.push(src.d());addCard($('dCards'),cardHTML(dc[1],{down:true,cls:'deal'}));if(!await pause(260))return;
   busy=false;
   if(total(pc)>T){busy=true;return settle('bust')}
   if(total(pc)===T){busy=true;return dealerPlay(true)}
@@ -706,7 +712,7 @@ async function take(dbl){
   $('act').innerHTML='<div class="wait">&nbsp;</div>';
   $('mid').innerHTML=feltHTML()+spotHTML();
   addCard($('pCards'),cardHTML(c,{cls:'deal'}));
-  const s=total(pc);setTot('pSum',fmt(s),s>T?'bust':'');await wait(550);
+  const s=total(pc);setTot('pSum',fmt(s),s>T?'bust':'');if(!await pause(320))return;
   if(s>T)return settle('bust');
   if(s===T)return dealerPlay(true);
   if(dbl)return dealerPlay(false);
@@ -718,15 +724,15 @@ async function stand(late){
   busy=true;tReset();
   $('act').innerHTML='<div class="wait">'+(late?'✋ Te plantas: se acabó el tiempo':'Juega la banca…')+'</div>';
   const el=$('mid').querySelector('.card');if(el){el.classList.remove('pop');el.classList.add('gone')}
-  await wait(300);dealerPlay(false,late)}
+  if(!await pause(150))return;dealerPlay(false,late)}
 async function dealerPlay(exact,late){
   $('act').innerHTML='<div class="wait">'+(late?'✋ Te plantas: se acabó el tiempo':'Juega la banca…')+'</div>';
   $('mid').innerHTML=feltHTML()+spotHTML();
   // girar la carta oculta
   const hid=$('dCards').children[1];
-  if(hid){hid.outerHTML=cardHTML(dc[1],{down:true});const h2=$('dCards').children[1];void h2.offsetWidth;await wait(60);h2.classList.remove('down')}
-  setTot('dSum',fmt(total(dc)));await wait(800);
-  while(total(dc)<STAND){const c=src.d();dc.push(c);addCard($('dCards'),cardHTML(c,{cls:'deal'}));await wait(350);setTot('dSum',fmt(total(dc)),total(dc)>T?'bust':'');await wait(450)}
+  if(hid){hid.outerHTML=cardHTML(dc[1],{down:true});const h2=$('dCards').children[1];void h2.offsetWidth;if(!await pause(60))return;h2.classList.remove('down')}
+  setTot('dSum',fmt(total(dc)));if(!await pause(450))return;
+  while(total(dc)<STAND){const c=src.d();dc.push(c);addCard($('dCards'),cardHTML(c,{cls:'deal'}));if(!await pause(200))return;setTot('dSum',fmt(total(dc)),total(dc)>T?'bust':'');if(!await pause(260))return}
   const p=total(pc),d=total(dc);
   if(exact)return settle(d===p?'lose':'exact');
   if(d>T)return settle('dbust');
@@ -749,14 +755,17 @@ function settle(r){
   setChips(chips+delta,true);
   const s=stats();s.hands++;store.set(SKEY,s);
   if(doubled){bet/=2;doubled=false}  // la siguiente mano vuelve a la apuesta de antes de doblar
-  // se acaba tras 10 manos, o antes si ya no llegas a la apuesta mínima
+  // se acaba tras 7 manos, o antes si ya no llegas a la apuesta mínima
   const over=hand>=HANDS||chips<MINBET;
-  $('act').innerHTML=`<button class="bigbtn" id="bNext">${over?'Ver resultado':'Siguiente mano'}</button>`;
-  $('bNext').onclick=()=>{if(over)finish();else betPhase()};
+  // pasa solo tras AUTO ms; tocar el cartel o el botón lo adelanta (una sola vez: el primero que llega limpia nextT)
+  const go=()=>{if(!nextT)return;clearNext();if(over)finish();else betPhase()};
+  $('act').innerHTML=`<button class="bigbtn" id="bNext">${over?'Ver resultado ▸':'Siguiente mano ▸'}</button>`;
+  $('bNext').onclick=go;$('mid').querySelector('.banner').onclick=go;
+  nextT=setTimeout(go,AUTO);
   busy=false;
 }
 function finish(){
-  tReset();
+  tReset();clearNext();
   const s=stats(),isDaily=mode==='daily',final=chips,k=M.k;s.games++;
   const prev=s.best[k]||0,record=!isDaily&&final>prev;
   if(isDaily){s.bestDaily=Math.max(s.bestDaily||0,final);setDaily(TODAY,{done:1,chips:final})}else if(record)s.best[k]=final;
@@ -778,7 +787,7 @@ function finish(){
   if(isDaily)sendDaily(TODAY,rm);
   else if(record){if(me().pid&&me().name)saveBest(k,rm);else nameLine(k,rm)}
 }
-function goHome(){tReset();document.body.classList.remove('playing');$('game').hidden=true;$('res').hidden=true;$('home').hidden=false;renderHome()}
+function goHome(){tReset();clearNext();gen++;busy=false;document.body.classList.remove('playing');$('game').hidden=true;$('res').hidden=true;$('home').hidden=false;renderHome()}
 // encoger el apellido si no cabe en la carta
 function fitNames(root){(root||document).querySelectorAll('.card .ln').forEach(el=>{let fs=parseFloat(el.style.fontSize)||15,g=0;while(el.scrollWidth>el.clientWidth+1&&fs>7&&g++<20){fs-=0.5;el.style.fontSize=fs+'px'}})}
 new MutationObserver(()=>fitNames()).observe(document.querySelector('main'),{childList:true,subtree:true});

@@ -14,15 +14,15 @@ var D={
 'Suma goles de jugadores y plántate antes de pasarte del objetivo.':'Add up players\' goals and stand before you go over the target.',
 'Idioma / Language':'Language / Idioma',
 // ---- Blackjack v3 (mesa y cartas) ----
-'Empiezas con 1.000 fichas y juegas 10 manos. En cada mano apuestas 100, 200 o 300 fichas y te reparten dos jugadores; la banca también recibe dos, uno boca abajo.':'You start with 1,000 chips and play 10 hands. Each hand you bet 100, 200 or 300 chips and get two players; the house also gets two, one face down.',
+'Empiezas con 1.000 fichas y juegas 7 manos. En cada mano apuestas 100, 200 o 300 fichas y te reparten dos jugadores; la banca también recibe dos, uno boca abajo.':'You start with 1,000 chips and play 7 hands. Each hand you bet 100, 200 or 300 chips and get two players; the house also gets two, one face down.',
 'No se ha podido guardar: falta crear la tabla del ranking en Supabase.':'Couldn\'t save: the ranking table hasn\'t been created yet.',
 'No se ha podido guardar: la tabla del ranking no tiene permisos.':'Couldn\'t save: the ranking table has no permissions.',
 '¿Lo coges?':'Take him?','suma sus goles':'adds his goals','juega la banca':'the house plays','lo cojo y me planto':'take and stand','Medio':'Midfielder',
-// ---- Blackjack v4 (10 manos, apuesta fija, reloj y reto diario) ----
+// ---- Blackjack v4 (7 manos, apuesta fija, reloj, reto diario y paso automático) ----
 'Tienes 10 segundos para decidir: si se acaba el tiempo, te plantas. Clavar el objetivo paga el doble. Si te quedan menos de 100 fichas, la partida termina antes.':'You have 10 seconds to decide: if time runs out, you stand. Hitting the target exactly pays double. If you have fewer than 100 chips left, the game ends early.',
-'Tu puntuación son las fichas con las que acabas. El reto diario tiene las mismas 10 manos para todo el mundo y un solo intento.':'Your score is the chips you finish with. The daily challenge has the same 10 hands for everyone and one attempt.',
-'Goles en toda su carrera. Las mismas 10 manos para todo el mundo. Un solo intento al día.':'Career goals. The same 10 hands for everyone. One attempt per day.',
-'para decidir':'to decide','de 10':'of 10','Te plantas: se acabó el tiempo':'You stand: time\'s up','¡nuevo récord!':'new record!',
+'Tu puntuación son las fichas con las que acabas. El reto diario tiene las mismas 7 manos para todo el mundo y un solo intento.':'Your score is the chips you finish with. The daily challenge has the same 7 hands for everyone and one attempt.',
+'Goles en toda su carrera. Las mismas 7 manos para todo el mundo. Un solo intento al día.':'Career goals. The same 7 hands for everyone. One attempt per day.',
+'para decidir':'to decide','de 7':'of 7','Siguiente mano ▸':'Next hand ▸','Ver resultado ▸':'See result ▸','Te plantas: se acabó el tiempo':'You stand: time\'s up','¡nuevo récord!':'new record!',
 // ---- Blackjack v2 (ranking) ----
 '🌍 Ranking mundial':'🌍 World ranking','Cargando…':'Loading…','Todavía no hay nadie. ¡Sé el primero!':'Nobody here yet. Be the first!',
 'Ranking no disponible ahora mismo.':'Ranking not available right now.',
@@ -38,7 +38,7 @@ var D={
 'Repartir':'Deal','Repartiendo…':'Dealing…',
 '✔ Lo cojo':'✔ Take','✋ Me planto':'✋ Stand','×2 Doblo':'×2 Double','Juega la banca…':'The house plays…',
 '¡Clavado!':'Spot on!','¡Ganas la mano!':'You win the hand!','¡La banca se pasa!':'The house busts!','Te has pasado':'Bust!',
-'Empate: gana la banca':'Tie: the house wins','Gana la banca':'The house wins','Siguiente mano':'Next hand','Ver resultado':'See result',
+'Empate: gana la banca':'Tie: the house wins','Gana la banca':'The house wins','Ver resultado':'See result',
 // ---- Más o Menos ----
 'Sale un jugador con sus goles. ¿El siguiente tiene más o menos?':'A player appears with his goals. Does the next one have more or fewer?',
 '▶ Carrera':'▶ Career','▶ Selección':'▶ National team',
