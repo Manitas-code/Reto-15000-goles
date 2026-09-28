@@ -312,16 +312,43 @@ body.playing .board{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1
   grid-template-rows:repeat(9,minmax(30px,1fr));gap:4px;margin:6px 0 0}
 body.playing .board li{min-height:0;display:flex}
 body.playing .board li:first-child{grid-column:1/-1}
-body.playing .slot{display:flex;align-items:center;gap:6px;padding:3px 7px;border:1px solid var(--line);
+/* casilla en dos líneas: arriba la categoría; abajo su multiplicador y lo que daría el jugador de la carta
+   (goles y puntos) o, si ya está ocupada, quién la ocupa y lo que sumó */
+body.playing .slot{display:grid;grid-template-columns:auto auto minmax(0,1fr) auto;grid-template-rows:auto auto;
+  column-gap:5px;row-gap:2px;align-content:center;align-items:center;padding:2px 7px;border:1px solid var(--line);
   border-radius:8px;width:100%;overflow:hidden}
-body.playing .slot .ico{font-size:14px;flex:none}
-body.playing .slot .lab{font-size:12px;line-height:1.05;gap:4px;min-width:0;flex:1;
-  display:flex;align-items:center;overflow:hidden}
-body.playing .slot .mul{font-size:10.5px;padding:1px 5px;flex:none}
-body.playing .slot .who{display:none}
-body.playing .slot .pts{display:none}
-body.playing .slot.filled{background:rgba(255,255,255,.07);opacity:.55}
-body.playing .slot.filled .lab{text-decoration:line-through;text-decoration-color:var(--chalk-3)}
+body.playing .slot .ico{font-size:14px;grid-row:1/3;grid-column:1;margin-right:1px}
+body.playing .slot .lab{display:contents}
+body.playing .slot .lt{grid-row:1;grid-column:2/5;font-size:12px;line-height:1.05;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.playing .slot .mul{grid-row:2;grid-column:2;font-size:10.5px;padding:0 5px;line-height:1.3}
+body.playing .slot .who,body.playing .slot .gl{grid-row:2;grid-column:3;min-width:0;margin:0;min-height:0;
+  font-size:11px;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.playing .slot .who{display:none;color:var(--chalk-2);font-weight:600}
+body.playing .slot .gl{display:block;color:var(--chalk-2);font-weight:600}
+body.playing .slot .gl:empty{display:none}
+body.playing .slot .pts{grid-row:2;grid-column:4;min-width:0;font-size:14px;line-height:1;text-align:right}
+body.playing .slot .pts.preview{font-size:14px;font-weight:900;color:var(--chalk)}
+body.playing .slot .pts.preview.hot{color:var(--gold)}
+body.playing .slot .pts.preview.nil{color:var(--chalk-3);font-weight:700}
+body.playing .slot.open.nil:not(:disabled){background:rgba(255,255,255,.025);box-shadow:none}
+body.playing .slot.open.nil .lt,body.playing .slot.open.nil .gl{color:var(--chalk-3)}
+body.playing .slot.open.big:not(:disabled){box-shadow:inset 0 0 0 1px rgba(243,197,69,.6);background:rgba(243,197,69,.11)}
+body.playing .slot.filled{background:rgba(0,0,0,.34);border-color:transparent;opacity:1}
+body.playing .slot.filled .ico{opacity:.6}
+body.playing .slot.filled .lt{color:var(--chalk-3)}
+body.playing .slot.filled .who{display:block;grid-column:2/4}
+body.playing .slot.filled .mul{display:none}
+body.playing .slot.filled .pts{color:var(--chalk-2);font-weight:900}
+body.playing .slot.filled .pts.big{color:var(--gold);text-shadow:none}
+body.playing .slot.filled .pts.zero{color:var(--chalk-3)}
+/* total que llevas, en la misma línea que "Jugador X de 17" */
+body.playing .dock-info{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;column-gap:8px}
+body.playing .dock-info .step{grid-column:1;grid-row:1}
+body.playing .dock-info .cta{grid-column:1/-1;grid-row:2}
+body.playing .dock-total{grid-column:2;grid-row:1;margin:0;display:flex;align-items:baseline;gap:5px}
+body.playing .dock-total[hidden]{display:none}
+body.playing .dock-total .tlabel{font-size:11px}
+body.playing .dock-total .num{font-size:19px;line-height:1}
 @media (min-width:600px){body.playing .board{grid-template-columns:1fr 1fr 1fr;grid-template-rows:repeat(6,minmax(34px,1fr))}body.playing .board li:first-child{grid-column:auto}}
 /* botón de descartar al lado de la carta, no debajo: deja más alto para las 17 casillas */
 body.playing .dock{flex:none;display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:10px;align-items:start}
@@ -333,13 +360,14 @@ body.playing .skips[hidden]{display:none}
 body.playing .progress,body.playing .duelbar{grid-column:1/-1}
 body.playing .btn.small{min-height:40px}
 body.playing .dailybar{flex:none;line-height:1.3}
-@media (max-height:620px){body.playing .slot .lab{font-size:11px}body.playing .board{gap:3px;grid-template-rows:repeat(9,minmax(28px,1fr))}body.playing .home-link{padding:4px 10px;margin-bottom:4px}body.playing .dailybar{margin-bottom:4px}body.playing .duelbar{margin-top:4px}}
+@media (max-height:620px){body.playing .slot .lt{font-size:11px}body.playing .board{gap:3px;grid-template-rows:repeat(9,minmax(28px,1fr))}body.playing .home-link{padding:4px 10px;margin-bottom:4px}body.playing .dailybar{margin-bottom:4px}body.playing .duelbar{margin-top:4px}}
 .slot{display:grid;grid-template-columns:34px 1fr auto;column-gap:10px;width:100%;text-align:left;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--chalk);padding:9px 6px;font:inherit;cursor:pointer;align-items:center;border-radius:10px;transition:background .15s}
 .slot:disabled{cursor:default}
 .slot .ico{font-family:"Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji",sans-serif;grid-row:1/3;font-size:22px;text-align:center;line-height:1;filter:drop-shadow(0 2px 2px rgba(0,0,0,.35))}
 .slot .lab{font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .slot .mul{font:800 12px "Barlow Condensed",sans-serif;font-size:13px;padding:2px 7px;border-radius:6px;background:var(--glass-3);color:var(--chalk-2)}
 .slot .who{grid-column:2;color:var(--chalk-3);font-size:13px;min-height:17px;margin-top:2px}
+.slot .gl{display:none}
 .slot .pts{grid-row:1/3;grid-column:3;font-family:"Barlow Condensed",sans-serif;font-weight:900;font-size:28px;text-align:right;min-width:74px;font-variant-numeric:tabular-nums}
 .slot.open:not(:disabled){background:var(--glass-2);box-shadow:inset 0 0 0 1px rgba(245,248,243,.18)}
 .slot.open:not(:disabled):hover{background:var(--glass-3)}
@@ -513,13 +541,14 @@ body.hasteam[data-bg="light"] .hero h1{text-shadow:0 3px 10px rgba(0,0,0,.95),0 
     <div class="brand" aria-label="GOALDAY"><span class="logo-mark" aria-hidden="true"><svg width="44" height="44" viewBox="0 0 100 100" aria-hidden="true"><defs><clipPath id="gdhh4"><rect x="0" y="0" width="100" height="63"></rect></clipPath><clipPath id="gddh4"><circle cx="50" cy="60" r="31.5"></circle></clipPath></defs><g clip-path="url(#gdhh4)"><circle cx="50" cy="60" r="32" fill="#f5f8f3"></circle><g clip-path="url(#gddh4)"><polygon points="50.00,33.00 59.51,39.91 55.88,51.09 44.12,51.09 40.49,39.91" fill="#06241a"></polygon><path d="M50.00 33.00L50.00 26.00" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="50.00,25.50 40.96,18.94 44.42,8.31 55.58,8.31 59.04,18.94" fill="#06241a"></polygon><path d="M59.51 39.91L66.17 37.75" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="66.64,37.59 70.09,26.97 81.26,26.97 84.71,37.59 75.68,44.16" fill="#06241a"></polygon><path d="M55.88 51.09L59.99 56.75" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="60.29,57.16 71.45,57.16 74.91,67.78 65.87,74.34 56.84,67.78" fill="#06241a"></polygon><path d="M44.12 51.09L40.01 56.75" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="39.71,57.16 43.16,67.78 34.13,74.34 25.09,67.78 28.55,57.16" fill="#06241a"></polygon><path d="M40.49 39.91L33.83 37.75" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="33.36,37.59 24.32,44.16 15.29,37.59 18.74,26.97 29.91,26.97" fill="#06241a"></polygon></g></g><path d="M9 72H91" stroke="#f5f8f3" stroke-width="7" stroke-linecap="round"></path></svg></span><span class="bname">GOALDAY</span></div>
     <span class="kicker">GOALDAY · 17 jugadores · 17 casillas · un objetivo</span>
     <h1>Reto de los<em>15.000 goles</em></h1>
-    <p class="lead">Van saliendo futbolistas al azar, uno a uno, y tú decides en qué casilla colocar a cada uno, de memoria. Al acabar, el recuento revela cuánto ha sumado cada uno. Cada casilla solo se usa una vez.</p>
+    <p class="lead">Van saliendo futbolistas al azar, uno a uno, y tú decides en qué casilla colocar a cada uno. Ves lo que sumaría en cada casilla, pero cada una solo se usa una vez: ¿la ocupas ya o guardas el hueco para alguien mejor?</p>
     <details class="how">
       <summary>Cómo se juega</summary>
       <ol>
-        <li>Sale una carta con un jugador. Toca la casilla donde quieras ponerlo. No verás los puntos hasta el final: el recuento se hace de golpe, casilla por casilla.</li>
+        <li>Sale una carta con un jugador. Verás cuántos puntos daría en cada casilla: elige bien dónde ponerlo, porque cada casilla solo se usa una vez y no sabes quién vendrá después.</li>
         <li>Suma sus goles en esa categoría por el multiplicador: Champions ×10, Selección ×10, Mundiales ×100, final del Mundial ×1000…</li>
         <li>En cada partida una de las seis ligas vale ×5 en vez de ×1.</li>
+        <li>Si un jugador no te convence, puedes descartarlo: tienes 2 descartes por partida.</li>
         <li>Tras 17 jugadores, si pasas del objetivo has superado el reto. Al final verás cuántos puntos daba la mejor colocación posible.</li>
       </ol>
     </details>
@@ -943,12 +972,12 @@ const RANKS=[
  {t:2000,ico:'👟',name:'Cantera',rar:'Común'},
  {t:3500,ico:'⚽',name:'Suplente',rar:'Común'},
  {t:5000,ico:'🥉',name:'Bronce',rar:'Común'},
- {t:6000,ico:'⭐',name:'Titular',rar:'Poco común'},
+ {t:6000,ico:'⭐',name:'Titular',rar:'Común'},
  {t:7000,ico:'🥈',name:'Plata',rar:'Poco común'},
- {t:8500,ico:'🎖️',name:'Pichichi',rar:'Rara'},
- {t:10500,ico:'🥇',name:'Oro',rar:'Épica'},
+ {t:8500,ico:'🎖️',name:'Pichichi',rar:'Poco común'},
+ {t:10500,ico:'🥇',name:'Oro',rar:'Rara'},
  {t:12000,ico:'🏅',name:'Bota de Oro',rar:'Épica'},
- {t:13000,ico:'🏆',name:'Champions',rar:'Legendaria'},
+ {t:13000,ico:'🏆',name:'Champions',rar:'Épica'},
  {t:15000,ico:'👑',name:'Leyenda',rar:'Legendaria'},
  {t:17500,ico:'🌍',name:'Balón de Oro',rar:'Mítica'},
  {t:20000,ico:'🐐',name:'GOAT',rar:'Mítica'}
@@ -967,7 +996,10 @@ const REWARDS={
  'Balón de Oro':{txt:'Marco mítico y efecto de brillo',css:'r-myth'},
  'GOAT':{txt:'Todo desbloqueado · eres el 0,0001%',css:'r-goat'}
 };
-const PCT={0:'100%',2000:'99%',3500:'91%',5000:'61%',6000:'38%',7000:'21%',8500:'6%',10500:'0,7%',12000:'0,06%',13000:'0,02%',15000:'0,002%',17500:'0,0005%',20000:'0,0001%'};
+// % de partidas que llegan a cada medalla. Simulación de 110 millones de partidas con los puntos a la vista
+// (misma lógica: 17 casillas, liga ×5 y 2 descartes): mitad jugadores que colocan en la mejor casilla
+// (mediana 7.000) y mitad que además comparan con lo que suele dar cada casilla y usan los descartes (mediana 8.350).
+const PCT={0:'100%',2000:'99,9%',3500:'99,7%',5000:'95%',6000:'83%',7000:'65%',8500:'34%',10500:'9%',12000:'2%',13000:'0,7%',15000:'0,04%',17500:'0,0004%',20000:'0,0000005%'};
 function rankIdx(best){let i=0;for(let k=0;k<RANKS.length;k++)if(best>=RANKS[k].t)i=k;return i;}
 const MEDALS=RANKS.slice().reverse().map(r=>({t:r.t,ico:r.ico,name:r.name,rar:r.rar,pct:PCT[r.t],sub:''}));
 const medalOf=t=>MEDALS.find(m=>t>=m.t);
@@ -1076,7 +1108,7 @@ const board=$('board');
 const slotEls=SLOTS.map((s,i)=>{
   const li=document.createElement('li');
   const b=document.createElement('button');b.type='button';b.className='slot';b.dataset.i=i;b.disabled=true;
-  b.innerHTML='<span class="ico" aria-hidden="true">'+s.ico+'</span><span class="lab">'+s.label+'<span class="mul">×'+s.mult+'</span></span><span class="who">Libre</span><span class="pts" data-v="0"></span>';
+  b.innerHTML='<span class="ico" aria-hidden="true">'+s.ico+'</span><span class="lab"><span class="lt">'+s.label+'</span><span class="mul">×'+s.mult+'</span></span><span class="who">Libre</span><span class="gl"></span><span class="pts" data-v="0"></span>';
   li.appendChild(b);board.appendChild(li);
   return b;
 });
@@ -1087,7 +1119,7 @@ function multOf(i){return (game&&i===game.boost)?5:SLOTS[i].mult;}
 function paintMults(){slotEls.forEach((b,i)=>{b.querySelector('.mul').textContent='×'+multOf(i);b.classList.toggle('boost',!!game&&i===game.boost);});}
 
 function resetBoard(){
-  slotEls.forEach(b=>{b.className='slot';b.disabled=true;b.querySelector('.who').textContent='Libre';const p=b.querySelector('.pts');p.textContent='';p.dataset.v=0;p.className='pts';});
+  slotEls.forEach(b=>{b.className='slot';b.disabled=true;b.removeAttribute('title');b.querySelector('.who').textContent='Libre';b.querySelector('.gl').textContent='';const p=b.querySelector('.pts');p.textContent='';p.dataset.v=0;p.className='pts';});
   $('total').textContent='0';$('total').dataset.v=0;$('total').classList.remove('gold');
   $('dockTotal').hidden=true;$('progress').hidden=true;
   $('medal').hidden=true;$('unlocked').hidden=true;
@@ -1099,6 +1131,34 @@ function setProgress(t){
   const pr=$('progress');pr.querySelector('i').style.width=pct+'%';pr.classList.toggle('over',t>=goal);
   $('pctLabel').textContent=t>=goal?'Objetivo superado':fmt(goal-t)+' para el objetivo';
   $('total').classList.toggle('gold',t>=goal);
+}
+
+// ---- vista previa: lo que daría el jugador de la carta en cada casilla libre ----
+const golesTxt=g=>g===1?'1 gol':fmt(g)+' goles';
+// "Antoine Griezmann" → "A. Griezmann": cabe en la casilla junto a los puntos
+// (apodo entre «» si lo tiene; si aun así es largo, solo el apellido)
+function shortName(n){
+  const nick=n.match(/«(.+?)»/);if(nick)return nick[1];
+  const w=n.split(' ');if(n.length<=14||w.length<2)return n;
+  const s=w[0][0]+'. '+w.slice(1).join(' ');return s.length<=15?s:w[w.length-1];
+}
+function previewPts(p,i){return (Number(p.v[SLOTS[i].src])||0)*multOf(i);}
+function paintPreview(p){
+  slotEls.forEach((b,i)=>{
+    if(game.slots[i])return;
+    const goals=Number(p.v[SLOTS[i].src])||0,pts=previewPts(p,i),pe=b.querySelector('.pts');
+    b.classList.toggle('nil',pts===0);b.classList.toggle('big',pts>=1000);
+    b.querySelector('.gl').textContent=pts?golesTxt(goals):'';
+    pe.textContent=pts?'+'+fmt(pts):'0';pe.dataset.v=pts;
+    pe.className='pts preview'+(pts?(pts>=1000?' hot':''):' nil');
+  });
+}
+function clearPreview(){
+  slotEls.forEach((b,i)=>{
+    if(game&&game.slots[i])return;
+    b.classList.remove('nil','big');b.querySelector('.gl').textContent='';
+    const pe=b.querySelector('.pts');pe.textContent='';pe.dataset.v=0;pe.className='pts';
+  });
 }
 
 const SKIPS=2;
@@ -1119,6 +1179,7 @@ function newGame(){
   game={q,i:0,slots:new Array(N).fill(null),total:0,skips:SKIPS,skipsUsed:0,daily,day,duelKind:dk,
         boost:LEAGUE_SLOTS[Math.floor((rnd?rnd():Math.random())*LEAGUE_SLOTS.length)]};
   resetBoard();paintMults();paintSkips();
+  $('dockTotal').hidden=false;
   document.body.classList.add('playing');window.scrollTo(0,0);
   intro(daily);
   $('dailyBar').hidden=!daily&&!dk;
@@ -1148,6 +1209,7 @@ function skipPlayer(){
   game.skips--;game.skipsUsed++;
   game.q.splice(game.i,1);
   busy=true;clearPickTimer();slotEls.forEach(b=>{b.disabled=true;b.classList.remove('open');});
+  clearPreview();
   paintSkips();$('btnSkip').disabled=true;
   $('flip').classList.remove('flipped');
   const g=game;setTimeout(()=>{busy=false;if(game===g){paintSkips();showCard();}},320);
@@ -1171,6 +1233,7 @@ async function showCard(){
   $('step').textContent='Jugador '+(game.i+1)+' de '+N;
   $('cta').innerHTML=(game.i===0?'Esta partida <b>'+SLOTS[game.boost].label+'</b> vale ×5. ':'')+'¿Dónde colocas a <b>'+p.name+'</b>?';
   $('flip').classList.add('flipped');
+  paintPreview(p);
   startPickTimer();
   await wait(200);
   slotEls.forEach((b,i)=>{if(!game.slots[i]){b.disabled=false;b.classList.add('open');}});
@@ -1184,11 +1247,13 @@ async function place(i){
   const mult=multOf(i),goals=Number(p.v[s.src])||0,pts=goals*mult;
   game.slots[i]={p,goals,pts,mult};game.total+=pts;
   const b=slotEls[i],ptsEl=b.querySelector('.pts');
-  b.classList.add('filled','flash');
+  clearPreview();
+  b.classList.remove('nil','big');b.classList.add('filled','flash');
   beep(pts>=1500?'big':'place');
-  b.querySelector('.who').textContent=p.flag+' '+p.name;
-  ptsEl.textContent='';ptsEl.className='pts';
-  $('cta').innerHTML='<b>'+p.name+'</b> → '+(s.ico?s.ico+' ':'')+s.label+'.';
+  b.querySelector('.who').textContent=shortName(p.name);b.title=p.name;b.querySelector('.gl').textContent='';
+  ptsEl.textContent=fmt(pts);ptsEl.dataset.v=pts;ptsEl.className='pts'+(pts===0?' zero':'')+(pts>=1000?' big':'');
+  countTo($('total'),game.total,350);setProgress(game.total);
+  $('cta').innerHTML='<b>'+p.name+'</b> → '+(s.ico?s.ico+' ':'')+'<span>'+s.label+'</span> <b>+'+fmt(pts)+'</b>';
   $('flip').classList.remove('flipped');
   await wait(260);
   b.classList.remove('flash');
@@ -1225,22 +1290,26 @@ async function finish(){
   if(game.duelKind)duelSubmit(t);
   document.body.classList.remove('playing');document.body.classList.add('done');
   $('skips').hidden=true;
-  $('step').textContent='Recuento';$('cta').textContent='Vamos a ver cuánto has sumado…';
+  $('step').textContent='Recuento';$('cta').textContent='Sumando tus 17 casillas…';
   $('dockTotal').hidden=false;$('progress').hidden=false;
   $('p-play').scrollIntoView({behavior:reduceMotion?'auto':'smooth',block:'start'});
-  await wait(600);
+  // los puntos ya se veían durante la partida: el recuento es un repaso rápido (≈1,5 s)
+  $('total').dataset.v=0;$('total').textContent='0';setProgress(0);
+  await wait(250);
+  const stepMs=70,tot=countTo($('total'),t,N*stepMs+250);
   let run=0;
   for(let i=0;i<N;i++){
     const x=game.slots[i],b=slotEls[i],pe=b.querySelector('.pts');
-    b.classList.add('flash');
+    b.classList.remove('nil','big');b.classList.add('flash');
+    b.querySelector('.gl').textContent='';
     b.querySelector('.who').textContent=x.p.flag+' '+x.p.name+'  ·  '+fmt(x.goals)+' × '+x.mult;
-    pe.dataset.v=0;pe.textContent='0';pe.classList.toggle('zero',x.pts===0);pe.classList.toggle('big',x.pts>=1000);
-    run+=x.pts;
-    await Promise.all([countTo(pe,x.pts,x.pts===0?150:480),countTo($('total'),run,x.pts===0?150:480)]);
-    setProgress(run);
-    await wait(x.pts===0?120:260);
-    b.classList.remove('flash');
+    pe.className='pts'+(x.pts===0?' zero':'')+(x.pts>=1000?' big':'');pe.dataset.v=0;
+    countTo(pe,x.pts,300);
+    run+=x.pts;setProgress(run);
+    setTimeout(()=>b.classList.remove('flash'),reduceMotion?0:stepMs*4);
+    await wait(stepMs);
   }
+  await tot;setProgress(t);
   counting=false;
   $('step').textContent='Partida terminada';$('cta').textContent='Este ha sido tu resultado.';
   $('rNum').dataset.v=0;$('rNum').textContent='0';
@@ -1580,21 +1649,23 @@ function botResult(q,boost,ratio,cap,pre){
   slotOf.forEach((s,i)=>{slots[s]=[q[i].name,Math.round(o.pts[i][s])];});
   return {total:Math.round(t),slots,best:o.best};
 }
-// % de colocación perfecta según el ELO del bot (Mundial: 70-80 %)
+// % de colocación perfecta según el ELO del bot (Mundial: 81-90 %).
+// Las personas ven los puntos de cada casilla: quien coloca siempre en la mejor casilla saca ≈73 % del óptimo
+// (se equilibra hacia 1.300-1.350 de ELO) y quien además piensa en las casillas que vendrán y descarta, ≈87 % (≈1.750).
 function botRatio(elo){
-  const pts=[[800,.35],[1000,.45],[1300,.58],[1600,.70],[1770,.80]];
+  const pts=[[800,.55],[1000,.62],[1300,.72],[1600,.82],[1770,.88]];
   let r=pts[0][1];
   for(let i=0;i<pts.length;i++){
     if(elo>=pts[i][0])r=pts[i][1];
     if(i>0&&elo>=pts[i-1][0]&&elo<pts[i][0]){const[a,ra]=pts[i-1],[b,rb]=pts[i];r=ra+(rb-ra)*(elo-a)/(b-a);}
   }
-  if(elo>=1600)r=Math.max(.71,Math.min(.80,r+(Math.random()*.06-.03)));
+  if(elo>=1600)r=Math.max(.81,Math.min(.90,r+(Math.random()*.06-.03)));
   else r+=Math.random()*.06-.03;
   // como las personas: a veces tienen un mal día (y alguna vez uno muy bueno)
   const u=Math.random();
   if(u<.12)r-=.12+Math.random()*.10;
   else if(u<.17)r+=.03+Math.random()*.04;
-  return Math.max(.25,Math.min(.86,r));
+  return Math.max(.25,Math.min(.92,r));
 }
 // Techo de puntos: normalmente menos de 13.500, a veces hasta 13.999, muy pocas veces 14.000+ y nunca 15.000
 function scoreCap(rnd){
@@ -1620,9 +1691,10 @@ async function ensureDaily(){
     const {q,boost}=seededDeal(day),q17=q.slice(0,N);
     const opt=optimalAssign(q17,boost),sc=[],at=[];
     const now=Date.now(),d0=new Date(day+'T00:00:00').getTime();
-    // top 10 del día: entre el 50 % y el 60 % de la colocación perfecta de hoy
+    // top 10 del día: entre el 74 % y el 86 % de la colocación perfecta de hoy (con los puntos a la vista,
+    // una persona que coloca en la mejor casilla saca ≈73 % y una que además planifica, ≈87 %)
     for(let k=0;k<10;k++){
-      const r=botResult(q17,boost,0.50+rnd()*0.10,13499,opt);
+      const r=botResult(q17,boost,0.74+rnd()*0.12,13499,opt);
       if(r.total<1000||r.total>=15000)continue;
       sc.push(r.total);
       at.push(new Date(now-rnd()*Math.max(0,now-d0)).toISOString());
