@@ -77,9 +77,10 @@ var D={
 // ---- portada ----
 'GOALDAY · 17 jugadores · 17 casillas · un objetivo':'GOALDAY · 17 players · 17 slots · one goal',
 'Reto de los':'The','15.000 goles':'15,000 Goals Challenge',
-'Van saliendo futbolistas al azar, uno a uno, y tú decides en qué casilla colocar a cada uno, de memoria. Al acabar, el recuento revela cuánto ha sumado cada uno. Cada casilla solo se usa una vez.':'Players come out at random, one by one, and you decide which slot to put each one in, from memory. At the end, the count reveals how much each one scored. Each slot can only be used once.',
+'Van saliendo futbolistas al azar, uno a uno, y tú decides en qué casilla colocar a cada uno. Ves lo que sumaría en cada casilla, pero cada una solo se usa una vez: ¿la ocupas ya o guardas el hueco para alguien mejor?':'Players come out at random, one by one, and you decide which slot to put each one in. You see what he would score in each slot, but each slot can only be used once: do you fill it now or save it for someone better?',
 'Cómo se juega':'How to play',
-'Sale una carta con un jugador. Toca la casilla donde quieras ponerlo. No verás los puntos hasta el final: el recuento se hace de golpe, casilla por casilla.':'A player card appears. Tap the slot where you want to place him. You won\'t see the points until the end: the count is done all at once, slot by slot.',
+'Sale una carta con un jugador. Verás cuántos puntos daría en cada casilla: elige bien dónde ponerlo, porque cada casilla solo se usa una vez y no sabes quién vendrá después.':'A player card appears. You\'ll see how many points he would score in each slot: choose carefully where to put him, because each slot can only be used once and you don\'t know who\'s coming next.',
+'Si un jugador no te convence, puedes descartarlo: tienes 2 descartes por partida.':'If you don\'t like a player, you can discard him: you have 2 discards per game.',
 'Suma sus goles en esa categoría por el multiplicador: Champions ×10, Selección ×10, Mundiales ×100, final del Mundial ×1000…':'You score his goals in that category times the multiplier: Champions ×10, National team ×10, World Cups ×100, World Cup final ×1000…',
 'En cada partida una de las seis ligas vale ×5 en vez de ×1.':'In every game one of the six leagues is worth ×5 instead of ×1.',
 'Tras 17 jugadores, si pasas del objetivo has superado el reto. Al final verás cuántos puntos daba la mejor colocación posible.':'After 17 players, if you beat the target you\'ve completed the challenge. At the end you\'ll see how many points the best possible placement would have given.',
@@ -102,7 +103,7 @@ var D={
 'Sin equipo, gracias':'No team, thanks','‹ Ligas':'‹ Leagues','Liga Argentina':'Argentine league','Liga MX':'Liga MX','20 equipos':'20 teams','18 equipos':'18 teams','30 equipos':'30 teams',
 // ---- partida ----
 'Sacando al primer jugador…':'Drawing the first player…','Total':'Total','Descartar jugador':'Discard player','Descartes:':'Discards:','Puntos totales':'Total points','Jugar otra vez':'Play again','🔁 Jugar otra vez':'🔁 Play again','⚔️ Jugar otra vez':'⚔️ Play again','Compartir imagen':'Share image','Ver mi rango':'See my rank','Ver mis medallas':'See my medals',
-'Vamos a ver cuánto has sumado…':'Let\'s see how much you scored…','Colocación perfecta: no se podía sacar más con estos 17.':'Perfect placement: you couldn\'t get more with these 17.',
+'Sumando tus 17 casillas…':'Adding up your 17 slots…','1 gol':'1 goal','Colocación perfecta: no se podía sacar más con estos 17.':'Perfect placement: you couldn\'t get more with these 17.',
 'Se acabó el tiempo: jugador colocado al azar':'Time\'s up: player placed at random','Partida terminada':'Game over','Objetivo superado':'Target beaten','Puntuación subida':'Score uploaded','Reto diario completado':'Daily challenge completed',
 'Selección':'National team','América':'Americas','Carrera':'Career','Goles de cabeza':'Headers','Goles olímpicos':'Olympic goals','Mundiales':'World Cups','Final de Champions':'Champions final','Final de Libertadores':'Libertadores final','Final del Mundial':'World Cup final','Eredivisie / Primeira':'Eredivisie / Primeira','Eredivisie / Primeira Liga':'Eredivisie / Primeira Liga',
 'Defensa':'Defender','Centrocampista':'Midfielder','Delantero':'Forward',
@@ -168,7 +169,7 @@ var RULES=[
  [/^Hoy: racha (\d+)$/,'Today: streak $1'],[/^Reto diario (\d+\/\d+(?:\/\d+)?)$/,'Daily challenge $1'],
  [/^(.+) tiene ([\d.]+) y (.+?) ([\d.]+)\.$/,'$1 has $2 and $3 has $4.'],[/^🔥 Racha de (\d+)$/,'🔥 Streak of $1'],
  // reto: partida
- [/^Jugador (\d+) de (\d+)$/,'Player $1 of $2'],[/^Liga ×5 de hoy: (.+)$/,'Today\'s ×5 league: $1'],[/^Descartes: (.*)$/,'Discards: $1'],
+ [/^Jugador (\d+) de (\d+)$/,'Player $1 of $2'],[/^([\d.]+) goles$/,'$1 goals'],[/^Liga ×5 de hoy: (.+)$/,'Today\'s ×5 league: $1'],[/^Descartes: (.*)$/,'Discards: $1'],
  [/^Reto diario del (.+)$/,'Daily challenge · $1'],
  [/^Ya has jugado el reto diario de hoy: ([\d.]+) puntos\. Vuelve mañana\.$/,'You\'ve already played today\'s daily challenge: $1 points. Come back tomorrow.'],
  [/^Hoy ya lo has jugado: ([\d.]+) puntos$/,'You\'ve already played today: $1 points'],
