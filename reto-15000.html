@@ -312,43 +312,79 @@ body.playing .board{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1
   grid-template-rows:repeat(9,minmax(30px,1fr));gap:4px;margin:6px 0 0}
 body.playing .board li{min-height:0;display:flex}
 body.playing .board li:first-child{grid-column:1/-1}
-/* casilla en dos líneas: arriba la categoría; abajo su multiplicador y lo que daría el jugador de la carta
-   (goles y puntos) o, si ya está ocupada, quién la ocupa y lo que sumó */
-body.playing .slot{display:grid;grid-template-columns:auto auto minmax(0,1fr) auto;grid-template-rows:auto auto;
-  column-gap:5px;row-gap:2px;align-content:center;align-items:center;padding:2px 7px;border:1px solid var(--line);
-  border-radius:8px;width:100%;overflow:hidden}
-body.playing .slot .ico{font-size:14px;grid-row:1/3;grid-column:1;margin-right:1px}
+/* casilla como carta de juego: arriba la categoría; abajo el multiplicador, los goles del jugador de la carta
+   y, a la derecha y en grande, los puntos que daría. Ocupada: quién la ocupa y lo que sumó.
+   Estados: libre sin carta (tranquila) · con vista previa (levantada, color según lo que da) · ocupada (hundida, con ✓) */
+body.playing .slot{--lt:12px;--pt:17px;--fp:13.5px;--r2:18px;--sm:11px;--ic:17px;--acc:transparent;
+  position:relative;display:grid;grid-template-columns:var(--ic) auto minmax(0,1fr) auto;grid-template-rows:auto var(--r2);
+  column-gap:4px;row-gap:1px;align-content:center;align-items:center;padding:1px 7px 1px 9px;
+  border:1px solid rgba(245,248,243,.07);border-radius:10px;width:100%;overflow:hidden;
+  background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.018));
+  transition:background-color .18s,border-color .18s,box-shadow .18s,transform .1s}
+body.playing .slot::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--acc);transition:background-color .18s}
+body.playing .slot .ico{font-size:14px;line-height:1;grid-row:1;grid-column:1;text-align:left;position:relative;transition:opacity .18s,filter .18s}
 body.playing .slot .lab{display:contents}
-body.playing .slot .lt{grid-row:1;grid-column:2/5;font-size:12px;line-height:1.05;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-body.playing .slot .mul{grid-row:2;grid-column:2;font-size:10.5px;padding:0 5px;line-height:1.3}
+body.playing .slot .lt{grid-row:1;grid-column:2/5;font-size:var(--lt);font-weight:700;line-height:1.12;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--chalk-2)}
+body.playing .slot .mul{grid-row:2;grid-column:1/3;justify-self:start;font-size:11px;padding:0 5px;line-height:1.35;border-radius:5px;background:rgba(255,255,255,.08);color:var(--chalk-3);letter-spacing:.02em}
 body.playing .slot .who,body.playing .slot .gl{grid-row:2;grid-column:3;min-width:0;margin:0;min-height:0;
-  font-size:11px;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-body.playing .slot .who{display:none;color:var(--chalk-2);font-weight:600}
-body.playing .slot .gl{display:block;color:var(--chalk-2);font-weight:600}
+  font-size:var(--sm);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.playing .slot .who{display:none;color:var(--chalk);font-weight:700}
+/* goles del jugador: la cifra y un balón pequeño (sin repetir "goles" 17 veces) */
+body.playing .slot .gl{display:block;color:var(--chalk-3);font-weight:700;font-variant-numeric:tabular-nums}
+body.playing .slot .gl::after{content:"⚽";font-family:"Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji",sans-serif;font-size:.8em;margin-left:3px;filter:grayscale(1) brightness(1.6);opacity:.7;vertical-align:.04em}
 body.playing .slot .gl:empty{display:none}
-body.playing .slot .pts{grid-row:2;grid-column:4;min-width:0;font-size:14px;line-height:1;text-align:right}
-body.playing .slot .pts.preview{font-size:14px;font-weight:900;color:var(--chalk)}
-body.playing .slot .pts.preview.hot{color:var(--gold)}
-body.playing .slot .pts.preview.nil{color:var(--chalk-3);font-weight:700}
-body.playing .slot.open.nil:not(:disabled){background:rgba(255,255,255,.025);box-shadow:none}
-body.playing .slot.open.nil .lt,body.playing .slot.open.nil .gl{color:var(--chalk-3)}
-body.playing .slot.open.big:not(:disabled){box-shadow:inset 0 0 0 1px rgba(243,197,69,.6);background:rgba(243,197,69,.11)}
-body.playing .slot.filled{background:rgba(0,0,0,.34);border-color:transparent;opacity:1}
-body.playing .slot.filled .ico{opacity:.6}
-body.playing .slot.filled .lt{color:var(--chalk-3)}
-body.playing .slot.filled .who{display:block;grid-column:2/4}
+body.playing .slot .pts{grid-row:2;grid-column:4;min-width:0;font-size:var(--pt);line-height:1;text-align:right;letter-spacing:.01em}
+body.playing .slot .pts.preview{font-weight:900;color:var(--chalk);animation:ptsIn .22s ease-out both}
+@keyframes ptsIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+/* niveles de la vista previa: 0 · normal · 300+ verde · 1.000+ oro */
+body.playing .slot:not(.filled).mid{--acc:var(--pass);border-color:rgba(99,224,161,.34);background:linear-gradient(180deg,rgba(99,224,161,.13),rgba(99,224,161,.04))}
+body.playing .slot .pts.preview.mid{color:var(--pass)}
+body.playing .slot:not(.filled).big{--acc:var(--gold);border-color:rgba(243,197,69,.62);background:linear-gradient(180deg,rgba(243,197,69,.22),rgba(243,197,69,.07));box-shadow:0 0 14px rgba(243,197,69,.2)}
+body.playing .slot .pts.preview.hot{color:var(--gold);text-shadow:0 0 10px rgba(243,197,69,.5)}
+body.playing .slot:not(.filled).nil{background:rgba(255,255,255,.015);border-color:rgba(245,248,243,.05);box-shadow:none}
+body.playing .slot:not(.filled).nil .ico{opacity:.4;filter:grayscale(.8)}
+body.playing .slot:not(.filled).nil .lt{color:var(--chalk-3)}
+body.playing .slot:not(.filled).nil .mul{opacity:.6}
+body.playing .slot .pts.preview.nil{color:var(--chalk-3);font-weight:700;opacity:.7}
+/* con carta: casillas libres levantadas y pulsables */
+body.playing .slot.open:not(:disabled){--acc:rgba(245,248,243,.3);border-color:rgba(245,248,243,.2);background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.045));
+  box-shadow:0 2px 8px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.07)}
+body.playing .slot.open:not(:disabled) .lt{color:var(--chalk)}
+body.playing .slot.open:not(:disabled) .mul{background:rgba(255,255,255,.13);color:var(--chalk-2)}
+body.playing .slot.open.mid:not(:disabled){--acc:var(--pass);border-color:rgba(99,224,161,.42);background:linear-gradient(180deg,rgba(99,224,161,.16),rgba(99,224,161,.05))}
+body.playing .slot.open.big:not(:disabled){--acc:var(--gold);border-color:rgba(243,197,69,.7);background:linear-gradient(180deg,rgba(243,197,69,.24),rgba(243,197,69,.08));box-shadow:0 0 16px rgba(243,197,69,.24),0 2px 8px rgba(0,0,0,.38)}
+body.playing .slot.open.nil:not(:disabled){--acc:transparent;background:rgba(255,255,255,.02);border-color:rgba(245,248,243,.07);box-shadow:none}
+body.playing .slot.open.nil:not(:disabled) .lt{color:var(--chalk-3)}
+@media (hover:hover){body.playing .slot.open:not(:disabled):hover{border-color:rgba(245,248,243,.42);filter:brightness(1.12)}}
+body.playing .slot.open:not(:disabled):active{transform:scale(.97);filter:brightness(1.18)}
+/* la liga que vale ×5 se ve siempre */
+body.playing .slot.boost:not(.filled){box-shadow:inset 0 0 0 1px rgba(243,197,69,.45)}
+body.playing .slot.boost:not(.filled) .lt{color:var(--gold-2)}
+body.playing .slot.boost:not(.filled) .mul{background:var(--gold);color:#1b1a0f;opacity:1}
+body.playing .slot.open.boost:not(:disabled):not(.big){box-shadow:inset 0 0 0 1px rgba(243,197,69,.45),0 2px 8px rgba(0,0,0,.38)}
+/* ocupada: hundida, con ✓ sobre el icono, el jugador en blanco y los puntos en una pastilla */
+body.playing .slot.filled{--acc:transparent;background:rgba(0,0,0,.4);border-color:rgba(0,0,0,.25);box-shadow:inset 0 1px 4px rgba(0,0,0,.5);opacity:1}
+body.playing .slot.filled .ico{opacity:.85}
+body.playing .slot.filled .who::before{content:"";display:inline-block;width:.9em;height:.9em;margin-right:3px;vertical-align:-.12em;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Ccircle cx='6' cy='6' r='6' fill='%2336a870'/%3E%3Cpath d='M3.3 6.2l1.8 1.8 3.6-3.8' fill='none' stroke='%23fff' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat}
+body.playing .slot.filled .lt{color:var(--chalk-3);font-weight:600}
+body.playing .slot.filled .who{display:block;grid-column:1/4}
 body.playing .slot.filled .mul{display:none}
-body.playing .slot.filled .pts{color:var(--chalk-2);font-weight:900}
-body.playing .slot.filled .pts.big{color:var(--gold);text-shadow:none}
-body.playing .slot.filled .pts.zero{color:var(--chalk-3)}
-/* total que llevas, en la misma línea que "Jugador X de 17" */
-body.playing .dock-info{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;column-gap:8px}
-body.playing .dock-info .step{grid-column:1;grid-row:1}
-body.playing .dock-info .cta{grid-column:1/-1;grid-row:2}
-body.playing .dock-total{grid-column:2;grid-row:1;margin:0;display:flex;align-items:baseline;gap:5px}
+body.playing .slot.filled .pts{font-size:var(--fp);font-weight:900;padding:2px 4px 1px;margin-left:1px;letter-spacing:0;border-radius:999px;background:rgba(255,255,255,.08);color:var(--chalk-2)}
+body.playing .slot.filled .pts.mid{color:var(--pass);background:rgba(99,224,161,.13)}
+body.playing .slot.filled .pts.big{color:var(--gold);background:rgba(243,197,69,.16);text-shadow:none}
+body.playing .slot.filled .pts.xl{font-size:calc(var(--fp) - 2px);letter-spacing:-.02em}
+body.playing .slot.filled .pts.zero{color:var(--chalk-3);background:transparent}
+body.playing .slot.flash{background:rgba(243,197,69,.28);box-shadow:inset 0 0 0 1px rgba(243,197,69,.7)}
+/* marcador: el total en grande, estilo videomarcador, en la misma línea que "Jugador X de 17" */
+body.playing .dock-info{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;column-gap:8px}
+body.playing .dock-info .step{grid-column:1;grid-row:1;font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.playing .dock-info .cta{grid-column:1/-1;grid-row:2;margin-top:4px}
+body.playing .dock-total{grid-column:2;grid-row:1;margin:0;display:flex;align-items:center;gap:6px;padding:3px 8px 2px 8px;border-radius:8px;
+  background:linear-gradient(180deg,#020d08,#0b2a1c);border:1px solid rgba(243,197,69,.42);box-shadow:inset 0 1px 5px rgba(0,0,0,.7),0 0 14px rgba(243,197,69,.1)}
 body.playing .dock-total[hidden]{display:none}
-body.playing .dock-total .tlabel{font-size:11px}
-body.playing .dock-total .num{font-size:19px;line-height:1}
+body.playing .dock-total .tlabel{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);line-height:1}
+body.playing .dock-total .num{font-size:22px;line-height:1;min-width:2.2ch;text-align:right;letter-spacing:.03em;color:#fff;text-shadow:0 0 8px rgba(255,255,255,.3)}
+body.playing .dock-total .num.gold{color:var(--gold);text-shadow:0 0 10px rgba(243,197,69,.55)}
 @media (min-width:600px){body.playing .board{grid-template-columns:1fr 1fr 1fr;grid-template-rows:repeat(6,minmax(34px,1fr))}body.playing .board li:first-child{grid-column:auto}}
 /* botón de descartar al lado de la carta, no debajo: deja más alto para las 17 casillas */
 body.playing .dock{flex:none;display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:10px;align-items:start}
@@ -360,7 +396,58 @@ body.playing .skips[hidden]{display:none}
 body.playing .progress,body.playing .duelbar{grid-column:1/-1}
 body.playing .btn.small{min-height:40px}
 body.playing .dailybar{flex:none;line-height:1.3}
-@media (max-height:620px){body.playing .slot .lt{font-size:11px}body.playing .board{gap:3px;grid-template-rows:repeat(9,minmax(28px,1fr))}body.playing .home-link{padding:4px 10px;margin-bottom:4px}body.playing .dailybar{margin-bottom:4px}body.playing .duelbar{margin-top:4px}}
+@media (max-height:620px){body.playing .board{grid-template-rows:repeat(9,minmax(28px,1fr))}body.playing .home-link{padding:4px 10px;margin-bottom:4px}body.playing .dailybar{margin-bottom:4px}body.playing .duelbar{margin-top:4px}}
+/* dock con más fondo: carta con sombra, botón de descartar y descartes alineados */
+body.playing .dock{background:linear-gradient(180deg,rgba(12,48,34,.98),rgba(5,28,19,.97));border-bottom:1px solid rgba(245,248,243,.1);box-shadow:0 6px 14px -8px rgba(0,0,0,.6)}
+body.playing .flip .face{box-shadow:0 7px 16px rgba(0,0,0,.5),0 1px 0 rgba(255,255,255,.08) inset}
+body.playing .face.back{border-color:rgba(255,255,255,.6)}
+body.playing .skips{align-items:center;flex-wrap:nowrap}
+body.playing .btn.small{min-height:38px;padding:6px 12px;border-radius:10px;border:1px solid rgba(245,248,243,.3);background:rgba(255,255,255,.05);white-space:nowrap}
+body.playing .btn.small:disabled{opacity:.45;cursor:default}
+body.playing .skipdots{color:var(--chalk-2);letter-spacing:.04em;white-space:nowrap}
+body.playing .board{gap:5px}
+@media (max-height:620px){
+  body.playing .slot{--lt:11px;--pt:15px;--fp:13px;--r2:16px;--sm:11px}
+  body.playing .board{gap:3px}
+  body.playing .dock-total .num{font-size:20px}
+  body.playing .btn.small{min-height:36px}
+  body.playing .dock-info .cta{margin-top:2px}
+}
+@media (min-height:740px){
+  body.playing .slot{--lt:13px;--pt:21px;--fp:15px;--r2:24px;--sm:12px;--ic:20px;padding:3px 9px 3px 11px;row-gap:4px;border-radius:12px}
+  body.playing .slot .ico{font-size:16px}
+  body.playing .slot .lt{white-space:normal;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-height:1.1}
+  body.playing .slot .mul{font-size:12px;padding:1px 6px}
+  body.playing .board{gap:6px;margin-top:8px}
+  body.playing .flip{width:86px;height:116px}
+  body.playing .face .flag{font-size:26px}
+  body.playing .face .name{font-size:15px}
+  body.playing .dock-info .cta{font-size:14.5px}
+  body.playing .dock-total{padding:4px 10px 3px}
+  body.playing .dock-total .num{font-size:28px}
+  body.playing .dock-info .step{font-size:12px}
+}
+@media (min-width:900px){body.playing .wrap{max-width:760px}}
+@media (min-width:900px) and (min-height:740px){
+  body.playing #p-play{padding:10px 12px 12px;border-radius:18px}
+  body.playing .dock{margin:-10px -12px 0;padding:12px 14px 10px;border-radius:18px 18px 0 0;column-gap:14px}
+  body.playing .flip{width:100px;height:134px}
+  body.playing .face .flag{font-size:30px;margin-top:4px}
+  body.playing .face .name{font-size:17px}
+  body.playing .face .pos{font-size:10px;padding:2px 8px}
+  body.playing .dock-info .step{font-size:13px}
+  body.playing .dock-info .cta{font-size:18px;margin-top:8px}
+  body.playing .dock-total{padding:5px 12px 4px}
+  body.playing .dock-total .tlabel{font-size:11px}
+  body.playing .dock-total .num{font-size:36px}
+  body.playing .btn.small{font-size:14px;min-height:42px;padding:8px 16px}
+  body.playing .skipdots{font-size:13px}
+  body.playing .slot{--lt:15px;--pt:27px;--fp:20px;--r2:30px;--sm:13px;--ic:24px;padding:6px 14px 6px 15px;row-gap:8px;border-radius:14px}
+  body.playing .slot .ico{font-size:19px}
+  body.playing .slot .mul{font-size:13px;padding:2px 7px}
+  body.playing .board{gap:8px;margin-top:10px}
+}
+@media (prefers-reduced-motion:reduce){body.playing .slot,body.playing .slot::before,body.playing .slot .ico{transition:none}body.playing .slot .pts.preview{animation:none}body.playing .slot.open:not(:disabled):active{transform:none}}
 .slot{display:grid;grid-template-columns:34px 1fr auto;column-gap:10px;width:100%;text-align:left;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--chalk);padding:9px 6px;font:inherit;cursor:pointer;align-items:center;border-radius:10px;transition:background .15s}
 .slot:disabled{cursor:default}
 .slot .ico{font-family:"Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji",sans-serif;grid-row:1/3;font-size:22px;text-align:center;line-height:1;filter:drop-shadow(0 2px 2px rgba(0,0,0,.35))}
@@ -383,6 +470,11 @@ body.playing .dailybar{flex:none;line-height:1.3}
 .slot.boost .mul{background:var(--gold);color:#1b1a0f;animation:pulse 1.6s ease-in-out infinite}
 .slot.boost .lab{color:var(--gold-2)}
 @keyframes pulse{50%{box-shadow:0 0 0 5px rgba(243,197,69,.18)}}
+/* recuento y resultado: la misma familia visual que el tablero de juego (tarjetas y puntos por nivel) */
+body.done .board{display:flex;flex-direction:column;gap:5px}
+body.done .slot{border:1px solid rgba(245,248,243,.07);background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015));border-radius:12px;opacity:1}
+body.done .slot .pts.mid{color:var(--pass)}
+body.done .slot.flash{background:rgba(243,197,69,.2);border-color:rgba(243,197,69,.5)}
 
 .actions{display:flex;justify-content:center;gap:10px;margin-top:18px;flex-wrap:wrap}
 .btn{border:0;border-radius:12px;padding:13px 22px;font:700 16px Barlow,sans-serif;cursor:pointer;background:var(--btn);color:var(--btn-ink);box-shadow:0 8px 22px rgba(243,197,69,.25)}
@@ -1119,7 +1211,7 @@ function multOf(i){return (game&&i===game.boost)?5:SLOTS[i].mult;}
 function paintMults(){slotEls.forEach((b,i)=>{b.querySelector('.mul').textContent='×'+multOf(i);b.classList.toggle('boost',!!game&&i===game.boost);});}
 
 function resetBoard(){
-  slotEls.forEach(b=>{b.className='slot';b.disabled=true;b.removeAttribute('title');b.querySelector('.who').textContent='Libre';b.querySelector('.gl').textContent='';const p=b.querySelector('.pts');p.textContent='';p.dataset.v=0;p.className='pts';});
+  slotEls.forEach(b=>{b.className='slot';b.disabled=true;b.removeAttribute('title');b.querySelector('.who').textContent='Libre';b.querySelector('.gl').textContent='';b.querySelector('.gl').removeAttribute('title');const p=b.querySelector('.pts');p.textContent='';p.dataset.v=0;p.className='pts';});
   $('total').textContent='0';$('total').dataset.v=0;$('total').classList.remove('gold');
   $('dockTotal').hidden=true;$('progress').hidden=true;
   $('medal').hidden=true;$('unlocked').hidden=true;
@@ -1147,16 +1239,17 @@ function paintPreview(p){
   slotEls.forEach((b,i)=>{
     if(game.slots[i])return;
     const goals=Number(p.v[SLOTS[i].src])||0,pts=previewPts(p,i),pe=b.querySelector('.pts');
-    b.classList.toggle('nil',pts===0);b.classList.toggle('big',pts>=1000);
-    b.querySelector('.gl').textContent=pts?golesTxt(goals):'';
-    pe.textContent=pts?'+'+fmt(pts):'0';pe.dataset.v=pts;
-    pe.className='pts preview'+(pts?(pts>=1000?' hot':''):' nil');
+    b.classList.toggle('nil',pts===0);b.classList.toggle('big',pts>=1000);b.classList.toggle('mid',pts>=300&&pts<1000);
+    // los goles, solo la cifra (el balón lo pinta el CSS); el texto completo queda en el title
+    const gl=b.querySelector('.gl');gl.textContent=pts?fmt(goals):'';gl.title=pts?golesTxt(goals):'';
+    pe.textContent=pts?'+'+fmt(pts):'—';pe.dataset.v=pts;
+    pe.className='pts preview'+(pts?(pts>=1000?' hot':(pts>=300?' mid':'')):' nil');
   });
 }
 function clearPreview(){
   slotEls.forEach((b,i)=>{
     if(game&&game.slots[i])return;
-    b.classList.remove('nil','big');b.querySelector('.gl').textContent='';
+    b.classList.remove('nil','big','mid');b.querySelector('.gl').textContent='';b.querySelector('.gl').removeAttribute('title');
     const pe=b.querySelector('.pts');pe.textContent='';pe.dataset.v=0;pe.className='pts';
   });
 }
@@ -1248,10 +1341,10 @@ async function place(i){
   game.slots[i]={p,goals,pts,mult};game.total+=pts;
   const b=slotEls[i],ptsEl=b.querySelector('.pts');
   clearPreview();
-  b.classList.remove('nil','big');b.classList.add('filled','flash');
+  b.classList.remove('nil','big','mid');b.classList.add('filled','flash');
   beep(pts>=1500?'big':'place');
-  b.querySelector('.who').textContent=shortName(p.name);b.title=p.name;b.querySelector('.gl').textContent='';
-  ptsEl.textContent=fmt(pts);ptsEl.dataset.v=pts;ptsEl.className='pts'+(pts===0?' zero':'')+(pts>=1000?' big':'');
+  b.querySelector('.who').textContent=shortName(p.name);b.title=p.name;b.querySelector('.gl').textContent='';b.querySelector('.gl').removeAttribute('title');
+  ptsEl.textContent=fmt(pts);ptsEl.dataset.v=pts;ptsEl.className='pts'+(pts===0?' zero':'')+(pts>=1000?' big':(pts>=300?' mid':''))+(pts>=10000?' xl':'');
   countTo($('total'),game.total,350);setProgress(game.total);
   $('cta').innerHTML='<b>'+p.name+'</b> → '+(s.ico?s.ico+' ':'')+'<span>'+s.label+'</span> <b>+'+fmt(pts)+'</b>';
   $('flip').classList.remove('flipped');
@@ -1300,10 +1393,10 @@ async function finish(){
   let run=0;
   for(let i=0;i<N;i++){
     const x=game.slots[i],b=slotEls[i],pe=b.querySelector('.pts');
-    b.classList.remove('nil','big');b.classList.add('flash');
+    b.classList.remove('nil','big','mid');b.classList.add('flash');
     b.querySelector('.gl').textContent='';
     b.querySelector('.who').textContent=x.p.flag+' '+x.p.name+'  ·  '+fmt(x.goals)+' × '+x.mult;
-    pe.className='pts'+(x.pts===0?' zero':'')+(x.pts>=1000?' big':'');pe.dataset.v=0;
+    pe.className='pts'+(x.pts===0?' zero':'')+(x.pts>=1000?' big':(x.pts>=300?' mid':''));pe.dataset.v=0;
     countTo(pe,x.pts,300);
     run+=x.pts;setProgress(run);
     setTimeout(()=>b.classList.remove('flash'),reduceMotion?0:stepMs*4);
