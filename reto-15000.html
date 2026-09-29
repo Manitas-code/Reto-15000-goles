@@ -330,7 +330,7 @@ body.playing .slot .who,body.playing .slot .gl{grid-row:2;grid-column:3;min-widt
   font-size:var(--sm);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 body.playing .slot .who{display:none;color:var(--chalk);font-weight:700}
 /* goles del jugador: la cifra y un balón pequeño (sin repetir "goles" 17 veces) */
-body.playing .slot .gl{display:block;color:var(--chalk-3);font-weight:700;font-variant-numeric:tabular-nums}
+body.playing .slot .gl{display:block;color:var(--chalk-2);font-weight:700;font-variant-numeric:tabular-nums}
 body.playing .slot .gl::after{content:"⚽";font-family:"Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji",sans-serif;font-size:.8em;margin-left:3px;filter:grayscale(1) brightness(1.6);opacity:.7;vertical-align:.04em}
 body.playing .slot .gl:empty{display:none}
 body.playing .slot .pts{grid-row:2;grid-column:4;min-width:0;font-size:var(--pt);line-height:1;text-align:right;letter-spacing:.01em}
@@ -341,11 +341,8 @@ body.playing .slot:not(.filled).mid{--acc:var(--pass);border-color:rgba(99,224,1
 body.playing .slot .pts.preview.mid{color:var(--pass)}
 body.playing .slot:not(.filled).big{--acc:var(--gold);border-color:rgba(243,197,69,.62);background:linear-gradient(180deg,rgba(243,197,69,.22),rgba(243,197,69,.07));box-shadow:0 0 14px rgba(243,197,69,.2)}
 body.playing .slot .pts.preview.hot{color:var(--gold);text-shadow:0 0 10px rgba(243,197,69,.5)}
-body.playing .slot:not(.filled).nil{background:rgba(255,255,255,.015);border-color:rgba(245,248,243,.05);box-shadow:none}
-body.playing .slot:not(.filled).nil .ico{opacity:.4;filter:grayscale(.8)}
-body.playing .slot:not(.filled).nil .lt{color:var(--chalk-3)}
-body.playing .slot:not(.filled).nil .mul{opacity:.6}
-body.playing .slot .pts.preview.nil{color:var(--chalk-3);font-weight:700;opacity:.7}
+/* un jugador con pocos goles también se tiene que leer bien: el 0 no se apaga */
+body.playing .slot .pts.preview.nil{color:var(--chalk-2);font-weight:800;opacity:1}
 /* con carta: casillas libres levantadas y pulsables */
 body.playing .slot.open:not(:disabled){--acc:rgba(245,248,243,.3);border-color:rgba(245,248,243,.2);background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.045));
   box-shadow:0 2px 8px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.07)}
@@ -353,8 +350,7 @@ body.playing .slot.open:not(:disabled) .lt{color:var(--chalk)}
 body.playing .slot.open:not(:disabled) .mul{background:rgba(255,255,255,.13);color:var(--chalk-2)}
 body.playing .slot.open.mid:not(:disabled){--acc:var(--pass);border-color:rgba(99,224,161,.42);background:linear-gradient(180deg,rgba(99,224,161,.16),rgba(99,224,161,.05))}
 body.playing .slot.open.big:not(:disabled){--acc:var(--gold);border-color:rgba(243,197,69,.7);background:linear-gradient(180deg,rgba(243,197,69,.24),rgba(243,197,69,.08));box-shadow:0 0 16px rgba(243,197,69,.24),0 2px 8px rgba(0,0,0,.38)}
-body.playing .slot.open.nil:not(:disabled){--acc:transparent;background:rgba(255,255,255,.02);border-color:rgba(245,248,243,.07);box-shadow:none}
-body.playing .slot.open.nil:not(:disabled) .lt{color:var(--chalk-3)}
+body.playing .slot.open.nil:not(:disabled){--acc:transparent}
 @media (hover:hover){body.playing .slot.open:not(:disabled):hover{border-color:rgba(245,248,243,.42);filter:brightness(1.12)}}
 body.playing .slot.open:not(:disabled):active{transform:scale(.97);filter:brightness(1.18)}
 /* la liga que vale ×5 se ve siempre */
@@ -461,7 +457,7 @@ body.playing .board{gap:5px}
 .slot.open:not(:disabled) .who{color:var(--chalk-2)}
 .slot .pts.preview{color:var(--chalk-2);font-weight:800;font-size:24px}
 .slot .pts.preview.hot{color:var(--gold)}
-.slot .pts.preview.nil{color:var(--chalk-3);font-weight:700}
+.slot .pts.preview.nil{color:var(--chalk-2);font-weight:800}
 .slot.filled{opacity:.92}
 .slot.filled .who{color:var(--chalk-2)}
 .slot.filled .pts.big{color:var(--gold);text-shadow:0 0 14px rgba(243,197,69,.35)}
@@ -1241,8 +1237,8 @@ function paintPreview(p){
     const goals=Number(p.v[SLOTS[i].src])||0,pts=previewPts(p,i),pe=b.querySelector('.pts');
     b.classList.toggle('nil',pts===0);b.classList.toggle('big',pts>=1000);b.classList.toggle('mid',pts>=300&&pts<1000);
     // los goles, solo la cifra (el balón lo pinta el CSS); el texto completo queda en el title
-    const gl=b.querySelector('.gl');gl.textContent=pts?fmt(goals):'';gl.title=pts?golesTxt(goals):'';
-    pe.textContent=pts?'+'+fmt(pts):'—';pe.dataset.v=pts;
+    const gl=b.querySelector('.gl');gl.textContent=fmt(goals);gl.title=golesTxt(goals);
+    pe.textContent=pts?'+'+fmt(pts):'0';pe.dataset.v=pts;
     pe.className='pts preview'+(pts?(pts>=1000?' hot':(pts>=300?' mid':'')):' nil');
   });
 }
