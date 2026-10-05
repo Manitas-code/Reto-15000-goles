@@ -1,74 +1,90 @@
 # GOALDAY
 
-Web estática de cuatro minijuegos de fútbol. El repositorio mantiene siete páginas HTML en la raíz para conservar las URL actuales. La aplicación usa DOM nativo y Vite como servidor de desarrollo y empaquetador multipágina; no usa un framework de UI ni necesita un backend local.
+GOALDAY es un sitio multipágina de cuatro juegos de fútbol y dos herramientas. Los siete HTML de la raíz conservan las direcciones públicas; Vite los compila por separado a `dist/`.
 
-| Juego                    | Página                                       | Objetivo                                                                                                  |
-| ------------------------ | -------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| Reto de los 15.000 goles | [reto-15000.html](reto-15000.html)           | Colocar futbolistas en 17 categorías y llegar a 15.000 puntos. Incluye diario, duelos y retos por enlace. |
-| Más o Menos              | [mas-o-menos.html](mas-o-menos.html)         | Adivinar cuál de dos futbolistas tiene más goles y sostener la racha.                                     |
-| Blackjack de goles       | [blackjack-goles.html](blackjack-goles.html) | Acercarse al objetivo de goles con cartas de futbolistas y fichas.                                        |
-| Emoji Player             | [emoji-player.html](emoji-player.html)       | Adivinar cinco futbolistas diarios a partir de cuatro emojis.                                             |
+| Página                                       | Contenido                                                            |
+| -------------------------------------------- | -------------------------------------------------------------------- |
+| [index.html](index.html)                     | Portada                                                              |
+| [reto-15000.html](reto-15000.html)           | Reto de los 15.000 goles, con modo diario, duelos y retos por enlace |
+| [mas-o-menos.html](mas-o-menos.html)         | Más o Menos                                                          |
+| [blackjack-goles.html](blackjack-goles.html) | Blackjack de goles                                                   |
+| [emoji-player.html](emoji-player.html)       | Emoji Player                                                         |
+| [caras.html](caras.html)                     | Herramienta interna para revisar fotos                               |
+| [editor-goles.html](editor-goles.html)       | Editor legado de vídeos del Gol del día                              |
 
-Los diarios usan la fecha de `Europe/Madrid`. Supabase guarda rankings y coordina los duelos del Reto. `localStorage` conserva intentos, progreso, identidad compartida, idioma, equipo y fondos. La interfaz está en español e inglés.
+Las interfaces de las páginas de producto usan React. Los juegos guardan sus reglas y progreso local en módulos separados; los rankings, la identidad y los duelos pasan por la API Fastify del repositorio y ésta reenvía las operaciones a Supabase. Los datos de `goles.js` siguen ausentes, así que el editor informa que no puede cargar el calendario.
 
-## Desarrollo y comprobaciones
+## Desarrollo
 
-Requiere Node 24, fijado en `.nvmrc`.
+Se requiere Node 24, fijado en `.nvmrc`. Para ejecutar el frontend y la API a la vez:
 
 ```sh
 npm ci
+cp .env.example .env
+```
+
+Completa `SUPABASE_URL` y `SUPABASE_ANON_KEY` en `.env` con los valores existentes del proyecto y arranca ambos procesos:
+
+```sh
 npm run dev
 ```
 
-Vite muestra la URL local, normalmente `http://localhost:5173/`.
+Vite suele quedar en `http://localhost:5173/`; la API escucha en `http://127.0.0.1:3001/` y Vite reenvía `/api` a ese puerto. No publiques `.env`.
 
-El servidor de desarrollo también escucha en la red local. Si el navegador está en otro equipo o entorno, usa la URL `Network` que muestra Vite: `localhost` apunta al equipo del navegador. Comprueba el puerto de la terminal, porque Vite usa otro si el habitual está ocupado.
+También puedes iniciar cada proceso por separado. `dev:web` solo inicia Vite; las llamadas de API necesitan que el servidor esté iniciado. `dev:server` inicia Fastify y requiere `.env`.
 
-| Comando                | Resultado                                                            |
-| ---------------------- | -------------------------------------------------------------------- |
-| `npm run typecheck`    | Comprueba los módulos TypeScript en modo estricto.                   |
-| `npm run lint`         | Revisa el código y las configuraciones TypeScript.                   |
-| `npm run format:check` | Comprueba el formato de TypeScript, tests y scripts.                 |
-| `npm test`             | Ejecuta tests unitarios de datos, reglas, RPC, DOM y compatibilidad. |
-| `npm run e2e`          | Prueba navegación, partidas y capturas con Playwright.               |
-| `npm run build`        | Ejecuta typecheck y compila las siete entradas a `dist/`.            |
-| `npm run preview`      | Sirve el contenido compilado.                                        |
-| `npm run check`        | Ejecuta typecheck, lint, tests y build.                              |
+```sh
+npm run dev:web
+npm run dev:server
+```
 
-Para instalar Chromium antes de ejecutar los tests de navegador:
+La API exige `SUPABASE_URL` y `SUPABASE_ANON_KEY`. Los demás valores de `.env.example` tienen valores de desarrollo. Su uso y los endpoints están en [docs/backend.md](docs/backend.md).
+
+## Comprobaciones
+
+| Comando                | Qué comprueba                                         |
+| ---------------------- | ----------------------------------------------------- |
+| `npm run typecheck`    | TypeScript del frontend, servidor y contratos         |
+| `npm run lint`         | ESLint del repositorio                                |
+| `npm run format:check` | Formato de fuentes, tests y scripts                   |
+| `npm test`             | Reglas e integración de React y API con Vitest        |
+| `npm run e2e`          | Pruebas de navegador con Playwright                   |
+| `npm run build`        | Typecheck, build web y compilación del servidor       |
+| `npm run check`        | Typecheck, lint, tests y build                        |
+| `npm run smoke:server` | Smoke del servidor compilado con un upstream simulado |
+
+Para los tests de navegador, instala Chromium una vez:
 
 ```sh
 npx playwright install chromium
 npm run e2e
 ```
 
-El test de navegador bloquea servicios remotos y usa respuestas simuladas de ranking; no escribe en Supabase. Las capturas de referencia bloquean fuentes externas y usan `fg_team=none`, así que sirven para detectar cambios de layout con esa configuración, no para validar fondos de estadio ni tipografía remota.
+El smoke requiere primero `npm run build`. No consulta una base real. Las capturas de referencia bloquean servicios externos y usan `fg_team=none`; sirven para comparar la página con esa configuración, no validan fuentes remotas. Las referencias adicionales de estadio y partidas están documentadas en la guía de verificación.
 
-## Código
+## Estructura
 
-- `index.html`, `reto-15000.html`, `mas-o-menos.html`, `blackjack-goles.html`, `emoji-player.html`, `caras.html` y `editor-goles.html` son entradas públicas. Vite conserva sus nombres en `dist/`.
-- `src/games/<juego>/` contiene `main.ts`, `controller.ts`, `dom.ts`, `engine.ts` y `styles.css`. `dom.ts` declara los tipos de los elementos por ID; `engine.ts` contiene reglas puras cuando se han extraído. Blackjack también separa los tipos de estado en `state.ts`. Reto declara las respuestas RPC que consume el cliente en `rpc-types.ts`.
-- `src/tools/<herramienta>/` organiza de forma similar las páginas de fotos y editor, con módulos DOM/estado/controlador.
-- `src/data/` contiene los catálogos tipados y sus formatos históricos.
-- `src/shared/` contiene bootstrap, almacenamiento, identidad, RPC, idiomas, estadios y acceso a fotos. El traductor guarda los textos originales con `WeakMap`; el selector y el renderer de estadios están en `stadiums/controller.ts` y `stadiums/geometry.ts`.
-- `public/` contiene imágenes que se sirven con sus nombres públicos originales.
-- `tests/` contiene fixtures del producto anterior, tests unitarios, pruebas Playwright y capturas golden.
-- `scripts/capture-baseline.mjs`, `scripts/capture-game-rules-baseline.mjs` y `scripts/capture-stadium-baseline.mjs` reconstruyen fixtures desde una copia del código original. No los ejecutes para actualizar golden sin comparar primero los cambios.
-- `plans/migracion-typescript.md` conserva el plan y sus criterios. No marques fases como cerradas hasta verificar los checks y capturas requeridos.
+- `src/pages/home/`, `src/games/` y `src/tools/` contienen las entradas React `main.tsx` y las vistas `App.tsx`.
+- Cada juego mantiene sus modelos, reglas y hooks cerca de su UI. Reto 15K separa `useReto`, `useDuel`, los algoritmos de bot y las vistas de tablero y ranking.
+- `src/app/mount.tsx` monta los juegos con providers compartidos de idioma, identidad y equipo/estadio.
+- `src/shared/api/` es el cliente HTTP del frontend; `contracts/` define los payloads; `server/` implementa la API Fastify y el transporte hacia Supabase.
+- `src/data/` contiene los catálogos tipados. `public/` contiene recursos estáticos.
+- `tests/` contiene pruebas y referencias del producto original. Consulta [docs/verificacion-react.md](docs/verificacion-react.md) antes de tocar fixtures visuales o semánticas.
 
-## Rutas de publicación
+## Publicación bajo un subdirectorio
 
-Para compilar bajo `/Reto-15000-goles/`:
+Para alojar la web bajo `/Reto-15000-goles/`, genera los recursos con esa base:
 
 ```sh
 VITE_BASE_PATH=/Reto-15000-goles/ npm run build
 ```
 
-Vite compila el frontend estático; no crea ni configura Supabase. El origen y el estado de publicación se deben confirmar antes de desplegar. `editor-goles.html` mantiene el aviso de que `goles.js` no está en el repositorio.
+Este comando no configura una API alojada. La página estática necesita una API en el mismo origen o una URL HTTPS configurada mediante `VITE_API_BASE_URL`. Si Fastify también sirve `dist/`, configura `SERVE_WEB=true` y el mismo prefijo en `WEB_BASE_PATH`. Consulta [docs/backend.md](docs/backend.md) para el runbook.
 
 ## Documentación
 
-- [AGENTS.md](AGENTS.md): mapa breve para agentes y reglas de compatibilidad.
-- [docs/arquitectura.md](docs/arquitectura.md): datos, módulos, almacenamiento, baseline y servicios.
-- [docs/juegos.md](docs/juegos.md): reglas, anclas y comprobaciones manuales.
-- [plans/migracion-typescript.md](plans/migracion-typescript.md): fases previstas y criterios de aceptación.
+- [AGENTS.md](AGENTS.md): mapa de archivos y reglas para colaborar en el repositorio.
+- [docs/arquitectura.md](docs/arquitectura.md): entradas, datos, persistencia, providers y pruebas de referencia.
+- [docs/backend.md](docs/backend.md): configuración y operación de la API.
+- [docs/juegos.md](docs/juegos.md): reglas de juego y guía manual.
+- [docs/verificacion-react.md](docs/verificacion-react.md): referencias y comprobaciones de equivalencia.

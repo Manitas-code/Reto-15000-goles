@@ -2,7 +2,7 @@
 
 ## Estado y lectura
 
-Propuesta del 2026-10-05, **pendiente de revisión y aprobación**. Este documento autoriza cero cambios de implementación o publicación. El usuario ha aceptado Capacitor como dirección futura y ha solicitado este diseño antes de continuar.
+Diseño del 2026-10-05, **aprobado mediante la instrucción `/goal` del usuario**. Implementación completada y validada localmente. Capacitor sigue siendo una fase futura; la aprobación no incluye publicación ni cambios remotos en Supabase.
 
 Orden de lectura para implementar tras aprobación:
 
@@ -17,7 +17,7 @@ Referencias de partida ya guardadas:
 - `3bbe3c6`: `docs: document project architecture and TypeScript migration`.
 - Producto original: `88552644372229ccd8e8157c3ac99c88965b5675`.
 
-El [plan anterior](migracion-typescript.md) conserva el histórico de la primera migración. La propuesta actual sustituye su decisión de mantener DOM nativo **cuando se apruebe**; no cambia retroactivamente sus evidencias ni cierra la validación remota pendiente.
+El [plan anterior](migracion-typescript.md) conserva el histórico de la primera migración. La propuesta actual sustituye su decisión de mantener DOM nativo **tras la aprobación**; no cambia retroactivamente sus evidencias ni cierra la validación remota pendiente.
 
 ## Resultado que se busca
 
@@ -39,7 +39,7 @@ No se implementan en esta fase cuentas, sincronización de progreso, nuevos algo
 | Validación   | JSON Schema de Fastify para entradas; no añadir otra biblioteca de esquemas inicialmente. Tests cruzan tipos y ejemplos de contratos.                          |
 | Datos        | Supabase existente. Misma clave pública y permisos actuales en el adaptador del servidor; ninguna sustitución por `service_role`.                              |
 | Repositorio  | Un `package.json`, un lockfile y carpetas `src/`, `server/`, `contracts/`. Sin monorepo ni workspaces por ahora.                                               |
-| Tests        | Vitest y Playwright actuales; Testing Library para componentes/ciclo de vida e `app.inject()` para API.                                                        |
+| Tests        | Vitest y Playwright actuales; React DOM/`act` con jsdom para ciclo de vida e `app.inject()` para API.                                                          |
 | Móvil futuro | Capacitor reutilizará el build web y API; no se instalan proyectos Android/iOS ahora.                                                                          |
 
 Fastify aporta validación, logging y tests sin abrir un puerto. Elegir Express, Nest o un ORM no resuelve una necesidad adicional aquí. Las versiones compatibles se fijarán en lockfile al ejecutar la fase A; no actualizar dependencias actuales por rutina.
@@ -55,16 +55,10 @@ server/
   start.ts                   # configuración, listen, señales y cierre
   config.ts                  # variables y validación de arranque
   supabase.ts                # transporte único hacia origen fijo
-  routes/
-    health.ts
-    identity.ts
-    rankings.ts
-    scores.ts
-    reto.ts                  # registro cerrado de las RPC existentes
-  schemas.ts                 # esquemas de entrada agrupados por dominio
+                             # rutas explícitas y JSON Schema en app.ts
 src/
   app/                       # providers y montaje común
-  shared/api/                # http.ts + identity.ts, rankings.ts, scores.ts, reto.ts
+  shared/api/                # http.ts (transporte) + index.ts (funciones por dominio)
   shared/i18n/               # dictionary + translation + React provider; puente legado temporal
   shared/stadiums/           # teams + geometry + rasterización + selector React
   games/<juego>/             # main.tsx, App.tsx, model.ts, useGame.ts, persistence.ts,
@@ -87,7 +81,7 @@ Frontend puede importar `contracts/`, nunca `server/`. Backend puede importar co
 
 ## Desarrollo, build y configuración
 
-Dependencias nuevas propuestas: `react`, `react-dom`, `fastify`, `@fastify/cors` para API separada y `@fastify/static` para probar/servir web y API bajo un origen. Desarrollo: `@types/react`, `@types/react-dom`, `@vitejs/plugin-react`, `@testing-library/react`, `tsx`. Reutilizar jsdom, ESLint, Prettier, TypeScript y tests existentes.
+Dependencias nuevas propuestas: `react`, `react-dom`, `fastify`, `@fastify/cors` para API separada y `@fastify/static` para probar/servir web y API bajo un origen. Desarrollo: `@types/react`, `@types/react-dom`, `@vitejs/plugin-react`, `tsx`. Reutilizar jsdom, ESLint, Prettier, TypeScript y tests existentes.
 
 Scripts a implementar exactamente:
 
@@ -104,7 +98,7 @@ Scripts a implementar exactamente:
 | `preview`      | Mantener preview web estático; usar `start` para probar integración compilada.    |
 | `test`         | Vitest de reglas, contratos, React y backend en entornos Node/jsdom separados.    |
 | `e2e`          | Playwright con Vite y API falsa, cerrados por `webServer`.                        |
-| `check`        | Tipos, lint, unitarios y ambos builds. CI ejecuta además formato y E2E.           |
+| `check`        | Tipos, lint, reglas/integración y ambos builds. CI ejecuta además formato y E2E.  |
 
 `tsconfig.server.json`: `module`/`moduleResolution: NodeNext`, `rootDir: .`, `outDir: dist-server`, `strict: true`, incluye `server/**/*.ts` y `contracts/**/*.ts`, sin tests en emisión. Imports relativos del backend con extensión `.js` para ejecución ESM tras compilar. Frontend mantiene resolución Bundler. Tests tienen comprobación de tipos también; no `any`, `ts-ignore` o `allowJs` para esquivar problemas.
 
@@ -122,7 +116,7 @@ No afirmar que interponer API bloquea el acceso público previo a Supabase: sus 
 
 ## Fases y criterios de cierre
 
-Todas las fases siguientes están **pendientes de aprobación**. Cada entrega debe seguir ejecutándose; no dejar una página parcialmente React con dos propietarios del mismo DOM.
+Las fases siguientes están aprobadas. Su cierre depende de las comprobaciones indicadas y de la referencia original. Cada entrega debe seguir ejecutándose; no dejar una página parcialmente React con dos propietarios del mismo DOM.
 
 | Fase | Trabajo concreto                                                                                                                                | Cierre verificable                                                                                                                        |
 | ---- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
@@ -158,7 +152,7 @@ Plantilla obligatoria de tarea: fase y dependencias cumplidas; archivos permitid
 - Componentes bajo StrictMode: montar/desmontar/remontar, fake timers y respuestas tardías; cero intervalos/listeners huérfanos, cero submits repetidos, no consumir intento al montar.
 - Tests API usan `buildApp` y `fetchImpl` falso, verifican consulta, headers y body exactos. E2E intercepta nuestra API con fixtures o fake estatal; no stub genérico `200 []` para operaciones de escritura.
 - Prohibir salida a Supabase en navegador migrado y tests; Wikipedia/Commons siguen como servicios de fotos permitidos. No afirmar ausencia de toda red externa.
-- CI: `npm ci`, tipos/lint/formato/unitarios, ambos builds, Chromium/E2E, build con subruta y smoke de servidor compilado sirviendo artefacto. Servidor de smoke usa upstream fake, nunca producción.
+- CI: `npm ci`, tipos/lint/formato/reglas e integración, ambos builds, Chromium/E2E, build con subruta y smoke de servidor compilado sirviendo artefacto. Servidor de smoke usa upstream fake, nunca producción.
 - Las capturas actuales no cubren fuentes remotas, fondos seleccionados ni backend real. Añadir escenarios de equipo a la verificación manteniendo test SVG independiente; comprobar tipografías reales antes de publicar sin cambiar las capturas originales.
 
 ## Preparación para Capacitor
@@ -180,3 +174,31 @@ La aprobación solicitada es para React multipágina + Fastify adaptador + contr
 - [Vite: proxy del servidor de desarrollo](https://vite.dev/config/server-options.html#server-proxy).
 - [Fastify Static: servicio de archivos y prefijos](https://github.com/fastify/fastify-static).
 - [Capacitor: almacenamiento móvil](https://capacitorjs.com/docs/guides/storage).
+
+## Decisiones registradas durante la implementación
+
+- Las rutas y sus esquemas quedan juntos en `server/app.ts` (API de 373 líneas), con configuración, arranque y transporte en módulos propios. Los dominios siguen usando rutas explícitas; no se crearon archivos de routing vacíos. `src/shared/api/index.ts` reúne las funciones tipadas y `http.ts` el transporte.
+- Las integraciones React usan `act` y el montaje real con React DOM, jsdom y StrictMode. Se prescinde de Testing Library porque no era necesaria para estos escenarios; no se añadieron pruebas unitarias de cada reducer.
+- Se mantienen `FG_LANG`, `FG_STADIUM`, `GD_face` y `GD_EMOJI` como compatibilidad pública. Se eliminan los controladores DOM y el cliente Supabase del frontend. `rpc-types.ts` queda como reexport de los contratos compartidos para imports existentes.
+- Los scripts Node/tsx cargan `.env` con `--env-file-if-exists`. Los artefactos y la reversión se describen en [backend.md](../docs/backend.md); no se ha publicado ni cambiado Supabase.
+
+La evidencia y los límites de equivalencia se registran en [verificacion-react.md](../docs/verificacion-react.md). Los criterios históricos de TypeScript se conservan.
+
+## Cierre de implementación (2026-10-05)
+
+| Fase | Estado y entrega                                                                                                                                                                                                         |
+| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| A    | Completada: contratos compartidos, Fastify, TSX, scripts y referencia semántica del runtime original.                                                                                                                    |
+| B    | Completada: API restringida, cliente tipado y eliminación de Supabase del frontend. Payloads, errores y cuerpos vacíos verificados con upstream simulado.                                                                |
+| C    | Completada: montaje/proveedores compartidos y portada React; CSS, metadatos, enlaces y restauración temprana del fondo conservados.                                                                                      |
+| D    | Completada: Emoji con reanudación, respuestas parciales, revisión, identidad, ranking y ES/EN.                                                                                                                           |
+| E    | Completada: Más o Menos y Blackjack con modos Carrera/Selección/diario, secuencias, tiempos, pagos, intentos y registro.                                                                                                 |
+| F    | Completada: Reto separado en partida, bots, duelos, divisiones y componentes; salas/enlaces/revancha/cola, temporada/ranking y compartir comprobados.                                                                    |
+| G    | Completada: siete entradas React, Caras y editor conservados, controladores DOM retirados, documentación e integración actualizadas. El editor sigue sin `goles.js`.                                                     |
+| H    | Preparación local completada: builds web/servidor y runbook de despliegue/reversión. Los smokes pasan en `/` y `/Reto-15000-goles/`. La publicación y validación contra Supabase real quedan fuera de esta autorización. |
+
+Validación final: `npm ci`, `npm run check`, `npm run format:check`, 38 recorridos Playwright (13 archivos), 31 pruebas Vitest (9 archivos), 34 imágenes de referencia y 14 comparaciones semánticas ES/EN. Ambos builds y los smokes del servidor compilado pasan con upstream local simulado. Las reglas, datos, estilos y referencias anteriores permanecen intactos. La calibración independiente de las nuevas capturas de Blackjack se documenta en [verificacion-react.md](../docs/verificacion-react.md).
+
+No quedan tareas de implementación local de estos tres planes. Capacitor, hosting, publicación, tipografías/fotos remotas, YouTube real y comprobación del esquema/políticas Supabase requieren sus fases posteriores; no se declaran verificados por estas pruebas.
+
+Entregas convencionales: `f0506d9` (API y contratos), `a34eaa9` (siete páginas React y retirada del legado) y `a0bf791` (integración y equivalencia visual/funcional).

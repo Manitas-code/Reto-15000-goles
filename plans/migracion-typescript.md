@@ -317,4 +317,4 @@ La implementación descrita está autorizada. La publicación y cualquier cambio
 
 ## Propuesta posterior
 
-El usuario ha solicitado un diseño de React y un backend propio pequeño. Consultar [el plan React y backend](react-backend.md) y sus anexos. Es una propuesta pendiente de revisión: no autoriza implementar ni sustituye las verificaciones históricas anteriores.
+El usuario ha solicitado un diseño de React y un backend propio pequeño. Consultar [el plan React y backend](react-backend.md) y sus anexos. La propuesta se aprobó posteriormente mediante `/goal`. Su implementación y verificación se registran en esos planes; las evidencias históricas de esta migración se conservan.

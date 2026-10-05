@@ -1,6 +1,6 @@
 # Plan: backend API para GOALDAY
 
-**Estado: propuesta pendiente de aprobación.** Leer primero [el plan general](react-backend.md).
+**Estado: implementado y validado localmente con upstream simulado.** Leer primero [el plan general](react-backend.md).
 
 ## Objetivo y límites
 
@@ -113,3 +113,7 @@ Hay 22 operaciones RPC de Reto en esta tabla y dos operaciones de identidad sepa
 - Respuestas upstream se reenvían sin serializers que eliminen propiedades desconocidas. Copiar solo Content-Type y status/body necesarios, no cookies/headers administrativos. Errores propios 400/502/504 usan cuerpo genérico sin URL/clave/stack; el cliente sigue exponiendo HTTP status. Probar 204 sin body, 200 JSON/null, body vacío y errores con texto.
 - `src/shared/api/http.ts` concentra fetch, ApiError (`status`, `body` opcional) y parseo vacío. Wrappers de identidad ignoran body, Reto RPC acepta null, scores MM/BJ tratan 409 como éxito en su adaptador, ranking mantiene errores existentes. Tipos compartidos en `contracts/api.ts` y `contracts/reto.ts`; no importar contratos desde el controlador frontend en servidor.
 - `tests/server/` inyecta fetch falso y verifica para cada operación método/ruta/headers/body y ausencia de salida de red. Cubre parámetros extra, RPC desconocida, JSON incorrecto, 409 y errores/timeout; cliente cubre fallback show_at y parseo vacío. `tests/helpers/fake-api.ts` modela respuestas secuenciadas y duelos compartidos por dos clientes, nunca usa el upstream real.
+
+## Cierre local
+
+Los contratos y endpoints de este documento están implementados en `contracts/`, `server/app.ts` y `src/shared/api/`. El navegador y el bundle compilado no contienen el cliente ni la configuración Supabase. Pasan las integraciones de transporte/cliente, las 22 RPC y los smokes del servidor compilado en raíz y subruta. El [registro general](react-backend.md#cierre-de-implementación-2026-10-05) documenta el cierre; la validación y publicación contra un proyecto Supabase real no se han realizado.

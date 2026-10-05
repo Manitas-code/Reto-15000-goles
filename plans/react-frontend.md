@@ -1,17 +1,17 @@
-# Diseño propuesto: frontend React
+# Frontend React: diseño e implementación
 
-**Estado: propuesta; pendiente de aprobación.** Este documento describe una posible migración del frontend a React y TypeScript sin cambiar el producto. No modifica el estado ni los criterios de `plans/migracion-typescript.md`.
+**Estado: implementado y validado localmente.** Este documento describe la migración del frontend a React y TypeScript sin cambiar el producto. No modifica el estado ni los criterios de `plans/migracion-typescript.md`.
 
 La aplicación conservará las siete páginas HTML y sus URL. Cada documento seguirá siendo una entrada independiente de Vite; React montará la vista de esa página. No habrá SPA ni router. El backend BFF y sus contratos se describen en [react-backend.md](react-backend.md) y [react-backend-api.md](react-backend-api.md).
 
 ## Decisiones de arquitectura
 
 - Mantener `index.html`, `reto-15000.html`, `mas-o-menos.html`, `blackjack-goles.html`, `emoji-player.html`, `caras.html` y `editor-goles.html` en la raíz y como entradas de `vite.config.ts`. Conservar metadatos, enlaces, query, hash, redirección temprana de `index.html`, y los scripts de `<head>` que restauran `fg_bg` antes del primer pintado.
-- Añadir React, React DOM, `@vitejs/plugin-react`, `@testing-library/react` para desarrollo y los tipos de React/React DOM. Habilitar JSX en TypeScript y mantener modo estricto. Vite compilará las mismas siete entradas y los HTML seguirán publicándose con sus nombres actuales.
+- Añadir React, React DOM, `@vitejs/plugin-react` y los tipos de React/React DOM. Habilitar JSX en TypeScript y mantener modo estricto. Vite compilará las mismas siete entradas y los HTML seguirán publicándose con sus nombres actuales.
 - Crear un `App.tsx` por página y montar React en un único nodo raíz propio. El HTML conservará metadatos, scripts tempranos y el punto de montaje; las vistas y sus estados pasarán a React. El CSS existente seguirá siendo la referencia visual durante la migración.
 - Usar providers compartidos solo para idioma, equipo/estadio e identidad. El progreso y el estado de cada juego pertenecen a ese juego. Cada juego usará `useReducer`; no se añadirá Redux.
 - Mantener `engine.ts` y los modelos puros separados de la interfaz. No generar azar en un reducer ni durante el render: una acción de usuario o un orquestador crea las muestras aleatorias y las incluye en la acción. El reducer calcula el siguiente estado de forma determinista.
-- El reducer no escribirá almacenamiento ni red. Las acciones de aplicación y los adaptadores de persistencia efectuarán esas operaciones en el límite del evento. Las acciones que no se pueden repetir deben llevar un `eventId`; el coordinador registra los IDs aplicados y descarta duplicados antes de enviar o guardar. Esto protege frente a respuestas tardías, reintentos y montajes repetidos.
+- El reducer no escribirá almacenamiento ni red. Las acciones de aplicación y los adaptadores de persistencia efectuarán esas operaciones en el límite del evento. Las acciones que no se pueden repetir usan bloqueos de operación, guardas de fase y tokens de sesión/montaje. El coordinador comprueba su vigencia antes de enviar o guardar y después de resolver respuestas tardías. No se reintentan mutaciones automáticamente.
 - No se envolverán los controladores DOM actuales en un `useEffect` general. Cada vista se reconstruirá como componentes React; se reutilizarán reglas, catálogos y funciones puras ya extraídas.
 
 ## Estructura por página y juego
@@ -99,7 +99,7 @@ Cada etapa debe poder desplegarse como frontend estático multipágina. Las pág
 
 - Mantener la fixture original de `tests/fixtures/product-baseline.json`, `tests/fixtures/game-rules-baseline.json` y `tests/fixtures/stadium-baseline.json`. La fixture de producto contiene hashes, no un árbol semántico recuperable. La fase A captura por separado `tests/fixtures/react-semantic-baseline.json` desde el runtime del commit original, documentando procedencia y proyección. Comparar el runtime React contra esa referencia independiente y mantener checks existentes de CSS/catálogos/reglas/SVG. Sustituir el check de DOM del HTML migrado por este check de runtime; no afirmar que el hash del HTML fuente puede comparar la vista React. Si el test necesita añadir el nodo raíz como arnés de montaje, excluir únicamente ese wrapper técnico de la normalización y revisar que no incluya ni oculte contenido de producto. No regenerar fixtures para hacer pasar una diferencia.
 - Ejecutar `npm run check` y `npm run e2e` tras cada página. Revisar capturas existentes en español e inglés, móvil y escritorio. Las URLs públicas, títulos, metadatos, enlaces, hash, query, redirecciones y build con `VITE_BASE_PATH=/Reto-15000-goles/` deben conservarse.
-- Añadir pruebas de componentes con `@testing-library/react` que ejerciten flujos visibles mediante acciones de usuario. Probar reducers como funciones puras con azar suministrado y verificar que repetir la misma acción produce el mismo estado.
+- Añadir pruebas de integración con el montaje real de React DOM/`act` y recorridos Playwright que ejerciten los flujos visibles. Reutilizar las pruebas existentes de reglas puras y sus referencias; no añadir una batería de unitarios de cada reducer.
 - Envolver pruebas de ciclo de vida en `StrictMode` con temporizadores falsos: tras desmontar no deben quedar intervalos, timeouts, RAF, listeners u observers activos ni solicitudes duplicadas. Las pruebas del polling verifican una sola consulta activa y que una respuesta tardía no modifica otra partida.
 - Para cada juego, inicializar el almacenamiento con una copia de referencia y comparar las claves, campos y campos desconocidos después de iniciar, completar, reanudar y abandonar. Comprobar explícitamente que no se usa `localStorage.clear()`.
 - Probar diario de Reto, Más o Menos y Blackjack: un inicio elegible marca un solo intento; renderizar, hidratar o remontar en StrictMode no marca otro; recargar mantiene el intento consumido. Probar que Emoji retoma el mismo día, jugador y progreso. Fijar fechas alrededor de medianoche en Madrid.
@@ -108,3 +108,11 @@ Cada etapa debe poder desplegarse como frontend estático multipágina. Las pág
 - Las pruebas visuales actuales bloquean recursos externos, simulan ranking vacío y usan `fg_team=none`; no acreditan la fuente ni los fondos de estadio en producción. Hacer una revisión manual del selector y fondo seleccionado, y reservar para la fase móvil la comprobación Capacitor de safe areas, enlaces, compartir y acceso al BFF.
 
 La propuesta se considera implementada cuando las siete URL siguen siendo entradas independientes, cada vista se representa desde estado React, las reglas/datos existentes conservan sus resultados y formatos, no hay doble propiedad del DOM, y las verificaciones anteriores pasan sin alterar las referencias originales.
+
+## Concreción de la implementación
+
+El montaje compartido está en `src/app/mount.tsx`. Los juegos separan reglas/datos, persistencia, modelo y coordinación de efectos de sus vistas. Reto separa `useReto.ts` y `useDuel.ts`, los algoritmos de bot, divisiones y componentes de tablero/ranking. Las herramientas tienen montaje independiente.
+
+La deduplicación utiliza guardas de fase, bloqueos de operaciones y tokens de sesión/montaje, en lugar de añadir un registro genérico de `eventId` para toda acción. Los reducers permanecen puros; red, azar y almacenamiento se ejecutan fuera del render. Las pruebas de integración montan la página real con React DOM/`act` y StrictMode; Testing Library no se necesita. Las referencias originales y escenarios cubiertos están en [la guía de verificación](../docs/verificacion-react.md).
+
+Cierre: las siete entradas usan React y los 38 recorridos de navegador pasan, incluidas 34 imágenes independientes del original y 14 proyecciones semánticas ES/EN. Los tests de ciclo de vida pasan con StrictMode y respuestas pendientes. El [registro general](react-backend.md#cierre-de-implementación-2026-10-05) y la [guía de verificación](../docs/verificacion-react.md) contienen evidencia, calibración y límites.

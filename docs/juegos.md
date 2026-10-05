@@ -1,6 +1,6 @@
 # Reglas y mapa de los juegos
 
-Los HTML de la raíz conservan la estructura y las rutas públicas. Cada página importa `main.ts`; `controller.ts` coordina el flujo y las operaciones de DOM, `dom.ts` tipa los elementos por ID, y `engine.ts` contiene reglas puras cuando se han extraído. Algunas herramientas y Blackjack también tienen `state.ts`. Los estilos siguen en `styles.css`. Los nombres de funciones de esta guía son anclas de búsqueda en `controller.ts` o `engine.ts`.
+Los HTML de la raíz conservan las rutas públicas. Cada página monta su `App.tsx` desde `main.tsx`; los hooks del juego coordinan el estado y `engine.ts` contiene reglas puras. Los estilos siguen en `styles.css`. Las rutas de esta guía apuntan a los módulos actuales, no a la implementación anterior.
 
 ## Reto de los 15.000 goles
 
@@ -30,31 +30,30 @@ Modos:
 - Sala privada: duelo en directo mediante enlace con `?sala=<código>`.
 - Reto a un amigo: enlace `?reto=<código>`, mazo compartido y comparación posterior.
 
-| Zona                 | Funciones o constantes                                                                                           |
-| -------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| Datos y reglas       | `SLOTS`, `PLAYERS` importado de `retoPlayers`, `SKIPS`, `LEAGUE_SLOTS`                                           |
-| Fecha y azar         | `todayKey`, `seedFrom`, `mulberry`, `shuffle`, `drawMany`                                                        |
-| Partida              | `newGame` → `showCard` → `place` / `skipPlayer` → `finish`                                                       |
-| Tablero y puntuación | `resetBoard`, `multOf`, `previewPts`, `paintPreview`, `optimalTotal`                                             |
-| Progreso             | `RANKS`, `LEVELS`, `ACH`, `load`, `save`, `renderStats`                                                          |
-| Nombre y ranking     | `askName`, `submitScore`, `renderRank`, `sbGet`, `sbPost`; `sbRpc` importado de `rpcVoid`                        |
-| Duelo y bots         | `startOnline`, `pollOnline`, `startPickTimer`, `duelProgress`, `duelSubmit`, `duelReveal`, `stopDuel`, `botPlan` |
-| Salas y enlaces      | `startRoom`, `joinRoom`, `startLink`, `acceptLink`, `duelBoot`                                                   |
-| Imagen compartida    | `loadLogo` y bloque de Canvas cercano a `LOGO_SRC`                                                               |
+| Zona                 | Módulos actuales                                                                                                   |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Datos y reglas       | `engine.ts`, `model.ts`: `SLOTS`, `PLAYERS`, `SKIPS`, `LEAGUE_SLOTS`, `makeGame`, `placePlayer`, `optimalScore`    |
+| Fecha y azar         | `engine.ts`, `model.ts`, `bots.ts`: semillas, mezcla y mazos para bot, diario y duelo                              |
+| Partida              | `useReto.ts`: `start`, `place`, `skip`, recuento final y resultado                                                 |
+| Tablero y puntuación | `components/Board.tsx`, `engine.ts`, `model.ts`                                                                    |
+| Progreso             | `model.ts` guarda el estado, `useReto.ts` coordina los cambios y `components/RankPanel.tsx` muestra rango y logros |
+| Nombre y ranking     | `useReto.ts`, `components/RankPanel.tsx`, `src/shared/api/`; contratos en `rpc-types.ts` y `contracts/`            |
+| Duelo, sala y enlace | `useDuel.ts`: cola, polling, cuenta atrás, salas, enlaces, temporada, Elo; `bots.ts` contiene la lógica del bot    |
+| Imagen compartida    | Canvas en `App.tsx`                                                                                                |
 
-`finish` guarda resultado, progreso y logros, y muestra el resumen y una asignación óptima como comparación. `duelBoot` procesa `reto`, `online` y `sala` desde la query y limpia la URL con `history.replaceState`. El progreso usa `reto15k-v2`; los servicios se describen en [arquitectura.md](arquitectura.md).
+`useReto` guarda resultado, progreso y logros, y muestra el resumen y una asignación óptima como comparación. `useDuel` procesa `reto`, `online` y `sala` desde la query y limpia la URL con `history.replaceState`. El progreso usa `reto15k-v2`; los servicios se describen en [arquitectura.md](arquitectura.md) y [backend.md](backend.md).
 
 ## Más o Menos
 
 Entrada `mas-o-menos.html`; módulos en `src/games/mas-o-menos/`. Se compara el número de goles de dos jugadores. Tras acertar, el segundo pasa a ser el primero y se elige otro rival. Un error o agotar los 10 segundos termina la partida. Hay Carrera y Selección, además del diario con secuencia sembrada por fecha y un intento local.
 
-`P` concatena los catálogos `players` y `extraPlayers`. `CATS` define la estadística y el mínimo admitido. `pickB` busca pares sin igualdad y ajusta la diferencia según la racha. Al principio favorece los 200 jugadores de la base; después incorpora el catálogo completo. Los intervalos preferidos son 40–85% para 0–4 aciertos, 20–60% para 5–14 y 10–55% desde 15; hay alternativas si no encuentra pares.
+`ALL_PLAYERS` en `model.ts` concatena `players` y `extraPlayers`. `CATEGORIES` define la estadística y el mínimo admitido. `pickOpponent` busca pares sin igualdad y ajusta la diferencia según la racha. Al principio favorece los 200 jugadores de la base; después incorpora el catálogo completo. Los intervalos preferidos son 40–85% para 0–4 aciertos, 20–60% para 5–14 y 10–55% desde 15; hay alternativas si no encuentra pares.
 
-| Zona                   | Funciones                                                                                                                  |
-| ---------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| Dificultad y jugadores | `difficultyTier`, `relativeDifference`, `isHigherLowerCorrect` en `engine.ts`; `pickB`, `CATS`, `FAMOUS` en el controlador |
-| Partida                | `startDaily`, `start` → `next` / `render` → `answer` → `reveal` → `finish`                                                 |
-| Guardado/ranking       | `stats`, `setDaily`, `sendDaily`, `doSync`, `syncBest`, `renderRank`                                                       |
+| Zona                   | Módulos actuales                                                                                                                |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| Dificultad y jugadores | `engine.ts`: `difficultyTier`, `relativeDifference`, `isHigherLowerCorrect`; `model.ts`: `pickOpponent`, `CATEGORIES`, `FAMOUS` |
+| Partida                | `useGame.ts`: inicio, respuesta, avance de racha y finalización                                                                 |
+| Guardado/ranking       | `persistence.ts`, `useGame.ts`, `App.tsx`; solicitudes mediante `src/shared/api/`                                               |
 
 El resultado es la racha de aciertos. El diario registra el inicio y conserva los últimos siete días. Los récords libres pendientes de envío se sincronizan por modalidad. Persistencia `gd_mm_stats` y `gd_mm_daily`; ranking `hl_scores`.
 
@@ -73,11 +72,11 @@ Pasarse pierde la apuesta. Si la banca se pasa o el jugador queda por encima, ga
 
 El diario usa Carrera y semillas por fecha y mano. Comenzarlo consume el intento local. Los catálogos son los mismos que en Más o Menos.
 
-| Zona             | Funciones o constantes                                                                                        |
-| ---------------- | ------------------------------------------------------------------------------------------------------------- |
-| Reglas           | `MODES`, `START`, `HANDS`, `AUTO`, `BETS`, `MINBET`; `payoutFor` extraído a `engine.ts`                       |
-| Partida          | `startDaily`, `start` → `betPhase` → `deal` → `offer` → `take` / `stand` → `dealerPlay` → `settle` → `finish` |
-| Guardado/ranking | `stats`, `setDaily`, `sendDaily`, `doSync`, `syncBest`, `renderRank`                                          |
+| Zona             | Módulos actuales                                                                  |
+| ---------------- | --------------------------------------------------------------------------------- |
+| Reglas           | `model.ts`, `state.ts`; `payoutFor` en `engine.ts`                                |
+| Partida          | `useGame.ts`: inicio, apuesta, reparto, acción, turno de banca y liquidación      |
+| Guardado/ranking | `persistence.ts`, `useGame.ts`, `App.tsx`; solicitudes mediante `src/shared/api/` |
 
 Las claves `gd_bj10_stats`, `gd_bj10_daily` y la tabla `bj10_scores` mantienen el nombre histórico. No interpretes `10` como el número actual de manos ni cambies esas claves por ese motivo.
 
@@ -89,30 +88,30 @@ Cada día selecciona tres jugadores del grupo fácil, cuyas pistas incluyen una 
 
 `normalizePlayerName`, en el motor, normaliza tildes, caracteres especiales y separadores. `matchesPlayerName` permite buscar desde cualquier palabra del nombre. El juego ofrece sugerencias; `guess` comprueba la respuesta y `resolve` guarda el resultado y muestra su explicación. Se puede reanudar un reto incompleto.
 
-| Zona                  | Funciones o constantes                                                                                          |
-| --------------------- | --------------------------------------------------------------------------------------------------------------- |
-| Calendario y búsqueda | `ALL` en el controlador; `seeded`, `dayKey`, `picksFor`, `normalizePlayerName`, `matchesPlayerName` en el motor |
-| Partida               | `start` → `renderPlayer` / `showSug` → `guess` → `resolve` → `finish` / `showEnd`                               |
-| Progreso              | `S`, `saveS`, `updateStreak`, `renderHome`                                                                      |
-| Ranking               | `postScore`, `sendScore`, `renderRank`, `weekStart`                                                             |
+| Zona                  | Módulos actuales                                                                                             |
+| --------------------- | ------------------------------------------------------------------------------------------------------------ |
+| Calendario y búsqueda | `engine.ts`: `dayKey`, `picksFor`, normalización y coincidencia de nombres; `model.ts`: estado y sugerencias |
+| Partida               | `useGame.ts`: inicio, intentos, avance, resolución y reanudación                                             |
+| Progreso              | `model.ts`, `persistence.ts`, `useGame.ts`                                                                   |
+| Ranking               | `useGame.ts`, `App.tsx`; `weekStart` está en `model.ts`                                                      |
 
 `gd_emoji_v1` conserva días, intentos en curso y racha. `emoji_scores` recibe el resultado diario; el ranking puede mostrar el día o la suma semanal desde el lunes.
 
 ## Comprobaciones según el cambio
 
-Hay pruebas de datos, reglas, transporte RPC, estadios y flujos de navegador en `tests/`. Las 24 capturas golden se toman del original con fuentes remotas bloqueadas, `fg_team=none` y backend simulado. Detectan diferencias de layout con esa configuración; no verifican las fuentes remotas, estadios seleccionados ni escrituras Supabase. Estas comprobaciones complementan la lista manual y no significan que todos los casos manuales se hayan ejecutado. Consulta el estado de evidencia en el plan de migración.
+Hay pruebas de datos, reglas, API, estadios y flujos de navegador en `tests/`. Las capturas de referencia se toman del original con fuentes remotas bloqueadas, `fg_team=none` y backend simulado. Detectan diferencias con esa configuración; no verifican fuentes remotas, todos los estadios seleccionados ni la base Supabase real. Estas pruebas complementan la lista manual, pero no significan que todos los casos manuales se hayan ejecutado. Consulta [verificacion-react.md](verificacion-react.md) para conocer las referencias y sus límites.
 
-| Cambio               | Qué comprobar                                                                                                            |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| Portada o navegación | Abrir los cuatro enlaces y probar la redirección de una query heredada.                                                  |
-| Copy o traducción    | Cambiar ES/EN antes y después de empezar; revisar mensajes dinámicos y textos de compartir.                              |
-| Estadios             | Elegir equipo, cambiar de página, recargar, redimensionar y seleccionar la opción de omitir.                             |
-| Datos                | Comprobar el formato, orden de columnas, derivación del formato del Reto 15K y tratamiento de `null` en extras.          |
-| Reto 15K             | Verificar previews y suma, liga ×5, dos descartes, casillas llenas y finalización con 17 colocaciones.                   |
-| Más o Menos          | Acertar, fallar, agotar el reloj y revisar récords de ambas modalidades.                                                 |
-| Blackjack            | Pedir, plantarse, doblar, pasarse, empate, objetivo exacto y final por siete manos o falta de fichas.                    |
-| Emoji Player         | Acertar en cada intento, fallar tres veces, reanudar tras recarga y comprobar explicación ES/EN.                         |
-| Diario               | Usar un contexto de pruebas; comprobar determinismo y comportamiento tras abandono/recarga.                              |
-| Supabase             | Revisar errores de red y payloads; para pruebas de escritura, tener en cuenta que se usa el servicio remoto configurado. |
+| Cambio               | Qué comprobar                                                                                                                 |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| Portada o navegación | Abrir los cuatro enlaces y probar la redirección de una query heredada.                                                       |
+| Copy o traducción    | Cambiar ES/EN antes y después de empezar; revisar mensajes dinámicos y textos de compartir.                                   |
+| Estadios             | Elegir equipo, cambiar de página, recargar, redimensionar y seleccionar la opción de omitir.                                  |
+| Datos                | Comprobar el formato, orden de columnas, derivación del formato del Reto 15K y tratamiento de `null` en extras.               |
+| Reto 15K             | Verificar previews y suma, liga ×5, dos descartes, casillas llenas y finalización con 17 colocaciones.                        |
+| Más o Menos          | Acertar, fallar, agotar el reloj y revisar récords de ambas modalidades.                                                      |
+| Blackjack            | Pedir, plantarse, doblar, pasarse, empate, objetivo exacto y final por siete manos o falta de fichas.                         |
+| Emoji Player         | Acertar en cada intento, fallar tres veces, reanudar tras recarga y comprobar explicación ES/EN.                              |
+| Diario               | Usar un contexto de pruebas; comprobar determinismo y comportamiento tras abandono/recarga.                                   |
+| API                  | Revisar errores y payloads con las pruebas de `tests/server/`; éstas usan transporte simulado y no escriben en Supabase real. |
 
 Los catálogos y el azar determinista unen reglas, datos y backend. Antes de cambiar una semilla, el orden de jugadores o una categoría, revisa las funciones que crean la partida y las que calculan el resultado del rival.
