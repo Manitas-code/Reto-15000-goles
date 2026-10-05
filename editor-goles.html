@@ -9,22 +9,8 @@
 <link rel="stylesheet" href="/src/tools/goal-editor/styles.css">
 </head>
 <body>
-<div class="wrap">
-  <h1>Editor del Gol del día</h1>
-  <p class="help">Elige un gol, busca el vídeo en YouTube, copia el enlace y pégalo abajo. Dale al play y pulsa los botones en el momento justo: <b>inicio</b> de la jugada, <b>corte</b> justo antes de que entre el balón y <b>fin</b> después de la celebración. Se guarda solo en este navegador. Cuando acabes, descarga el goles.js y súbelo a GitHub.</p>
-  <div class="bar">
-    <button class="b" id="dl">Descargar goles.js</button>
-    <button class="b g" id="cp">Copiar goles.js</button>
-    <span class="n" id="count"></span>
-  </div>
-  <div class="layout">
-    <nav class="list" id="list"></nav>
-    <section class="ed" id="ed"></section>
-  </div>
-</div>
-
-
+<div id="root"></div>
 <script src="./goles.js"></script>
-<script type="module" src="/src/tools/goal-editor/main.ts"></script>
+<script type="module" src="/src/tools/goal-editor/main.tsx"></script>
 </body>
 </html>

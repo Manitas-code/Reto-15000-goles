@@ -16,4 +16,6 @@ export function saveIdentity(pid: string, name: string): void {
   current.pid = pid;
   current.name = name;
   writeJson(IDENTITY_KEY, current);
+  if (typeof window !== 'undefined')
+    window.dispatchEvent(new Event('goalday:identity'));
 }
