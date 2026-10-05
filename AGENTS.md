@@ -9,6 +9,7 @@ Lee solo el documento que necesites:
 - [README.md](README.md): ejecutar, probar y ubicar módulos.
 - [docs/arquitectura.md](docs/arquitectura.md): estructura, datos, persistencia, servicios y baseline original.
 - [docs/juegos.md](docs/juegos.md): reglas de cada juego y verificaciones manuales.
+- [plans/react-backend.md](plans/react-backend.md): propuesta de React y API propia, pendiente de aprobación; incluye anexos de frontend y contratos.
 - [plans/migracion-typescript.md](plans/migracion-typescript.md): fases y criterios de la migración. No cambies el estado de las fases sin completar sus checks.
 
 ## Dónde cambiar código

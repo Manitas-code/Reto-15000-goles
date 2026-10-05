@@ -287,7 +287,7 @@ Verificación final local del 2026-10-05:
 | `VITE_BASE_PATH=/Reto-15000-goles/ npm run build` | Pasa; siete entradas y recursos enlazados comprobados bajo esa base. Las imágenes públicas conservan los bytes originales.                                                                                              |
 | Geometría de estadios                             | SVG exactos de todos los equipos en dos encuadres contra el original.                                                                                                                                                   |
 
-La CI está configurada; esta entrega verifica su batería local, sin afirmar que se haya ejecutado en GitHub. No se ha publicado, creado una PR ni hecho un commit.
+La CI está configurada; esta entrega verifica su batería local, sin afirmar que se haya ejecutado en GitHub. En el cierre de esa entrega no se había publicado, creado una PR ni hecho un commit. Posteriormente el usuario pidió guardar todos los cambios: commits `027769f` y `3bbe3c6`. Sigue sin publicación ni PR.
 
 Los tests de navegador aíslan servicios externos. Las 24 capturas usan fuentes locales de sustitución y `fg_team=none`; cubren esas condiciones concretas. La geometría se valida por separado contra SVG originales. Ninguna prueba automatizada escribe en Supabase. Los contratos RPC se han tipado por el consumo del frontend: no sustituyen un esquema confirmado del servidor ni una prueba de dos clientes contra el backend real.
 
@@ -314,3 +314,7 @@ La implementación descrita está autorizada. La publicación y cualquier cambio
 - [Playwright: comparación visual](https://playwright.dev/docs/test-snapshots).
 - [Playwright: interceptar y simular solicitudes de red](https://playwright.dev/docs/network).
 - [typescript-eslint: configuración inicial](https://typescript-eslint.io/getting-started/).
+
+## Propuesta posterior
+
+El usuario ha solicitado un diseño de React y un backend propio pequeño. Consultar [el plan React y backend](react-backend.md) y sus anexos. Es una propuesta pendiente de revisión: no autoriza implementar ni sustituye las verificaciones históricas anteriores.
