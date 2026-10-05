@@ -1,0 +1,29 @@
+{
+  "baselineRevision": "88552644372229ccd8e8157c3ac99c88965b5675",
+  "captureTime": "2026-10-05T12:00:00.000Z",
+  "viewports": {
+    "desktop": { "width": 1440, "height": 960 },
+    "mobile": { "width": 390, "height": 844 }
+  },
+  "storage": { "fg_team": "none", "fg_lang": ["es", "en"] },
+  "pages": {
+    "es": [
+      "index.html",
+      "reto-15000.html",
+      "mas-o-menos.html",
+      "blackjack-goles.html",
+      "emoji-player.html",
+      "caras.html",
+      "editor-goles.html"
+    ],
+    "en": [
+      "index.html",
+      "reto-15000.html",
+      "mas-o-menos.html",
+      "blackjack-goles.html",
+      "emoji-player.html"
+    ]
+  },
+  "network": "External hosts blocked; Supabase GET requests fulfilled locally with empty arrays; writes are not sent.",
+  "fonts": "Remote fonts are blocked in both baseline and migration captures."
+}
