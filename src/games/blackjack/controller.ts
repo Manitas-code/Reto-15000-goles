@@ -1,9 +1,12 @@
 import { $ } from './dom';
 import { players } from '../../data/players';
 import { extraPlayers } from '../../data/extra-players';
-import { SB_URL, SB_H } from '../../shared/supabase/config';
 import { readIdentity, saveIdentity } from '../../shared/identity/store';
-import { rpcVoid as sbRpc } from '../../shared/supabase/rpc';
+import {
+  registerIdentity,
+  getBlackjackRanking,
+  postBlackjackScore,
+} from '../../shared/api';
 import { payoutFor, type HandOutcome } from './engine';
 import type { RpcError } from '../../shared/supabase/rpc';
 import type {
@@ -187,24 +190,12 @@ export function initBlackjack() {
   async function postScore(o: ScoreRow) {
     const u = me();
     if (!u.pid || !u.name) return false;
-    const r = await fetch(SB_URL + '/rest/v1/bj10_scores', {
-      method: 'POST',
-      headers: Object.assign({ Prefer: 'return=minimal' }, SB_H),
-      body: JSON.stringify(
-        Object.assign({ player_id: u.pid, name: u.name }, o),
-      ),
+    await postBlackjackScore({
+      player_id: u.pid,
+      name: u.name,
+      ...o,
+      mode: o.mode as 'diario' | 'carrera' | 'seleccion',
     });
-    if (r.status === 409) return true;
-    if (!r.ok) {
-      const e = new Error('HTTP ' + r.status) as RemoteError;
-      e.status = r.status;
-      try {
-        e.body = await r.text();
-      } catch {
-        /* Response bodies are optional. */
-      }
-      throw e;
-    }
     return true;
   }
   function errMsg(error: unknown) {
@@ -315,7 +306,7 @@ export function initBlackjack() {
       ok.disabled = true;
       try {
         const pid = newId();
-        await sbRpc('register_name', { pid, n });
+        await registerIdentity(pid, n);
         saveMe(pid, n);
         then();
       } catch (e) {
@@ -350,16 +341,11 @@ export function initBlackjack() {
       tok = ++rankReq;
     ul.innerHTML = '<p class="muted">Cargando…</p>';
     try {
-      const q =
+      const rows = await getBlackjackRanking<{ name: string; chips: number }>(
         rankTab === 'diario'
-          ? 'mode=eq.diario&day=eq.' + TODAY + '&order=chips.desc&limit=100'
-          : 'mode=eq.' + rankTab + '&order=chips.desc&limit=500';
-      const r = await fetch(
-        SB_URL + '/rest/v1/bj10_scores?select=name,chips&' + q,
-        { headers: SB_H },
+          ? { tab: 'diario', day: TODAY }
+          : { tab: rankTab as 'carrera' | 'seleccion' },
       );
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-      const rows = (await r.json()) as { name: string; chips: number }[];
       if (tok !== rankReq) return;
       // un nombre por fila, con sus mejores fichas
       const best: Record<string, number> = {};

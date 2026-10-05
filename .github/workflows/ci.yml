@@ -18,6 +18,9 @@ jobs:
       - run: npm run lint
       - run: npm run format:check
       - run: npm test
-      - run: VITE_BASE_PATH=/Reto-15000-goles/ npm run build
+      - run: npm run build
+      - run: npm run smoke:server
+      - run: VITE_BASE_PATH=/Reto-15000-goles/ npm run build:web
+      - run: WEB_BASE_PATH=/Reto-15000-goles/ npm run smoke:server
       - run: npx playwright install --with-deps chromium
       - run: npm run e2e

@@ -15,17 +15,23 @@
     "types": [
       "vite/client",
       "node"
-    ]
+    ],
+    "jsx": "react-jsx"
   },
   "include": [
     "src/**/*.ts",
     "tests/**/*.ts",
     "vite.config.ts",
     "vitest.config.ts",
-    "playwright.config.ts"
+    "playwright.config.ts",
+    "src/**/*.tsx",
+    "tests/**/*.tsx",
+    "contracts/**/*.ts",
+    "server/**/*.ts"
   ],
   "exclude": [
     "node_modules",
-    "dist"
+    "dist",
+    "dist-server"
   ]
 }

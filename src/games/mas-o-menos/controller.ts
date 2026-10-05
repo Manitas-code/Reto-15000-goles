@@ -1,8 +1,11 @@
 import { players } from '../../data/players';
 import { extraPlayers } from '../../data/extra-players';
-import { SB_URL, SB_H } from '../../shared/supabase/config';
 import { readIdentity, saveIdentity } from '../../shared/identity/store';
-import { rpcVoid as sbRpc } from '../../shared/supabase/rpc';
+import {
+  registerIdentity,
+  getMasOMenosRanking,
+  postMasOMenosScore,
+} from '../../shared/api';
 import {
   difficultyTier,
   isHigherLowerCorrect,
@@ -553,10 +556,6 @@ export function initMasOMenos() {
     day?: string;
     streak: number;
   }
-  interface ScoreError extends Error {
-    status?: number;
-    body?: string;
-  }
   interface ScoreRow {
     name: string;
     streak: number;
@@ -573,25 +572,12 @@ export function initMasOMenos() {
   async function postScore(o: ScoreSubmission): Promise<boolean> {
     const u = me();
     if (!u.pid || !u.name) return false;
-    const r = await fetch(SB_URL + '/rest/v1/hl_scores', {
-      method: 'POST',
-      headers: Object.assign({ Prefer: 'return=minimal' }, SB_H),
-      body: JSON.stringify(
-        Object.assign({ player_id: u.pid, name: u.name }, o),
-      ),
+    await postMasOMenosScore({
+      player_id: u.pid,
+      name: u.name,
+      ...o,
+      mode: o.mode as 'diario' | 'carrera' | 'seleccion',
     });
-    if (r.status === 409) return true;
-    if (!r.ok) {
-      const e = Object.assign(new Error('HTTP ' + r.status), {
-        status: r.status,
-      }) as ScoreError;
-      try {
-        e.body = await r.text();
-      } catch {
-        // Conservamos el error HTTP aunque el cuerpo no pueda leerse.
-      }
-      throw e;
-    }
     return true;
   }
   function errMsg(error: unknown) {
@@ -707,7 +693,7 @@ export function initMasOMenos() {
       ok.disabled = true;
       try {
         const pid = newId();
-        await sbRpc('register_name', { pid, n });
+        await registerIdentity(pid, n);
         saveMe(pid, n);
         then();
       } catch (e) {
@@ -752,16 +738,11 @@ export function initMasOMenos() {
       tok = ++rankReq;
     ul.innerHTML = '<p class="muted">Cargando…</p>';
     try {
-      const q =
+      const rows = await getMasOMenosRanking<ScoreRow>(
         rankTab === 'diario'
-          ? 'mode=eq.diario&day=eq.' + TODAY + '&order=streak.desc&limit=100'
-          : 'mode=eq.' + rankTab + '&order=streak.desc&limit=500';
-      const r = await fetch(
-        SB_URL + '/rest/v1/hl_scores?select=name,streak&' + q,
-        { headers: SB_H },
+          ? { tab: 'diario', day: TODAY }
+          : { tab: rankTab as 'carrera' | 'seleccion' },
       );
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-      const rows = (await r.json()) as ScoreRow[];
       if (tok !== rankReq) return;
       // un nombre por fila, con su mejor racha
       const best: Record<string, number> = {};

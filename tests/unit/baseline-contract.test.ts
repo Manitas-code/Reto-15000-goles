@@ -1,7 +1,6 @@
 import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
-import { JSDOM } from 'jsdom';
 import { describe, expect, it } from 'vitest';
 import { emojiPlayers } from '../../src/data/emoji-players';
 import { extraPlayers } from '../../src/data/extra-players';
@@ -40,41 +39,13 @@ const root = resolve(import.meta.dirname, '../..');
 const digest = (value: string) =>
   createHash('sha256').update(value).digest('hex');
 
-function domTree(node: Node): unknown {
-  if (node.nodeType === node.TEXT_NODE) {
-    const value = (node.nodeValue ?? '').replace(/\s+/g, ' ').trim();
-    return value ? ['text', value] : null;
-  }
-  if (node.nodeType !== node.ELEMENT_NODE) return null;
-  const element = node as Element;
-  const tag = element.tagName.toLowerCase();
-  if (tag === 'script' || tag === 'style') return null;
-  if (
-    tag === 'link' &&
-    element.getAttribute('rel')?.split(/\s+/).includes('stylesheet')
-  )
-    return null;
-  const attrs = [...element.attributes]
-    .map(({ name, value }) => [name, value])
-    .sort(([a], [b]) => a.localeCompare(b));
-  return [tag, attrs, [...element.childNodes].map(domTree).filter(Boolean)];
-}
-
 const baseline = JSON.parse(
   await readFile(resolve(root, 'tests/fixtures/product-baseline.json'), 'utf8'),
 ) as ProductBaseline;
 
 describe('compatibilidad con la referencia previa a la migración', () => {
-  for (const [page, expected] of Object.entries(baseline.pages)) {
-    it(`${page}: conserva el árbol DOM del producto`, async () => {
-      const source = await readFile(resolve(root, page), 'utf8');
-      const document = new JSDOM(source).window.document;
-      expect(digest(JSON.stringify(domTree(document.documentElement)))).toBe(
-        expected.domSha256,
-      );
-    });
-  }
-
+  // UI now renders at runtime: tests/e2e/semantic.spec.ts compares an
+  // independent original-runtime fixture. Original CSS/data hashes remain here.
   it('mantiene el orden y todos los valores de las dos bases originales de 200 jugadores', () => {
     expect(playerRows).toHaveLength(baseline.catalogs.players.count);
     expect(digest(JSON.stringify(playerRows))).toBe(

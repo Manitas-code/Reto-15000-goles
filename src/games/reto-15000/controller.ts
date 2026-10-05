@@ -1,6 +1,18 @@
-import { rpcVoid as sbRpc, rpcJson as sbCall } from '../../shared/supabase/rpc';
+import {
+  registerIdentity,
+  renameIdentity,
+  retoRpc,
+  getRetoRanking,
+  postRetoScore,
+} from '../../shared/api';
+import type { RetoRpcName, RetoRpcCall } from '../../../contracts/reto';
+function sbCall<T = unknown>(
+  name: RetoRpcName,
+  args?: unknown,
+): Promise<T | null> {
+  return retoRpc<T>(...([name, args || {}] as RetoRpcCall));
+}
 import { retoPlayers as PLAYERS } from '../../data/players';
-import { SB_H, SB_URL } from '../../shared/supabase/config';
 import {
   goalsFor,
   mulberry,
@@ -1240,31 +1252,29 @@ export function initReto(): void {
     });
   }
   // ---- ranking mundial (Supabase) ----
-  async function sbGetVisible(q: string): Promise<RankingRow[]> {
+  async function sbGetVisible(tab: 'day' | 'all'): Promise<RankingRow[]> {
+    const query = (includeVisibility: boolean) =>
+      tab === 'day'
+        ? ({ tab, day: todayKey(), includeVisibility } as const)
+        : ({ tab, includeVisibility } as const);
     try {
-      const rows = await sbGet(
-        q.replace('select=name,score,day', 'select=name,score,day,show_at'),
-      );
+      const rows = await getRetoRanking<RankingRow>(query(true));
       const now = Date.now();
       return rows.filter(
         (r) => !r.show_at || new Date(r.show_at).getTime() <= now,
       );
     } catch {
-      return sbGet(q);
+      return getRetoRanking<RankingRow>(query(false));
     }
   }
-  async function sbGet(q: string): Promise<RankingRow[]> {
-    const r = await fetch(SB_URL + '/rest/v1/scores?' + q, { headers: SB_H });
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    return r.json() as Promise<RankingRow[]>;
-  }
   async function sbPost(row: RankingRow): Promise<void> {
-    const r = await fetch(SB_URL + '/rest/v1/scores', {
-      method: 'POST',
-      headers: Object.assign({ Prefer: 'return=minimal' }, SB_H),
-      body: JSON.stringify(row),
+    await postRetoScore({
+      name: row.name,
+      score: row.score,
+      daily: row.daily!,
+      day: row.day!,
+      player_id: row.player_id!,
     });
-    if (!r.ok) throw new Error('HTTP ' + r.status);
   }
   function escapeHtml(x: unknown) {
     return String(x).replace(
@@ -1326,10 +1336,10 @@ export function initReto(): void {
     try {
       if (first) {
         const pid = newId();
-        await sbRpc('register_name', { pid, n });
+        await registerIdentity(pid, n);
         store.pid = pid;
       } else {
-        await sbRpc('rename_player', { pid: store.pid, n });
+        await renameIdentity(store.pid!, n);
       }
       store.name = n;
       save();
@@ -1488,14 +1498,8 @@ export function initReto(): void {
       : 'Elegir nombre';
     const tab = rankTab;
     $('rankNote').textContent = 'Cargando ranking mundial…';
-    const q =
-      tab === 'day'
-        ? 'select=name,score,day&daily=eq.true&day=eq.' +
-          todayKey() +
-          '&order=score.desc&limit=1000'
-        : 'select=name,score,day&order=score.desc&limit=2000';
     (tab === 'day' ? ensureDaily() : Promise.resolve())
-      .then(() => sbGetVisible(q))
+      .then(() => sbGetVisible(tab as 'day' | 'all'))
       .then((rows) => {
         if (rankTab !== tab) return;
         ul.innerHTML = '';

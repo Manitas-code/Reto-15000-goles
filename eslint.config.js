@@ -6,6 +6,7 @@ export default tseslint.config(
   {
     ignores: [
       'dist/**',
+      'dist-server/**',
       'node_modules/**',
       'playwright-report/**',
       'test-results/**',
@@ -15,11 +16,11 @@ export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    files: ['src/**/*.ts', '*.config.ts', '*.config.js'],
+    files: ['src/**/*.{ts,tsx}', 'server/**/*.ts', 'contracts/**/*.ts', '*.config.ts', '*.config.js'],
     languageOptions: { globals: { ...globals.browser, ...globals.node } },
   },
   {
-    files: ['tests/**/*.ts'],
+    files: ['tests/**/*.{ts,tsx}'],
     languageOptions: { globals: { ...globals.browser, ...globals.node } },
   },
 );

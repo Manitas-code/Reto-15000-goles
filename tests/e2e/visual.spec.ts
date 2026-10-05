@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { FakeGoaldayApi } from '../helpers/fake-api';
 
 const routes = [
   'index.html',
@@ -12,14 +13,17 @@ const routes = [
 
 test.beforeEach(async ({ page }) => {
   const allowedOrigins = new Set(['http://127.0.0.1:4173']);
-  if (process.env.GOALDAY_VISUAL_BASELINE_ORIGIN) {
-    allowedOrigins.add(
-      new URL(process.env.GOALDAY_VISUAL_BASELINE_ORIGIN).origin,
-    );
-  }
+  const baselineOrigin = process.env.GOALDAY_VISUAL_BASELINE_ORIGIN
+    ? new URL(process.env.GOALDAY_VISUAL_BASELINE_ORIGIN).origin
+    : undefined;
+  if (baselineOrigin) allowedOrigins.add(baselineOrigin);
   await page.route('**/*', async (route) => {
     const url = new URL(route.request().url());
-    if (url.hostname.endsWith('.supabase.co')) {
+    if (
+      url.hostname.endsWith('.supabase.co') &&
+      baselineOrigin &&
+      page.url().startsWith(baselineOrigin)
+    ) {
       await route.fulfill({
         status: 200,
         contentType: 'application/json',
@@ -31,6 +35,7 @@ test.beforeEach(async ({ page }) => {
       await route.abort('blockedbyclient');
     }
   });
+  await new FakeGoaldayApi().attach(page);
 });
 
 async function captureRoutes(
