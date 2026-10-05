@@ -1,6 +1,6 @@
 import type { Page, Route } from '@playwright/test';
 
-type Participant = { pid: string; name: string };
+type Participant = { pid: string; name: string; bot?: boolean };
 type Session = {
   id: string;
   participants: Participant[];
@@ -211,12 +211,31 @@ export class FakeGoaldayApi {
     const session = (id: string) => this.sessions.get(id);
     switch (name) {
       case 'seed_daily':
-      case 'duel_bot':
-      case 'duel_bot_submit':
       case 'season_tick':
       case 'bots_tick':
         await empty(route);
         return;
+      case 'duel_bot': {
+        const current = session(String(args.d));
+        if (current && current.participants.length === 1)
+          current.participants.push({
+            pid: 'bot-' + current.id,
+            name: 'Rival automático',
+            bot: true,
+          });
+        await empty(route);
+        return;
+      }
+      case 'duel_bot_submit': {
+        const current = session(String(args.d));
+        const bot = current?.participants.find((item) => item.bot);
+        if (current && bot) {
+          current.scores.set(bot.pid, Number(args.sc));
+          current.slots.set(bot.pid, args.sl as Array<[string, number]>);
+        }
+        await empty(route);
+        return;
+      }
       case 'duel_cancel': {
         const current = session(String(args.d));
         if (current) current.cancelled = true;
@@ -416,6 +435,7 @@ export class FakeGoaldayApi {
       rival: rival
         ? {
             name: rival.name,
+            bot: !!rival.bot,
             elo: 1000,
             prog: session.progress.get(rival.pid) || 0,
             score: session.scores.get(rival.pid) ?? 0,
@@ -428,6 +448,9 @@ export class FakeGoaldayApi {
       started_at: new Date().toISOString(),
       now: new Date().toISOString(),
       my_score: session.scores.get(pid) ?? null,
+      my_elo: 1000,
+      my_delta: 0,
+      my_pos: null,
       slots: session.slots.get(pid),
       rematch: session.rematch
         ? {

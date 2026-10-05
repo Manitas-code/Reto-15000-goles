@@ -9,7 +9,11 @@ import {
   retoRpc,
 } from '../../src/shared/api';
 
-afterEach(() => vi.unstubAllGlobals());
+afterEach(() => {
+  vi.unstubAllGlobals();
+  vi.unstubAllEnvs();
+  vi.resetModules();
+});
 
 it('preserves response semantics through the browser client and local API together', async () => {
   let status = 204;
@@ -89,6 +93,44 @@ it('preserves response semantics through the browser client and local API togeth
     await expect(
       getEmojiRanking({ period: 'day', day: '2026-10-05' }),
     ).rejects.toBeInstanceOf(SyntaxError);
+  } finally {
+    await app.close();
+  }
+});
+
+it('routes relative and separately hosted API URLs through the same server contracts', async () => {
+  const app = await buildApp({
+    config: {
+      supabaseUrl: 'https://database.example.test',
+      supabaseAnonKey: 'test-key',
+      timeoutMs: 1000,
+      webOrigins: [],
+      serveWeb: false,
+      webBasePath: '/',
+    },
+    fetchImpl: async () =>
+      new Response('[]', { headers: { 'content-type': 'application/json' } }),
+  });
+  try {
+    for (const base of ['/api/v1', 'https://api.example.test/api/v1']) {
+      vi.stubEnv('VITE_API_BASE_URL', base);
+      vi.resetModules();
+      const urls: string[] = [];
+      vi.stubGlobal('fetch', async (url: string) => {
+        urls.push(url);
+        const response = await app.inject({
+          method: 'POST',
+          url: new URL(url, 'https://web.example.test/Reto-15000-goles/')
+            .pathname,
+          headers: { 'content-type': 'application/json' },
+          payload: '{}',
+        });
+        return new Response(response.body, { status: response.statusCode });
+      });
+      const client = await import('../../src/shared/api/index');
+      expect(await client.retoRpc('duel_top')).toEqual([]);
+      expect(urls).toEqual([base + '/reto/rpc/duel_top']);
+    }
   } finally {
     await app.close();
   }
