@@ -29,14 +29,17 @@ Esta corrección del arnés durante su creación no autoriza regenerar referenci
 
 ## Comprobaciones
 
+La suite se ejecuta con Bun mediante `make test`. La comparación exacta de geometría SVG usa una fixture creada con V8 y se ejecuta aparte con Node 24, fijado en `.nvmrc`; esta excepción afecta a esa prueba y al script que capturó su referencia original.
+
 ```sh
-npm run check
-npm run format:check
-npx playwright install chromium
-npm run e2e
-npm run smoke:server
-VITE_BASE_PATH=/Reto-15000-goles/ npm run build:web
-WEB_BASE_PATH=/Reto-15000-goles/ npm run smoke:server
+make check
+make format-check
+make browsers
+make e2e
+make build
+make smoke
+VITE_BASE_PATH=/Reto-15000-goles/ make build-web
+WEB_BASE_PATH=/Reto-15000-goles/ make smoke
 ```
 
 `tests/server/` conecta el cliente HTTP real con la aplicación Fastify y un transporte Supabase falso. Comprueba payloads y headers, las 22 operaciones RPC, validación, errores, conflictos, respuestas vacías y campos de respuesta futuros. `scripts/smoke-server.mjs` importa el servidor compilado, abre un puerto local y comprueba páginas, recursos, caché, CORS, health y API sin contactar una base de datos.
@@ -50,7 +53,7 @@ Los recorridos de navegador incluyen las siete manos del Blackjack diario con pa
 Las pruebas de navegador de diario, recarga, partidas completas y herramientas se contrastan primero con la copia original antes de usarse como criterio para React. Para ese contraste:
 
 ```sh
-GOALDAY_VISUAL_BASELINE_ORIGIN=http://127.0.0.1:8011 npx playwright test tests/e2e/product.spec.ts tests/e2e/editor.spec.ts tests/e2e/stadium.spec.ts tests/e2e/duels.spec.ts tests/e2e/blackjack-payout.spec.ts tests/e2e/reto-recount.spec.ts tests/e2e/reto-visual.spec.ts tests/e2e/blackjack-visual.spec.ts tests/e2e/faces.spec.ts tests/e2e/rankings.spec.ts tests/e2e/selection-registration.spec.ts
+GOALDAY_VISUAL_BASELINE_ORIGIN=http://127.0.0.1:8011 bunx playwright test tests/e2e/product.spec.ts tests/e2e/editor.spec.ts tests/e2e/stadium.spec.ts tests/e2e/duels.spec.ts tests/e2e/blackjack-payout.spec.ts tests/e2e/reto-recount.spec.ts tests/e2e/reto-visual.spec.ts tests/e2e/blackjack-visual.spec.ts tests/e2e/faces.spec.ts tests/e2e/rankings.spec.ts tests/e2e/selection-registration.spec.ts
 ```
 
 Ese servidor debe servir una copia del commit original. Las pruebas de duelos permiten reproducir los contratos originales de Supabase con el mismo servicio simulado utilizado para la API propia; nunca hacen escrituras remotas.
@@ -61,7 +64,9 @@ Las pruebas aíslan los servicios externos. Las fotos remotas, fuentes descargad
 
 No cambiar una expectativa porque React produzca otro resultado. Ante un fallo, revisar primero el original, el montaje del test y la implementación. Los cambios de infraestructura de un test deben conservar su expectativa y documentar por qué el montaje previo no representaba el escenario.
 
-## Resultado del cierre local (2026-10-05)
+## Evidencia histórica del cierre local (2026-10-05)
+
+Estas comprobaciones se ejecutaron antes de migrar el proyecto a Bun. Los comandos npm de este registro describen la evidencia obtenida entonces; para ejecutar las comprobaciones actuales, usa los targets Make de la sección anterior.
 
 - Instalación limpia con `npm ci`: completada.
 - `npm run check`: tipos de frontend/servidor, ESLint, 31 pruebas Vitest en 9 archivos y ambos builds pasan.
@@ -73,3 +78,13 @@ No cambiar una expectativa porque React produzca otro resultado. Ante un fallo, 
 - Fixtures previas, 24 PNG originales, CSS, catálogos y geometría SVG: sin cambios.
 
 La advertencia de Vite sobre el script clásico `goles.js` refleja la dependencia ausente del editor que ya tenía el producto original. No se sustituyó por datos inventados ni se afirma que el calendario esté operativo.
+
+## Migración a Bun y Make (2026-10-06)
+
+- Bun 1.4.2 fijado en `.bun-version` y `packageManager`; instalación limpia con `bun install --frozen-lockfile` desde `bun.lock` comprobada sin reutilizar `node_modules`.
+- `make check` pasa: tipos, lint, 30 pruebas Vitest en Bun y la prueba de geometría en Node 24, build web/servidor y formato.
+- `bun run e2e --workers=2` pasa las 38 pruebas, incluidas las comparaciones visuales y semánticas existentes. Dos workers son ahora el valor por defecto tanto local como en CI. Con cuatro workers se observaron una captura intermitente de Blackjack y fallos de temporización bajo carga; no se cambiaron pruebas, expectativas ni PNG para resolverlos.
+- Smoke con Bun en `/` y `/Reto-15000-goles/` pasa. El build final queda en `/`.
+- `make start` con `SERVE_WEB=true` y el flujo completo de `make prod` responden health y las siete entradas en un entorno cuyo `PATH` no contiene Node ni npm. `make prod` instala, compila y ejecuta smoke antes de servir la web y la API. Se usaron credenciales falsas y no se llamó a Supabase.
+
+La prueba de geometría conserva Node/V8 porque `Math.sin` en Bun/JavaScriptCore produce un último bit distinto en ciertos valores. En Charlotte 390×640 cambian seis opacidades serializadas y 31 bytes del SVG, aunque las coordenadas y rutas coinciden. Se conserva la comparación exacta original ejecutándola en su motor, sin alterar la geometría del producto ni la fixture. `make test` incluye esa comprobación automáticamente; no uses `bun test` como sustituto de Vitest.
