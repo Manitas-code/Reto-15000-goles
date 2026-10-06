@@ -92,7 +92,7 @@ El selector y el renderizador de estadios usan `src/shared/stadiums/teams.ts`, `
 
 ## API y límites del backend
 
-El cliente usa `fetch` desde `src/shared/api/`. Los tipos de payload y consultas están en `contracts/api.ts`; las entradas RPC de Reto 15K están en `contracts/reto.ts`. Fastify ejecuta validación de forma, limita cuerpos y reenvía las solicitudes a Supabase REST usando `fetch` de Node.
+El cliente usa `fetch` desde `src/shared/api/`. Los tipos de payload y consultas están en `contracts/api.ts`; las entradas RPC de Reto 15K están en `contracts/reto.ts`. Fastify ejecuta validación de forma, limita cuerpos y reenvía las solicitudes a Supabase REST usando el `fetch` integrado de Bun.
 
 El repositorio no define SQL, esquema, políticas RLS ni migraciones. Los tipos describen lo que usa el frontend y no confirman que esas operaciones existan o estén protegidas en el proyecto remoto. El smoke local usa un upstream falso. No se documenta aquí como probada una base de datos real. Consulta [backend.md](backend.md) antes de configurar o publicar el servidor.
 

@@ -1,31 +1,50 @@
 # API y backend
 
-El navegador envía rankings, identidad y RPC de Reto a `/api/v1`. `server/` implementa esa API con Fastify y reenvía las operaciones a Supabase REST con `fetch` nativo de Node. La clave anon se lee desde el entorno del proceso servidor; no la pongas en variables `VITE_*` ni en el bundle del navegador.
+El navegador envía rankings, identidad y RPC de Reto a `/api/v1`. `server/` implementa esa API con Fastify y reenvía las operaciones a Supabase REST con el `fetch` integrado de Bun. La clave anon se lee desde el entorno del proceso servidor; no la pongas en variables `VITE_*` ni en el bundle del navegador.
 
 El backend no contiene un esquema de base de datos. `contracts/api.ts` y `contracts/reto.ts` describen los payloads usados por el cliente, no confirman tablas, funciones, columnas o políticas del proyecto remoto.
 
+## APIs compatibles con Bun
+
+Los imports `node:*` usan la capa de compatibilidad de Bun y no arrancan un proceso Node. Se conservan los usos existentes que funcionan en Bun 1.4.2:
+
+| API                                             | Ubicación y uso                                                                                                                |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `node:path`                                     | `server/app.ts` y `vite.config.ts`: rutas de assets y entradas.                                                                |
+| `Buffer`                                        | `server/app.ts`: respuesta upstream como bytes; capturas: longitud UTF-8.                                                      |
+| `process`                                       | Configuración, argumentos, señales y cierre del servidor y scripts. `process.execPath` apunta a Bun cuando se ejecuta con Bun. |
+| `node:child_process`                            | `scripts/dev.mjs`: dos procesos Bun y cierre de sus grupos en POSIX.                                                           |
+| `node:fs`, `node:crypto`, `node:vm`             | Capturas y verificaciones de referencias: archivos, SHA-256 y ejecución de funciones del código original.                      |
+| `node:net`, `node:events`, `node:assert/strict` | Puertos temporales y comprobaciones de integración/smoke.                                                                      |
+
+Los usos anteriores se contrastan con la [compatibilidad oficial de Bun](https://bun.com/docs/runtime/nodejs-compat). No se usan las opciones de IPC ni las funciones criptográficas que esa guía indica como incompatibles. Las pruebas de integración verifican arranque/cierre de procesos, transporte HTTP y respuestas del servidor; una comprobación local adicional verifica `createContext`, `runInContext`, `runInNewContext`, SHA-256 y `Buffer.byteLength` en Bun.
+
+`@types/node`, `NodeJS.ProcessEnv` y `NodeNext` aportan tipos y resolución de módulos a TypeScript; no seleccionan el ejecutable del servidor. El código del navegador en `src/` no importa módulos `node:*`.
+
+La captura y comparación exacta de geometría SVG siguen usando Node 24 para conservar los bytes de la referencia V8. La diferencia de `Math.sin` entre motores está documentada en [verificacion-react.md](verificacion-react.md); no requiere cambiar las APIs del producto.
+
 ## Desarrollo local
 
-Se necesita Node 24 y una URL Supabase HTTPS con la clave anon del proyecto.
+Se necesita Bun 1.4.2 (fijado en `.bun-version`) y una URL Supabase HTTPS con la clave anon del proyecto. `bun.lock` fija las dependencias; `make install` instala en modo congelado.
 
 ```sh
-npm ci
+make install
 cp .env.example .env
 ```
 
 Edita `.env` y completa `SUPABASE_URL` y `SUPABASE_ANON_KEY`. Después inicia Vite y Fastify:
 
 ```sh
-npm run dev
+make dev
 ```
 
-El script inicia `dev:server` y `dev:web`, y detiene ambos al cerrar el proceso. Vite sirve la web, normalmente en `http://localhost:5173`; su proxy envía `/api` a `http://127.0.0.1:3001`.
+El comando inicia el servidor y Vite, y detiene ambos al cerrar el proceso. Vite sirve la web, normalmente en `http://localhost:5173`; su proxy envía `/api` a `http://127.0.0.1:3001`.
 
 Se pueden iniciar por separado:
 
 ```sh
-npm run dev:web
-npm run dev:server
+make dev-web
+make dev-server
 ```
 
 `dev:web` no necesita credenciales, pero las llamadas API requieren un servidor aparte. `dev:server` carga `.env` y termina si faltan `SUPABASE_URL` o `SUPABASE_ANON_KEY`.
@@ -76,19 +95,19 @@ Fastify reenvía cuerpos y respuestas REST; para las escrituras añade `Prefer` 
 El build completo ejecuta ambos typechecks, genera `dist/` con Vite y compila Fastify a `dist-server/`:
 
 ```sh
-npm run build
+make build
 ```
 
 El servidor compilado requiere el mismo `.env`:
 
 ```sh
-npm start
+make start
 ```
 
 Por defecto, Fastify sirve solo la API. Para que también sirva `dist/`, establece `SERVE_WEB=true` antes del arranque. Si publicas la aplicación bajo un prefijo, usa el mismo en el build web y en Fastify:
 
 ```sh
-VITE_BASE_PATH=/Reto-15000-goles/ npm run build
+VITE_BASE_PATH=/Reto-15000-goles/ make build-web
 ```
 
 Y en `.env`:
@@ -98,24 +117,26 @@ SERVE_WEB=true
 WEB_BASE_PATH=/Reto-15000-goles/
 ```
 
-En una web estática alojada en otro servicio, `npm run build` solo crea los archivos; no despliega la API. Publica Fastify por separado y define `VITE_API_BASE_URL` con su URL HTTPS antes de compilar el frontend. Añade el origen real de la web a `WEB_ORIGINS`.
+En una web estática alojada en otro servicio, `make build-web` solo crea los archivos; no despliega la API. Publica Fastify por separado y define `VITE_API_BASE_URL` con su URL HTTPS antes de compilar el frontend. Añade el origen real de la web a `WEB_ORIGINS`.
 
 Para un futuro shell Capacitor, configura `VITE_API_BASE_URL` con el origen HTTPS de una API alojada y añade a `WEB_ORIGINS` el origen web que use la configuración concreta de la app. No hay soporte nativo ni deployment móvil configurado en este repositorio.
 
 ## Smoke local y límites
 
-Después de `npm run build`, puedes comprobar el servidor compilado:
+Después de `make build`, puedes comprobar el servidor compilado junto con los assets web:
 
 ```sh
-npm run smoke:server
+make smoke
 ```
 
 El script levanta Fastify en un puerto local y sustituye Supabase por un upstream falso. Comprueba health, CORS, rankings, HTML y assets compilados, errores de ruta y caché. No valida credenciales, tablas, RPC, RLS ni datos de un proyecto real. Las pruebas en `tests/server/` también usan un transporte falso para verificar solicitudes y respuestas.
+
+`make prod` ejecuta instalación congelada, build con typecheck, smoke y luego arranca Fastify con `NODE_ENV=production` y `SERVE_WEB=true`. Este target funciona con Bun sin Node. Ejecuta `make check` y `make e2e` en desarrollo o CI antes de preparar el release; `make check` requiere Node 24 solo para la fixture SVG original. El proceso queda en primer plano y requiere un supervisor para reinicios y gestión de señales; termina TLS en el proxy o servicio frontal. Configura allí el `HOST`, `PORT`, las variables de Supabase, `WEB_ORIGINS` y, si aplica, `WEB_BASE_PATH`. El target prepara y arranca el servicio en el entorno donde se ejecuta; no realiza un despliegue remoto porque el repositorio no define proveedor ni destino.
 
 Este repositorio no incluye SQL, migraciones, configuración de autenticación ni políticas RLS. No se ha confirmado aquí que el proyecto Supabase real contenga las tablas/RPC esperadas o que sus políticas protejan cada operación. Antes de publicar, verifica esos puntos en el proyecto autorizado. No uses una clave service role como `SUPABASE_ANON_KEY` ni incluyas claves de servidor en el frontend.
 
 ## Publicación y reversión
 
-La migración prepara los artefactos; no publica ni modifica Supabase. Antes de una publicación autorizada, conservar el release anterior completo (`dist/`, `dist-server/` y su lockfile), la configuración del servicio y las variables del entorno fuera del repositorio. Verificar el build nuevo con el smoke y después rankings y un duelo entre dos clientes en el entorno autorizado. Mantener el origen web y las rutas públicas conserva el almacenamiento local de los usuarios.
+El build prepara los artefactos; no publica ni modifica Supabase. Antes de una publicación autorizada, conservar el release anterior completo (`dist/`, `dist-server/` y `bun.lock`), la configuración del servicio y las variables del entorno fuera del repositorio. Verificar el build nuevo con el smoke y después rankings y un duelo entre dos clientes en el entorno autorizado. Mantener el origen web y las rutas públicas conserva el almacenamiento local de los usuarios.
 
-Si falla la verificación del release, restaurar juntos los artefactos web y servidor del release anterior, usando su configuración API compatible, y reiniciar el servicio Node con el procedimiento del proveedor. Comprobar health y las siete entradas. Esta migración no aplica SQL ni cambia formatos de progreso: la reversión no exige una migración inversa de base de datos ni borrar almacenamiento. No restaurar solo un frontend cuyo contrato requiera otra versión de API.
+Si falla la verificación del release, restaurar juntos los artefactos web y servidor del release anterior, usando su configuración API compatible, y reiniciar el servicio Bun con el procedimiento del supervisor. Comprobar health y las siete entradas. Esta migración no aplica SQL ni cambia formatos de progreso: la reversión no exige una migración inversa de base de datos ni borrar almacenamiento. No restaurar solo un frontend cuyo contrato requiera otra versión de API.
