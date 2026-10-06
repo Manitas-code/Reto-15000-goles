@@ -1,7 +1,9 @@
 .DEFAULT_GOAL := help
 BUN ?= bun
+DOCKER ?= docker
+COMPOSE = $(DOCKER) compose
 
-.PHONY: help install dev dev-web dev-server typecheck lint format-check test e2e browsers check build build-web build-server preview smoke start prod clean
+.PHONY: help install dev dev-web dev-server typecheck lint format-check test e2e browsers check build build-web build-server preview smoke start prod clean docker-dev docker-prod docker-build docker-down docker-logs docker-smoke
 
 help: ## Mostrar los comandos disponibles
 	@awk 'BEGIN {FS = ":.*## "} /^[a-z0-9-]+:.*## / {printf "  %-15s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -66,3 +68,23 @@ prod: ## Instalar, compilar, comprobar smoke y servir en primer plano
 
 clean: ## Borrar solo builds y resultados de pruebas generados
 	rm -rf dist dist-server coverage playwright-report test-results
+
+
+docker-dev: ## Levantar Vite y API en Docker con recarga
+	$(COMPOSE) --profile development up --build development
+
+docker-prod: ## Compilar y levantar web y API en Docker en segundo plano
+	$(COMPOSE) --profile production up --build -d production
+
+docker-build: ## Compilar la imagen de producción sin iniciar contenedores
+	$(COMPOSE) build production
+
+docker-down: ## Detener los contenedores del proyecto, conservando dependencias
+	$(COMPOSE) --profile development --profile production down
+
+docker-logs: ## Seguir los logs de los contenedores del proyecto
+	$(COMPOSE) --profile development --profile production logs -f
+
+
+docker-smoke: ## Comprobar la imagen de producción con upstream simulado
+	$(COMPOSE) run --rm --no-deps -v "$(CURDIR)/scripts/smoke-server.mjs:/app/scripts/smoke-server.mjs:ro" production bun scripts/smoke-server.mjs
