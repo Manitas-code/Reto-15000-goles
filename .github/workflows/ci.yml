@@ -27,3 +27,5 @@ jobs:
       - run: WEB_BASE_PATH=/Reto-15000-goles/ bun run smoke:server
       - run: bunx --bun playwright install --with-deps chromium
       - run: bun run e2e
+      - run: docker build --target production --tag goalday:ci .
+      - run: docker run --rm --volume "$PWD/scripts/smoke-server.mjs:/app/scripts/smoke-server.mjs:ro" goalday:ci bun scripts/smoke-server.mjs
