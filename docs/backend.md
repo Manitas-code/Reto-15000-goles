@@ -23,6 +23,8 @@ Los usos anteriores se contrastan con la [compatibilidad oficial de Bun](https:/
 
 La captura y comparación exacta de geometría SVG siguen usando Node 24 para conservar los bytes de la referencia V8. La diferencia de `Math.sin` entre motores está documentada en [verificacion-react.md](verificacion-react.md); no requiere cambiar las APIs del producto.
 
+Para ejecución en contenedores, consulta [Docker](docker.md). Producción conserva este mismo servidor Fastify; no hay un segundo backend ni base de datos local añadida.
+
 ## Desarrollo local
 
 Se necesita Bun 1.4.2 (fijado en `.bun-version`) y una URL Supabase HTTPS con la clave anon del proyecto. `bun.lock` fija las dependencias; `make install` instala en modo congelado.

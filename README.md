@@ -40,6 +40,22 @@ make dev-server
 
 La API exige `SUPABASE_URL` y `SUPABASE_ANON_KEY`. Los demás valores de `.env.example` tienen valores de desarrollo. Su uso y los endpoints están en [docs/backend.md](docs/backend.md).
 
+## Docker
+
+Con Docker Engine/Desktop y Compose v2 puedes desarrollar o servir el producto sin instalar Bun en el host. Prepara `.env` como en la sección anterior y usa:
+
+```sh
+make docker-dev
+# O para producción:
+make docker-prod
+make docker-logs
+make docker-down
+```
+
+Desarrollo publica Vite en `http://localhost:5173` y la API en `http://localhost:3001`, con recarga al editar. Producción publica web y API en `http://localhost:3001` y se ejecuta en segundo plano. Detén desarrollo antes de arrancar producción con los puertos por defecto.
+
+`make docker-build` solo compila la imagen de producción. El Dockerfile comparte Bun y dependencias entre etapas; producción contiene solo dependencias de ejecución y artefactos compilados. Configuración, puertos, prefijos y comandos Compose equivalentes están en [docs/docker.md](docs/docker.md).
+
 ## Comprobaciones
 
 | Comando             | Qué hace                                                        |

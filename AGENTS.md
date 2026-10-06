@@ -8,6 +8,7 @@ Lee solo la guía que necesites:
 
 - [README.md](README.md): desarrollo, comandos y mapa general.
 - [docs/arquitectura.md](docs/arquitectura.md): módulos, datos, persistencia y referencias de pruebas.
+- [docs/docker.md](docs/docker.md): contenedores de desarrollo/producción y puertos.
 - [docs/backend.md](docs/backend.md): configuración, endpoints y ejecución local de Fastify.
 - [docs/juegos.md](docs/juegos.md): reglas y verificaciones manuales.
 - [docs/verificacion-react.md](docs/verificacion-react.md): baseline visual/semántico y límites de las pruebas.
@@ -30,6 +31,8 @@ Lee solo la guía que necesites:
 | Rutas y transporte del servidor              | `server/app.ts`, `config.ts`, `supabase.ts`, `start.ts`                                |
 | Identidad, idioma y estadio compartidos      | `src/shared/identity/`, `i18n/`, `stadiums/`                                           |
 | Entradas, assets y prefijo de publicación    | HTML raíz, `src/**/main.tsx`, `vite.config.ts`                                         |
+
+Docker usa `Dockerfile` con etapas `development` y `production`, y `compose.yaml` con los perfiles del mismo nombre. `.dockerignore` excluye credenciales y artefactos locales. Mantén la versión de la imagen alineada con `.bun-version`.
 
 Los juegos montados con `mountPage` reciben `IdentityProvider`, `LanguageProvider` y `TeamProvider`. Usa `useLanguage()` y `useTeam()` para leer o cambiar esos estados. `TeamProvider` ya renderiza `#fgStadium` y el selector `#teamPick`; no los dupliques. Fotos y editor usan montaje React propio.
 
