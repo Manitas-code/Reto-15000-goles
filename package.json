@@ -4,24 +4,25 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=24 <25"
+    "bun": ">=1.4.2 <1.5"
   },
   "scripts": {
-    "dev": "node scripts/dev.mjs",
-    "build": "npm run typecheck && npm run build:web && npm run build:server",
-    "preview": "vite preview",
-    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.server.json",
-    "lint": "eslint .",
-    "format:check": "prettier --check \"src/**/*.{ts,tsx}\" \"contracts/**/*.ts\" \"server/**/*.ts\" \"tests/**/*.{ts,tsx,mjs}\" \"scripts/**/*.mjs\" \"*.config.ts\"",
-    "test": "vitest run",
-    "e2e": "playwright test",
-    "check": "npm run typecheck && npm run lint && npm run test && npm run build",
-    "dev:web": "vite",
-    "dev:server": "tsx watch --env-file-if-exists=.env server/start.ts",
-    "build:web": "vite build",
-    "build:server": "tsc -p tsconfig.server.json",
-    "smoke:server": "node scripts/smoke-server.mjs",
-    "start": "node --env-file-if-exists=.env dist-server/server/start.js"
+    "dev": "bun scripts/dev.mjs",
+    "build": "bun run typecheck && bun run build:web && bun run build:server",
+    "preview": "bun --bun run vite preview",
+    "typecheck": "bun --bun run tsc --noEmit && bun --bun run tsc --noEmit -p tsconfig.server.json",
+    "lint": "bun --bun run eslint .",
+    "format:check": "bun --bun run prettier --check \"src/**/*.{ts,tsx}\" \"contracts/**/*.ts\" \"server/**/*.ts\" \"tests/**/*.{ts,tsx,mjs}\" \"scripts/**/*.mjs\" \"*.config.ts\"",
+    "test": "bun --bun run vitest run --exclude tests/unit/stadium-geometry.test.ts && bun run test:stadiums",
+    "e2e": "bun --bun run playwright test",
+    "check": "bun run typecheck && bun run lint && bun run test && bun run build",
+    "dev:web": "bun --bun run vite",
+    "dev:server": "bun --watch server/start.ts",
+    "build:web": "bun --bun run vite build",
+    "build:server": "bun --bun run tsc -p tsconfig.server.json",
+    "smoke:server": "bun scripts/smoke-server.mjs",
+    "start": "bun dist-server/server/start.js",
+    "test:stadiums": "node node_modules/vitest/vitest.mjs run tests/unit/stadium-geometry.test.ts"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -35,7 +36,6 @@
     "globals": "^16.4.0",
     "jsdom": "^27.0.0",
     "prettier": "^3.6.2",
-    "tsx": "^4.23.15",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.46.0",
     "vite": "^7.1.9",
@@ -47,5 +47,6 @@
     "fastify": "^5.12.5",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
-  }
+  },
+  "packageManager": "bun@1.4.2"
 }

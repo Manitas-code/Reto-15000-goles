@@ -1,14 +1,18 @@
 import { spawn } from 'node:child_process';
 
 const children = [
-  spawn('npm', ['run', 'dev:server'], {
+  spawn(process.execPath, ['--bun', 'run', 'dev:server'], {
     stdio: 'inherit',
     detached: process.platform !== 'win32',
   }),
-  spawn('npm', ['run', 'dev:web', '--', ...process.argv.slice(2)], {
-    stdio: 'inherit',
-    detached: process.platform !== 'win32',
-  }),
+  spawn(
+    process.execPath,
+    ['--bun', 'run', 'dev:web', ...process.argv.slice(2)],
+    {
+      stdio: 'inherit',
+      detached: process.platform !== 'win32',
+    },
+  ),
 ];
 let closing = false;
 function stop(code = 0) {
