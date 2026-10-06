@@ -4,7 +4,7 @@ import { createContext, runInContext } from 'node:vm';
 const [baselineDir, baselineRevision] = process.argv.slice(2);
 if (!baselineDir || !baselineRevision)
   throw new Error(
-    'Uso: node scripts/capture-game-rules-baseline.mjs <directorio-original> <revision-original>',
+    'Uso: bun scripts/capture-game-rules-baseline.mjs <directorio-original> <revision-original>',
   );
 
 async function source(name) {

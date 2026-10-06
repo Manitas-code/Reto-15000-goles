@@ -5,7 +5,7 @@ import { JSDOM } from 'jsdom';
 const [baselineDir, baselineRevision] = process.argv.slice(2);
 if (!baselineDir || !baselineRevision)
   throw new Error(
-    'Uso: node scripts/capture-baseline.mjs <directorio-de-la-referencia-original> <revision-git>',
+    'Uso: bun scripts/capture-baseline.mjs <directorio-de-la-referencia-original> <revision-git>',
   );
 const outputFile = new URL(
   '../tests/fixtures/product-baseline.json',
