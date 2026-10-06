@@ -179,7 +179,7 @@ La aprobación solicitada es para React multipágina + Fastify adaptador + contr
 
 - Las rutas y sus esquemas quedan juntos en `server/app.ts` (API de 373 líneas), con configuración, arranque y transporte en módulos propios. Los dominios siguen usando rutas explícitas; no se crearon archivos de routing vacíos. `src/shared/api/index.ts` reúne las funciones tipadas y `http.ts` el transporte.
 - Las integraciones React usan `act` y el montaje real con React DOM, jsdom y StrictMode. Se prescinde de Testing Library porque no era necesaria para estos escenarios; no se añadieron pruebas unitarias de cada reducer.
-- Se mantienen `FG_LANG`, `FG_STADIUM`, `GD_face` y `GD_EMOJI` como compatibilidad pública. Se eliminan los controladores DOM y el cliente Supabase del frontend. `rpc-types.ts` queda como reexport de los contratos compartidos para imports existentes.
+- Se mantienen `FG_LANG`, `FG_STADIUM`, `GD_face` y `GD_EMOJI` como compatibilidad pública. Se eliminan los controladores DOM y el cliente Supabase del frontend. En el cierre inicial, `rpc-types.ts` quedó como reexport de los contratos compartidos. En la limpieza posterior se retiró ese archivo y los consumidores importan directamente `contracts/reto.ts`.
 - Los scripts Node/tsx cargan `.env` con `--env-file-if-exists`. Los artefactos y la reversión se describen en [backend.md](../docs/backend.md); no se ha publicado ni cambiado Supabase.
 
 La evidencia y los límites de equivalencia se registran en [verificacion-react.md](../docs/verificacion-react.md). Los criterios históricos de TypeScript se conservan.

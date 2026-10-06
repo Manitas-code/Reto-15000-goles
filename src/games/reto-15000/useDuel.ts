@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { retoRpc } from '../../shared/api';
-import type { RetoRpcCall } from '../../../contracts/reto';
 import { botPlan, botProgress, type BotResult } from './bots';
 import { fmt, persist, type Model, type Mode } from './model';
 import { N } from './engine';
 import { divOf, divMove } from './divisions';
 import type {
+  RetoRpcCall,
   DuelLinkMine,
   DuelMeResponse,
   DuelTopEntry,
@@ -19,7 +19,7 @@ import type {
   RoomPeekResponse,
   SeasonInfoResponse,
   SeasonMedal,
-} from './rpc-types';
+} from '../../../contracts/reto';
 
 const NOBODY = '00000000-0000-0000-0000-000000000000';
 const PICK_SECS = 20;

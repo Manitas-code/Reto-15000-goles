@@ -14,7 +14,7 @@ import { useReto } from './useReto';
 import { useDuel } from './useDuel';
 import { DIVS, MUNDIAL, divOf } from './divisions';
 import type { DuelView } from './useDuel';
-import type { OnlineRival } from './rpc-types';
+import type { OnlineRival } from '../../../contracts/reto';
 import { botProgress } from './bots';
 import { Board } from './components/Board';
 import { RankPanel } from './components/RankPanel';

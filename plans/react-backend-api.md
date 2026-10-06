@@ -6,7 +6,7 @@
 
 Mover al servidor las llamadas directas del navegador a Supabase sin cambiar las reglas, los datos enviados, las respuestas ni los flujos visibles. El backend será un BFF pequeño en Fastify 5 sobre Node 24. La URL y la clave publishable/anon de Supabase quedan en variables del servidor `SUPABASE_URL` y `SUPABASE_ANON_KEY`; no usar variables `VITE_*` ni una clave service-role.
 
-El repositorio no contiene el esquema, las funciones SQL ni las políticas RLS. Los tipos de `src/games/reto-15000/rpc-types.ts` describen el consumo del cliente, no contratos verificados de Supabase. No explorar ni modificar Supabase para completar esta migración. La autorización actual del backend sigue siendo exactamente la que permitan la clave pública y las políticas existentes.
+El repositorio no contiene el esquema, las funciones SQL ni las políticas RLS. Los tipos de `contracts/reto.ts` describen el consumo del cliente, no contratos verificados de Supabase. No explorar ni modificar Supabase para completar esta migración. La autorización actual del backend sigue siendo exactamente la que permitan la clave pública y las políticas existentes.
 
 ## Límites de seguridad
 

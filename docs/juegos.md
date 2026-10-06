@@ -4,7 +4,7 @@ Los HTML de la raíz conservan las rutas públicas. Cada página monta su `App.t
 
 ## Reto de los 15.000 goles
 
-Entrada `reto-15000.html`; módulos en `src/games/reto-15000/`. Se colocan 17 jugadores, uno en cada casilla, para sumar al menos 15.000 puntos. El juego prepara 19 cartas y permite dos descartes. Una liga por partida tiene multiplicador ×5. Las vistas previas muestran los puntos del jugador en las casillas disponibles. Las respuestas consumidas del backend están descritas en `rpc-types.ts`; son contratos inferidos del cliente, no una definición confirmada del servidor.
+Entrada `reto-15000.html`; módulos en `src/games/reto-15000/`. Se colocan 17 jugadores, uno en cada casilla, para sumar al menos 15.000 puntos. El juego prepara 19 cartas y permite dos descartes. Una liga por partida tiene multiplicador ×5. Las vistas previas muestran los puntos del jugador en las casillas disponibles. Las respuestas consumidas del backend están descritas en `contracts/reto.ts`; son contratos inferidos del cliente, no una definición confirmada del servidor.
 
 `SLOTS`, en `engine.ts`, define las 17 casillas sobre las 16 estadísticas del catálogo, con Carrera repetida:
 
@@ -37,7 +37,7 @@ Modos:
 | Partida              | `useReto.ts`: `start`, `place`, `skip`, recuento final y resultado                                                 |
 | Tablero y puntuación | `components/Board.tsx`, `engine.ts`, `model.ts`                                                                    |
 | Progreso             | `model.ts` guarda el estado, `useReto.ts` coordina los cambios y `components/RankPanel.tsx` muestra rango y logros |
-| Nombre y ranking     | `useReto.ts`, `components/RankPanel.tsx`, `src/shared/api/`; contratos en `rpc-types.ts` y `contracts/`            |
+| Nombre y ranking     | `useReto.ts`, `components/RankPanel.tsx`, `src/shared/api/`; contratos en `contracts/`                             |
 | Duelo, sala y enlace | `useDuel.ts`: cola, polling, cuenta atrás, salas, enlaces, temporada, Elo; `bots.ts` contiene la lógica del bot    |
 | Imagen compartida    | Canvas en `App.tsx`                                                                                                |
 
