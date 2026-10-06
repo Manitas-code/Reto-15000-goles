@@ -1,6 +1,8 @@
 # Guía para agentes
 
-GOALDAY es una web multipágina. Los HTML de la raíz conservan las URL públicas; Vite compila las siete entradas. Node 24 está fijado en `.nvmrc`.
+GOALDAY es una web multipágina. Los HTML de la raíz conservan las URL públicas; Vite compila las siete entradas. Bun 1.4.2 está fijado en `.bun-version`; `bun.lock` es el lockfile de dependencias. Node 24 (`.nvmrc`) solo se requiere para capturar o comparar la referencia exacta de geometría SVG de V8; desarrollo y producción usan Bun.
+
+Los imports `node:*` existentes son compatibles con Bun en los usos actuales. No los sustituyas por el nombre del módulo; revisa la API concreta. El inventario y las comprobaciones están en [docs/backend.md](docs/backend.md#apis-compatibles-con-bun).
 
 Lee solo la guía que necesites:
 
@@ -36,22 +38,22 @@ Las APIs globales `FG_LANG`, `FG_STADIUM` y `GD_face` se mantienen para compatib
 ## Comprobaciones
 
 ```sh
-npm ci
-npm run check
-npm run format:check
+make install
+make check
+make format-check
 ```
 
-Para cambios de UI, navegación o montaje, ejecuta `npx playwright install chromium` una vez y después `npm run e2e`. Para cambios en Fastify, compila antes del smoke:
+Para cambios de UI, navegación o montaje, ejecuta `make browsers` una vez y después `make e2e`. Para cambios en Fastify, compila frontend y servidor antes del smoke:
 
 ```sh
-npm run build
-npm run smoke:server
+make build
+make smoke
 ```
 
 Para comprobar un prefijo de publicación:
 
 ```sh
-VITE_BASE_PATH=/Reto-15000-goles/ npm run build
+VITE_BASE_PATH=/Reto-15000-goles/ make build-web
 ```
 
 No actualices fixtures para hacer pasar una comparación. La referencia original es el commit `88552644372229ccd8e8157c3ac99c88965b5675`; los scripts de captura requieren una copia separada. La evidencia y sus límites están en [docs/verificacion-react.md](docs/verificacion-react.md).

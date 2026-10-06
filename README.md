@@ -16,51 +16,65 @@ Las interfaces de las páginas de producto usan React. Los juegos guardan sus re
 
 ## Desarrollo
 
-Se requiere Node 24, fijado en `.nvmrc`. Para ejecutar el frontend y la API a la vez:
+El desarrollo, las comprobaciones, la build y el servidor de producción usan Bun 1.4.2, fijado en `.bun-version`. Las dependencias se instalan desde `bun.lock` en modo congelado. Prepara el entorno:
 
 ```sh
-npm ci
+make install
 cp .env.example .env
 ```
 
 Completa `SUPABASE_URL` y `SUPABASE_ANON_KEY` en `.env` con los valores existentes del proyecto y arranca ambos procesos:
 
 ```sh
-npm run dev
+make dev
 ```
 
 Vite suele quedar en `http://localhost:5173/`; la API escucha en `http://127.0.0.1:3001/` y Vite reenvía `/api` a ese puerto. No publiques `.env`.
 
-También puedes iniciar cada proceso por separado. `dev:web` solo inicia Vite; las llamadas de API necesitan que el servidor esté iniciado. `dev:server` inicia Fastify y requiere `.env`.
+También puedes iniciar cada proceso por separado. `dev-web` solo inicia Vite; las llamadas de API necesitan que el servidor esté iniciado. `dev-server` inicia Fastify y requiere `.env`.
 
 ```sh
-npm run dev:web
-npm run dev:server
+make dev-web
+make dev-server
 ```
 
 La API exige `SUPABASE_URL` y `SUPABASE_ANON_KEY`. Los demás valores de `.env.example` tienen valores de desarrollo. Su uso y los endpoints están en [docs/backend.md](docs/backend.md).
 
 ## Comprobaciones
 
-| Comando                | Qué comprueba                                         |
-| ---------------------- | ----------------------------------------------------- |
-| `npm run typecheck`    | TypeScript del frontend, servidor y contratos         |
-| `npm run lint`         | ESLint del repositorio                                |
-| `npm run format:check` | Formato de fuentes, tests y scripts                   |
-| `npm test`             | Reglas e integración de React y API con Vitest        |
-| `npm run e2e`          | Pruebas de navegador con Playwright                   |
-| `npm run build`        | Typecheck, build web y compilación del servidor       |
-| `npm run check`        | Typecheck, lint, tests y build                        |
-| `npm run smoke:server` | Smoke del servidor compilado con un upstream simulado |
+| Comando             | Qué hace                                                        |
+| ------------------- | --------------------------------------------------------------- |
+| `make help`         | Muestra los comandos disponibles                                |
+| `make install`      | Instala dependencias desde `bun.lock` sin cambiarlo             |
+| `make dev`          | Inicia Vite y Fastify con recarga                               |
+| `make dev-web`      | Inicia solo Vite                                                |
+| `make dev-server`   | Inicia solo Fastify con recarga                                 |
+| `make typecheck`    | TypeScript del frontend, servidor y contratos                   |
+| `make lint`         | ESLint del repositorio                                          |
+| `make format-check` | Comprueba el formato sin editar archivos                        |
+| `make test`         | Reglas e integración de React y API con Vitest                  |
+| `make browsers`     | Instala Chromium para Playwright                                |
+| `make e2e`          | Pruebas de navegador con Playwright                             |
+| `make check`        | Typecheck, lint, tests, build y formato                         |
+| `make build`        | Build web y compilación del servidor                            |
+| `make build-web`    | Compila solo el frontend                                        |
+| `make build-server` | Compila solo el servidor                                        |
+| `make smoke`        | Smoke del servidor compilado con un upstream simulado           |
+| `make preview`      | Previsualiza el build web                                       |
+| `make start`        | Inicia el servidor compilado                                    |
+| `make prod`         | Instala en modo congelado, compila, ejecuta smoke y arranca API |
+| `make clean`        | Borra builds y resultados de pruebas generados                  |
 
 Para los tests de navegador, instala Chromium una vez:
 
 ```sh
-npx playwright install chromium
-npm run e2e
+make browsers
+make e2e
 ```
 
-El smoke requiere primero `npm run build`. No consulta una base real. Las capturas de referencia bloquean servicios externos y usan `fg_team=none`; sirven para comparar la página con esa configuración, no validan fuentes remotas. Las referencias adicionales de estadio y partidas están documentadas en la guía de verificación.
+`make test` ejecuta la suite con Bun y usa Node 24, fijado en `.nvmrc`, solo para la prueba exacta de geometría SVG que compara una fixture de V8. Node no se usa en desarrollo ni en producción.
+
+`make smoke` requiere primero `make build`, que genera la web y el servidor. No consulta una base real. Las capturas de referencia bloquean servicios externos y usan `fg_team=none`; sirven para comparar la página con esa configuración, no validan fuentes remotas. Las referencias adicionales de estadio y partidas están documentadas en la guía de verificación.
 
 ## Estructura
 
@@ -76,10 +90,10 @@ El smoke requiere primero `npm run build`. No consulta una base real. Las captur
 Para alojar la web bajo `/Reto-15000-goles/`, genera los recursos con esa base:
 
 ```sh
-VITE_BASE_PATH=/Reto-15000-goles/ npm run build
+VITE_BASE_PATH=/Reto-15000-goles/ make build-web
 ```
 
-Este comando no configura una API alojada. La página estática necesita una API en el mismo origen o una URL HTTPS configurada mediante `VITE_API_BASE_URL`. Si Fastify también sirve `dist/`, configura `SERVE_WEB=true` y el mismo prefijo en `WEB_BASE_PATH`. Consulta [docs/backend.md](docs/backend.md) para el runbook.
+Este comando no configura una API alojada. La página estática necesita una API en el mismo origen o una URL HTTPS configurada mediante `VITE_API_BASE_URL`. Si Fastify también sirve `dist/`, configura `SERVE_WEB=true` y el mismo prefijo en `WEB_BASE_PATH`. `make prod` inicia el servidor en primer plano; ejecútalo bajo un supervisor de procesos y termina TLS en un proxy o servicio frontal. No hay un destino ni un despliegue remoto configurado en el repositorio. Consulta [docs/backend.md](docs/backend.md) para el runbook.
 
 ## Documentación
 
