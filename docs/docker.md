@@ -29,12 +29,14 @@ Los mounts conservan las notificaciones normales de Vite y Bun. Si tu sistema no
 Con `make docker-dev` activo, ejecuta en otra terminal del mismo servidor:
 
 ```sh
+make cloudflare
+# Equivalente:
 cloudflared tunnel --url http://127.0.0.1:5173 --http-host-header localhost
 ```
 
-Abre la URL HTTPS de `trycloudflare.com` que imprime el comando y mantén ambos procesos activos. Si cambias `DEV_WEB_PORT`, utiliza ese puerto en el túnel. La cabecera `localhost` permite que Vite acepte las solicitudes del túnel; sin ella, el dominio aleatorio puede recibir un 403 por la comprobación de hosts. No hace falta cambiar `server.allowedHosts`. La API viaja por el mismo túnel mediante el proxy `/api` de Vite.
+Requiere `cloudflared` instalado en el host. Abre la URL HTTPS de `trycloudflare.com` que imprime el comando y mantén ambos procesos activos. Si cambias `DEV_WEB_PORT`, utiliza ese puerto con `make cloudflare TUNNEL_URL=http://127.0.0.1:5174`. La cabecera `localhost` permite que Vite acepte las solicitudes del túnel; sin ella, el dominio aleatorio puede recibir un 403 por la comprobación de hosts. No hace falta cambiar `server.allowedHosts`. La API viaja por el mismo túnel mediante el proxy `/api` de Vite.
 
-Para producción, levanta `make docker-prod` y apunta el túnel a `http://127.0.0.1:3001` (o al `PROD_PORT` configurado). Ese puerto sirve tanto la web compilada como la API.
+Para producción, levanta `make docker-prod` y ejecuta `make cloudflare TUNNEL_URL=http://127.0.0.1:3001` (o usa el `PROD_PORT` configurado). Ese puerto sirve tanto la web compilada como la API.
 
 ## Producción
 

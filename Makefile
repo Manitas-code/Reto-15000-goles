@@ -2,8 +2,10 @@
 BUN ?= bun
 DOCKER ?= docker
 COMPOSE = $(DOCKER) compose
+CLOUDFLARED ?= cloudflared
+TUNNEL_URL ?= http://127.0.0.1:5173
 
-.PHONY: help install dev dev-web dev-server typecheck lint format-check test e2e browsers check build build-web build-server preview smoke start prod clean docker-dev docker-prod docker-build docker-down docker-logs docker-smoke
+.PHONY: help install dev dev-web dev-server typecheck lint format-check test e2e browsers check build build-web build-server preview smoke start prod clean docker-dev docker-prod docker-build docker-down docker-logs docker-smoke cloudflare
 
 help: ## Mostrar los comandos disponibles
 	@awk 'BEGIN {FS = ":.*## "} /^[a-z0-9-]+:.*## / {printf "  %-15s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -88,3 +90,6 @@ docker-logs: ## Seguir los logs de los contenedores del proyecto
 
 docker-smoke: ## Comprobar la imagen de producción con upstream simulado
 	$(COMPOSE) run --rm --no-deps -v "$(CURDIR)/scripts/smoke-server.mjs:/app/scripts/smoke-server.mjs:ro" production bun scripts/smoke-server.mjs
+
+cloudflare: ## Abrir un túnel HTTPS a la web activa (por defecto puerto 5173)
+	$(CLOUDFLARED) tunnel --url "$(TUNNEL_URL)" --http-host-header localhost
