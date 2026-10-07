@@ -144,6 +144,7 @@ test('termina un Reto libre y conserva identidad y campos locales existentes', a
   });
   await page.goto('/reto-15000.html');
   await page.getByRole('button', { name: /Partida libre/ }).click();
+  await expect(page.locator('#intro')).toBeHidden();
   for (let index = 0; index < 17; index++)
     await page.locator('#board .slot:not(:disabled)').first().click();
   await expect(page.locator('#result')).toBeVisible();
@@ -156,6 +157,12 @@ test('termina un Reto libre y conserva identidad y campos locales existentes', a
   expect(saved.futureField).toEqual({ keep: true });
   expect(saved.games).toBe(1);
   expect(saved.scores).toHaveLength(1);
+  // A promotion opens after the result. Wait for it instead of sampling visibility before its timer fires.
+  if ((await page.locator('#mName').textContent()) !== 'Banquillo') {
+    await expect(page.locator('#rankUp')).toBeVisible();
+    await page.locator('#ruOk').click();
+    await expect(page.locator('#rankUp')).toBeHidden();
+  }
   await page.locator('#btnHome').click();
   await expect(page.locator('body')).not.toHaveClass(/playing/);
 });
