@@ -134,3 +134,114 @@ test('Reto muestra el escudo y el nombre completo en el selector móvil', async 
     'Madrid',
   );
 });
+
+test('Reto carga los ocho logos de liga y conserva la selección al volver', async ({
+  page,
+}) => {
+  const origin = testOrigin;
+  await page.route('**/*', (route) =>
+    new URL(route.request().url()).origin === origin
+      ? route.continue()
+      : route.abort('blockedbyclient'),
+  );
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.addInitScript(() => {
+    localStorage.setItem('fg_team', 'Barcelona');
+    localStorage.setItem('fg_lang', 'es');
+  });
+  await page.goto('/reto-15000.html');
+  await page.getByTitle('Cambiar estadio').click();
+
+  const headerLogo = page.locator('.tp-lgname .tp-league-logo img');
+  await expect
+    .poll(() =>
+      headerLogo.evaluate((image) => (image as HTMLImageElement).naturalWidth),
+    )
+    .toBeGreaterThan(0);
+  await page.locator('.tp-back').click();
+  const leagueButtons = page.locator('.tp-lg');
+  await expect(leagueButtons).toHaveCount(8);
+  await expect
+    .poll(() =>
+      page
+        .locator('.tp-lg .tp-league-logo img')
+        .evaluateAll((images) =>
+          images.every((image) => (image as HTMLImageElement).naturalWidth > 0),
+        ),
+    )
+    .toBe(true);
+  await expect
+    .poll(() => page.locator('.tp-lg b').allTextContents())
+    .toEqual([
+      'LaLiga',
+      'Premier League',
+      'Serie A',
+      'Bundesliga',
+      'Ligue 1',
+      'Liga Argentina',
+      'Liga MX',
+      'MLS',
+    ]);
+
+  await leagueButtons.filter({ hasText: 'Premier League' }).click();
+  const title = page.locator('.tp-lgname');
+  await expect
+    .poll(() =>
+      title
+        .locator('.tp-league-logo img')
+        .evaluate((image) => (image as HTMLImageElement).naturalWidth),
+    )
+    .toBeGreaterThan(0);
+  await expect
+    .poll(() =>
+      title.evaluate((element) => element.getBoundingClientRect().height),
+    )
+    .toBeLessThanOrEqual(44);
+  await page.locator('.tp-team').filter({ hasText: 'Arsenal' }).click();
+  await expect(page.locator('#teamPick')).toBeHidden();
+  expect(await page.evaluate(() => localStorage.getItem('fg_team'))).toBe(
+    'PL-Arsenal',
+  );
+
+  await page.getByTitle('Cambiar estadio').click();
+  await expect(title).toContainText('Premier League');
+  await expect
+    .poll(() =>
+      title
+        .locator('.tp-league-logo img')
+        .evaluate((image) => (image as HTMLImageElement).naturalWidth),
+    )
+    .toBeGreaterThan(0);
+  await expect(page.locator('.tp-team.on')).toContainText('Arsenal');
+});
+
+test('un logo de liga ausente no impide elegirla', async ({ page }) => {
+  const origin = testOrigin;
+  await page.route('**/*', (route) => {
+    const url = new URL(route.request().url());
+    if (
+      url.origin === origin &&
+      url.pathname.endsWith('/league-logos/L1.png')
+    ) {
+      return route.abort('failed');
+    }
+    return url.origin === origin
+      ? route.continue()
+      : route.abort('blockedbyclient');
+  });
+  await page.addInitScript(() => {
+    localStorage.setItem('fg_team', 'Barcelona');
+    localStorage.setItem('fg_lang', 'es');
+  });
+  await page.goto('/reto-15000.html');
+  await page.getByTitle('Cambiar estadio').click();
+  await page.locator('.tp-back').click();
+
+  const ligue1 = page.locator('.tp-lg').filter({ hasText: 'Ligue 1' });
+  const missingLogo = ligue1.locator('.tp-league-logo');
+  await expect(missingLogo).toBeVisible();
+  await expect(missingLogo.locator('img')).toBeHidden();
+  await ligue1.click();
+  await expect(page.locator('.tp-lgname')).toContainText('Ligue 1');
+  await expect(page.locator('.tp-team')).toHaveCount(18);
+});

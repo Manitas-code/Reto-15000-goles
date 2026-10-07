@@ -17,14 +17,14 @@ import { useLanguage } from '../i18n/provider';
 import { pickerBaseStyle, pickerInjectedStyle } from './picker-style';
 
 const leagues = [
-  ['LL', 'LaLiga', 'LL', '20 equipos', '#f3c545'],
-  ['PL', 'Premier League', 'PL', '20 equipos', '#c9a3ff'],
-  ['SA', 'Serie A', 'SA', '20 equipos', '#8ad1ff'],
-  ['BL', 'Bundesliga', 'BL', '18 equipos', '#ff8a80'],
-  ['L1', 'Ligue 1', 'L1', '18 equipos', '#9ad0a8'],
-  ['AR', 'Liga Argentina', 'AR', '30 equipos', '#7fd3ff'],
-  ['MX', 'Liga MX', 'MX', '18 equipos', '#8fe3b0'],
-  ['US', 'MLS', 'MLS', '30 equipos', '#7fb2ff'],
+  { code: 'LL', name: 'LaLiga', teams: '20 equipos', logo: 'LL.png' },
+  { code: 'PL', name: 'Premier League', teams: '20 equipos', logo: 'PL.svg' },
+  { code: 'SA', name: 'Serie A', teams: '20 equipos', logo: 'SA.png' },
+  { code: 'BL', name: 'Bundesliga', teams: '18 equipos', logo: 'BL.png' },
+  { code: 'L1', name: 'Ligue 1', teams: '18 equipos', logo: 'L1.png' },
+  { code: 'AR', name: 'Liga Argentina', teams: '30 equipos', logo: 'AR.png' },
+  { code: 'MX', name: 'Liga MX', teams: '18 equipos', logo: 'MX.svg' },
+  { code: 'US', name: 'MLS', teams: '30 equipos', logo: 'US.png' },
 ] as const;
 type League = (typeof leagues)[number];
 function savedTeam() {
@@ -55,7 +55,7 @@ export function TeamProvider({
   const [opened, setOpened] = useState(() => autoPrompt && !savedTeam());
   const isReto = /\/reto-15000\.html$/.test(location.pathname);
   const [league, setLeague] = useState<League | null>(() =>
-    team ? leagues.find((item) => item[0] === team.league) || null : null,
+    team ? leagues.find((item) => item.code === team.league) || null : null,
   );
   const [background, setBackground] = useState<string | null>(null);
   const renderer = useRef<ReturnType<typeof createStadiumRenderer> | null>(
@@ -66,7 +66,7 @@ export function TeamProvider({
   }, [id]);
   const openPicker = useCallback(() => {
     setLeague(
-      team ? leagues.find((item) => item[0] === team.league) || null : null,
+      team ? leagues.find((item) => item.code === team.league) || null : null,
     );
     setOpened(true);
     setVisible(true);
@@ -134,14 +134,23 @@ export function TeamProvider({
     );
     const first = us ? ['US', 'PL', 'LL'] : ['PL', 'LL'];
     ordered.sort((a, b) => {
-      const ia = first.indexOf(a[0]),
-        ib = first.indexOf(b[0]);
+      const ia = first.indexOf(a.code),
+        ib = first.indexOf(b.code);
       return (ia < 0 ? 9 : ia) - (ib < 0 ? 9 : ib);
     });
   }
-  const flag = (item: League) => (
-    <span className="fl" style={{ '--lc': item[4] } as CSSProperties}>
-      {item[2]}
+  const leagueLogo = (item: League, heading = false) => (
+    <span
+      className={`tp-league-logo${heading ? ' tp-league-logo--heading' : ''}`}
+      aria-hidden="true"
+    >
+      <img
+        src={`${import.meta.env.BASE_URL}league-logos/${item.logo}`}
+        alt=""
+        onError={(event) => {
+          event.currentTarget.hidden = true;
+        }}
+      />
     </span>
   );
   const picker = (
@@ -166,14 +175,14 @@ export function TeamProvider({
             <div className="tp-leagues">
               {(opened ? ordered : []).map((item) => (
                 <button
-                  key={item[0]}
+                  key={item.code}
                   type="button"
                   className="tp-lg"
                   onClick={() => setLeague(item)}
                 >
-                  {flag(item)}
-                  <b>{t(item[1])}</b>
-                  <small>{t(item[3])}</small>
+                  {leagueLogo(item)}
+                  <b>{t(item.name)}</b>
+                  <small>{t(item.teams)}</small>
                 </button>
               ))}
             </div>
@@ -193,8 +202,8 @@ export function TeamProvider({
           <h2 className="tp-h tp-lgname">
             {league && (
               <>
-                {flag(league)}
-                {t(league[1])}
+                {leagueLogo(league, true)}
+                {t(league.name)}
               </>
             )}
           </h2>
@@ -203,7 +212,7 @@ export function TeamProvider({
               {opened &&
                 league &&
                 teams
-                  .filter((item) => item.league === league[0])
+                  .filter((item) => item.league === league.code)
                   .map((item) => (
                     <button
                       key={item.id}
