@@ -1,11 +1,11 @@
+import { testOrigin } from '../helpers/environment';
 import { expect, test } from '@playwright/test';
 import { players } from '../../src/data/players';
 
 test('Caras conserva candidatos ordenados, selección, deshacer, exportación y recarga', async ({
   page,
 }) => {
-  const origin =
-    process.env.GOALDAY_VISUAL_BASELINE_ORIGIN || 'http://127.0.0.1:4173';
+  const origin = testOrigin;
   const original = origin + '/original.jpg';
   const old = origin + '/old.jpg';
   const recent = origin + '/recent.jpg';

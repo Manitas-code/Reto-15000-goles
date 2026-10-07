@@ -1,3 +1,4 @@
+import { testOrigin } from '../helpers/environment';
 import { expect, test } from '@playwright/test';
 import { FakeGoaldayApi } from '../helpers/fake-api';
 
@@ -5,10 +6,7 @@ test('Blackjack diario conserva cartas, dobles, vencimientos y pagos en siete ma
   page,
 }) => {
   await page.route('**/*', (route) =>
-    new URL(route.request().url()).origin ===
-    new URL(
-      process.env.GOALDAY_VISUAL_BASELINE_ORIGIN || 'http://127.0.0.1:4173',
-    ).origin
+    new URL(route.request().url()).origin === new URL(testOrigin).origin
       ? route.continue()
       : route.abort(),
   );

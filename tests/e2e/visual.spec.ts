@@ -1,3 +1,7 @@
+import {
+  visualBaselineOrigin,
+  allowedOrigins as allowedOriginsFromEnvironment,
+} from '../helpers/environment';
 import { expect, test } from '@playwright/test';
 import { FakeGoaldayApi } from '../helpers/fake-api';
 
@@ -12,7 +16,7 @@ const routes = [
 ];
 
 test.beforeEach(async ({ page }) => {
-  const allowedOrigins = new Set(['http://127.0.0.1:4173']);
+  const allowedOrigins = new Set(allowedOriginsFromEnvironment);
   const baselineOrigin = process.env.GOALDAY_VISUAL_BASELINE_ORIGIN
     ? new URL(process.env.GOALDAY_VISUAL_BASELINE_ORIGIN).origin
     : undefined;
@@ -43,8 +47,7 @@ async function captureRoutes(
   size: { width: number; height: number },
   lang: 'es' | 'en',
 ) {
-  const baseline =
-    process.env.GOALDAY_VISUAL_BASELINE_ORIGIN ?? 'http://127.0.0.1:4173';
+  const baseline = visualBaselineOrigin;
   await page.setViewportSize(size);
   await page.clock.setFixedTime(new Date('2026-10-05T12:00:00.000Z'));
   await page.addInitScript((language) => {

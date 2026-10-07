@@ -1,3 +1,4 @@
+import { testOrigin } from '../helpers/environment';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { expect, test } from '@playwright/test';
@@ -58,11 +59,7 @@ test('el DOM de runtime conserva la referencia original en ES y EN', async ({
       process.env.GOALDAY_VISUAL_BASELINE_ORIGIN
     )
       await route.abort('blockedbyclient');
-    else if (
-      url.origin ===
-      (process.env.GOALDAY_VISUAL_BASELINE_ORIGIN || 'http://127.0.0.1:4173')
-    )
-      await route.continue();
+    else if (url.origin === testOrigin) await route.continue();
     else await route.abort('blockedbyclient');
   });
   const api = new FakeGoaldayApi();

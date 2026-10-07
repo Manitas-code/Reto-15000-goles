@@ -1,3 +1,7 @@
+import {
+  testOrigin,
+  allowedOrigins as allowedOriginsFromEnvironment,
+} from '../helpers/environment';
 import { expect, test } from '@playwright/test';
 import { emojiPlayers } from '../../src/data/emoji-players';
 import { players } from '../../src/data/players';
@@ -18,7 +22,7 @@ const routes = [
 ];
 
 test.beforeEach(async ({ page }) => {
-  const allowedOrigins = new Set(['http://127.0.0.1:4173']);
+  const allowedOrigins = new Set(allowedOriginsFromEnvironment);
   if (process.env.GOALDAY_VISUAL_BASELINE_ORIGIN) {
     allowedOrigins.add(
       new URL(process.env.GOALDAY_VISUAL_BASELINE_ORIGIN).origin,
@@ -269,15 +273,15 @@ test('los clientes comparten salas, duelos, retos por enlace y resultados en el 
   const api = new FakeGoaldayApi();
   for (const client of [host, guest]) {
     await client.route('**/*', (route) =>
-      new URL(route.request().url()).origin === 'http://127.0.0.1:4173'
+      new URL(route.request().url()).origin === new URL(testOrigin).origin
         ? route.continue()
         : route.abort('blockedbyclient'),
     );
   }
   await api.attach(host);
   await api.attach(guest);
-  await host.goto('http://127.0.0.1:4173/');
-  await guest.goto('http://127.0.0.1:4173/');
+  await host.goto(testOrigin + '/');
+  await guest.goto(testOrigin + '/');
   const postRpc = (
     page: typeof host,
     name: string,

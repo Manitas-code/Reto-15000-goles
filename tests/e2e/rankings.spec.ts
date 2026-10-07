@@ -1,11 +1,11 @@
+import { testOrigin } from '../helpers/environment';
 import { expect, test } from '@playwright/test';
 import { FakeGoaldayApi } from '../helpers/fake-api';
 
 test('Reto conserva temporada, podio, medallas, clasificación y aviso único', async ({
   page,
 }) => {
-  const origin =
-    process.env.GOALDAY_VISUAL_BASELINE_ORIGIN || 'http://127.0.0.1:4173';
+  const origin = testOrigin;
   await page.route('**/*', (route) =>
     new URL(route.request().url()).origin === origin
       ? route.continue()
@@ -124,8 +124,7 @@ test('Reto conserva temporada, podio, medallas, clasificación y aviso único', 
 test('Reto filtra visibilidad y duplicados, usa fallback y conserva errores de ranking', async ({
   page,
 }) => {
-  const origin =
-    process.env.GOALDAY_VISUAL_BASELINE_ORIGIN || 'http://127.0.0.1:4173';
+  const origin = testOrigin;
   await page.route('**/*', (route) =>
     new URL(route.request().url()).origin === origin
       ? route.continue()

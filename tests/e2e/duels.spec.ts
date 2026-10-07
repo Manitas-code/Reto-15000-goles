@@ -1,3 +1,4 @@
+import { testOrigin } from '../helpers/environment';
 import { expect, test, type Page } from '@playwright/test';
 import { FakeGoaldayApi } from '../helpers/fake-api';
 
@@ -7,8 +8,7 @@ async function setup(
   name: string,
   pid: string,
 ) {
-  const origin =
-    process.env.GOALDAY_VISUAL_BASELINE_ORIGIN || 'http://127.0.0.1:4173';
+  const origin = new URL(testOrigin).origin;
   await page.route('**/*', (route) =>
     new URL(route.request().url()).origin === origin
       ? route.continue()

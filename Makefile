@@ -41,6 +41,12 @@ e2e: ## Ejecutar integración y comparación visual en Chromium
 offline: ## Abrir web y API simulada sin Supabase; SOURCE=dev o prod
 	$(BUN) run offline
 
+e2e-prod: ## Comprobar el build existente en navegador con API simulada
+	SOURCE=prod $(BUN) run e2e
+
+e2e-docker: ## Compilar y comprobar una imagen aislada en navegador
+	SOURCE=docker $(BUN) run e2e
+
 browsers: ## Instalar Chromium para Playwright
 	$(BUN) x --bun playwright install chromium
 

@@ -1,10 +1,10 @@
+import { testOrigin } from '../helpers/environment';
 import { expect, test } from '@playwright/test';
 
 test('conserva el estadio seleccionado, su cache y el selector en inglés', async ({
   page,
 }) => {
-  const origin =
-    process.env.GOALDAY_VISUAL_BASELINE_ORIGIN || 'http://127.0.0.1:4173';
+  const origin = testOrigin;
   await page.route('**/*', (route) =>
     new URL(route.request().url()).origin === origin
       ? route.continue()

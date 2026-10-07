@@ -1,3 +1,4 @@
+import { allowedOrigins as allowedOriginsFromEnvironment } from '../helpers/environment';
 import { expect, test, type Page, type Route } from '@playwright/test';
 import { FakeGoaldayApi } from '../helpers/fake-api';
 
@@ -32,7 +33,7 @@ const pausedTime = new Date('2026-10-05T12:00:01.000Z');
 let api: FakeGoaldayApi;
 
 test.beforeEach(async ({ page }) => {
-  const allowed = new Set(['http://127.0.0.1:4173']);
+  const allowed = new Set(allowedOriginsFromEnvironment);
   if (process.env.GOALDAY_VISUAL_BASELINE_ORIGIN)
     allowed.add(new URL(process.env.GOALDAY_VISUAL_BASELINE_ORIGIN).origin);
   await page.route('**/*', (route) =>
