@@ -2,7 +2,7 @@
 
 ## Estado y lectura
 
-Diseño del 2026-10-05, **aprobado mediante la instrucción `/goal` del usuario**. Implementación completada y validada localmente. Capacitor sigue siendo una fase futura; la aprobación no incluye publicación ni cambios remotos en Supabase.
+Diseño del 2026-10-05, **aprobado mediante la instrucción `/goal` del usuario**. Implementación completada y validada localmente. Esta propuesta conserva decisiones y evidencia histórica. El runtime vigente es Bun 1.4.2, los RPC de Reto están en `contracts/reto.ts` y los flujos actuales se describen en [docs/reto-flujos.md](../docs/reto-flujos.md). Para comandos actuales, usa [docs/verificacion.md](../docs/verificacion.md) y `make help`. Capacitor sigue siendo una fase futura; la aprobación no incluye publicación ni cambios remotos en Supabase.
 
 Orden de lectura para implementar tras aprobación:
 
@@ -34,7 +34,7 @@ No se implementan en esta fase cuentas, sincronización de progreso, nuevos algo
 | Frontend     | React y React DOM con Vite existente. Siete entradas HTML independientes; no React Router.                                                                     |
 | Estado       | `useReducer` por juego, estado local para controles simples y contextos únicamente para idioma, equipo e identidad compartida dentro de cada página. No Redux. |
 | Estilos      | CSS actual por página, sin biblioteca visual ni Tailwind. Conservar jerarquía/clases de la UI.                                                                 |
-| Backend      | Fastify 5 sobre Node 24, TypeScript estricto y `fetch` nativo para Supabase REST/RPC.                                                                          |
+| Backend      | Fastify 5 sobre Bun 1.4.2, TypeScript estricto y `fetch` integrado para Supabase REST/RPC. Node 24 solo ejecuta la comparación SVG V8.                         |
 | Contratos    | `contracts/` compartido, sin imports de DOM, Node o React. Rutas explícitas y tipos de peticiones/respuestas.                                                  |
 | Validación   | JSON Schema de Fastify para entradas; no añadir otra biblioteca de esquemas inicialmente. Tests cruzan tipos y ejemplos de contratos.                          |
 | Datos        | Supabase existente. Misma clave pública y permisos actuales en el adaptador del servidor; ninguna sustitución por `service_role`.                              |
@@ -49,7 +49,7 @@ Fastify aporta validación, logging y tests sin abrir un puerto. Elegir Express,
 ```text
 contracts/
   api.ts                     # DTO y mapa cerrado de operaciones, sin implementación
-  reto.ts                    # respuestas RPC actualmente en rpc-types.ts
+  reto.ts                    # tipos consumidos por el frontend, no esquema Supabase confirmado
 server/
   app.ts                     # buildApp({ config, fetchImpl }), no escucha al importar
   start.ts                   # configuración, listen, señales y cierre
@@ -72,7 +72,7 @@ tests/e2e/                   # producto original + API simulada explícita
 tests/helpers/fake-api.ts    # estado determinista de pruebas, nunca datos de producción
 scripts/dev.mjs              # arranque/cierre de Vite y servidor
 tsconfig.json                # frontend y contratos, jsx react-jsx
-tsconfig.server.json         # NodeNext; server + contracts, sin frontend
+tsconfig.server.json         # ESM compilado del servidor, ejecutado con Bun
 dist/                       # web estática, generado
 dist-server/                # servidor compilado, generado
 ```
@@ -83,7 +83,7 @@ Frontend puede importar `contracts/`, nunca `server/`. Backend puede importar co
 
 Dependencias nuevas propuestas: `react`, `react-dom`, `fastify`, `@fastify/cors` para API separada y `@fastify/static` para probar/servir web y API bajo un origen. Desarrollo: `@types/react`, `@types/react-dom`, `@vitejs/plugin-react`, `tsx`. Reutilizar jsdom, ESLint, Prettier, TypeScript y tests existentes.
 
-Scripts a implementar exactamente:
+Scripts del diseño inicial (no son la interfaz actual de comandos):
 
 | Script         | Ejecución/responsabilidad                                                         |
 | -------------- | --------------------------------------------------------------------------------- |
@@ -100,7 +100,7 @@ Scripts a implementar exactamente:
 | `e2e`          | Playwright con Vite y API falsa, cerrados por `webServer`.                        |
 | `check`        | Tipos, lint, reglas/integración y ambos builds. CI ejecuta además formato y E2E.  |
 
-`tsconfig.server.json`: `module`/`moduleResolution: NodeNext`, `rootDir: .`, `outDir: dist-server`, `strict: true`, incluye `server/**/*.ts` y `contracts/**/*.ts`, sin tests en emisión. Imports relativos del backend con extensión `.js` para ejecución ESM tras compilar. Frontend mantiene resolución Bundler. Tests tienen comprobación de tipos también; no `any`, `ts-ignore` o `allowJs` para esquivar problemas.
+La propuesta configura `tsconfig.server.json` para emitir ESM en `dist-server`; Bun ejecuta el JavaScript compilado. `@types/node`, `NodeJS.ProcessEnv` y NodeNext son tipos/resolución de TypeScript, no una selección del runtime. La configuración actual es la fuente de verdad.
 
 Variables server-only: `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `PORT` (3001), `HOST`, `WEB_ORIGINS` (lista explícita para CORS), `SERVE_WEB` (false por defecto), `WEB_BASE_PATH` (`/` por defecto), `SUPABASE_TIMEOUT_MS` (10000). Validar al arrancar; `.env.example` contiene placeholders y `.env` queda ignorado. Usar soporte `--env-file` de Node/tsx comprobado al implementar, sin añadir dotenv automáticamente.
 
@@ -139,7 +139,7 @@ Usar `gpt-6-luna` con instrucciones cerradas: documento concreto, archivos permi
 2. **B:** agente API conserva servidor; agente cliente modifica `src/shared/api` y llamadas de los cuatro controladores; agente verificación cubre contratos. No iniciar dos tareas sobre un mismo controlador. La portada C puede integrarse mientras se completa B si no depende de red.
 3. **D:** piloto Emoji con un dueño del juego; los otros dos revisan API/infra y flujos equivalentes. Cierra D antes de copiar patrones a E.
 4. **E:** un dueño para Más o Menos y otro para Blackjack; tercero prepara extracción Reto sin editar esos juegos. Config, traducciones y componentes comunes se cambian solo por el dueño acordado.
-5. **F:** un solo dueño de `reto/controller.ts` durante extracción. Tras separar módulos, repartir bots/sesión, online/salas/enlaces y ranking/temporadas/compartir entre archivos disjuntos. No asignar tres agentes al controlador monolítico. Integrar extracción antes de arrancar reparto.
+5. **F:** el plan de extracción usaba `reto/controller.ts`, que no existe en la implementación. El flujo actual está separado entre `useReto.ts`, `useDuel.ts` y módulos de apoyo. Consulta [docs/reto-flujos.md](../docs/reto-flujos.md) antes de cambiarlo.
 6. **G:** herramientas independientes en paralelo; coordinador revisa cobertura, docs y eliminación de puentes.
 
 Plantilla obligatoria de tarea: fase y dependencias cumplidas; archivos permitidos; operaciones/modelo/componentes esperados; comportamiento original a preservar; comando/casos de cierre; prohibición de tocar golden, configuración ajena, secretos, servidor remoto o estilos; resumen final de cambios y evidencia. Commit convencional en inglés por entrega funcional, nunca solo scaffolding vacío.
@@ -152,7 +152,7 @@ Plantilla obligatoria de tarea: fase y dependencias cumplidas; archivos permitid
 - Componentes bajo StrictMode: montar/desmontar/remontar, fake timers y respuestas tardías; cero intervalos/listeners huérfanos, cero submits repetidos, no consumir intento al montar.
 - Tests API usan `buildApp` y `fetchImpl` falso, verifican consulta, headers y body exactos. E2E intercepta nuestra API con fixtures o fake estatal; no stub genérico `200 []` para operaciones de escritura.
 - Prohibir salida a Supabase en navegador migrado y tests; Wikipedia/Commons siguen como servicios de fotos permitidos. No afirmar ausencia de toda red externa.
-- CI: `npm ci`, tipos/lint/formato/reglas e integración, ambos builds, Chromium/E2E, build con subruta y smoke de servidor compilado sirviendo artefacto. Servidor de smoke usa upstream fake, nunca producción.
+- CI histórica proponía `npm ci`; CI vigente usa Bun y `bun.lock`. Revisa `.github/workflows/ci.yml` y `make help` para los comandos actuales. Smoke y pruebas offline usan upstream falso.
 - Las capturas actuales no cubren fuentes remotas, fondos seleccionados ni backend real. Añadir escenarios de equipo a la verificación manteniendo test SVG independiente; comprobar tipografías reales antes de publicar sin cambiar las capturas originales.
 
 ## Preparación para Capacitor
@@ -179,7 +179,7 @@ La aprobación solicitada es para React multipágina + Fastify adaptador + contr
 
 - Las rutas y sus esquemas quedan juntos en `server/app.ts` (API de 373 líneas), con configuración, arranque y transporte en módulos propios. Los dominios siguen usando rutas explícitas; no se crearon archivos de routing vacíos. `src/shared/api/index.ts` reúne las funciones tipadas y `http.ts` el transporte.
 - Las integraciones React usan `act` y el montaje real con React DOM, jsdom y StrictMode. Se prescinde de Testing Library porque no era necesaria para estos escenarios; no se añadieron pruebas unitarias de cada reducer.
-- Se mantienen `FG_LANG`, `FG_STADIUM`, `GD_face` y `GD_EMOJI` como compatibilidad pública. Se eliminan los controladores DOM y el cliente Supabase del frontend. En el cierre inicial, `rpc-types.ts` quedó como reexport de los contratos compartidos. En la limpieza posterior se retiró ese archivo y los consumidores importan directamente `contracts/reto.ts`.
+- Se mantienen `FG_LANG`, `FG_STADIUM`, `GD_face` y `GD_EMOJI` como compatibilidad pública. Se eliminó el cliente Supabase del frontend. `src/games/reto-15000/rpc-types.ts` existió temporalmente como reexport y luego se retiró; los consumidores importan hoy `contracts/reto.ts`.
 - Los scripts Node/tsx cargan `.env` con `--env-file-if-exists`. Los artefactos y la reversión se describen en [backend.md](../docs/backend.md); no se ha publicado ni cambiado Supabase.
 
 La evidencia y los límites de equivalencia se registran en [verificacion-react.md](../docs/verificacion-react.md). Los criterios históricos de TypeScript se conservan.

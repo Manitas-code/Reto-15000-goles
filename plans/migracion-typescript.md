@@ -1,5 +1,7 @@
 # Plan de migración a TypeScript
 
+**Plan histórico de implementación.** Conserva el contexto, las fases propuestas y los resultados de aquella migración. Sus referencias a npm/Node 24 y archivos DOM anteriores no describen el entorno actual. El runtime vigente es Bun 1.4.2; consulta [docs/verificacion.md](../docs/verificacion.md), [docs/arquitectura.md](../docs/arquitectura.md) y `make help` para operar el repositorio actual.
+
 ## Estado y alcance
 
 Fecha de la propuesta: 2026-10-05.

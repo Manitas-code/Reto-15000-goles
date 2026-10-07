@@ -1,10 +1,10 @@
 # Plan: backend API para GOALDAY
 
-**Estado: implementado y validado localmente con upstream simulado.** Leer primero [el plan general](react-backend.md).
+**Registro de diseño implementado y validado localmente con upstream simulado.** Es histórico para decisiones y límites de API; el runtime vigente es Bun 1.4.2, no Node 24. Lee [el plan general](react-backend.md) para contexto y [docs/verificacion.md](../docs/verificacion.md) para comandos actuales.
 
 ## Objetivo y límites
 
-Mover al servidor las llamadas directas del navegador a Supabase sin cambiar las reglas, los datos enviados, las respuestas ni los flujos visibles. El backend será un BFF pequeño en Fastify 5 sobre Node 24. La URL y la clave publishable/anon de Supabase quedan en variables del servidor `SUPABASE_URL` y `SUPABASE_ANON_KEY`; no usar variables `VITE_*` ni una clave service-role.
+Mover al servidor las llamadas directas del navegador a Supabase sin cambiar las reglas, los datos enviados, las respuestas ni los flujos visibles. El backend usa Fastify 5 con Bun 1.4.2. La URL y la clave publishable/anon de Supabase quedan en variables del servidor `SUPABASE_URL` y `SUPABASE_ANON_KEY`; no usar variables `VITE_*` ni una clave service-role.
 
 El repositorio no contiene el esquema, las funciones SQL ni las políticas RLS. Los tipos de `contracts/reto.ts` describen el consumo del cliente, no contratos verificados de Supabase. No explorar ni modificar Supabase para completar esta migración. La autorización actual del backend sigue siendo exactamente la que permitan la clave pública y las políticas existentes.
 
@@ -39,7 +39,7 @@ Rutas de ranking, todas de parámetros tipados y cerrados:
 | `GET /api/v1/rankings/emoji-player?period=day&day=YYYY-MM-DD`              | `emoji_scores`, columnas `name,score,day`, día exacto, máximo actual 5000                                           | Array                           |
 | `GET /api/v1/rankings/emoji-player?period=week&weekStart=YYYY-MM-DD`       | `emoji_scores`, mismas columnas, `day >= weekStart`, máximo actual 5000                                             | Array                           |
 
-No exponer filtros PostgREST arbitrarios. Allowlist fija para Más o Menos y Blackjack: `diario`, `carrera`, `seleccion`. Más o Menos la declara en `controller.ts` (`CategoryKey`, `RTABS`); Blackjack en `state.ts` (`Mode.k`) y `controller.ts` (`RTABS`). En ambas rutas `day` es obligatorio únicamente para `diario`. Para Reto `tab` acepta `day|all`, `includeVisibility` es obligatorio (`true|false`) y `day` solo acompaña `day`. Emoji acepta `day|week` y exactamente la fecha correspondiente. Rechazar parámetros ajenos y construir consultas desde estos valores, nunca copiar la query entrante. El cliente conserva deduplicación, sumas, orden secundario efectivo, render, filtro `show_at` y fallback: para Reto pide primero `includeVisibility=true`, filtra filas cuya `show_at` esté en el futuro y, ante fallo, repite con `false`, como hoy. Así una caída de `show_at` conserva el fallback anterior. No mover ni alterar estas transformaciones en esta fase.
+No exponer filtros PostgREST arbitrarios. Allowlist fija para Más o Menos y Blackjack: `diario`, `carrera`, `seleccion`. En esta propuesta, Más o Menos la declaraba en `controller.ts` y Blackjack en `state.ts`/`controller.ts`; esas rutas DOM son históricas. Hoy `CategoryKey` vive en `src/games/mas-o-menos/model.ts`; consulta `useGame.ts` y `src/games/blackjack/state.ts` para las reglas vigentes. En ambas rutas `day` es obligatorio únicamente para `diario`. Para Reto `tab` acepta `day|all`, `includeVisibility` es obligatorio (`true|false`) y `day` solo acompaña `day`. Emoji acepta `day|week` y exactamente la fecha correspondiente. Rechazar parámetros ajenos y construir consultas desde estos valores, nunca copiar la query entrante. El cliente conserva deduplicación, sumas, orden secundario efectivo, render, filtro `show_at` y fallback: para Reto pide primero `includeVisibility=true`, filtra filas cuya `show_at` esté en el futuro y, ante fallo, repite con `false`, como hoy. Así una caída de `show_at` conserva el fallback anterior. No mover ni alterar estas transformaciones en esta fase.
 
 Escrituras de resultados, body validado contra campos explícitos y forwarded sin normalizar:
 
