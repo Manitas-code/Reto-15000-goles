@@ -1,7 +1,8 @@
 .DEFAULT_GOAL := help
 BUN ?= bun
 DOCKER ?= docker
-COMPOSE = $(DOCKER) compose
+COMPOSE_PROJECT ?= $(if $(COMPOSE_PROJECT_NAME),$(COMPOSE_PROJECT_NAME),goalday-$(shell pwd | cksum | awk '{print $$1}'))
+COMPOSE = $(DOCKER) compose --project-name $(COMPOSE_PROJECT)
 CLOUDFLARED ?= cloudflared
 TUNNEL_URL ?= http://127.0.0.1:5173
 
