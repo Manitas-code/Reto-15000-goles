@@ -1,6 +1,8 @@
 # Contenedores
 
-Se requiere Docker Engine o Docker Desktop con Compose v2. El usuario debe tener acceso al daemon de Docker. Si la instalación lo exige, puedes usar `make DOCKER="sudo docker" docker-dev`. Bun no necesita estar instalado en el host. `Dockerfile` usa `oven/bun:1.4.2`, la misma versión de `.bun-version`, y `bun.lock` con instalación congelada.
+Se requiere Docker Engine o Docker Desktop con Compose v2 y acceso al daemon. Bun no necesita estar instalado en el host. `Dockerfile` usa `oven/bun:1.4.2`, la misma versión de `.bun-version`, y `bun.lock` con instalación congelada.
+
+Los targets Compose de Make asignan por defecto un nombre de proyecto derivado del path del checkout, para que varios worktrees no compartan contenedores ni volúmenes. `COMPOSE_PROJECT` o `COMPOSE_PROJECT_NAME` permite fijar otro nombre. Si invocas `docker compose` directamente, usa `-p <nombre-único>` para mantener el aislamiento. Los wrappers de verificación que lanzan el ejecutable Docker aceptan `DOCKER_BIN` como una sola ruta de ejecutable; no admite una cadena de varios tokens como `sudo docker`.
 
 Copia `.env.example` a `.env` si todavía no existe y completa `SUPABASE_URL` y `SUPABASE_ANON_KEY`. Compose entrega el entorno al contenedor al iniciarlo. `.env`, `.git`, dependencias y builds locales se excluyen del contexto de build; las credenciales no se copian a la imagen. No se añade una base de datos: la API continúa usando el Supabase existente.
 
@@ -9,7 +11,7 @@ Copia `.env.example` a `.env` si todavía no existe y completa `SUPABASE_URL` y 
 ```sh
 make docker-dev
 # Equivalente:
-docker compose --profile development up --build development
+docker compose -p <nombre-único> --profile development up --build development
 ```
 
 El contenedor ejecuta Vite y Fastify con recarga. La web está en `http://localhost:5173` y la API en `http://localhost:3001`. Vite reenvía `/api` a Fastify dentro del mismo contenedor.
@@ -43,7 +45,7 @@ Para producción, levanta `make docker-prod` y ejecuta `make cloudflare TUNNEL_U
 ```sh
 make docker-prod
 # Equivalente:
-docker compose --profile production up --build -d production
+docker compose -p <nombre-único> --profile production up --build -d production
 ```
 
 La etapa de build comprueba tipos, compila las siete entradas y el servidor, y ejecuta el smoke existente con un upstream simulado. La imagen final contiene dependencias de producción, `dist/`, `dist-server/` y `package.json`; no contiene fuentes, pruebas ni credenciales. Bun ejecuta directamente el servidor compilado; no se necesita Node.
@@ -75,14 +77,20 @@ docker compose --profile development --profile production config --quiet
 
 `docker-smoke` reutiliza el smoke existente dentro de la imagen final mediante un montaje de solo lectura; valida HTTP, las siete páginas y assets con un upstream falso. Requiere haber construido la imagen con `docker-build`.
 
-`docker-down` detiene solo el proyecto Compose `goalday` y conserva el volumen de dependencias. No borra progreso del navegador ni datos de Supabase. Para gestionar varias copias, usa `docker compose -p <nombre>` con los mismos perfiles.
+`docker-down` detiene solo el proyecto Compose derivado de este checkout y conserva el volumen de dependencias. No borra progreso del navegador ni datos de Supabase. Para gestionar directamente varias copias, usa un `docker compose -p <nombre-único>` por checkout con los mismos perfiles.
 
 Ejecuta `make check` y `make e2e` en desarrollo o CI antes de publicar. La imagen solo incorpora build/typecheck y smoke; la prueba exacta de geometría V8 sigue necesitando Node 24 en la suite local. CI también construye la imagen de producción y ejecuta ese smoke dentro de ella. Estos comandos construyen y arrancan en el host actual; no publican en un registro ni realizan un despliegue remoto.
 
-## Verificación local
+## Evidencia histórica de Docker, 2026-10-06
 
 `make check` pasa los tipos, lint, 31 tests, ambos builds y formato. La suite de desarrollo obtuvo 37/38 en una ejecución por un timeout con el modal de ascenso de Reto interceptando un clic; ese caso pasó al repetirlo aisladamente. No se modificaron sus expectativas.
 
 Se construyeron y arrancaron ambos perfiles con credenciales falsas, sin escrituras en Supabase. Se comprobaron health, las siete entradas, la invalidación de módulos de Vite tras editar un archivo montado, usuario no root, ausencia de fuentes/credenciales/dependencias de desarrollo en la imagen final y cierre con SIGTERM: ambos contenedores terminaron con código 0. El smoke de la imagen final pasa en `/` y `/Reto-15000-goles/`.
 
-La suite completa contra la imagen compilada obtuvo 34/38 en su primera ejecución. La comparación visual detectó diferencias localizadas en Blackjack: 495/481 píxeles en el texto de la carta de portada móvil ES/EN y 21 píxeles en una carta durante una partida. El fallo de temporización de Más o Menos pasa al repetir su caso aislado. La diferencia de portada también se reproduce con el build local servido por Fastify, incluso sin minificación; no depende de Docker. El estilo inline de “Ronaldo” coincide en las trazas de desarrollo y producción. No se alteraron el componente, CSS, snapshots ni expectativas para ocultar estas diferencias; la paridad visual exacta del build compilado queda pendiente de resolver.
+La suite completa contra la imagen compilada obtuvo 34/38 en su primera ejecución. La comparación visual detectó diferencias localizadas en Blackjack: 495/481 píxeles en el texto de la carta de portada móvil ES/EN y 21 píxeles en una carta durante una partida. El fallo de temporización de Más o Menos pasa al repetir su caso aislado. La diferencia de portada también se reprodujo con el build local servido por Fastify, incluso sin minificación; no dependía de Docker. Ese registro dejó pendiente la paridad visual del build compilado.
+
+## Verificación de autonomía, 2026-10-07
+
+`make verify` pasó 33 pruebas de reglas/integración y 39 recorridos de navegador en cada modo: desarrollo, build local e imagen Docker. El ajuste de nombre de la portada de Blackjack repite la medición en el siguiente frame, tras estabilizarse el layout. Los relojes y la interacción con el modal de ascenso del arnés se corrigieron. No se modificaron fixtures ni snapshots.
+
+El manifiesto, los informes y los logs de esa ejecución están en `.artifacts/2026-10-07T11-28-17.194Z-verify-d085ad71/`. CI utiliza el mismo comando y conserva la evidencia 14 días. El contenedor de prueba monta solo el servidor offline y sus adaptadores de contratos; la imagen normal continúa arrancando `server/start.js` con su configuración de ejecución.

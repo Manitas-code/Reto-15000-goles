@@ -25,9 +25,11 @@ El HTML servido para capturar tiene SHA-256 `c36ed7f90662e9a9c89afdec36eddb46e1e
 | `blackjack-bank-wins-linux.png`      | `e48ad3bc58d24022677afd298bf86b19044a14536c0e38396168f245f3e9aaf4` |
 | `blackjack-bank-bust-linux.png`      | `05513cdb94e670a466b9fae9119ccf9200151edb77d6a2a911e8f631ade99e36` |
 
-Esta corrección del arnés durante su creación no autoriza regenerar referencias cuando cambie el producto. Los tests aceptados conservan sus expectativas. Playwright limita los workers a cuatro localmente y dos en CI para no saturar el navegador con cargas simultáneas.
+Esta corrección del arnés durante su creación no autoriza regenerar referencias cuando cambie el producto. Los tests aceptados conservan sus expectativas. El `playwright.config.ts` vigente fija dos workers y no reutiliza un servidor existente.
 
-## Comprobaciones
+## Comprobaciones de la migración
+
+Esta sección conserva evidencia y procedimientos de la migración. Para la matriz por riesgo y comandos actuales, usa [verificacion.md](verificacion.md).
 
 La suite se ejecuta con Bun mediante `make test`. La comparación exacta de geometría SVG usa una fixture creada con V8 y se ejecuta aparte con Node 24, fijado en `.nvmrc`; esta excepción afecta a esa prueba y al script que capturó su referencia original.
 
@@ -53,10 +55,10 @@ Los recorridos de navegador incluyen las siete manos del Blackjack diario con pa
 Las pruebas de navegador de diario, recarga, partidas completas y herramientas se contrastan primero con la copia original antes de usarse como criterio para React. Para ese contraste:
 
 ```sh
-GOALDAY_VISUAL_BASELINE_ORIGIN=http://127.0.0.1:8011 bunx playwright test tests/e2e/product.spec.ts tests/e2e/editor.spec.ts tests/e2e/stadium.spec.ts tests/e2e/duels.spec.ts tests/e2e/blackjack-payout.spec.ts tests/e2e/reto-recount.spec.ts tests/e2e/reto-visual.spec.ts tests/e2e/blackjack-visual.spec.ts tests/e2e/faces.spec.ts tests/e2e/rankings.spec.ts tests/e2e/selection-registration.spec.ts
+SOURCE=baseline GOALDAY_VISUAL_BASELINE_ORIGIN=http://127.0.0.1:8011 bun run e2e -- tests/e2e/product.spec.ts tests/e2e/editor.spec.ts tests/e2e/stadium.spec.ts tests/e2e/duels.spec.ts tests/e2e/blackjack-payout.spec.ts tests/e2e/reto-recount.spec.ts tests/e2e/reto-visual.spec.ts tests/e2e/blackjack-visual.spec.ts tests/e2e/faces.spec.ts tests/e2e/rankings.spec.ts tests/e2e/selection-registration.spec.ts
 ```
 
-Ese servidor debe servir una copia del commit original. Las pruebas de duelos permiten reproducir los contratos originales de Supabase con el mismo servicio simulado utilizado para la API propia; nunca hacen escrituras remotas.
+Ese servidor debe servir una copia del commit original en loopback. El wrapper solo admite `localhost`, `127.0.0.1` o `[::1]` en modo baseline. `make e2e` ordinario rechaza las variables de origen explícito; solo el modo `SOURCE=baseline` usa el original. La configuración/CLI Playwright directa admite origen explícito para diagnóstico experto. Las pruebas de duelos reproducen los contratos del cliente con un servicio simulado; nunca hacen escrituras remotas.
 
 ## Límites de la evidencia
 
