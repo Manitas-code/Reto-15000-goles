@@ -65,9 +65,12 @@ make dev-server
 | `SERVE_WEB`           | Con `true`, Fastify sirve los archivos compilados de `dist/`. Por defecto, `false`.                                                                        |
 | `WEB_BASE_PATH`       | Prefijo con `/` al inicio y al final para servir la web. Por defecto, `/`.                                                                                 |
 | `SUPABASE_TIMEOUT_MS` | Límite de espera de la petición upstream. Por defecto, `10000`; admite valores de 1 a 60000.                                                               |
+| `LOG_LEVEL`           | Nivel Pino de Fastify. Por defecto, `info`; admite `fatal`, `error`, `warn`, `info`, `debug`, `trace` y `silent`.                                          |
 | `VITE_API_BASE_URL`   | Variable opcional de build del frontend para usar una API aparte. Por defecto, `/api/v1`. Admite una ruta relativa o una URL HTTPS terminada en `/api/v1`. |
 
 La URL Supabase debe ser un origen HTTPS, sin path adicional. `WEB_ORIGINS` debe coincidir con el origen del navegador, por ejemplo `https://juego.example`. Si se deja vacío, Fastify no registra el plugin CORS. CORS controla qué páginas puede llamar el navegador; no autentica usuarios ni sustituye las políticas de datos del proyecto.
+
+Fastify asigna un ID de petición, lo devuelve en `x-request-id` y lo incluye en los logs. El serializer registra método y ruta sin query; los logs no incluyen headers, cuerpo ni texto de respuesta upstream. Ante un fallo de conexión o timeout, el log registra ruta y estado, y el cliente recibe un error genérico `502`/`504`. Los cuerpos HTTP que Supabase responda sí se reenvían al cliente según el contrato actual. `tests/server/offline.integration.test.ts` comprueba correlación y que valores de autorización, nombre y query no aparezcan en el log.
 
 ## Rutas
 

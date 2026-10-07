@@ -140,6 +140,17 @@ export interface BuildAppOptions {
 
 export async function buildApp({ config, fetchImpl = fetch }: BuildAppOptions) {
   const app = fastify({
+    logger: config.logLevel
+      ? {
+          level: config.logLevel,
+          serializers: {
+            req: (request) => ({
+              method: request.method,
+              url: request.url.split('?')[0],
+            }),
+          },
+        }
+      : false,
     bodyLimit: 64 * 1024,
     ajv: {
       customOptions: {
@@ -152,6 +163,7 @@ export async function buildApp({ config, fetchImpl = fetch }: BuildAppOptions) {
   const supabase = createSupabaseTransport(config, fetchImpl);
 
   app.addHook('onRequest', async (request, reply) => {
+    reply.header('x-request-id', request.id);
     if (request.method === 'POST' && request.url.startsWith('/api/v1/')) {
       const mediaType = request.headers['content-type']
         ?.split(';')[0]
@@ -169,7 +181,7 @@ export async function buildApp({ config, fetchImpl = fetch }: BuildAppOptions) {
     });
   }
 
-  app.setErrorHandler((error, _request, reply) => {
+  app.setErrorHandler((error, request, reply) => {
     const failure = error as Error & {
       validation?: unknown;
       statusCode?: number;
@@ -184,6 +196,11 @@ export async function buildApp({ config, fetchImpl = fetch }: BuildAppOptions) {
           : failure.statusCode === 400
             ? 400
             : 500;
+    if (status === 500)
+      request.log.error(
+        { event: 'request.failed', status },
+        'Internal request failure',
+      );
     return reply.code(status).send({
       error:
         status === 413
@@ -207,6 +224,14 @@ export async function buildApp({ config, fetchImpl = fetch }: BuildAppOptions) {
     } catch (error) {
       const timeout =
         error instanceof Error && error.message === 'upstream timeout';
+      reply.request.log.warn(
+        {
+          event: 'upstream.failed',
+          path: path.split('?')[0],
+          status: timeout ? 504 : 502,
+        },
+        'Upstream request failed',
+      );
       return reply
         .code(timeout ? 504 : 502)
         .send({ error: timeout ? 'Upstream timeout' : 'Upstream unavailable' });

@@ -5,6 +5,7 @@ export interface ServerConfig {
   webOrigins: string[];
   serveWeb: boolean;
   webBasePath: string;
+  logLevel?: 'fatal' | 'error' | 'warn' | 'info' | 'debug' | 'trace' | 'silent';
 }
 
 export function readConfig(env: NodeJS.ProcessEnv = process.env): ServerConfig {
@@ -30,6 +31,13 @@ export function readConfig(env: NodeJS.ProcessEnv = process.env): ServerConfig {
   if (!webBasePath.startsWith('/') || !webBasePath.endsWith('/')) {
     throw new Error('WEB_BASE_PATH must start and end with /');
   }
+  const logLevel = env.LOG_LEVEL ?? 'info';
+  if (
+    !['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent'].includes(
+      logLevel,
+    )
+  )
+    throw new Error('LOG_LEVEL must be a valid Pino log level');
   return {
     supabaseUrl: parsed.origin,
     supabaseAnonKey,
@@ -40,5 +48,6 @@ export function readConfig(env: NodeJS.ProcessEnv = process.env): ServerConfig {
       .filter(Boolean),
     serveWeb: env.SERVE_WEB === 'true',
     webBasePath,
+    logLevel: logLevel as ServerConfig['logLevel'],
   };
 }
