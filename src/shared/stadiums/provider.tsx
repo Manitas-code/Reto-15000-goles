@@ -214,7 +214,17 @@ export function TeamProvider({
                       style={{ '--c': item.color } as CSSProperties}
                       onClick={() => value.chooseTeam(item)}
                     >
-                      <span className="tp-dot" />
+                      <span className="tp-crest-wrap" aria-hidden="true">
+                        <img
+                          className="tp-crest"
+                          src={`${import.meta.env.BASE_URL}team-crests/${item.id}.png`}
+                          alt=""
+                          loading="lazy"
+                          onError={(event) => {
+                            event.currentTarget.hidden = true;
+                          }}
+                        />
+                      </span>
                       <span className="tp-txt">
                         <span className="tp-n">{t(item.name)}</span>
                         <span className="tp-s">{t(item.stadium)}</span>
