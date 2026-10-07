@@ -11,12 +11,19 @@ export default tseslint.config(
       'playwright-report/**',
       'test-results/**',
       'scripts/**',
+      '.artifacts/**',
     ],
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    files: ['src/**/*.{ts,tsx}', 'server/**/*.ts', 'contracts/**/*.ts', '*.config.ts', '*.config.js'],
+    files: [
+      'src/**/*.{ts,tsx}',
+      'server/**/*.ts',
+      'contracts/**/*.ts',
+      '*.config.ts',
+      '*.config.js',
+    ],
     languageOptions: { globals: { ...globals.browser, ...globals.node } },
   },
   {

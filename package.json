@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "bun scripts/dev.mjs",
-    "build": "bun run typecheck && bun run build:web && bun run build:server",
+    "build": "bun scripts/build.mjs",
     "preview": "bun --bun run vite preview",
     "typecheck": "bun --bun run tsc --noEmit && bun --bun run tsc --noEmit -p tsconfig.server.json",
     "lint": "bun --bun run eslint .",
@@ -18,8 +18,8 @@
     "check": "bun run typecheck && bun run lint && bun run test && bun run build",
     "dev:web": "bun --bun run vite",
     "dev:server": "bun --watch server/start.ts",
-    "build:web": "bun --bun run vite build",
-    "build:server": "bun --bun run tsc -p tsconfig.server.json",
+    "build:web": "bun scripts/build.mjs web",
+    "build:server": "bun scripts/build.mjs server",
     "smoke:server": "bun scripts/smoke-server.mjs",
     "start": "bun dist-server/server/start.js",
     "test:stadiums": "node node_modules/vitest/vitest.mjs run tests/unit/stadium-geometry.test.ts"
