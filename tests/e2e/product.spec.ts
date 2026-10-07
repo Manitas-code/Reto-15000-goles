@@ -265,16 +265,17 @@ test('preserva el intento diario al recargar y reanuda Emoji Player', async ({
   await expect(page.locator('#emojis')).toHaveText(before);
 });
 
-test('termina Más o Menos y Blackjack con sus controles reales', async ({
-  page,
-}) => {
+test('termina Más o Menos con sus controles reales', async ({ page }) => {
   await page.clock.install({ time: new Date('2026-10-05T12:00:00.000Z') });
   await page.goto('/mas-o-menos.html');
   await page.locator('#modesBox [data-cat]').first().click();
   await expect(page.locator('#game')).toBeVisible();
   await page.clock.runFor(15_000);
   await expect(page.locator('#res')).toBeVisible();
+});
 
+test('termina Blackjack con sus controles reales', async ({ page }) => {
+  await page.clock.install({ time: new Date('2026-10-05T12:00:00.000Z') });
   await page.goto('/blackjack-goles.html');
   await page.locator('#modesBox [data-m]').first().click();
   await expect(page.locator('#game')).toBeVisible();
