@@ -5,6 +5,19 @@ import { FakeGoaldayApi } from '../helpers/fake-api';
 test('Blackjack conserva la mesa durante la decisión y los resultados de pérdida y victoria', async ({
   page,
 }) => {
+  const repaintRevealedHole = () =>
+    page
+      .locator('#dCards .card:nth-child(2):not(.down) .in')
+      .evaluateAll((nodes) => {
+        for (const node of nodes) {
+          const parent = node.parentElement!;
+          const next = node.nextSibling;
+          node.remove();
+          void parent.offsetHeight;
+          parent.insertBefore(node, next);
+        }
+      });
+
   await page.route('**/*', (route) =>
     new URL(route.request().url()).origin === new URL(testOrigin).origin
       ? route.continue()
@@ -38,6 +51,10 @@ test('Blackjack conserva la mesa durante la decisión y los resultados de pérdi
     await expect(page.locator('#dCards .card')).toHaveCount(2);
     await page.clock.runFor(260);
     await expect(page.locator('#bDouble')).toBeVisible();
+    if (hand === 0)
+      await expect(page.locator('#dCards .card:nth-child(2)')).toHaveClass(
+        /down/,
+      );
     await page.clock.runFor(80);
     await page.evaluate(() => window.scrollTo(0, 0));
     await page.evaluate(() => document.fonts.ready.then(() => undefined));
@@ -65,7 +82,12 @@ test('Blackjack conserva la mesa durante la decisión y los resultados de pérdi
       await page.clock.runFor(100);
     await expect(page.locator('#bNext')).toBeVisible();
     await page.clock.runFor(750);
-    if (hand === 0 || hand === 3)
+    if (hand === 0 || hand === 3) {
+      await expect(page.locator('#dCards .card:nth-child(2)')).not.toHaveClass(
+        /down/,
+      );
+      // A flipped 3D face can retain history-dependent raster state; this rebuilds its layout object while preserving the same DOM/React nodes.
+      await repaintRevealedHole();
       await expect(page).toHaveScreenshot(
         hand === 0 ? 'blackjack-bank-wins.png' : 'blackjack-bank-bust.png',
         {
@@ -74,6 +96,7 @@ test('Blackjack conserva la mesa durante la decisión y los resultados de pérdi
           stylePath: 'tests/helpers/blackjack-screenshot.css',
         },
       );
+    }
     await page.locator('#bNext').click();
   }
 });
