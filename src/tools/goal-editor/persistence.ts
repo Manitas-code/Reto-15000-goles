@@ -7,9 +7,15 @@ export function readGoals(): Goal[] | null {
   return GOLES.map((g, i) => ({ ...g, ...saved[i] }));
 }
 export function saveGoals(goals: Goal[]) {
-  const saved: Record<number, Partial<Goal>> = {};
+  const saved = { ...readJson<Record<number, Partial<Goal>>>(KEY, {}) };
   goals.forEach((g, i) => {
-    saved[i] = { yt: g.yt, desde: g.desde, corte: g.corte, hasta: g.hasta };
+    saved[i] = {
+      ...saved[i],
+      yt: g.yt,
+      desde: g.desde,
+      corte: g.corte,
+      hasta: g.hasta,
+    };
   });
   writeJson(KEY, saved);
 }

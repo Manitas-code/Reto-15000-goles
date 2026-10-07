@@ -5,6 +5,7 @@ import {
   saveIdentity,
 } from '../../src/shared/identity/store';
 import { readJson, writeJson } from '../../src/shared/storage/json';
+import { saveGoals } from '../../src/tools/goal-editor/persistence';
 
 function memoryStorage(initial: Record<string, string> = {}) {
   const values = new Map(Object.entries(initial));
@@ -50,5 +51,42 @@ describe('compatibilidad de almacenamiento local', () => {
       daily: { done: 1 },
       future: 17,
     });
+  });
+
+  it('edita un vídeo sin borrar extensiones ni filas existentes del editor', () => {
+    const storage = memoryStorage({
+      gd_editor_v1: JSON.stringify({
+        0: { yt: 'old-video', future: { keep: true } },
+        9: { futureRow: 42 },
+        futureRoot: { keep: true },
+      }),
+      anotherGame: 'unchanged',
+    });
+    vi.stubGlobal('localStorage', storage);
+    saveGoals([
+      {
+        yt: 'new-video',
+        desde: 5,
+        corte: 6,
+        hasta: 7,
+        name: 'Goal',
+        flag: '',
+        h: [],
+        mt: '',
+        tx: '',
+      },
+    ]);
+    expect(readJson('gd_editor_v1', {})).toEqual({
+      0: {
+        yt: 'new-video',
+        desde: 5,
+        corte: 6,
+        hasta: 7,
+        future: { keep: true },
+      },
+      9: { futureRow: 42 },
+      futureRoot: { keep: true },
+    });
+    expect(storage.getItem('anotherGame')).toBe('unchanged');
   });
 });
