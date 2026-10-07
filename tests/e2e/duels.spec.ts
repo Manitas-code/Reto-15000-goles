@@ -1,5 +1,6 @@
 import { testOrigin } from '../helpers/environment';
 import { expect, test, type Page } from '@playwright/test';
+import { pauseAfterLoad } from '../helpers/clock';
 import { FakeGoaldayApi } from '../helpers/fake-api';
 
 async function setup(
@@ -149,7 +150,7 @@ test('la cola cancela, encuentra un bot y publica el resultado tras su tiempo de
   await setup(page, api, 'Jugador', 'queue-player');
   await page.clock.install({ time: new Date('2026-10-05T12:00:00Z') });
   await page.goto('/reto-15000.html');
-  await page.clock.pauseAt(new Date('2026-10-05T12:00:01Z'));
+  await pauseAfterLoad(page);
   await page.locator('#tab-online').click();
   await expect(page.locator('#duelModal')).toContainText('Buscando rival');
   await expect

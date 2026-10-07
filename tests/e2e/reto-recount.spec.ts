@@ -1,5 +1,6 @@
 import { testOrigin } from '../helpers/environment';
 import { expect, test } from '@playwright/test';
+import { pauseAfterLoad } from '../helpers/clock';
 import { FakeGoaldayApi } from '../helpers/fake-api';
 
 const number = (text: string) => Number(text.replace(/\D/g, ''));
@@ -33,7 +34,7 @@ test('el recuento anima casillas independientes, conserva el total y guarda camb
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.clock.install({ time: new Date('2026-10-05T12:00:00Z') });
   await page.goto('/reto-15000.html');
-  await page.clock.pauseAt(new Date('2026-10-05T12:00:01Z'));
+  await pauseAfterLoad(page);
   await page.locator('#tab-diario').click();
   await page.getByRole('button', { name: 'Empezar', exact: true }).click();
   await page.clock.runFor(1800);
