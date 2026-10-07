@@ -12,10 +12,15 @@ Lee solo la guía que necesites:
 - [docs/backend.md](docs/backend.md): configuración, endpoints y ejecución local de Fastify.
 - [docs/juegos.md](docs/juegos.md): reglas y verificaciones manuales.
 - [docs/verificacion-react.md](docs/verificacion-react.md): baseline visual/semántico y límites de las pruebas.
+- [docs/verificacion.md](docs/verificacion.md): runbook vigente y selección de comprobaciones según riesgo.
+- [docs/reto-flujos.md](docs/reto-flujos.md): modos, estados, hooks, RPC y temporizadores de Reto 15K.
+- [docs/persistencia.md](docs/persistencia.md): formatos locales, lectores, escritores y recuperación tras abandono/recarga.
 - [plans/react-frontend.md](plans/react-frontend.md): arquitectura de las vistas y migración de UI.
 - [plans/react-backend.md](plans/react-backend.md): arquitectura del backend.
 - [plans/react-backend-api.md](plans/react-backend-api.md): contratos y rutas API.
 - [plans/migracion-typescript.md](plans/migracion-typescript.md): fases históricas y criterios de migración.
+
+Al verificar cambios, revisar [goalday-verify](.agents/skills/goalday-verify/SKILL.md); al revisar un diff, [goalday-review](.agents/skills/goalday-review/SKILL.md); para trabajo que sobreviva a una sesión o pase entre worktrees, [goalday-long-task](.agents/skills/goalday-long-task/SKILL.md). Estas skills se descubren automáticamente por su descripción.
 
 ## Dónde cambiar código
 
@@ -46,7 +51,7 @@ make check
 make format-check
 ```
 
-Para cambios de UI, navegación o montaje, ejecuta `make browsers` una vez y después `make e2e`. Para cambios en Fastify, compila frontend y servidor antes del smoke:
+La matriz y el runbook vigentes están en [docs/verificacion.md](docs/verificacion.md). Para cambios de UI, navegación o montaje, asegúrate de tener Chromium instalado y ejecuta la comprobación E2E indicada allí. Para cambios en Fastify, compila frontend y servidor antes del smoke:
 
 ```sh
 make build
@@ -59,7 +64,7 @@ Para comprobar un prefijo de publicación:
 VITE_BASE_PATH=/Reto-15000-goles/ make build-web
 ```
 
-No actualices fixtures para hacer pasar una comparación. La referencia original es el commit `88552644372229ccd8e8157c3ac99c88965b5675`; los scripts de captura requieren una copia separada. La evidencia y sus límites están en [docs/verificacion-react.md](docs/verificacion-react.md).
+No actualices fixtures para hacer pasar una comparación. La referencia original es el commit `88552644372229ccd8e8157c3ac99c88965b5675`; los scripts de captura requieren una copia separada. La evidencia de migración anterior y sus límites están en [docs/verificacion-react.md](docs/verificacion-react.md); el runbook actual está en [docs/verificacion.md](docs/verificacion.md).
 
 ## Límites de compatibilidad
 

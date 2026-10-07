@@ -71,6 +71,12 @@ Desarrollo publica Vite en `http://localhost:5173` y la API en `http://localhost
 | `make test`         | Reglas e integración de React y API con Vitest                  |
 | `make browsers`     | Instala Chromium para Playwright                                |
 | `make e2e`          | Pruebas de navegador con Playwright                             |
+| `make e2e-prod`     | E2E offline contra el build local                               |
+| `make e2e-docker`   | E2E offline contra la imagen Docker                             |
+| `make offline`      | Servidor offline dev/prod con upstream simulado                 |
+| `make verify`       | Matriz completa con resultados guardados en `.artifacts/`       |
+| `make evidence`     | Capturas y video del recorrido offline compilado                |
+| `make report`       | Visor local de un directorio de resultados                      |
 | `make check`        | Typecheck, lint, tests, build y formato                         |
 | `make build`        | Build web y compilación del servidor                            |
 | `make build-web`    | Compila solo el frontend                                        |
@@ -91,6 +97,8 @@ make e2e
 `make test` ejecuta la suite con Bun y usa Node 24, fijado en `.nvmrc`, solo para la prueba exacta de geometría SVG que compara una fixture de V8. Node no se usa en desarrollo ni en producción.
 
 `make smoke` requiere primero `make build`, que genera la web y el servidor. No consulta una base real. Las capturas de referencia bloquean servicios externos y usan `fg_team=none`; sirven para comparar la página con esa configuración, no validan fuentes remotas. Las referencias adicionales de estadio y partidas están documentadas en la guía de verificación.
+
+El runbook, la matriz por riesgo y los límites entre fake, desarrollo y producción local están en [docs/verificacion.md](docs/verificacion.md). Los resultados offline guardados bajo `.artifacts/` describen solo la revisión y el entorno registrados en su manifiesto.
 
 ## Estructura
 
@@ -118,3 +126,6 @@ Este comando no configura una API alojada. La página estática necesita una API
 - [docs/backend.md](docs/backend.md): configuración y operación de la API.
 - [docs/juegos.md](docs/juegos.md): reglas de juego y guía manual.
 - [docs/verificacion-react.md](docs/verificacion-react.md): referencias y comprobaciones de equivalencia.
+- [docs/verificacion.md](docs/verificacion.md): runbook vigente y matriz de comprobaciones por riesgo.
+- [docs/reto-flujos.md](docs/reto-flujos.md): estados, modos, timers, RPC y cobertura del Reto 15K.
+- [docs/persistencia.md](docs/persistencia.md): formatos locales y recuperación tras abandono o recarga.
