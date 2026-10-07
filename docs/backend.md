@@ -128,6 +128,8 @@ Para un futuro shell Capacitor, configura `VITE_API_BASE_URL` con el origen HTTP
 
 ## Smoke local y límites
 
+Para navegar sin `.env` ni upstream remoto, `make offline SOURCE=dev` inicia Vite/Fastify con `createFakeUpstream`; `make offline SOURCE=prod` usa el servidor y assets compilados con el mismo upstream falso. Ambos usan una URL y una clave placeholder. Esto permite recorrer rutas y simular respuestas, pero el fake no valida tablas, RPC, políticas RLS ni el comportamiento del proyecto Supabase.
+
 Después de `make build`, puedes comprobar el servidor compilado junto con los assets web:
 
 ```sh

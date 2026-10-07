@@ -22,7 +22,8 @@
     "build:server": "bun scripts/build.mjs server",
     "smoke:server": "bun scripts/smoke-server.mjs",
     "start": "bun dist-server/server/start.js",
-    "test:stadiums": "node node_modules/vitest/vitest.mjs run tests/unit/stadium-geometry.test.ts"
+    "test:stadiums": "node node_modules/vitest/vitest.mjs run tests/unit/stadium-geometry.test.ts",
+    "offline": "bun --no-env-file scripts/offline.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
