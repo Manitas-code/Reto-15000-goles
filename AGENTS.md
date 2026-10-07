@@ -35,6 +35,7 @@ Al verificar cambios, revisar [goalday-verify](.agents/skills/goalday-verify/SKI
 | API del navegador                            | `src/shared/api/` y los tipos en `contracts/`                                          |
 | Rutas y transporte del servidor              | `server/app.ts`, `config.ts`, `supabase.ts`, `start.ts`                                |
 | Identidad, idioma y estadio compartidos      | `src/shared/identity/`, `i18n/`, `stadiums/`                                           |
+| Escudos y procedencia de equipos              | `public/team-crests/`, [docs/team-crests.md](docs/team-crests.md)                      |
 | Entradas, assets y prefijo de publicación    | HTML raíz, `src/**/main.tsx`, `vite.config.ts`                                         |
 
 Docker usa `Dockerfile` con etapas `development` y `production`, y `compose.yaml` con los perfiles del mismo nombre. `.dockerignore` excluye credenciales y artefactos locales. Mantén la versión de la imagen alineada con `.bun-version`.
