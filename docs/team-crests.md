@@ -1,7 +1,11 @@
-# Escudos de clubes
+# Escudos de clubes y logos de ligas
 
 El selector de estadio carga escudos PNG alojados localmente en `public/team-crests/`, con el ID existente del equipo como nombre de archivo. El catálogo de clubes y su orden siguen en `src/shared/stadiums/teams.ts`. Las rutas usan `import.meta.env.BASE_URL` para funcionar también bajo un prefijo de publicación.
 
 Los archivos se obtuvieron el 7 de octubre de 2026 de los endpoints públicos de equipos y logos de ESPN. [team-crests-sources.json](team-crests-sources.json) registra el nombre e ID de ESPN, el URL maestro, el URL de descarga redimensionada, el SHA-256 y el tamaño de cada recurso. Se descargaron variantes PNG de 128 × 128 desde el combiner de ESPN; la correspondencia con los IDs del proyecto es explícita en ese inventario.
 
 Para actualizar los recursos, consulta de nuevo la API de equipos de cada liga (`esp.1`, `eng.1`, `ita.1`, `ger.1`, `fra.1`, `arg.1`, `mex.1`, `usa.1`), revisa cada nombre y la correspondencia con el catálogo existente, y descarga el logo de ESPN a 128 × 128. Actualiza el inventario y sus hashes junto con los archivos. La fuente se documenta como procedencia; este proyecto no hace afirmaciones sobre licencias.
+
+Los logos de las ocho ligas del selector están en `public/league-logos/`, con el código de liga como nombre de archivo. Se muestran tanto en las tarjetas como en el encabezado de la liga elegida. [league-logos-sources.json](league-logos-sources.json) registra la identidad del torneo, las URLs de origen y descarga, el SHA-256, la fecha y el tamaño. Los endpoints de ESPN identifican las ocho competiciones; se usan cinco de sus imágenes. Para LaLiga y Premier League se usan recursos publicados en los sitios oficiales. El PNG de Liga MX que entrega ESPN estaba recortado; su alternativa procede de Wikimedia Commons y conserva la identidad publicada por la liga en 2012. La página oficial de Liga MX enlaza imágenes desde un CDN que devolvió HTTP 403 durante la descarga.
+
+Al actualizar logos, comprueba visualmente cada imagen descargada y su correspondencia con la competición antes de reemplazar los archivos. Mantén el nombre de archivo y actualiza su entrada y SHA-256 en `league-logos-sources.json`. La documentación identifica la procedencia, no afirma licencias.
