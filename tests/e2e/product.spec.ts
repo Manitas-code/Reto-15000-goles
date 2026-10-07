@@ -684,8 +684,11 @@ test('Más o Menos conserva seis aciertos diarios, revelado y cierre tras una re
       b.carrera!.toLocaleString('es-ES'),
     );
     await page.clock.runFor(1400);
-    if (step < 6)
+    if (step < 6) {
       await expect(page.locator('#streak')).toHaveText(String(step + 1));
+      await expect(page.locator('#cA .nm')).toHaveText(second!);
+      await expect(page.locator('#cB')).not.toHaveClass(/\binB\b/);
+    }
   }
   await expect(page.locator('#res')).toBeVisible();
   await expect(page.locator('#res .big')).toHaveText('6');
