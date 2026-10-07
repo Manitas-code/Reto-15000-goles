@@ -47,6 +47,12 @@ e2e-prod: ## Comprobar el build existente en navegador con API simulada
 e2e-docker: ## Compilar y comprobar una imagen aislada en navegador
 	SOURCE=docker $(BUN) run e2e
 
+evidence: ## Capturar las siete páginas y un vídeo de navegación del build
+	$(BUN) scripts/evidence.mjs
+
+report: ## Servir el informe HTML de RUN_DIR en un puerto local libre
+	$(BUN) --no-env-file scripts/report.mjs
+
 browsers: ## Instalar Chromium para Playwright
 	$(BUN) x --bun playwright install chromium
 
