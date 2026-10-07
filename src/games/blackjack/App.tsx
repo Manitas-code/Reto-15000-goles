@@ -151,10 +151,13 @@ function Card({
   const lastRef = useRef<HTMLDivElement>(null);
   const lastFontSize = lineSize(last, big);
   useLayoutEffect(() => {
-    const fit = () => {
+    const fit = (reset = false) => {
       const element = lastRef.current;
       if (!element) return;
-      let size = parseFloat(element.style.fontSize) || parseFloat(lastFontSize);
+      let size = reset
+        ? parseFloat(lastFontSize)
+        : parseFloat(element.style.fontSize) || parseFloat(lastFontSize);
+      if (reset) element.style.fontSize = lastFontSize;
       let steps = 0;
       while (
         element.scrollWidth > element.clientWidth + 1 &&
@@ -166,8 +169,14 @@ function Card({
       }
     };
     fit();
-    window.addEventListener('resize', fit);
-    return () => window.removeEventListener('resize', fit);
+    const heroCard = Boolean(lastRef.current?.closest('.hero'));
+    const refit = () => fit(heroCard);
+    const frame = heroCard ? window.requestAnimationFrame(refit) : 0;
+    window.addEventListener('resize', refit);
+    return () => {
+      if (frame) window.cancelAnimationFrame(frame);
+      window.removeEventListener('resize', refit);
+    };
   }, [lastFontSize, last]);
   const position = player.pos as string;
   return (
