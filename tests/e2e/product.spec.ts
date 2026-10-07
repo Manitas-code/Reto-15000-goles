@@ -167,6 +167,32 @@ test('termina un Reto libre y conserva identidad y campos locales existentes', a
   await expect(page.locator('body')).not.toHaveClass(/playing/);
 });
 
+test('la portada abre los cuatro juegos y conserva atrás, adelante e historial', async ({
+  page,
+}) => {
+  // Exercise same-origin API requests against the wrapper's offline Fastify server.
+  await page.unroute('**/api/v1/**');
+  const games = [
+    { label: /Reto de los 15\.000 goles/, path: '/reto-15000.html' },
+    { label: /Higher or Lower|Más o Menos/, path: '/mas-o-menos.html' },
+    { label: /Blackjack de goles/, path: '/blackjack-goles.html' },
+    { label: /Emoji Player/, path: '/emoji-player.html' },
+  ];
+
+  await page.goto('/');
+  for (const game of games) {
+    await page.getByRole('link', { name: game.label }).click();
+    await expect(page).toHaveURL(new RegExp(`${game.path.slice(1)}$`));
+    await expect(page.locator('body')).toContainText(/\S/);
+    await page.goBack();
+    await expect(page).toHaveURL(/\/$/);
+    await page.goForward();
+    await expect(page).toHaveURL(new RegExp(`${game.path.slice(1)}$`));
+    await page.goBack();
+    await expect(page.locator('.brand')).toBeVisible();
+  }
+});
+
 test('preserva el intento diario al recargar y reanuda Emoji Player', async ({
   page,
 }) => {

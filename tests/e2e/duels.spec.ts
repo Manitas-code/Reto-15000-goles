@@ -117,6 +117,12 @@ test('un enlace permite jugar una vez, consultar el resultado y crear otro reto'
     });
     await page.goto('/reto-15000.html?reto=REPLAY1');
     await expect(page.locator('#duelModal')).toContainText('Anfitrión te reta');
+    await page.goBack();
+    await expect(page).toHaveURL(/index\.html$/);
+    await page.goForward();
+    await expect(page).toHaveURL(/reto-15000\.html(?:\?reto=REPLAY1)?$/);
+    await page.goto('/reto-15000.html?reto=REPLAY1');
+    await expect(page.locator('#duelModal')).toContainText('Anfitrión te reta');
     await page.getByRole('button', { name: 'Aceptar el reto' }).click();
     await complete(page);
     await expect(page.locator('#duelRes')).toBeVisible();
