@@ -17,15 +17,15 @@ jobs:
         with:
           node-version-file: .nvmrc
       - run: bun install --frozen-lockfile
-      - run: bun run typecheck
-      - run: bun run lint
-      - run: bun run format:check
-      - run: bun run test
-      - run: bun run build
-      - run: bun run smoke:server
+      - run: bunx --bun playwright install --with-deps chromium
+      - run: make verify
       - run: VITE_BASE_PATH=/Reto-15000-goles/ bun run build:web
       - run: WEB_BASE_PATH=/Reto-15000-goles/ bun run smoke:server
-      - run: bunx --bun playwright install --with-deps chromium
-      - run: bun run e2e
-      - run: docker build --target production --tag goalday:ci .
-      - run: docker run --rm --volume "$PWD/scripts/smoke-server.mjs:/app/scripts/smoke-server.mjs:ro" goalday:ci bun scripts/smoke-server.mjs
+      - name: Keep verification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: verification-${{ github.sha }}-${{ github.run_attempt }}
+          path: .artifacts/
+          include-hidden-files: true
+          retention-days: 14

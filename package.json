@@ -15,6 +15,8 @@
     "format:check": "bun --bun run prettier --check \"src/**/*.{ts,tsx}\" \"contracts/**/*.ts\" \"server/**/*.ts\" \"tests/**/*.{ts,tsx,mjs}\" \"scripts/**/*.mjs\" \"*.config.ts\"",
     "test": "bun --bun run vitest run --exclude tests/unit/stadium-geometry.test.ts && bun run test:stadiums",
     "e2e": "bun scripts/e2e.mjs",
+    "e2e:prod": "SOURCE=prod bun scripts/e2e.mjs",
+    "offline": "bun --no-env-file scripts/offline.mjs",
     "check": "bun run typecheck && bun run lint && bun run test && bun run build",
     "dev:web": "bun --bun run vite",
     "dev:server": "bun --watch server/start.ts",
@@ -22,9 +24,7 @@
     "build:server": "bun scripts/build.mjs server",
     "smoke:server": "bun scripts/smoke-server.mjs",
     "start": "bun dist-server/server/start.js",
-    "test:stadiums": "node node_modules/vitest/vitest.mjs run tests/unit/stadium-geometry.test.ts",
-    "offline": "bun --no-env-file scripts/offline.mjs",
-    "e2e:prod": "SOURCE=prod bun scripts/e2e.mjs"
+    "test:stadiums": "node node_modules/vitest/vitest.mjs run tests/unit/stadium-geometry.test.ts"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

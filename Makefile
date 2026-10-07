@@ -6,7 +6,7 @@ COMPOSE = $(DOCKER) compose --project-name $(COMPOSE_PROJECT)
 CLOUDFLARED ?= cloudflared
 TUNNEL_URL ?= http://127.0.0.1:5173
 
-.PHONY: help install dev dev-web dev-server typecheck lint format-check test e2e offline browsers check build build-web build-server preview smoke start prod clean docker-dev docker-prod docker-build docker-down docker-logs docker-smoke cloudflare
+.PHONY: help install dev dev-web dev-server typecheck lint format-check test e2e e2e-prod e2e-docker offline verify evidence report browsers check build build-web build-server preview smoke start prod clean docker-dev docker-prod docker-build docker-down docker-logs docker-smoke cloudflare
 
 help: ## Mostrar los comandos disponibles
 	@awk 'BEGIN {FS = ":.*## "} /^[a-z0-9-]+:.*## / {printf "  %-15s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -38,14 +38,17 @@ test: ## Ejecutar las pruebas Vitest existentes
 e2e: ## Ejecutar integración y comparación visual en Chromium
 	$(BUN) run e2e
 
-offline: ## Abrir web y API simulada sin Supabase; SOURCE=dev o prod
-	$(BUN) run offline
-
 e2e-prod: ## Comprobar el build existente en navegador con API simulada
 	SOURCE=prod $(BUN) run e2e
 
 e2e-docker: ## Compilar y comprobar una imagen aislada en navegador
 	SOURCE=docker $(BUN) run e2e
+
+offline: ## Abrir web y API simulada sin Supabase; SOURCE=dev o prod
+	$(BUN) run offline
+
+verify: ## Ejecutar check, smoke y E2E de desarrollo, producción y Docker
+	$(BUN) scripts/verify.mjs
 
 evidence: ## Capturar las siete páginas y un vídeo de navegación del build
 	$(BUN) scripts/evidence.mjs
