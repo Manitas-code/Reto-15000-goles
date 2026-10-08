@@ -1,0 +1,242 @@
+{
+  "baselineRevision": "88552644372229ccd8e8157c3ac99c88965b5675",
+  "reto": {
+    "slots": [
+      {
+        "src": 0,
+        "mult": 10
+      },
+      {
+        "src": 1,
+        "mult": 1
+      },
+      {
+        "src": 2,
+        "mult": 1
+      },
+      {
+        "src": 3,
+        "mult": 1
+      },
+      {
+        "src": 4,
+        "mult": 1
+      },
+      {
+        "src": 5,
+        "mult": 1
+      },
+      {
+        "src": 6,
+        "mult": 1
+      },
+      {
+        "src": 7,
+        "mult": 10
+      },
+      {
+        "src": 8,
+        "mult": 4
+      },
+      {
+        "src": 9,
+        "mult": 1
+      },
+      {
+        "src": 9,
+        "mult": 3
+      },
+      {
+        "src": 10,
+        "mult": 10
+      },
+      {
+        "src": 11,
+        "mult": 500
+      },
+      {
+        "src": 12,
+        "mult": 100
+      },
+      {
+        "src": 13,
+        "mult": 300
+      },
+      {
+        "src": 14,
+        "mult": 500
+      },
+      {
+        "src": 15,
+        "mult": 1000
+      }
+    ],
+    "goalsInput": ["7", null, "not-a-number", 0, 3],
+    "goalsExpected": [7, 0, 0, 0, 3],
+    "multiplierCases": [
+      {
+        "slot": 0,
+        "boost": null,
+        "expected": 10
+      },
+      {
+        "slot": 4,
+        "boost": 4,
+        "expected": 5
+      },
+      {
+        "slot": 4,
+        "boost": 3,
+        "expected": 1
+      },
+      {
+        "slot": 12,
+        "boost": 12,
+        "expected": 5
+      }
+    ],
+    "dailySeed": "2026-10-05",
+    "dailySeedHash": 1635592497,
+    "dailyRandom": [
+      0.9010846805758774, 0.20181753393262625, 0.09141487441956997,
+      0.7786677710246295, 0.06667779362760484
+    ],
+    "shuffleInput": ["a", "b", "c", "d", "e"],
+    "shuffleRandom": [0, 0.99, 0.5, 0],
+    "shuffleExpected": ["c", "e", "b", "d", "a"],
+    "madridInstant": "2026-10-05T22:30:00.000Z",
+    "madridDay": "2026-10-06"
+  },
+  "emoji": {
+    "days": [
+      {
+        "date": "2026-09-28",
+        "players": [
+          "Xavi Hernández",
+          "Fernando Torres",
+          "Fabio Cannavaro",
+          "Casemiro",
+          "Gerd Müller"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "players": [
+          "Ole Gunnar Solskjær",
+          "Lionel Messi",
+          "Ronaldo Nazário",
+          "Franz Beckenbauer",
+          "David Villa"
+        ]
+      },
+      {
+        "date": "2026-10-05",
+        "players": [
+          "Luka Modrić",
+          "Diogo Jota",
+          "Michael Owen",
+          "Cuauhtémoc Blanco",
+          "Lamine Yamal"
+        ]
+      }
+    ],
+    "seed": "goalday-emoji-easy-v1",
+    "seedRandom": [0.7892491761595011, 0.3075008010491729, 0.5259592137299478]
+  },
+  "masOMenos": {
+    "tiers": [
+      {
+        "streak": 0,
+        "expected": [0.4, 0.85]
+      },
+      {
+        "streak": 4,
+        "expected": [0.4, 0.85]
+      },
+      {
+        "streak": 5,
+        "expected": [0.2, 0.6]
+      },
+      {
+        "streak": 14,
+        "expected": [0.2, 0.6]
+      },
+      {
+        "streak": 15,
+        "expected": [0.1, 0.55]
+      }
+    ],
+    "comparisons": [
+      {
+        "first": 10,
+        "second": 11,
+        "more": true,
+        "expected": true
+      },
+      {
+        "first": 10,
+        "second": 9,
+        "more": false,
+        "expected": true
+      },
+      {
+        "first": 10,
+        "second": 10,
+        "more": true,
+        "expected": false
+      },
+      {
+        "first": 10,
+        "second": 10,
+        "more": false,
+        "expected": false
+      }
+    ],
+    "differences": [
+      {
+        "first": 148,
+        "second": 150,
+        "expected": 0.013333333333333334
+      },
+      {
+        "first": 100,
+        "second": 150,
+        "expected": 0.3333333333333333
+      }
+    ]
+  },
+  "blackjack": {
+    "payouts": [
+      {
+        "outcome": "exact",
+        "bet": 100,
+        "expected": 200
+      },
+      {
+        "outcome": "win",
+        "bet": 200,
+        "expected": 200
+      },
+      {
+        "outcome": "dbust",
+        "bet": 300,
+        "expected": 300
+      },
+      {
+        "outcome": "bust",
+        "bet": 100,
+        "expected": -100
+      },
+      {
+        "outcome": "tie",
+        "bet": 200,
+        "expected": -200
+      },
+      {
+        "outcome": "lose",
+        "bet": 300,
+        "expected": -300
+      }
+    ]
+  }
+}

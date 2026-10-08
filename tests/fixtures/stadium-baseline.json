@@ -1,0 +1,1233 @@
+{
+  "revision": "88552644372229ccd8e8157c3ac99c88965b5675",
+  "sizes": [
+    [
+      390,
+      640
+    ],
+    [
+      1440,
+      640
+    ]
+  ],
+  "teams": [
+    {
+      "id": "Alaves",
+      "hashes": [
+        "4739a5828d28f822dfa03d8a01da3472f32f4db62d6481d919f1d01182ab0249",
+        "dc6f8f7a8111fe07065adb727e58e5395c4817ab626c098c91dc6428d0d94af0"
+      ]
+    },
+    {
+      "id": "Athletic",
+      "hashes": [
+        "89caa1c79051ac51d043f9adda03ffd7242a008edd098f13db698412d1739ebb",
+        "c43f3f46f596f74e5f1837b83e1bc9e22ebbbbd90988003ed488fdb6b9ace7a8"
+      ]
+    },
+    {
+      "id": "Atletico",
+      "hashes": [
+        "09d71fb407bb5edafff25bfa54ab5668d182c1f99ea46a5405010307c258aff4",
+        "9c74fa151da344c99cef19f022f4a14be8d7170ef7c7670e6b9cb8ba02fdc881"
+      ]
+    },
+    {
+      "id": "Barcelona",
+      "hashes": [
+        "73b17983adc36e073951ed0e82bbeb61bbfc5d21bdaf439a2a3336a2bc9f5e91",
+        "20c148ad49e0f0f9832e4d9ace1548c923a40288c682fbc71f004efbb49979b3"
+      ]
+    },
+    {
+      "id": "Betis",
+      "hashes": [
+        "904e7bb03e27b01bc4df925ad9b86c4f78ed77bc979ae1ddb5e4506de7f7c242",
+        "a6223d7aed1ecdff13c20904d2be12be86e6d6ec1c89c954abd12179d2609033"
+      ]
+    },
+    {
+      "id": "Celta",
+      "hashes": [
+        "ef6f33cf72a3cf8471d30c281cd13c12444e958196f3f31d370052b67a42cb45",
+        "7218effce32a8ec3289017a1aef2679332b4152e35c154948859a737f73b5ba1"
+      ]
+    },
+    {
+      "id": "Deportivo",
+      "hashes": [
+        "27647fa7ae2d0fe0ff17764acf6d22a3f3a73bc4564f0f4aeab22ee83e30ec9c",
+        "4078d3e878a9b989a3f919f75825a5660231ec79b7b9832946db963b4fc652a1"
+      ]
+    },
+    {
+      "id": "Elche",
+      "hashes": [
+        "ff6f7fe0584837ea7f8dc63332886010ec54d9e26d5492e4044ebbb900ce263d",
+        "20f3d209029c637730ee22f1b68a0730b4414246c0e5a4522045f09630d0eabb"
+      ]
+    },
+    {
+      "id": "Espanyol",
+      "hashes": [
+        "c4a2ee0396be7989a07c230c8a8c9b3397e503a0955829e265980677a1790aac",
+        "5ce0ba20913c37aa468a5b541916b73493a28dad58a19826eda077f2fcb61d95"
+      ]
+    },
+    {
+      "id": "Getafe",
+      "hashes": [
+        "247f83a059f457cb6511c88f012141ffe893f1182690ac7003fbeb5814394707",
+        "2719fc34073929e89436cad12516e953fc25fc70f88f191e3f40a2c105429d72"
+      ]
+    },
+    {
+      "id": "Levante",
+      "hashes": [
+        "8b52affe0659ad8568422081ea2a2cb0fff4ca0d25a96f48d754d845d580785f",
+        "31f75af2e229590322ac8e235d6ffdf6ef2d97be9028c59bbbe0c231255edc4a"
+      ]
+    },
+    {
+      "id": "Malaga",
+      "hashes": [
+        "e7aea8dd03c34c6854287a7fd7e3745fb1dcdcb669fe03ef7978c4aab60a8847",
+        "b4e6fe3819f52c4fa624e9913e0620fa1ca09d6456ed9d907bb5806e25051407"
+      ]
+    },
+    {
+      "id": "Osasuna",
+      "hashes": [
+        "9f1026ad323820dde95e79e0b67aa036a17c3a2ab6be229b781f674bf20ea566",
+        "f72f00803d53ff90edd35b88b3ef6288956823550baa801857fcc94741e5e5f0"
+      ]
+    },
+    {
+      "id": "Racing",
+      "hashes": [
+        "413b5cc4e928bf09b3b8ae3d615f51c27de45fc1137c8888fc4ebb4a597d3c30",
+        "826686d023799c0c9c7c93544f66e3429cf59d5ba77f65e988bf657fe10705de"
+      ]
+    },
+    {
+      "id": "Rayo",
+      "hashes": [
+        "07e380883c8b88284facae1b49c4889e6f16bb7f84e5d3bae3336edcba7b699c",
+        "b249e4cf7c01a1161deaa04eb8e6fa5de4d43cf5b69409cc9377ccffad1b2359"
+      ]
+    },
+    {
+      "id": "Madrid",
+      "hashes": [
+        "9d99473c1ea11bfc700b7cec74e91039ce54e35d854769d19c78d69a7e05df4b",
+        "063e8fb945752b3a717dc868ce88813c9b7a51abbaf83320749de363de23e5a0"
+      ]
+    },
+    {
+      "id": "RealSociedad",
+      "hashes": [
+        "7449efe259f0de2ab2c8b8b3f538680dc20a99dde151fb4674b13241b5f85761",
+        "5c5c4450974dd7702759ed2622840760259c2064e895c2c959c14a4083623a12"
+      ]
+    },
+    {
+      "id": "Sevilla",
+      "hashes": [
+        "487c3a962974b0ca2e051aed42b7e93a2d28c8d62f4225fbb2b2627c6ced0883",
+        "2723bc7fd3ce0efeeab24ab81b246d09ba82b1888d9dedd7f7874d2a21ebf379"
+      ]
+    },
+    {
+      "id": "Valencia",
+      "hashes": [
+        "69361f284cb95f01d7adf1f1131b98785b7f6e2ef6b326e3aad65ba3a22e5585",
+        "c1aded983e021c8d2d1d3de8bd009eb74661d697c97d9dd68d93c5c8048cba73"
+      ]
+    },
+    {
+      "id": "Villarreal",
+      "hashes": [
+        "8c53fc1f61bd63c7495cdfcd3946b70311146878257add8222824c3abff860a7",
+        "67f01d28639a815c95a6e1a89349ed8ad9335493906106c4dd72a2ae8e21c8cd"
+      ]
+    },
+    {
+      "id": "PL-Arsenal",
+      "hashes": [
+        "103e2bba42a438956231426bc6d6bc9ae71b109ea76422b5256fc98d44fd2d8e",
+        "c07a5ef9b9ade660f8235431402ab816cf5ecbff45d83213de2a1ad5b30e9f04"
+      ]
+    },
+    {
+      "id": "PL-AstonVilla",
+      "hashes": [
+        "cfc4797c9dc50286707c61e1684cb45d1dad4dcfeb18fde6dd6ca44010b7d52d",
+        "d57b654c227ea1a65a199cafd5c95fa74662b1981a496023447e543c9422ee7d"
+      ]
+    },
+    {
+      "id": "PL-Bournemouth",
+      "hashes": [
+        "e7daf509001f9c4e6473ce3bcfcc66b375beaf7a06919e8869b44d4b8c63a68a",
+        "4ace272ad1e06a8e70b6a33ca1933a5f560a332971282bd3ba5995d6bd7281cc"
+      ]
+    },
+    {
+      "id": "PL-Brentford",
+      "hashes": [
+        "00d9e9fa1c9a642c9985656b09f2a6aa73719c034333f016f28cb20dd968e00e",
+        "e03499555bd19f1dcc3fb9c8b73792ca31359f18b287ac77d44ddbf78b30ee0f"
+      ]
+    },
+    {
+      "id": "PL-Brighton",
+      "hashes": [
+        "ceacc2a8de1ef3f60cf986cd9ba58a0f884cfa72f105d93673c02e3d038b4c74",
+        "dc8279295d5adc3072ec1dcd6d26d132ba19a1e4d5a69bc8580c669ce30b5ef8"
+      ]
+    },
+    {
+      "id": "PL-Chelsea",
+      "hashes": [
+        "be0c656a40c7f61ee27c1b814814e1e8a2c1b5db6890080d8386997a4c8ca60d",
+        "09de17047640adab256e84051066481bfe68aea4f8ce0446988de4ff1a13406f"
+      ]
+    },
+    {
+      "id": "PL-Coventry",
+      "hashes": [
+        "8b09069dadb515c3b6daf5726a9580a12382b33f700251abc8c4e2c2ec27ecb3",
+        "666bc51bcd31e5bb65aa898a75604956d90d4bdeb548f7c5bab75ebd42637afb"
+      ]
+    },
+    {
+      "id": "PL-CrystalPalace",
+      "hashes": [
+        "b152541e07ba3ca67de01884c49b3e44eaa2c33d6f62727ab65ce43cf838ccd3",
+        "ccda13a4b16bb5d13cc341321bb9a8a2af9e77f72987c0f1f00bcf63865459ba"
+      ]
+    },
+    {
+      "id": "PL-Everton",
+      "hashes": [
+        "e34a51bc6cab41ccc1f95b6c74ac9d4d22cc36cc902c09ccd81e3b606d896c2b",
+        "ea74e01770bd27f548634d64c8ae079bb9d4838077463dc3fd04a9acaa390b86"
+      ]
+    },
+    {
+      "id": "PL-Fulham",
+      "hashes": [
+        "239c950265ac8a86c65cc0fa04e7ba46cc345963ee6169abd7c9325fff83c574",
+        "3c6a5a4a6afb837f435c625e851ee8efacbc4258924239ce751e35dbdeffc2e2"
+      ]
+    },
+    {
+      "id": "PL-Hull",
+      "hashes": [
+        "a8544e62eb6db5b3e86f64fe8010264e21a95ac2f6808da0f01ad10722269b4d",
+        "19c321990cb7f20f8032c16ebef5a03c50437717f11f1ca0e8d3c9e1e6bc2bee"
+      ]
+    },
+    {
+      "id": "PL-Ipswich",
+      "hashes": [
+        "dbe14456a4fe021b17bdd878fb009401f825f9155a6a8e6beb80919f866a5035",
+        "40c0df2994484d44268ce138c2adbbc45834630f60b9271a4d250591d6229ddf"
+      ]
+    },
+    {
+      "id": "PL-Leeds",
+      "hashes": [
+        "873b98d25dab28f5508527641a21df5e51c0996bcdafdbdd9beea09780bf5a2a",
+        "2b8cb0add02df4401e1723e42571a9a62780e9e720871451e8e9e285ebfa9a51"
+      ]
+    },
+    {
+      "id": "PL-Liverpool",
+      "hashes": [
+        "ac8f60ae85d47cb523e967984e8c82c78b8a717e346ad5fac41799da274db786",
+        "7a968f137fe74f3fe470b9d84a18d3b1a6530ee3a410d9d24e69bc68c50bfaaf"
+      ]
+    },
+    {
+      "id": "PL-ManCity",
+      "hashes": [
+        "b4dc5b8feb9bb38e8ad88d55ee81ef955970e0eebace15ac54912f3c4289c526",
+        "eddb59b392a8f7c9f3c9b72afc6994d9043574ada12c81bd997e0dacda55f591"
+      ]
+    },
+    {
+      "id": "PL-ManUtd",
+      "hashes": [
+        "496a4b6dd7b5a88bc7fb963a025b7d4f7da548b42b581ee685ebc6adb6005dac",
+        "650052f8f0b9a18225097c8256bdbbcd51feeea11818eec0cb3a05218b35701f"
+      ]
+    },
+    {
+      "id": "PL-Newcastle",
+      "hashes": [
+        "f6860cb291848fd85c647e1e1980d3aa98751fd775307f6fe922e515fbed257b",
+        "735576538ae6e2802439217341ba2b3b7625f0e1a43a841566da3457f18a9b13"
+      ]
+    },
+    {
+      "id": "PL-Forest",
+      "hashes": [
+        "7c465e45de3460fb001121aab90871a335335255f9be47b32c08f200ad4a9edf",
+        "317efe60034891ab6d92650cacbaeb9ba354bceea98587eff9b807d8496216eb"
+      ]
+    },
+    {
+      "id": "PL-Sunderland",
+      "hashes": [
+        "13f7fd31af477f1fbc101d82205f777bdd4b172af5e18d54c29b80208d8921d9",
+        "f4ff5c373ac8d5b958967d4aa531874f9d816e1730d6682be4656e67cb7bb276"
+      ]
+    },
+    {
+      "id": "PL-Tottenham",
+      "hashes": [
+        "69721862f4d28df01a74ecce06cd0c2ee24d247a34f1cf858c900d71dc8bd80d",
+        "2588b8ee023c5f4c32b044248c9ef33ef94688e1958c9f87062a8f1758fd89cf"
+      ]
+    },
+    {
+      "id": "SA-Atalanta",
+      "hashes": [
+        "4db4f0c2caf929a3283fc8f67ae480c750d61e36a56a436a41f6f7cbf85f7601",
+        "29252f96a252d6005052a1c3ba9189445c734d3d0f16241329bb1e8e4efb075d"
+      ]
+    },
+    {
+      "id": "SA-Bologna",
+      "hashes": [
+        "7a18fba2ceb62cb5c0af61c95f9879455fb57f5277c7fd01517aea6512cbea13",
+        "0287d6a2fdab1a7ffb102765964bdd9c294137aaa5386c95ec3e5deef8480a82"
+      ]
+    },
+    {
+      "id": "SA-Cagliari",
+      "hashes": [
+        "c4b562017ea7d1c5f241347500dc3b5c6cb6979a476647beab0b790d3fb19adb",
+        "c46b8a4b14ce5d7c6c0609cb8fbe10521ba19ae55cd85db23083eb7d14ac9b60"
+      ]
+    },
+    {
+      "id": "SA-Como",
+      "hashes": [
+        "5e01c5f29273289cd47c9feca67c8111b7e7788541b5527cbd4b4ff661d3c3f2",
+        "fb4afada362070f0a060d7397f8bdc0566ff20d4fe7d9f05de8eab8c63771229"
+      ]
+    },
+    {
+      "id": "SA-Fiorentina",
+      "hashes": [
+        "b0599212fd0598cf857fe3e59e330ff0276363ee4f39caa39654ccf9c365de16",
+        "ba538b173a7c2c060f27085e9c530d7a17ed128c924906f5ab04ed11db096d9b"
+      ]
+    },
+    {
+      "id": "SA-Frosinone",
+      "hashes": [
+        "281caa7066f246c4b6f2e01203f6101cd189058a6ba55e9caec04a8087be2414",
+        "1f6dc71921720ccf4762b7219ebc7e96c0527bf92615a9ccd7a8eac845206188"
+      ]
+    },
+    {
+      "id": "SA-Genoa",
+      "hashes": [
+        "c3b24638a92d757bf4a7faa3211396615fad0eda2d8f30d8f623035534ab9160",
+        "72320a9a8cd652e99b3f8fc896e8413c5eb4cc3d974ed47c089eb1055c0ccaa9"
+      ]
+    },
+    {
+      "id": "SA-Inter",
+      "hashes": [
+        "a2a43f7b80ebdfddd666d6cd22b9845e21abb04c4ac5fb5a501f32e23c262e0e",
+        "a37f633cd7ebef47ef50aad1ebce0f24724862831f3119ed544793dd366e1422"
+      ]
+    },
+    {
+      "id": "SA-Juventus",
+      "hashes": [
+        "fe5ed8ba78c5b762e66f9df7cb1d46c5186f163c8738f81f8b52fa8727d0bca7",
+        "2c9d93815eefd3c8541ef552ae7a9aff9a00755220e38a617242ef8e7a9f96d5"
+      ]
+    },
+    {
+      "id": "SA-Lazio",
+      "hashes": [
+        "c72d14c20a7239d4b63b6f9502950709b2cdafecaf065b1f952156f0856065d5",
+        "76e21856f596e54881dc1b9d2c33172a331bd64ed92358f714aeb16722343f47"
+      ]
+    },
+    {
+      "id": "SA-Lecce",
+      "hashes": [
+        "c61636029d8d83168c7094c59315a06bf1a324b5654bdf1a34008299df799144",
+        "c51662cffd0d82874d60afb14bc1e0c5173d46eb85ca0da99bdfd633adeec558"
+      ]
+    },
+    {
+      "id": "SA-Milan",
+      "hashes": [
+        "0852df62d336d180cc4ccfe5401a27f2b298720c105994d2e27c3424cc5eaebd",
+        "6902802f23504466ffab55f37af44d7cc7260e0161b3115947256e082dab695b"
+      ]
+    },
+    {
+      "id": "SA-Monza",
+      "hashes": [
+        "386cd5ecf1a7eed3d26d2c5923a8af24b7dcb92ac032809cd61c4ca26748cdfd",
+        "c3da787f2081ebde8a23b314052359a36018e41fe1440ed792d39560a14bab79"
+      ]
+    },
+    {
+      "id": "SA-Napoli",
+      "hashes": [
+        "2b6c757914cf6251c211cd022bf7ae7490a8c5f9da41e5744ed9a686a9bb4987",
+        "4564b976a98f4878f09c7960e950550b75126a8c5f83c277b0633be9048eb0c9"
+      ]
+    },
+    {
+      "id": "SA-Parma",
+      "hashes": [
+        "b9b388db242bc508341d69cc5183dde4ce2eb7ec6a775ce4b18f39c1ddcdcd01",
+        "b9e12acaf4a32b829ab01f0e3120f100271e40527d26e326ce4d9c3a844cdc9d"
+      ]
+    },
+    {
+      "id": "SA-Roma",
+      "hashes": [
+        "ccbd1210c99743db17886ab6235f78543805abf797dfaeab1ea99ee40a31db8b",
+        "7d7ea58a8d121b4fadf5e949b2310c5eb4efb181a09d6c5816ed186aa06bda3e"
+      ]
+    },
+    {
+      "id": "SA-Sassuolo",
+      "hashes": [
+        "7db5e356d4e24e15490abbcf685aa5030c42566394ba6de37ce57d5460856519",
+        "7ca963a9d169f3d5d0c6a21a9bdc6cc7ce767c4303bdc20c552b9b0498a4c12f"
+      ]
+    },
+    {
+      "id": "SA-Torino",
+      "hashes": [
+        "097695cc8f161f823e22ed8744265f6d94326a7b9e3a439073b75cba4ded1d5a",
+        "54d221cc0c8f83138840338064195ed8e1e1d9314eb39aee3c444ca16417a73a"
+      ]
+    },
+    {
+      "id": "SA-Udinese",
+      "hashes": [
+        "cc2adafb8bacb2c539beb00e0437a42f975fef8565c31f672a00dc77f2b7504b",
+        "5bc613b5d8712db6f13d05085e0ad97e805193deae01ad3c98da133ebc941f56"
+      ]
+    },
+    {
+      "id": "SA-Venezia",
+      "hashes": [
+        "88d68db2d3b577fbd62f1169d213e86753c54d9f728c7b875bc90202c0719527",
+        "8f133fabaf71dbf607b9a3df70d34703a20aa95abf56decb347e42e2eb0bd164"
+      ]
+    },
+    {
+      "id": "BL-Augsburg",
+      "hashes": [
+        "59272105d57f3a886ab5d478712c4484326865273246aab58c8f6cd325a281c2",
+        "2c0f97796334f16b368326ef56f52a072a6393c63e4a1d952d1fb822a7f76cd7"
+      ]
+    },
+    {
+      "id": "BL-UnionBerlin",
+      "hashes": [
+        "1cd133500271967089d0f6217bef8c3156da3b20725d28f1391b3b08db16aad9",
+        "ad7a57b99e3462040dcb61578b59856531369e26195b74d40d71a45cba5c3318"
+      ]
+    },
+    {
+      "id": "BL-Bayern",
+      "hashes": [
+        "b90eb42aa16611e94622dfd1ce0127d2cddfd344a8e6a5b3e3876e0836c6202e",
+        "74d3c50a84a4c7241721af6a75214e2bb84fca72552c5173dee129fb6c9f275b"
+      ]
+    },
+    {
+      "id": "BL-Dortmund",
+      "hashes": [
+        "9564a2f083ac6c6eaafe1faed79d03733c28d9e2ae10845ad5f5b114d475f3d2",
+        "07c23f3522384e2a2483a37567779e2bf5fcb7e9ffb8de1c31b21aad6a03cf03"
+      ]
+    },
+    {
+      "id": "BL-Leverkusen",
+      "hashes": [
+        "22ec732aa2988e329988c0a7d37712b0c83954f53042a02b59af6564834a3d8b",
+        "5e42867347d71aa8375112f2fb2e6b81f921dd199b7770293383f370d3790a95"
+      ]
+    },
+    {
+      "id": "BL-Frankfurt",
+      "hashes": [
+        "19c12682fe016f8381002af57da67450d28a4780c2c9be229df9b090d997523d",
+        "8f319e34c26d487fa2e2b08ededdf83eea4326af1dee79eabdabdc36dc4af0ad"
+      ]
+    },
+    {
+      "id": "BL-Freiburg",
+      "hashes": [
+        "1038fe0f3e945ab18617152e973da9728b385e3b920045398e205c213fc62b17",
+        "c48d71ff5513bfab62f2095e1fdb4cf193bd9f81c2634e6a037fee2c267bd84b"
+      ]
+    },
+    {
+      "id": "BL-Gladbach",
+      "hashes": [
+        "f35beb75db9f7dbfccf1e5767db26ef5ee84ee92c8b59dad595f7154be1739fb",
+        "87e3eac0ace491f6d26b2e5133be5798548105ca6b11595addf1eee0d3cf573c"
+      ]
+    },
+    {
+      "id": "BL-Hamburg",
+      "hashes": [
+        "fdeb3ddea936dc1259501dc77cae888c9e19317c07c0937e2b261ff7640ce5c8",
+        "751d639069a650e4a3900df831ea41dc6c706dfdf3fc9c4b9c2ba08b0e03419d"
+      ]
+    },
+    {
+      "id": "BL-Hoffenheim",
+      "hashes": [
+        "0100e91b088c6da55c1117b0871ee2f6fcf94765c6d1f03c839cccbecabf15ff",
+        "1876e8dd11fd7a86af7177f6295d4e2a1e52a5241fe1b965aa2bc5151afc4dbc"
+      ]
+    },
+    {
+      "id": "BL-Koln",
+      "hashes": [
+        "54efecb0c02fdeee2ec11234567dcc1f29c31c54c4f69c7d23a04ff2d5400e52",
+        "02c7201d67eb787e03f653ff028f3965140624c04d3a0f5a234dd5768c2bf507"
+      ]
+    },
+    {
+      "id": "BL-Leipzig",
+      "hashes": [
+        "6e974d88ffe90a767f855f846361f87771b55e9d74a6d2a5fb236a64081a02c3",
+        "7d15238ca24b0ddea1ad9e50e5fc83d770523031bdd8ebecdcf13f6acb68378d"
+      ]
+    },
+    {
+      "id": "BL-Mainz",
+      "hashes": [
+        "d0282519be446eaf8e79433f4a4766bfebf31e0e81ca9eef343e2ae3e00e1d92",
+        "f1a5341c4dcd5ab4705c5e1b908d73c0cdfa3c02ff5155df96686723fe5a12d0"
+      ]
+    },
+    {
+      "id": "BL-Stuttgart",
+      "hashes": [
+        "02e02a09705d17398ea5fd485a185636c03d2280be45401c4b84e74cc7d797a5",
+        "3e445347134bebd52266c7c79e2e6104fc0cbacdd5583268ab6c7a8e222044c0"
+      ]
+    },
+    {
+      "id": "BL-Bremen",
+      "hashes": [
+        "b8eb7be36e0bb69a73cf2015b02ea5ae24148d71d1a37b0dc0b5a9f402099ec7",
+        "5eea1e0e9fb169d5f662b874a6f8d54d4a30ba8988803e5368dc385229861323"
+      ]
+    },
+    {
+      "id": "BL-Schalke",
+      "hashes": [
+        "d3e1bce611fdd88510c6f354ebd9e34cd4b3a41821080f3df8ba63206284963e",
+        "310a225ee8d69c078a715951616712d3f3a51765e3721085b406b989d02f8cfe"
+      ]
+    },
+    {
+      "id": "BL-Elversberg",
+      "hashes": [
+        "4a1553403ebac56a4aee5734e68c65ba761179cac003dce09f4b3ffac9914a35",
+        "278b24f003e3ea4487d9908bb9b56f33d69c8be65c1200b3aa135b663ddcd32f"
+      ]
+    },
+    {
+      "id": "BL-Paderborn",
+      "hashes": [
+        "e376aa0841650f512e08d85ae5b0d8ff3b09ab57fc36954271c90ca3639b135d",
+        "b2f6a96130d2db591653da0dd1ae99d450036237f75819e59b3dd225445234c8"
+      ]
+    },
+    {
+      "id": "L1-Angers",
+      "hashes": [
+        "be2e1f2071a56682c91391d4f237ca007f8ed7b3a1b5f01918d86ec673078ebc",
+        "5d0bd4e08aa08fe0b0f80d0ff9e830e6f9509aadde793ab5f2a5960586e20c57"
+      ]
+    },
+    {
+      "id": "L1-Auxerre",
+      "hashes": [
+        "94d53e48404023a0ba3446ac6e07e6c273cccbc0c658475dbefda7e925fe36c1",
+        "45ba404f09b482422095fceedd728022aba6ad534afe96b4c595ed90c4fd0adb"
+      ]
+    },
+    {
+      "id": "L1-Brest",
+      "hashes": [
+        "f411e1cec78743cc2564ed10817f37b2426a50001a1a404f427a8601b1b052ee",
+        "49ad0b2f2e657d6a9c96d95e798d2048daddd72fce23e7d033fa05b2f4b4d207"
+      ]
+    },
+    {
+      "id": "L1-LeHavre",
+      "hashes": [
+        "34882657b78d62a1a0e9611f5319710de0db923d2214baba14e894a81ba9994d",
+        "4fcbbecf1b18b9b247312b8b54ec9a0408f93f5b28658df42d890cefbd6811a5"
+      ]
+    },
+    {
+      "id": "L1-Lens",
+      "hashes": [
+        "1d864307d62b256818f8389323a7deac3d031b266616a7e16693ba87c34c7f8d",
+        "023abaddc396595a8df494faed4c84681a3e59421a7375380e800877a26d8d2b"
+      ]
+    },
+    {
+      "id": "L1-Lille",
+      "hashes": [
+        "a52d4155bd4470f599326d396c36dd561c7255df966e3bbc56732dfcb3137e89",
+        "48d5a8584403c9387a5d6c88423ff334f9e75250bb42364e6d31970bb1ed8e64"
+      ]
+    },
+    {
+      "id": "L1-Lorient",
+      "hashes": [
+        "4fb1d80c8b3547a81aeb6e13e8c90ab9be1b74b87eb6875d4bb0393efb38f361",
+        "43716d9dfe2c4a4aeb035ebfcdeb12d60927bc5f2abb9e8127f959698bfc2fdb"
+      ]
+    },
+    {
+      "id": "L1-Lyon",
+      "hashes": [
+        "1b4983180fd54944ee91d4267c8b66d35062fd4e06a1e707c5eeecf682bd2f3f",
+        "825553c4d906733befe9c62ca43f03214bb5f9ff36109371dffab9f3eca80ea3"
+      ]
+    },
+    {
+      "id": "L1-Marseille",
+      "hashes": [
+        "e86492adb0368159ee7b5f7d3ef73c0675c18463e6da5668b4f7f36fd2b55630",
+        "dd5239a0efe4ac569a736dfa726b2626ce8147032a903dc281d4ef49e3684929"
+      ]
+    },
+    {
+      "id": "L1-Monaco",
+      "hashes": [
+        "c374f534e75950366b2ec912051f872329759e00f93158a18a2c164407c8b5a2",
+        "81c2d2bf5af6ffaa72cb41dc1caa0a9bbff26ca77bd6e56f940dba5423ca0d9b"
+      ]
+    },
+    {
+      "id": "L1-Nice",
+      "hashes": [
+        "4f92e000a77c9535b8ea21d09f4fbd77e3260fad68ee1b0e83385b2ed050bd83",
+        "18abda132219e10fbe18c7473e691e2670e681e7e053342ae5a78e1c3b84b15d"
+      ]
+    },
+    {
+      "id": "L1-ParisFC",
+      "hashes": [
+        "7a03de414036bf5a07e82715322d9f12c34860dcdbcac65341c067e131ad7d1e",
+        "a55fbaca4740ba6f0230c7105592770bcd6086fcaa9c562da0184614ad5ea6f0"
+      ]
+    },
+    {
+      "id": "L1-PSG",
+      "hashes": [
+        "813c1347b31a50aaa2eaba41ca51b2f53d7990a312bb2f08befac4eb7305ba9e",
+        "b2135535998e5c2b8ee0d5e2adbd7a293dd824bc6ca3491f2d4e97caa390c355"
+      ]
+    },
+    {
+      "id": "L1-Rennes",
+      "hashes": [
+        "c8134239ad6d2540543f655f772c4b8e66ea90cb53d954016b68baf9d5bfff33",
+        "a503ada33ffce2f481101d03f80003973421790f1a9de6a7654c43af2b63e260"
+      ]
+    },
+    {
+      "id": "L1-Strasbourg",
+      "hashes": [
+        "9af47977d11de60af337b1edc8f945b6e8793b12d1ee086e95bf5f5fc9614db3",
+        "938466b57a86eda14950dd5bbb14675199f6913f113d84647fee36de0ebd201e"
+      ]
+    },
+    {
+      "id": "L1-Toulouse",
+      "hashes": [
+        "4ca148d4f6c150106d411a8944299fc765e350dcd4dc17f2cb4a20f08af6c0b8",
+        "d28cdc37f21638825c2c6ec4e04451aefd38a7a5e123123979d929729daca8a1"
+      ]
+    },
+    {
+      "id": "L1-Troyes",
+      "hashes": [
+        "783ce98445e15eca0e88e12f4c218832d55741554f9285d9af15d4fa89884dc8",
+        "a0635aa47e0e5114881a11f9936059b0c76b81586a3d1bd80ed17f2c3dcd98cb"
+      ]
+    },
+    {
+      "id": "L1-LeMans",
+      "hashes": [
+        "d383b40311e0a7b88611f8c6e2922e06f0abee1647e0ca5fde79b3aa04ab0665",
+        "f1b6756dc0f52d514448b15b883ea514b6196a38db5b3cc5810a7469463c7627"
+      ]
+    },
+    {
+      "id": "AR-Aldosivi",
+      "hashes": [
+        "e854ccebbcf22e062513b9ac70bf4db088fc3af1667b1d6e06ced98616d86899",
+        "7e5c908f244ed711b3fc8b8fb4939b79d83c12408693ace797cc6efff1be0e09"
+      ]
+    },
+    {
+      "id": "AR-Argentinos",
+      "hashes": [
+        "164b61e6e6a44db464b03ec42009395c2bba18f0bf11a376d629ab2853b0899e",
+        "25df4a091c9875c9e890bb7d6d5cbc140053a7c4fe24c19512cecd01ae729ca7"
+      ]
+    },
+    {
+      "id": "AR-AtleticoTucuman",
+      "hashes": [
+        "4a9353c4e3817abcaa0157710194d40140f1490b892b96c946e70ae687bbd106",
+        "9a4aad416ecf9978112ba992267bbeed9e3dd5b980f0e00f21b40a363bb7fd32"
+      ]
+    },
+    {
+      "id": "AR-Banfield",
+      "hashes": [
+        "fddef875f2808a980d90fb3d2fae522bf873d557e9bfbce24a3ed7e1bf1977dd",
+        "7ced3cf1dc0f3808ebdc21709a9d5f26ae2aa349f2ce0140ec08c654707d50a8"
+      ]
+    },
+    {
+      "id": "AR-Barracas",
+      "hashes": [
+        "e8b438fd0d7ce32cf6bcf9ad1adb05607ce7cad95fa79cb4a0563e271ec07754",
+        "9f017d81b9cdb5427642c622d5a3b0d1a2eff36b4a082a827caf0676dd7abbf3"
+      ]
+    },
+    {
+      "id": "AR-Belgrano",
+      "hashes": [
+        "23945117877ab19df56ed8b3a686f3bb183888f1e1fd3ed487134c1314d95f3e",
+        "c637c7b2e8e127c400a93d44716608e8ed1a47ecfda34b5352c6be2e0d41b861"
+      ]
+    },
+    {
+      "id": "AR-Boca",
+      "hashes": [
+        "854623964478073c8ec8f052d06916274bf96e9fa5ab92ad7594730d450f4f77",
+        "1cd043456ed64f041f5c6f8ad8874b6faddf4eeccc8e139ec3240f7bb650c5d3"
+      ]
+    },
+    {
+      "id": "AR-CentralCordoba",
+      "hashes": [
+        "edfa57023f8065556735e023dc305ae457f6aac124d6521c24f8976f12d0e9a6",
+        "e6e8d270d5f4e737e14e3ed54daa229d28d8005c3313ce8f5af416512454d434"
+      ]
+    },
+    {
+      "id": "AR-Defensa",
+      "hashes": [
+        "62a3be2e8f07ba776bcf9ee679383943dec8fe4a662a2a89006181055a87ae54",
+        "4f68d15daac886bc8ad12154b6ecfe209b34cbc3abc67499ab27968a70870d2e"
+      ]
+    },
+    {
+      "id": "AR-Riestra",
+      "hashes": [
+        "ac421a3f3576833a3f9cfcd62785cf1d2702dc09a0501b9d3c25dfbecb165c46",
+        "cfaa683db421613f1bd3aedcf3bd474c16908ed5fa1fa795664ecddfa8c58c9c"
+      ]
+    },
+    {
+      "id": "AR-EstudiantesLP",
+      "hashes": [
+        "c945d0f94731eb8354f4b41948fa9f68fe8b2d84cddd0509a8f8a335e730387f",
+        "7cc652700b1b70c1a946698434b8b0a1f386845c99d69a549cc144c3492c84ac"
+      ]
+    },
+    {
+      "id": "AR-EstudiantesRC",
+      "hashes": [
+        "47ce042b678e44ecc080da40b90af1d18ed1ea34a6fa76babe112e0286c2d4e9",
+        "be4d40f680d3a7763495b5888099dee644845d54d0ecdd2d529ce400963348fd"
+      ]
+    },
+    {
+      "id": "AR-GimnasiaLP",
+      "hashes": [
+        "95be41c655c02bd2191db14a2ba2817f6868b2362028941fa2c60646d0de2240",
+        "81bc0e58d5cd7a4c96275ccf3a7c86e3c839934f3d72c103f2da9d600ee89b88"
+      ]
+    },
+    {
+      "id": "AR-GimnasiaMza",
+      "hashes": [
+        "d4e800004ad97c278b4547c9dc932d98ea0b765d2034fdf5743ef0b7efc0d088",
+        "2a9162a8c4c7f559576a1e6c8100e353da2be82426ef1d70f91b06fc6ae21d99"
+      ]
+    },
+    {
+      "id": "AR-Huracan",
+      "hashes": [
+        "0f1490fab50c7fb1c30eab0743276bbad3dc3e09cffbeb14ec7a7a361628e6ae",
+        "ff06e9679327aa6f9373f143cd70cec5c026c9167cd0af2ceb4ca73d155df833"
+      ]
+    },
+    {
+      "id": "AR-Independiente",
+      "hashes": [
+        "c52983b7d6b2be13f6461e5b92b97f2625c181ece7f5ce6d5007e1cd04939785",
+        "374c925e45216c65bb00430dc545366218d0e6fb07583a695308aa33cad404fd"
+      ]
+    },
+    {
+      "id": "AR-IndepRivadavia",
+      "hashes": [
+        "ca07a32dc9ccb1d3108e14a2784cab7e273441dc192024c0937eccef09555df3",
+        "18534840541d5bbd9ff7821fb2990cca546843638063291c199e33a343d7bdfb"
+      ]
+    },
+    {
+      "id": "AR-Instituto",
+      "hashes": [
+        "05e2bd818853fc689512775e97cd1f262efa16234a8b3a45c3240a3d695c2bfa",
+        "f33260eae009433c3fe7a5e5120bd650cec0dbaf2bc0d6816b4e968dcbe96209"
+      ]
+    },
+    {
+      "id": "AR-Lanus",
+      "hashes": [
+        "1d2344917ffa47000156e1efc4db27788964d5adf0038afe5119336fd1dd8afb",
+        "d4646545d3f9620515f3dc4fb5cc787bda84665962f16d6594275808f6a3547e"
+      ]
+    },
+    {
+      "id": "AR-Newells",
+      "hashes": [
+        "c84c868d1a81d2a340e7fc5714217bb607c5942614a87c843adc21b90970aa8c",
+        "bdf7a99aa95235ab4842a3caac8e58b753d5d886ca1349fe545a181031ecb70f"
+      ]
+    },
+    {
+      "id": "AR-Platense",
+      "hashes": [
+        "e2d92c3bc0a371c1e6ecba307149e88d8ce315b17a1eb314ccde99287b6b1961",
+        "6a01f702a65653f844850b3ec8749377467d55a885446b4c0cee29b6399abe8d"
+      ]
+    },
+    {
+      "id": "AR-Racing",
+      "hashes": [
+        "d05bed7996d4cbbcf6e2c8f76cd8f52fd4076df48bd33dd71fb44605be6af864",
+        "54990ce777b84f1b380c0eb816b43ac16b6f70370f3ee3a1f050cf5a3e3573ea"
+      ]
+    },
+    {
+      "id": "AR-River",
+      "hashes": [
+        "dfd88c358a4d138c62ad70ab20f4ce22965e24aa6f657e024a2d0e11892a61a3",
+        "53e57bc18412358f1bb1cbfc1b2041af4157da79007d6732ce28a8cf919e61de"
+      ]
+    },
+    {
+      "id": "AR-RosarioCentral",
+      "hashes": [
+        "6c18247570653589d925c65ec1b30d52c9fc2820a3556fb1bbfcac418a76d804",
+        "087e630ff2acab68e6bf00852105479c3b0dc1eb1c27bcd0e00ebe6aa957ac14"
+      ]
+    },
+    {
+      "id": "AR-SanLorenzo",
+      "hashes": [
+        "57d1dbbcf35b90a28cecdeebd9ca798cd2c4eff1d6a35daae000834caf044faf",
+        "009c3ab7784b10af8d8a4c7fc308fe2c3e012d14a1f13fd60d51720cc43e1dc2"
+      ]
+    },
+    {
+      "id": "AR-Sarmiento",
+      "hashes": [
+        "ffbdc42419da9dfd5a5847406239a905c4ee9f2de38f8a47134252244e1e2afc",
+        "6f4941117437dc31f6be11beb7214709b08b9c95d30ae8d092895593c4adf745"
+      ]
+    },
+    {
+      "id": "AR-Talleres",
+      "hashes": [
+        "fa6ffece894dd23b47e4b28c2ccd7a07e6ebff5fbb3096c8126962a274ef8616",
+        "dbae30978023ce9759c3f8b3dab7cd95839ed8fd35f38c3ee823b184c73f7cb1"
+      ]
+    },
+    {
+      "id": "AR-Tigre",
+      "hashes": [
+        "cbcd56067f7aac84baeb3810e12d89551502e8aefb1cc2ff642eadd003010ca0",
+        "ad438c46099df1db3827bc648791d3b8ec5f23732345fd2c24cc54237f6edd63"
+      ]
+    },
+    {
+      "id": "AR-Union",
+      "hashes": [
+        "f711ca6186b844f8f42c7859a4c373c36a5c5140cbb0f73f97f3dc3ae52cbbe9",
+        "a27f3cbe1bdc468d7a0285b7ec2953f5f917f361b15ecb60decdc9b9cc6b6e84"
+      ]
+    },
+    {
+      "id": "AR-Velez",
+      "hashes": [
+        "f126d05dfb875b0353c5624a370a7ca7b979121bd75b6681fb250544cfbe7e9e",
+        "4404e0107119d5ee409403892ca73e4e942f4a2bddf1c7415fb6bbfa58dd2767"
+      ]
+    },
+    {
+      "id": "MX-America",
+      "hashes": [
+        "ffaa7ccdf5b7cef965946d7f06d41101adce576d8518e525658e9ddc0e309e37",
+        "a07f0974807d687b2a948b31676ddc2dd903118fbc43345d04a3d344ad3f0905"
+      ]
+    },
+    {
+      "id": "MX-Atlante",
+      "hashes": [
+        "9565234c58a5bb5d11563ae0e158910da96af851804d24a33f303f2d39080c6c",
+        "9a6319fa90875332b95a96e851531f32941cd2328b02db61d0a5d619041401d6"
+      ]
+    },
+    {
+      "id": "MX-Atlas",
+      "hashes": [
+        "cd4c33d8db553a897dddbfa7f5d75bfbd11c8b816f9aab78e41b9bd9df73fa8a",
+        "afa21d8a772d24e42b798dc05314dc68e6e253eb170f59d7d9d1f2bcc89c0019"
+      ]
+    },
+    {
+      "id": "MX-SanLuis",
+      "hashes": [
+        "c169346d4e2ff24b455175770de8ca75184c837264a370e56682887ccdb2d418",
+        "64c6fa3ac3b45dfe13c5d7392d121470d35ca1b2f12d7a582a8ac0e5ba0e03f8"
+      ]
+    },
+    {
+      "id": "MX-CruzAzul",
+      "hashes": [
+        "9565234c58a5bb5d11563ae0e158910da96af851804d24a33f303f2d39080c6c",
+        "9a6319fa90875332b95a96e851531f32941cd2328b02db61d0a5d619041401d6"
+      ]
+    },
+    {
+      "id": "MX-Chivas",
+      "hashes": [
+        "1fb11214404bba8a73ec70a1d4e9a73890fe51c64dafd38305a7bda449f695a8",
+        "f4e6d9a930c47f77c2d5cfba01c6b433e2d4adc0fa694919a4fbead8595beaf5"
+      ]
+    },
+    {
+      "id": "MX-Juarez",
+      "hashes": [
+        "ed95f5d0e3b2a8b394714d651bc5361ec6b491b21b94a48db7d6ca0375ebe3c2",
+        "5a4cc785554559b440a2890fd7d05a874e721a755027384bcfce7410a47d2993"
+      ]
+    },
+    {
+      "id": "MX-Leon",
+      "hashes": [
+        "1fd7fdb0562345de12cb62ff8bcc56004e48b31dddc14752314f624eef0eaec4",
+        "70b02646c578108a2f5ec5fbcd51d91556af09622760e29187f2742efee39a32"
+      ]
+    },
+    {
+      "id": "MX-Monterrey",
+      "hashes": [
+        "cda510e43a3f3e8188c286e31ea6610f9c82402f1a17c03aa52644fc38e8398b",
+        "20b64bc8982f3d1e39c3e0a4741df6c1567fc2aac6e0320cca8400046d6aecff"
+      ]
+    },
+    {
+      "id": "MX-Necaxa",
+      "hashes": [
+        "3297708ff52f91d8859f3327ccf17ce7a1c532dd92655eda77b405c777735238",
+        "cc0f4f8e8ce848ec1186dc7ffd1fad5be7215d0ebf0a77a24da0d9a410144165"
+      ]
+    },
+    {
+      "id": "MX-Pachuca",
+      "hashes": [
+        "90e3af5dd8d216c0acb5f10f42a488dcd98e77dc35756ad8d3626282211fa462",
+        "0c213cc8f6f6e91bcab4fea8b4fcf8b3d7fee8225f068bc0aa3a5b1302a7989f"
+      ]
+    },
+    {
+      "id": "MX-Puebla",
+      "hashes": [
+        "b44b2fb1226d9a9f23c52b8d39bc41f92b83a443d0eed7f622ed58128f020ba2",
+        "eba6c4155419f389f22425dd9863b7480e0d9b874cb1beedcbbfff5dac77de00"
+      ]
+    },
+    {
+      "id": "MX-Pumas",
+      "hashes": [
+        "86038b7fefb17bab1de1253befd520a9270363ca8df5afc44ce47d75a5ba88a3",
+        "6f7be82fe8b57130c68723aa474e2964dc039986595f7b1bdf6d3890bc51783a"
+      ]
+    },
+    {
+      "id": "MX-Queretaro",
+      "hashes": [
+        "168f2200a66fe35a3a8144d98037673d9f7ebeb8b023520a3f987e14184d7b57",
+        "7865e35fcfa2f915d0da4bd3e9f68f5d22f2d7f3b8b9c00d99a1980202a3b2ec"
+      ]
+    },
+    {
+      "id": "MX-Santos",
+      "hashes": [
+        "a37ac23ad0026a676eee8d8a9d2e13660fb4bb72f091008a1893dcde3f1f2905",
+        "a91754ab9b7c7b179c283c9704004b0338f3d84229003793d9cff673a429f444"
+      ]
+    },
+    {
+      "id": "MX-Tigres",
+      "hashes": [
+        "83fe65e177756aeb71ad38c3ad875b89a9e3ce6d302f3316c2c0cd416198a73b",
+        "dbefd6a2baf33c36ea6c9cf6d784a82508934480f77f133f4f3ba5e84756a65c"
+      ]
+    },
+    {
+      "id": "MX-Tijuana",
+      "hashes": [
+        "d421bcc96ca4a64cee9d3b39ac9471f9613166ee6045542b8c7c718cbb44d3f6",
+        "08aea47280ef2725a29eb02a6c50cd492de85c2a2ae4c585a0deb534ea0d4333"
+      ]
+    },
+    {
+      "id": "MX-Toluca",
+      "hashes": [
+        "06b5b17d8f18a8536444ed402dfb543f45defeba2f1b24314fe19af6e5a6c294",
+        "0f2b6922f0d583c4401f4c0763b18b4b59c09f56e02049c83fde1c3d113999da"
+      ]
+    },
+    {
+      "id": "US-Atlanta",
+      "hashes": [
+        "0449636686ac2efa47e53aa494815303b859da2a7242cacd632ba8c84638e985",
+        "7226e267da318aa06cd5f3aa72f4c8f6a7633cac14465e07e5fdee0f68f4d468"
+      ]
+    },
+    {
+      "id": "US-Austin",
+      "hashes": [
+        "3acf693b414e894fb8863aa8f5eb16c4da1d3b2611f0e58e86e1f1787faf5a1c",
+        "54e1abb9716676d035303b868f5461be4e8c8c4fc3b65c325984380a68baa979"
+      ]
+    },
+    {
+      "id": "US-Charlotte",
+      "hashes": [
+        "91e67fe60e8451a49810ab0e3bb7e454019f811e21880f7b44da77b9278cfc4c",
+        "b260005e576f72c796c8ce526d336f8c198ab4a80440dce05fcbcefe213ca77e"
+      ]
+    },
+    {
+      "id": "US-Chicago",
+      "hashes": [
+        "df53a18451b9303d1b064ca4323ab3bd401e1e0c87b3472379711cd4ea117279",
+        "7e5edcd1c73004217d37b7f940775d134017c633b647dd5dc1cfb346dc0d9872"
+      ]
+    },
+    {
+      "id": "US-Cincinnati",
+      "hashes": [
+        "f04a47f8193e3962248cf41496d37afcb4fb604b6449d44b344398ad7c83be45",
+        "f05257b4535b9a8637406d72e2e10bf56b373f2e19b486509a3bf050ff8eb564"
+      ]
+    },
+    {
+      "id": "US-Colorado",
+      "hashes": [
+        "0e256036fbe2a9451ad737bafc253f94aad5955c1dd34799d51548fc682fd1eb",
+        "c24ee8fc3a32d1d7f0f1408c979d800fff51ee1bd67c384b1c730da31c446f6d"
+      ]
+    },
+    {
+      "id": "US-Columbus",
+      "hashes": [
+        "f3366a7b9c21bdc6268234853db33574694e3ed252b1e3f733c5adcd2eb6453c",
+        "4f0c70c05facc30c97d9df37987a350895781a7bdbbe28fa14e1865f39c32141"
+      ]
+    },
+    {
+      "id": "US-Dallas",
+      "hashes": [
+        "cd78300db48aae1afdb9f13278f930309b396c49bee72960057a0e83f50584ff",
+        "84ce027fa31a70a17e08221eb564229bc856c8e13dd01ad72b8b814a72c0e6d5"
+      ]
+    },
+    {
+      "id": "US-DCUnited",
+      "hashes": [
+        "dc38018c8d287ae83d112f17046cd9b88476fa380b7b0d828399b21a519a1e07",
+        "ff6eab072533e50d97056057b7bb5a6d4d5e35e95fa27e954f2e16105de9ca13"
+      ]
+    },
+    {
+      "id": "US-Houston",
+      "hashes": [
+        "8b05716e10c7e3c11bc79a202f59a96fe9296d026f271a81dce2851403250f59",
+        "bf2b8e1fb76668b938cebe10b1114063713d0a41229139b2d504e01e7d1b59ea"
+      ]
+    },
+    {
+      "id": "US-SportingKC",
+      "hashes": [
+        "ad90af1b4f2abaa67b7540595170ea950f3b89997657beabf980318403db750f",
+        "5d2db776f22c02726e74002a5dd620a55266ddcae56d9286d27e1d6244a65026"
+      ]
+    },
+    {
+      "id": "US-LAGalaxy",
+      "hashes": [
+        "a99819916b6aa757e25cbb97a6c86122975cee82d0c63141a404fc5ce1e9edf9",
+        "36ea3301a41bd34cab4a52f2c93dd128b4cb04f2d4a52d794ce1b644f38628fa"
+      ]
+    },
+    {
+      "id": "US-LAFC",
+      "hashes": [
+        "7716171dc5976e0b4687015f81cc37c98475c4c517af2de59f3f92ef4f0db1a2",
+        "3d5931c7827761d0d4b2b192a6f8375196cb66e1ffd1bc1cf5dc90ca234ad08c"
+      ]
+    },
+    {
+      "id": "US-InterMiami",
+      "hashes": [
+        "30158dd055c0b1a54e46880ef3cf04f2cf5d457a2e2099ff922f393fa7c80543",
+        "d8929d14a3d15461aaccad231bd3da910bc91e144395053172f5642911330b8a"
+      ]
+    },
+    {
+      "id": "US-Minnesota",
+      "hashes": [
+        "be15791d1e006db017600be74ebc2391e75ef46d26d7c79899251da808ffe95d",
+        "646ad16f2b98f84cf0d319a8ec61c59f60b8dd01b04f91f97b733c8ad61a1070"
+      ]
+    },
+    {
+      "id": "US-Montreal",
+      "hashes": [
+        "58f149a6d858ef1acb0a484d873b5d21fa43664b8e78d13b11cb03c28023554f",
+        "7b21dc55e1dbf757fa64bcf25d6cd1298e098e7db21cb65a8fc8afb6eeb7fda3"
+      ]
+    },
+    {
+      "id": "US-Nashville",
+      "hashes": [
+        "e577e018804eedd328367ed7eecaf74fd0542a5d95710817796e01609a0efca5",
+        "368b580670820cae1e35130ec90f6d91cec354229551a275e0653d5f1c2cb906"
+      ]
+    },
+    {
+      "id": "US-NewEngland",
+      "hashes": [
+        "7288d6396adc6f662ef5749a49b0b807737beda66a7cc6126cd4a73824d35d00",
+        "03b7568194878858e2464a0b46cb7e1e18189021a537926b728963052fd0578a"
+      ]
+    },
+    {
+      "id": "US-NYCFC",
+      "hashes": [
+        "de1ed779271e273f92ef806183bb7c34fbc39e4147b1464702bf132d4482e6c6",
+        "5ceb40fb42798e0eb945f5599e65fcfeb70dea09b875d4bce46735c61538660d"
+      ]
+    },
+    {
+      "id": "US-RedBulls",
+      "hashes": [
+        "a270fe7514ecee4d5feb0dd8bef202260230a2eed579fc1cb07d5e0779313e8f",
+        "4781c41fcde802d44120eb7d4319648506130cc6e33b7ea47dc1192eb1cb4660"
+      ]
+    },
+    {
+      "id": "US-Orlando",
+      "hashes": [
+        "b32b8e7f2d9122ce941b01eec177c787defc7979d3871679d7ce7abf8d83d184",
+        "f490cca696e4bdcb49e3f3a3c420993a378ceb9833b84ba7da954a05cd5e7bbd"
+      ]
+    },
+    {
+      "id": "US-Philadelphia",
+      "hashes": [
+        "4a24ae87b321f6181b95e3210113f2ba49ae619af42899197803bbe9ae48270c",
+        "5186567d2b85f7783df55b57b190b3dce3ee5f7610afb87078047e7487bda8b0"
+      ]
+    },
+    {
+      "id": "US-Portland",
+      "hashes": [
+        "cdf2fb2331b5f29d949579fccaba93639fb984d98038119821fc36625eb86fd4",
+        "310e02251418a25a84aa1f1eb7813a5ca18d2e19d7e6a7e8f9511ad86d4806f3"
+      ]
+    },
+    {
+      "id": "US-RSL",
+      "hashes": [
+        "f35039071d17e5b315ba3442515ba43c30745b26f5f9a1a0af3b5c3df3f2b8af",
+        "e7ad9b853cea24b25fffd62cfafd6753feb9806d58537fd91fcc4f6bd0fd9637"
+      ]
+    },
+    {
+      "id": "US-SanDiego",
+      "hashes": [
+        "1ea32c97fad030a8048b386a8f90f8f2b444a14339ed4f1c63b5274a5d49095e",
+        "d1f88b0859295717b74a853024cfe4845241c5fdd7b3eb8174b50ba0010bbe5b"
+      ]
+    },
+    {
+      "id": "US-SanJose",
+      "hashes": [
+        "73484dbcf8edcc7741ca860b74dc30e68cf347de138f7e202698c710f561d837",
+        "71942ebb399a08aaa43c0ae1edf5ee9db3acb66393a44528984bb4e7e05c5b83"
+      ]
+    },
+    {
+      "id": "US-Seattle",
+      "hashes": [
+        "32ad8c93bd0d56fc57972927c8afe99cde2f0fe8be95587227685b818db88685",
+        "35e6dde1a17a7cf8bab4fc1347d35a0b5ed2ef6cbe550e53369d8cd9e14f20d1"
+      ]
+    },
+    {
+      "id": "US-StLouis",
+      "hashes": [
+        "9d3e9a607dd535a4c18a288a6d2e20563c541f7432c695e5c769711a42ba78a0",
+        "3389919f7add02adbdd095b8dcffd2ce9dcb88da85064a2a4d8b9f37a328b7ba"
+      ]
+    },
+    {
+      "id": "US-Toronto",
+      "hashes": [
+        "b5990ce7549329e015cbf43eeed78424d3af3221e5fe0e9084c7ddc8331ab086",
+        "ae61f4d14be4e7c041a99f8327f001e863ac0e032aaff8398aaaef0df921654c"
+      ]
+    },
+    {
+      "id": "US-Vancouver",
+      "hashes": [
+        "4755bcb616b90a7d9af3ec090b89de58c3555e0564cdc79548b22d37cbc649ab",
+        "923737b4bf7c25b46f36ba3de8eb83dac636a1bd3b2e671423e1995ae114c88f"
+      ]
+    }
+  ]
+}

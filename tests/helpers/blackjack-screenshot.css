@@ -1,0 +1,2 @@
+/* Timer progress is verified by gameplay tests, independently of static captures. */
+#tBar { visibility: hidden !important; }

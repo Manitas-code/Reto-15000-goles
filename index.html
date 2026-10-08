@@ -28,90 +28,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;800;900&family=Barlow:wght@400;600;700&family=Noto+Color+Emoji&display=swap" rel="stylesheet">
-<style>
-:root{
-  --night:#06241a;--glass:rgba(5,28,19,.82);--glass-2:rgba(255,255,255,.06);
-  --chalk:#f5f8f3;--chalk-2:rgba(245,248,243,.68);--chalk-3:rgba(245,248,243,.4);--line:rgba(245,248,243,.14);
-  --gold:#f3c545;--gold-2:#ffe08a;--btn-ink:#1b1a0f;
-}
-*{box-sizing:border-box}
-html,body{margin:0}
-body{min-height:100vh;color:var(--chalk);font-family:Barlow,system-ui,sans-serif;-webkit-font-smoothing:antialiased;
-  background:
-    repeating-linear-gradient(90deg,rgba(255,255,255,.018) 0 60px,rgba(0,0,0,.02) 60px 120px),
-    radial-gradient(ellipse at 50% -10%,#16603f 0,#0a3324 45%,var(--night) 80%) fixed,var(--night);
-  padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
-.wrap{max-width:720px;margin:0 auto;padding:34px 16px 50px}
-.brand{display:flex;align-items:center;justify-content:center;gap:10px}
-.brand svg{width:54px;height:54px}
-.bname{font-family:"Barlow Condensed";font-weight:900;font-size:44px;letter-spacing:.12em}
-.tag{text-align:center;color:var(--chalk-2);font-weight:600;margin:8px 0 14px}
-.settings{display:flex;justify-content:center;gap:10px;margin:0 0 26px}
-.set-btn{font:700 15px Barlow,system-ui,sans-serif;color:var(--chalk);background:var(--glass);border:1px solid var(--line);border-radius:999px;padding:9px 16px;cursor:pointer}
-.set-btn:hover{border-color:rgba(243,197,69,.6)}
-.set-btn:focus-visible{outline:2px solid #f3c545;outline-offset:2px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media (max-width:560px){.grid{grid-template-columns:1fr}}
-.game{position:relative;display:flex;flex-direction:column;gap:6px;min-height:190px;padding:20px;border-radius:20px;text-decoration:none;color:var(--chalk);overflow:hidden;border:1px solid var(--line);background:var(--glass);transition:transform .15s ease,border-color .15s ease}
-.game:hover{transform:translateY(-3px);border-color:rgba(243,197,69,.6)}
-.game .ico{font-size:40px;line-height:1;font-family:"Noto Color Emoji",sans-serif}
-.game .tt{font-family:"Barlow Condensed";font-weight:900;font-size:30px;line-height:1;text-transform:uppercase;margin-top:auto}
-.game .ds{font-size:14px;color:var(--chalk-2);line-height:1.35}
-.game .pill{position:absolute;top:16px;right:16px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 9px;border-radius:999px;background:rgba(255,255,255,.1);color:var(--chalk-2)}
-.game.g1{background:linear-gradient(155deg,rgba(243,197,69,.30),rgba(5,28,19,.9) 65%);border-color:rgba(243,197,69,.45)}
-.game.g1 .pill{background:var(--gold);color:var(--btn-ink)}
-.game.g2{background:linear-gradient(155deg,rgba(108,199,255,.26),rgba(5,28,19,.9) 65%);border-color:rgba(108,199,255,.45)}
-.game.g2 .pill{background:#6cc7ff;color:#04202f}
-.game.g3{background:linear-gradient(155deg,rgba(99,224,161,.24),rgba(5,28,19,.9) 65%);border-color:rgba(99,224,161,.45)}
-.game.g3 .pill{background:#63e0a1;color:#03251a}
-.game.g4{background:linear-gradient(155deg,rgba(255,107,92,.24),rgba(5,28,19,.9) 65%);border-color:rgba(255,107,92,.45)}
-.game.g4 .pill{background:#ff6b5c;color:#2a0906}
-.game.soon{cursor:default;border-style:dashed;background:rgba(5,28,19,.55)}
-.game.soon:hover{transform:none;border-color:var(--line)}
-.game.soon .ico{filter:grayscale(1);opacity:.5}
-.game.soon .tt{color:var(--chalk-3)}
-.foot{text-align:center;color:var(--chalk-3);font-size:13px;margin-top:30px}
-</style>
+<link rel="stylesheet" href="/src/pages/home/styles.css">
 </head>
 <body>
-<main class="wrap">
-  <div class="brand" aria-label="GOALDAY"><svg width="44" height="44" viewBox="0 0 100 100" aria-hidden="true"><defs><clipPath id="gdhh4"><rect x="0" y="0" width="100" height="63"></rect></clipPath><clipPath id="gddh4"><circle cx="50" cy="60" r="31.5"></circle></clipPath></defs><g clip-path="url(#gdhh4)"><circle cx="50" cy="60" r="32" fill="#f5f8f3"></circle><g clip-path="url(#gddh4)"><polygon points="50.00,33.00 59.51,39.91 55.88,51.09 44.12,51.09 40.49,39.91" fill="#06241a"></polygon><path d="M50.00 33.00L50.00 26.00" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="50.00,25.50 40.96,18.94 44.42,8.31 55.58,8.31 59.04,18.94" fill="#06241a"></polygon><path d="M59.51 39.91L66.17 37.75" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="66.64,37.59 70.09,26.97 81.26,26.97 84.71,37.59 75.68,44.16" fill="#06241a"></polygon><path d="M55.88 51.09L59.99 56.75" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="60.29,57.16 71.45,57.16 74.91,67.78 65.87,74.34 56.84,67.78" fill="#06241a"></polygon><path d="M44.12 51.09L40.01 56.75" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="39.71,57.16 43.16,67.78 34.13,74.34 25.09,67.78 28.55,57.16" fill="#06241a"></polygon><path d="M40.49 39.91L33.83 37.75" stroke="#06241a" stroke-width="3" stroke-linecap="round"></path><polygon points="33.36,37.59 24.32,44.16 15.29,37.59 18.74,26.97 29.91,26.97" fill="#06241a"></polygon></g></g><path d="M9 72H91" stroke="#f5f8f3" stroke-width="7" stroke-linecap="round"></path></svg><span class="bname">GOALDAY</span></div>
-  <p class="tag">Juegos de fútbol. Uno nuevo cada día.</p>
-  <div class="settings">
-    <button class="set-btn" id="btnTeam" title="Elige tu equipo">🏟️ Equipo</button>
-    <button class="set-btn" id="btnLang" title="Idioma / Language">🌐 EN</button>
-  </div>
-
-  <nav class="grid" aria-label="Juegos">
-    <a class="game g1" href="reto-15000.html">
-      <span class="pill">Diario · Duelos</span>
-      <span class="ico">🏆</span>
-      <span class="tt">Reto de los 15.000 goles</span>
-      <span class="ds">17 futbolistas, 17 casillas con multiplicadores. ¿Llegas a 15.000?</span>
-    </a>
-    <a class="game g3" href="mas-o-menos.html">
-      <span class="pill">Nuevo</span>
-      <span class="ico">⚖️</span>
-      <span class="tt">Higher or Lower</span>
-      <span class="ds">Sale un jugador con sus goles. ¿El siguiente tiene más o menos? Aguanta la racha.</span>
-    </a>
-    <a class="game g4" href="blackjack-goles.html">
-      <span class="pill">Nuevo</span>
-      <span class="ico">🃏</span>
-      <span class="tt">Blackjack de goles</span>
-      <span class="ds">Suma goles de jugadores y plántate antes de pasarte del objetivo.</span>
-    </a>
-    <a class="game g5" href="emoji-player.html">
-      <span class="pill">Diario</span>
-      <span class="ico">🕵️</span>
-      <span class="tt">Emoji Player</span>
-      <span class="ds">5 futbolistas escondidos en emojis. 3 intentos para cada uno. ¿Los pillas todos?</span>
-    </a>
-  </nav>
-
-  <p class="foot">GOALDAY</p>
-</main>
-<script src="lang.js"></script>
-<script src="stadiums.js"></script>
+<div id="root"></div>
+<script type="module" src="/src/pages/home/main.tsx"></script>
 </body>
 </html>

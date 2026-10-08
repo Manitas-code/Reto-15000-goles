@@ -1,0 +1,63 @@
+x-common: &common
+  init: true
+  env_file: .env
+  environment: &environment
+    HOST: 0.0.0.0
+    PORT: 3001
+  healthcheck:
+    test:
+      [
+        CMD,
+        bun,
+        -e,
+        'const r = await fetch("http://127.0.0.1:3001/api/v1/health"); if (!r.ok) process.exit(1)',
+      ]
+    interval: 30s
+    timeout: 5s
+    start_period: 10s
+    retries: 3
+
+services:
+  development:
+    <<: *common
+    profiles: [development]
+    build:
+      context: .
+      target: development
+    environment:
+      <<: *environment
+      NODE_ENV: development
+      SERVE_WEB: 'false'
+    ports:
+      - '127.0.0.1:${DEV_WEB_PORT:-5173}:5173'
+      - '127.0.0.1:${DEV_API_PORT:-3001}:3001'
+    volumes:
+      - .:/app
+      - development-dependencies:/app/node_modules
+    command:
+      [
+        sh,
+        -c,
+        'bun install --frozen-lockfile && exec bun scripts/dev.mjs --host 0.0.0.0 --port 5173 --strictPort',
+      ]
+
+  production:
+    <<: *common
+    profiles: [production]
+    build:
+      context: .
+      target: production
+      args:
+        VITE_BASE_PATH: ${WEB_BASE_PATH:-/}
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-/api/v1}
+    environment:
+      <<: *environment
+      NODE_ENV: production
+      SERVE_WEB: 'true'
+      WEB_BASE_PATH: ${WEB_BASE_PATH:-/}
+    ports:
+      - '${PROD_BIND_ADDRESS:-127.0.0.1}:${PROD_PORT:-3001}:3001'
+    restart: unless-stopped
+
+volumes:
+  development-dependencies:

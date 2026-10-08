@@ -1,0 +1,1746 @@
+{
+  "source": "ESPN team logos API and ESPN CDN",
+  "retrieved": "2026-10-07",
+  "teams": [
+    {
+      "projectId": "Alaves",
+      "sourceName": "Alavés",
+      "sourceTeamId": "96",
+      "retrieved": "2026-10-07",
+      "sha256": "60a794c7f27350a21a86ebfc1cca96d5775a838878058e26229090e76d28ef06",
+      "bytes": 12949,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/96.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/96.png&w=128&h=128"
+    },
+    {
+      "projectId": "Athletic",
+      "sourceName": "Athletic Club",
+      "sourceTeamId": "93",
+      "retrieved": "2026-10-07",
+      "sha256": "4312f81d218dd6b22a5902adc37ad03b4bb54023dbd968afb68e365ca2d2dc4f",
+      "bytes": 11045,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/93.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/93.png&w=128&h=128"
+    },
+    {
+      "projectId": "Atletico",
+      "sourceName": "Atlético Madrid",
+      "sourceTeamId": "1068",
+      "retrieved": "2026-10-07",
+      "sha256": "eb4b247382c66446120a7b8b98891668a94fab1a4325360e69de71f1f6c54149",
+      "bytes": 5967,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/1068.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/1068.png&w=128&h=128"
+    },
+    {
+      "projectId": "Barcelona",
+      "sourceName": "Barcelona",
+      "sourceTeamId": "83",
+      "retrieved": "2026-10-07",
+      "sha256": "0d7c291fa69cb4ac121c3ed8a216d08763dffcbbaef75b252250bc3eca1b9304",
+      "bytes": 8610,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/83.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/83.png&w=128&h=128"
+    },
+    {
+      "projectId": "Betis",
+      "sourceName": "Real Betis",
+      "sourceTeamId": "244",
+      "retrieved": "2026-10-07",
+      "sha256": "8720b4c0ee0ad7eab45f0193124fddddd5ce6dfe85775c36a806141a02ce0ae9",
+      "bytes": 7813,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/244.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/244.png&w=128&h=128"
+    },
+    {
+      "projectId": "Celta",
+      "sourceName": "Celta Vigo",
+      "sourceTeamId": "85",
+      "retrieved": "2026-10-07",
+      "sha256": "fc125f3972b5d1d7c11750b1612f84366140b6d0261310ba85930b4c707f5908",
+      "bytes": 5569,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/85.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/85.png&w=128&h=128"
+    },
+    {
+      "projectId": "Deportivo",
+      "sourceName": "Deportivo",
+      "sourceTeamId": "90",
+      "retrieved": "2026-10-07",
+      "sha256": "dac375d673270348e1ef1617bfa101eba29ad495aa44a547d70018bd85b07e04",
+      "bytes": 11973,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/90.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/90.png&w=128&h=128"
+    },
+    {
+      "projectId": "Elche",
+      "sourceName": "Elche",
+      "sourceTeamId": "3751",
+      "retrieved": "2026-10-07",
+      "sha256": "8fadc724808f729473616a9492327e50100c59eb2a52e8641990f9ca1bcdcbb5",
+      "bytes": 9415,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/3751.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/3751.png&w=128&h=128"
+    },
+    {
+      "projectId": "Espanyol",
+      "sourceName": "Espanyol",
+      "sourceTeamId": "88",
+      "retrieved": "2026-10-07",
+      "sha256": "aff470a3726433d4db7e77ac12287bfb040de42d82219361dddf59e0dfc7fcb4",
+      "bytes": 8795,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/88.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/88.png&w=128&h=128"
+    },
+    {
+      "projectId": "Getafe",
+      "sourceName": "Getafe",
+      "sourceTeamId": "2922",
+      "retrieved": "2026-10-07",
+      "sha256": "87fa8cc359b5aa2783cdd3ab702857db4d40b2f9edddd56050460f5cd38808e7",
+      "bytes": 15354,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/2922.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2922.png&w=128&h=128"
+    },
+    {
+      "projectId": "Levante",
+      "sourceName": "Levante",
+      "sourceTeamId": "1538",
+      "retrieved": "2026-10-07",
+      "sha256": "9fbf7168a13e3f30a0f6b46847bd03d699a08063150c9be1d8f311856b5ac065",
+      "bytes": 10603,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/1538.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/1538.png&w=128&h=128"
+    },
+    {
+      "projectId": "Malaga",
+      "sourceName": "Málaga",
+      "sourceTeamId": "99",
+      "retrieved": "2026-10-07",
+      "sha256": "40968ceaa52fd1ed5e891e867793871d0d9c9267127793ef3305283847c35535",
+      "bytes": 26924,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/99.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/99.png&w=128&h=128"
+    },
+    {
+      "projectId": "Osasuna",
+      "sourceName": "Osasuna",
+      "sourceTeamId": "97",
+      "retrieved": "2026-10-07",
+      "sha256": "ea82c13f319ca834006d63c70c64bee5fadd9c7bbe5cb2881fff9075267da28e",
+      "bytes": 8179,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/97.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/97.png&w=128&h=128"
+    },
+    {
+      "projectId": "Racing",
+      "sourceName": "Racing Santander",
+      "sourceTeamId": "87",
+      "retrieved": "2026-10-07",
+      "sha256": "9ecafa51eef0039afd7693bff977759c19e44ab40734b051c380785fa56f3936",
+      "bytes": 13362,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/87.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/87.png&w=128&h=128"
+    },
+    {
+      "projectId": "Rayo",
+      "sourceName": "Rayo Vallecano",
+      "sourceTeamId": "101",
+      "retrieved": "2026-10-07",
+      "sha256": "b65d45a1831a70326a56997dd766e2960a0007f5c30fb9b0c71522337e5c7292",
+      "bytes": 9279,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/101.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/101.png&w=128&h=128"
+    },
+    {
+      "projectId": "Madrid",
+      "sourceName": "Real Madrid",
+      "sourceTeamId": "86",
+      "retrieved": "2026-10-07",
+      "sha256": "e252d97711b11384aa72d6e7876eb25276db6890adda3e1d69455ef63a57e5e7",
+      "bytes": 11919,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/86.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/86.png&w=128&h=128"
+    },
+    {
+      "projectId": "RealSociedad",
+      "sourceName": "Real Sociedad",
+      "sourceTeamId": "89",
+      "retrieved": "2026-10-07",
+      "sha256": "a0de45dd7c2b6e46c0a606728941afbb6e1972f6fd4061d5939147fe5ee110b9",
+      "bytes": 13143,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/89.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/89.png&w=128&h=128"
+    },
+    {
+      "projectId": "Sevilla",
+      "sourceName": "Sevilla",
+      "sourceTeamId": "243",
+      "retrieved": "2026-10-07",
+      "sha256": "b0d8a67514d3ac39af35002404c7be68bbdadff51c22c111e35fc4bbe4f42e06",
+      "bytes": 11943,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/243.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/243.png&w=128&h=128"
+    },
+    {
+      "projectId": "Valencia",
+      "sourceName": "Valencia",
+      "sourceTeamId": "94",
+      "retrieved": "2026-10-07",
+      "sha256": "21c7b18f54dcf68f4ca27d0fffa63669fcff9fdb262bbcfa936d47c156025169",
+      "bytes": 9082,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/94.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/94.png&w=128&h=128"
+    },
+    {
+      "projectId": "Villarreal",
+      "sourceName": "Villarreal",
+      "sourceTeamId": "102",
+      "retrieved": "2026-10-07",
+      "sha256": "3fc1c92c27286f187cf0801f5635ee3d9862dac6168942f47cd89cd53e73cd1c",
+      "bytes": 14363,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/102.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/102.png&w=128&h=128"
+    },
+    {
+      "projectId": "PL-Arsenal",
+      "sourceName": "Arsenal",
+      "sourceTeamId": "359",
+      "retrieved": "2026-10-07",
+      "sha256": "87b10bc0495df794635e173e29f3f856ffb1e99318a29e1d79c979e12a45166e",
+      "bytes": 11546,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/359.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/359.png&w=128&h=128"
+    },
+    {
+      "projectId": "PL-AstonVilla",
+      "sourceName": "Aston Villa",
+      "sourceTeamId": "362",
+      "retrieved": "2026-10-07",
+      "sha256": "6656b9df1fa578cf85cddbd5c8ed43d061e71f20d5096fc1a996415abe45f68f",
+      "bytes": 9952,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/362.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/362.png&w=128&h=128"
+    },
+    {
+      "projectId": "PL-Bournemouth",
+      "sourceName": "AFC Bournemouth",
+      "sourceTeamId": "349",
+      "retrieved": "2026-10-07",
+      "sha256": "b79a30c4190ad7bd15b27306aedf27601467fa5ea1d6bc8ee95a7fc8298c6014",
+      "bytes": 11871,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/349.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/349.png&w=128&h=128"
+    },
+    {
+      "projectId": "PL-Brentford",
+      "sourceName": "Brentford",
+      "sourceTeamId": "337",
+      "retrieved": "2026-10-07",
+      "sha256": "fcd3f44340ba69c188a573fa0fa37c58a411410ecaaf81d1dc685235b7b0aae0",
+      "bytes": 15628,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/337.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/337.png&w=128&h=128"
+    },
+    {
+      "projectId": "PL-Brighton",
+      "sourceName": "Brighton & Hove Albion",
+      "sourceTeamId": "331",
+      "retrieved": "2026-10-07",
+      "sha256": "b5d6763153e3ee32658a98454109b5ef2cde7d2ad7e6b45eff2d46ad6dea2f9f",
+      "bytes": 9814,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/331.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/331.png&w=128&h=128"
+    },
+    {
+      "projectId": "PL-Chelsea",
+      "sourceName": "Chelsea",
+      "sourceTeamId": "363",
+      "retrieved": "2026-10-07",
+      "sha256": "e286f22d34074a1f919f9f46254976891f78be88628a75f01451440d74de73fc",
+      "bytes": 15632,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/363.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/363.png&w=128&h=128"
+    },
+    {
+      "projectId": "PL-Coventry",
+      "sourceName": "Coventry City",
+      "sourceTeamId": "388",
+      "retrieved": "2026-10-07",
+      "sha256": "0b364c9b34f7915a34340e67586b483a32adf6e8ba21f7dccfb3290a2ce2d347",
+      "bytes": 19110,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/388.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/388.png&w=128&h=128"
+    },
+    {
+      "projectId": "PL-CrystalPalace",
+      "sourceName": "Crystal Palace",
+      "sourceTeamId": "384",
+      "retrieved": "2026-10-07",
+      "sha256": "93c2473dab0deff0421d0456fabf174c71ca0675dc1dc874f0d4838424d164a3",
+      "bytes": 12676,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/384.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/384.png&w=128&h=128"
+    },
+    {
+      "projectId": "PL-Everton",
+      "sourceName": "Everton",
+      "sourceTeamId": "368",
+      "retrieved": "2026-10-07",
+      "sha256": "6b152d9484b4a6752bd5a3ea951e441adff41f13a4b01ced0acfd4fadd019348",
+      "bytes": 15042,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/368.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/368.png&w=128&h=128"
+    },
+    {
+      "projectId": "PL-Fulham",
+      "sourceName": "Fulham",
+      "sourceTeamId": "370",
+      "retrieved": "2026-10-07",
+      "sha256": "a5efb74e41286d8536d65fc32d9969ad5c88e86b770685df20bb4de595ec7dae",
+      "bytes": 5826,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/370.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/370.png&w=128&h=128"
+    },
+    {
+      "projectId": "PL-Hull",
+      "sourceName": "Hull City",
+      "sourceTeamId": "306",
+      "retrieved": "2026-10-07",
+      "sha256": "55f860289e621b485610b29929ebd9a7af05c9a1a722f0a97478ef8dfce81a2a",
+      "bytes": 10624,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/306.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/306.png&w=128&h=128"
+    },
+    {
+      "projectId": "PL-Ipswich",
+      "sourceName": "Ipswich Town",
+      "sourceTeamId": "373",
+      "retrieved": "2026-10-07",
+      "sha256": "e3e8f6542b95fe8bb43cd5b15d468668336832da6f13da3089fdc10f7ea1b198",
+      "bytes": 6986,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/373.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/373.png&w=128&h=128"
+    },
+    {
+      "projectId": "PL-Leeds",
+      "sourceName": "Leeds United",
+      "sourceTeamId": "357",
+      "retrieved": "2026-10-07",
+      "sha256": "f12a5237f8ad7d75d4b7e6d4349bf0f5f7eb1ddde838f258b00cd7dd3db7f1e4",
+      "bytes": 26696,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/357.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/357.png&w=128&h=128"
+    },
+    {
+      "projectId": "PL-Liverpool",
+      "sourceName": "Liverpool",
+      "sourceTeamId": "364",
+      "retrieved": "2026-10-07",
+      "sha256": "549fd2e9243ee0b260f2c4d546322bf163f06fcca76e33ec33445edbf03f99a3",
+      "bytes": 7150,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/364.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/364.png&w=128&h=128"
+    },
+    {
+      "projectId": "PL-ManCity",
+      "sourceName": "Manchester City",
+      "sourceTeamId": "382",
+      "retrieved": "2026-10-07",
+      "sha256": "6bcd26b71bbca021cec11cf32f1153e145803a4695080d8f5c8362146c9e9cc6",
+      "bytes": 17178,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/382.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/382.png&w=128&h=128"
+    },
+    {
+      "projectId": "PL-ManUtd",
+      "sourceName": "Manchester United",
+      "sourceTeamId": "360",
+      "retrieved": "2026-10-07",
+      "sha256": "ced105231c161ba3c99b30a5199d64d6829de18b5b09a2f8fc7152fc52b3a2cb",
+      "bytes": 17093,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/360.png&w=128&h=128"
+    },
+    {
+      "projectId": "PL-Newcastle",
+      "sourceName": "Newcastle United",
+      "sourceTeamId": "361",
+      "retrieved": "2026-10-07",
+      "sha256": "a5622d8e9c542c17bad2e6f9c663da81b1b765b2b9671d7a376545b761b1f0aa",
+      "bytes": 19993,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/361.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/361.png&w=128&h=128"
+    },
+    {
+      "projectId": "PL-Forest",
+      "sourceName": "Nottingham Forest",
+      "sourceTeamId": "393",
+      "retrieved": "2026-10-07",
+      "sha256": "e324a03c09ace54495ec8e260dee391b59fb0f828e62bb38625ddb209685ef98",
+      "bytes": 4542,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/393.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/393.png&w=128&h=128"
+    },
+    {
+      "projectId": "PL-Sunderland",
+      "sourceName": "Sunderland",
+      "sourceTeamId": "366",
+      "retrieved": "2026-10-07",
+      "sha256": "d34851520b81c188b60a43c617274dba30a0d379c033ec4790865a7205f9f842",
+      "bytes": 13080,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/366.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/366.png&w=128&h=128"
+    },
+    {
+      "projectId": "PL-Tottenham",
+      "sourceName": "Tottenham Hotspur",
+      "sourceTeamId": "367",
+      "retrieved": "2026-10-07",
+      "sha256": "5a3dafcca398343da465f7243d78f2a418d25fda276caa52db47ddcf0ad5d37e",
+      "bytes": 4560,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/367.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/367.png&w=128&h=128"
+    },
+    {
+      "projectId": "SA-Atalanta",
+      "sourceName": "Atalanta",
+      "sourceTeamId": "105",
+      "retrieved": "2026-10-07",
+      "sha256": "4b184e344448baea10595294f9eaaa26902d21b2f7b7c9a33d8480d1be840ea2",
+      "bytes": 7843,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/105.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/105.png&w=128&h=128"
+    },
+    {
+      "projectId": "SA-Bologna",
+      "sourceName": "Bologna",
+      "sourceTeamId": "107",
+      "retrieved": "2026-10-07",
+      "sha256": "8165a5a55f26b6169bcffffe25fa3aa4c7e47c497ffe0539f91c6505b9f5d9e9",
+      "bytes": 5604,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/107.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/107.png&w=128&h=128"
+    },
+    {
+      "projectId": "SA-Cagliari",
+      "sourceName": "Cagliari",
+      "sourceTeamId": "2925",
+      "retrieved": "2026-10-07",
+      "sha256": "26d3ab085afc81cbc92375572d2f6468c2c22ebb7723138c06cf566fa39e2cd9",
+      "bytes": 8183,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/2925.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2925.png&w=128&h=128"
+    },
+    {
+      "projectId": "SA-Como",
+      "sourceName": "Como",
+      "sourceTeamId": "2572",
+      "retrieved": "2026-10-07",
+      "sha256": "fbccfd099e007e4db5ddcc25f3b2f080125ce1c55b2872162d288185465d2801",
+      "bytes": 7155,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/2572.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2572.png&w=128&h=128"
+    },
+    {
+      "projectId": "SA-Fiorentina",
+      "sourceName": "Fiorentina",
+      "sourceTeamId": "109",
+      "retrieved": "2026-10-07",
+      "sha256": "a51afe841c1b5d2c19e480aba09d05ca4c72ccf627cf48c08f1c1d2705e60496",
+      "bytes": 5759,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/109.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/109.png&w=128&h=128"
+    },
+    {
+      "projectId": "SA-Frosinone",
+      "sourceName": "Frosinone",
+      "sourceTeamId": "4057",
+      "retrieved": "2026-10-07",
+      "sha256": "499ec652df10ea403117ee33402ff956c4eafe4ffb3ef5163bbd58c9f00b2f57",
+      "bytes": 9763,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/4057.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/4057.png&w=128&h=128"
+    },
+    {
+      "projectId": "SA-Genoa",
+      "sourceName": "Genoa",
+      "sourceTeamId": "3263",
+      "retrieved": "2026-10-07",
+      "sha256": "e5798c7ad6ceaa844a6694986094ecb069a455c5c2e4b6e8ef6ff680ed52a879",
+      "bytes": 6225,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/3263.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/3263.png&w=128&h=128"
+    },
+    {
+      "projectId": "SA-Inter",
+      "sourceName": "Internazionale",
+      "sourceTeamId": "110",
+      "retrieved": "2026-10-07",
+      "sha256": "6b0c8dde5930669a3286b162eee6e6b1d701432c44595fa78d9686ca5817d38a",
+      "bytes": 7714,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/110.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/110.png&w=128&h=128"
+    },
+    {
+      "projectId": "SA-Juventus",
+      "sourceName": "Juventus",
+      "sourceTeamId": "111",
+      "retrieved": "2026-10-07",
+      "sha256": "a8a9789e8931e49c0fed504c0710e91c75d051f41dd0252bc3f8030518cd4f52",
+      "bytes": 2130,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/111.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/111.png&w=128&h=128"
+    },
+    {
+      "projectId": "SA-Lazio",
+      "sourceName": "Lazio",
+      "sourceTeamId": "112",
+      "retrieved": "2026-10-07",
+      "sha256": "9300ca5395aa00b8d712b7877c129ed0c38577a09ffeca4a650fc4e0874e80eb",
+      "bytes": 6183,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/112.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/112.png&w=128&h=128"
+    },
+    {
+      "projectId": "SA-Lecce",
+      "sourceName": "Lecce",
+      "sourceTeamId": "113",
+      "retrieved": "2026-10-07",
+      "sha256": "464bf125369187d20c6fa1a8883a2ce9239f1fb1eba75150d6000119cde5a64b",
+      "bytes": 8257,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/113.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/113.png&w=128&h=128"
+    },
+    {
+      "projectId": "SA-Milan",
+      "sourceName": "AC Milan",
+      "sourceTeamId": "103",
+      "retrieved": "2026-10-07",
+      "sha256": "006a0bab271ca4e82d677fa4b6e08a9fa8eefc46762a7efc867331529296ca70",
+      "bytes": 9099,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/103.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/103.png&w=128&h=128"
+    },
+    {
+      "projectId": "SA-Monza",
+      "sourceName": "Monza",
+      "sourceTeamId": "4007",
+      "retrieved": "2026-10-07",
+      "sha256": "7dde9f45fe8f112266baa36e4ac55a9d77b1e3fe1a598983285b44998569bb38",
+      "bytes": 9373,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/4007.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/4007.png&w=128&h=128"
+    },
+    {
+      "projectId": "SA-Napoli",
+      "sourceName": "Napoli",
+      "sourceTeamId": "114",
+      "retrieved": "2026-10-07",
+      "sha256": "437f27605c5307423ccb8205366b8a942098f9f9991dd29970cf916933ebb9e1",
+      "bytes": 6172,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/114.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/114.png&w=128&h=128"
+    },
+    {
+      "projectId": "SA-Parma",
+      "sourceName": "Parma",
+      "sourceTeamId": "115",
+      "retrieved": "2026-10-07",
+      "sha256": "1e0d5fba12ff5494b2fc18eaf7e5ba1e18e322af77c8eb2b3f0ad4431fbe7918",
+      "bytes": 4003,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/115.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/115.png&w=128&h=128"
+    },
+    {
+      "projectId": "SA-Roma",
+      "sourceName": "AS Roma",
+      "sourceTeamId": "104",
+      "retrieved": "2026-10-07",
+      "sha256": "015490c21fdd10622357739fda75d4855b18892860b7e79529ef3082daa68b41",
+      "bytes": 9932,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/104.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/104.png&w=128&h=128"
+    },
+    {
+      "projectId": "SA-Sassuolo",
+      "sourceName": "Sassuolo",
+      "sourceTeamId": "3997",
+      "retrieved": "2026-10-07",
+      "sha256": "bb21da2fad589539acdade44532c8a9a132807ee2fdab7ebbd67cde713fea7c8",
+      "bytes": 9466,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/3997.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/3997.png&w=128&h=128"
+    },
+    {
+      "projectId": "SA-Torino",
+      "sourceName": "Torino",
+      "sourceTeamId": "239",
+      "retrieved": "2026-10-07",
+      "sha256": "00765694433a9bbd01055f81cca79c3c555db3b1fcb9aa17eba084bf926a0733",
+      "bytes": 9440,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/239.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/239.png&w=128&h=128"
+    },
+    {
+      "projectId": "SA-Udinese",
+      "sourceName": "Udinese",
+      "sourceTeamId": "118",
+      "retrieved": "2026-10-07",
+      "sha256": "6b1200bb9ac2e9e7a68a9738c0ba224375588731c2a41244c59f5b5cdcef5130",
+      "bytes": 12800,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/118.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/118.png&w=128&h=128"
+    },
+    {
+      "projectId": "SA-Venezia",
+      "sourceName": "Venezia",
+      "sourceTeamId": "17530",
+      "retrieved": "2026-10-07",
+      "sha256": "004bb029e2a909123493e5b72fe5c7cf17c75c9d19beffb52f0b09bbafcd930e",
+      "bytes": 5407,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/17530.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/17530.png&w=128&h=128"
+    },
+    {
+      "projectId": "BL-Augsburg",
+      "sourceName": "FC Augsburg",
+      "sourceTeamId": "3841",
+      "retrieved": "2026-10-07",
+      "sha256": "2ad3e47ae1d88257360386a1d427de0831b4067887b747f1d94a5704cf6eeaa5",
+      "bytes": 7525,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/3841.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/3841.png&w=128&h=128"
+    },
+    {
+      "projectId": "BL-UnionBerlin",
+      "sourceName": "1. FC Union Berlin",
+      "sourceTeamId": "598",
+      "retrieved": "2026-10-07",
+      "sha256": "8271f5fa1f9a1243c93a948fd6d8769f13958da660a4d914d7f9f9f5be3865b6",
+      "bytes": 6531,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/598.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/598.png&w=128&h=128"
+    },
+    {
+      "projectId": "BL-Bayern",
+      "sourceName": "Bayern Munich",
+      "sourceTeamId": "132",
+      "retrieved": "2026-10-07",
+      "sha256": "538fbefe65bebb1be8c8fd2167749859f99f1c33f4bdfe920ac79d4d28fcb243",
+      "bytes": 13485,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/132.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/132.png&w=128&h=128"
+    },
+    {
+      "projectId": "BL-Dortmund",
+      "sourceName": "Borussia Dortmund",
+      "sourceTeamId": "124",
+      "retrieved": "2026-10-07",
+      "sha256": "c4fe44adba01cf55a32fcbe0957de8a368ec0da39f2c6887662e5d8b0445696b",
+      "bytes": 7890,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/124.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/124.png&w=128&h=128"
+    },
+    {
+      "projectId": "BL-Leverkusen",
+      "sourceName": "Bayer Leverkusen",
+      "sourceTeamId": "131",
+      "retrieved": "2026-10-07",
+      "sha256": "f047816ee725a9470eaefac6b5b49ebdab57fd0d33a75f793016ce82471413f0",
+      "bytes": 11990,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/131.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/131.png&w=128&h=128"
+    },
+    {
+      "projectId": "BL-Frankfurt",
+      "sourceName": "Eintracht Frankfurt",
+      "sourceTeamId": "125",
+      "retrieved": "2026-10-07",
+      "sha256": "05ab63007628f09445dac874bb5ed08fcd558a6982ca149467cb83de94d110ce",
+      "bytes": 10257,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/125.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/125.png&w=128&h=128"
+    },
+    {
+      "projectId": "BL-Freiburg",
+      "sourceName": "SC Freiburg",
+      "sourceTeamId": "126",
+      "retrieved": "2026-10-07",
+      "sha256": "8033ce0eae76a31fa732036c705bc14f22aea23ef6ad6dedf106fd776e09fc59",
+      "bytes": 8117,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/126.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/126.png&w=128&h=128"
+    },
+    {
+      "projectId": "BL-Gladbach",
+      "sourceName": "Borussia Mönchengladbach",
+      "sourceTeamId": "268",
+      "retrieved": "2026-10-07",
+      "sha256": "a0cd153fb6521bdc23613a2bf217db48db5495d7af64280af9754157a49d1174",
+      "bytes": 6850,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/268.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/268.png&w=128&h=128"
+    },
+    {
+      "projectId": "BL-Hamburg",
+      "sourceName": "Hamburg SV",
+      "sourceTeamId": "127",
+      "retrieved": "2026-10-07",
+      "sha256": "f5bfaa7c3d39732746586382ced08b4e5dea1370382ba9ea62d6ad6cb4db09fd",
+      "bytes": 1592,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/127.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/127.png&w=128&h=128"
+    },
+    {
+      "projectId": "BL-Hoffenheim",
+      "sourceName": "TSG Hoffenheim",
+      "sourceTeamId": "7911",
+      "retrieved": "2026-10-07",
+      "sha256": "5cafd3540c8d489d8dc3777b71d33cebb73ca6e8bc98834864193f01e56a93d6",
+      "bytes": 6918,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/7911.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/7911.png&w=128&h=128"
+    },
+    {
+      "projectId": "BL-Koln",
+      "sourceName": "FC Cologne",
+      "sourceTeamId": "122",
+      "retrieved": "2026-10-07",
+      "sha256": "273e36005e5f8350c576d4a43cbc30b7fb989eb5553a57e43b8f040c1578e722",
+      "bytes": 11142,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/122.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/122.png&w=128&h=128"
+    },
+    {
+      "projectId": "BL-Leipzig",
+      "sourceName": "RB Leipzig",
+      "sourceTeamId": "11420",
+      "retrieved": "2026-10-07",
+      "sha256": "0c59386bed7d7e547fa40f6e45040d633fd03b6808c3b9f4280a30ce6a4ffe30",
+      "bytes": 8003,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/11420.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/11420.png&w=128&h=128"
+    },
+    {
+      "projectId": "BL-Mainz",
+      "sourceName": "Mainz",
+      "sourceTeamId": "2950",
+      "retrieved": "2026-10-07",
+      "sha256": "da6487550175d6f8f8e13cefbc7bb34a3267eb7f4a3adf4b74e70a77a4981806",
+      "bytes": 9673,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/2950.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2950.png&w=128&h=128"
+    },
+    {
+      "projectId": "BL-Stuttgart",
+      "sourceName": "VfB Stuttgart",
+      "sourceTeamId": "134",
+      "retrieved": "2026-10-07",
+      "sha256": "9d157ad9891830795bbf388318c33fa8ee5b04e0826dc6ff4cbc6718fd195e98",
+      "bytes": 10746,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/134.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/134.png&w=128&h=128"
+    },
+    {
+      "projectId": "BL-Bremen",
+      "sourceName": "Werder Bremen",
+      "sourceTeamId": "137",
+      "retrieved": "2026-10-07",
+      "sha256": "dc201870d54f12800e3b83d31ea437fa5f751da8007a5f78ec77081f18386d23",
+      "bytes": 5932,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/137.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/137.png&w=128&h=128"
+    },
+    {
+      "projectId": "BL-Schalke",
+      "sourceName": "Schalke 04",
+      "sourceTeamId": "133",
+      "retrieved": "2026-10-07",
+      "sha256": "f88424f26a34207d81c499251e15c969113afbe1464163add022bb32e57d54c3",
+      "bytes": 6153,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/133.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/133.png&w=128&h=128"
+    },
+    {
+      "projectId": "BL-Elversberg",
+      "sourceName": "SV Elversberg",
+      "sourceTeamId": "10388",
+      "retrieved": "2026-10-07",
+      "sha256": "dbf40ffb702661d79ada328b0f1a2e5d8481d727305b6cad03036892abcfcbd7",
+      "bytes": 11368,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/10388.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/10388.png&w=128&h=128"
+    },
+    {
+      "projectId": "BL-Paderborn",
+      "sourceName": "SC Paderborn 07",
+      "sourceTeamId": "3307",
+      "retrieved": "2026-10-07",
+      "sha256": "a490959fdec1674be2e8468e17d35d521ac4bf44091978c4d86c461a03ed575f",
+      "bytes": 6707,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/3307.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/3307.png&w=128&h=128"
+    },
+    {
+      "projectId": "L1-Angers",
+      "sourceName": "Angers",
+      "sourceTeamId": "7868",
+      "retrieved": "2026-10-07",
+      "sha256": "c9c0a59b8e03367b54dd4c7f58029444de29d247014948bb061219a107003924",
+      "bytes": 9490,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/7868.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/7868.png&w=128&h=128"
+    },
+    {
+      "projectId": "L1-Auxerre",
+      "sourceName": "AJ Auxerre",
+      "sourceTeamId": "172",
+      "retrieved": "2026-10-07",
+      "sha256": "01c80d0e28bc48f415ced7e49a28aacffe4eea999097edd7266ab8f197aba5d9",
+      "bytes": 5898,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/172.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/172.png&w=128&h=128"
+    },
+    {
+      "projectId": "L1-Brest",
+      "sourceName": "Brest",
+      "sourceTeamId": "6997",
+      "retrieved": "2026-10-07",
+      "sha256": "2994bb99a8eee81a3e9bf09dc1e4d6a185a84cef8632e4fd92e7f877ed018407",
+      "bytes": 10365,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/6997.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/6997.png&w=128&h=128"
+    },
+    {
+      "projectId": "L1-LeHavre",
+      "sourceName": "Le Havre AC",
+      "sourceTeamId": "3236",
+      "retrieved": "2026-10-07",
+      "sha256": "a940d20accb10031434e07398b2211cc0027d15bab1db8ce8d98ccaa01b17424",
+      "bytes": 10384,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/3236.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/3236.png&w=128&h=128"
+    },
+    {
+      "projectId": "L1-Lens",
+      "sourceName": "Lens",
+      "sourceTeamId": "175",
+      "retrieved": "2026-10-07",
+      "sha256": "f2913a60da0d37ccc88054ab6c24009fec37c124e677b65a25aa419493584799",
+      "bytes": 8586,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/175.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/175.png&w=128&h=128"
+    },
+    {
+      "projectId": "L1-Lille",
+      "sourceName": "Lille",
+      "sourceTeamId": "166",
+      "retrieved": "2026-10-07",
+      "sha256": "90ec52024eaf24c09fdc7be994bdbfbb494fd6c580e25e4be37258494c56bc07",
+      "bytes": 10498,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/166.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/166.png&w=128&h=128"
+    },
+    {
+      "projectId": "L1-Lorient",
+      "sourceName": "Lorient",
+      "sourceTeamId": "273",
+      "retrieved": "2026-10-07",
+      "sha256": "2e4d1b63a0af6d8f4f3dcd18d6fc2eeb5c5d0b559f4590cb3e6d8524eff35446",
+      "bytes": 8898,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/273.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/273.png&w=128&h=128"
+    },
+    {
+      "projectId": "L1-Lyon",
+      "sourceName": "Lyon",
+      "sourceTeamId": "167",
+      "retrieved": "2026-10-07",
+      "sha256": "3a60c5b37810b8910b898e2d9e3f1210646425dda7684b60d708500c473b8175",
+      "bytes": 7463,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/167.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/167.png&w=128&h=128"
+    },
+    {
+      "projectId": "L1-Marseille",
+      "sourceName": "Marseille",
+      "sourceTeamId": "176",
+      "retrieved": "2026-10-07",
+      "sha256": "aee6937eefb1b773057f137fe3e1f8bb05b54b2ee4bb29ee0d4d097f2c931d6a",
+      "bytes": 8006,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/176.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/176.png&w=128&h=128"
+    },
+    {
+      "projectId": "L1-Monaco",
+      "sourceName": "AS Monaco",
+      "sourceTeamId": "174",
+      "retrieved": "2026-10-07",
+      "sha256": "db29c6457b87e21882841713c2cf6c5101ef47d69101ee4c9f0ff4eee0b74d25",
+      "bytes": 6863,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/174.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/174.png&w=128&h=128"
+    },
+    {
+      "projectId": "L1-Nice",
+      "sourceName": "Nice",
+      "sourceTeamId": "2502",
+      "retrieved": "2026-10-07",
+      "sha256": "ddd2cbc8e83a91bda09ea2be9ba1290bf83fce6e58f1ff8eec0ee3e3c145dd59",
+      "bytes": 15497,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/2502.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2502.png&w=128&h=128"
+    },
+    {
+      "projectId": "L1-ParisFC",
+      "sourceName": "Paris FC",
+      "sourceTeamId": "6851",
+      "retrieved": "2026-10-07",
+      "sha256": "26cbadf9b3b2be932063683676b9a83a8ede6c1adb0087c36e89ae4152d2956f",
+      "bytes": 13472,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/6851.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/6851.png&w=128&h=128"
+    },
+    {
+      "projectId": "L1-PSG",
+      "sourceName": "Paris Saint-Germain",
+      "sourceTeamId": "160",
+      "retrieved": "2026-10-07",
+      "sha256": "0ed3a5c41cc2ccd4181871f3e47590add58583172848b3b3138b29a2f4927ce6",
+      "bytes": 10736,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/160.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/160.png&w=128&h=128"
+    },
+    {
+      "projectId": "L1-Rennes",
+      "sourceName": "Stade Rennais",
+      "sourceTeamId": "169",
+      "retrieved": "2026-10-07",
+      "sha256": "adfb68367e961e074fa772bbd7716bd9403d0718a5c73544dc0156541cd1b6ac",
+      "bytes": 9451,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/169.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/169.png&w=128&h=128"
+    },
+    {
+      "projectId": "L1-Strasbourg",
+      "sourceName": "Strasbourg",
+      "sourceTeamId": "180",
+      "retrieved": "2026-10-07",
+      "sha256": "821973f1a014806caab277d09966f827a339a938fa219e0721b3813b05398148",
+      "bytes": 21533,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/180.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/180.png&w=128&h=128"
+    },
+    {
+      "projectId": "L1-Toulouse",
+      "sourceName": "Toulouse",
+      "sourceTeamId": "179",
+      "retrieved": "2026-10-07",
+      "sha256": "7ea03d0ba4ef5719130b6c92f2a7024355fc5999ddb2f50b0ff024426e28ad14",
+      "bytes": 16715,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/179.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/179.png&w=128&h=128"
+    },
+    {
+      "projectId": "L1-Troyes",
+      "sourceName": "Troyes",
+      "sourceTeamId": "170",
+      "retrieved": "2026-10-07",
+      "sha256": "481c48e61da421d8e5bd1114bb700cb4dfef06c5bf7ca1e5e64f70a35cf84a63",
+      "bytes": 9342,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/170.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/170.png&w=128&h=128"
+    },
+    {
+      "projectId": "L1-LeMans",
+      "sourceName": "Le Mans",
+      "sourceTeamId": "2697",
+      "retrieved": "2026-10-07",
+      "sha256": "be5b6f84e311af30d23b757b4da0398fe715c4333ba4005a66f16b1ae7d6fc9d",
+      "bytes": 16794,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/2697.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2697.png&w=128&h=128"
+    },
+    {
+      "projectId": "AR-Aldosivi",
+      "sourceName": "Aldosivi",
+      "sourceTeamId": "9739",
+      "retrieved": "2026-10-07",
+      "sha256": "3a1925db961741a03c0adc5147acc0d638e26ffcaa419bf002868925aa6510da",
+      "bytes": 10653,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/9739.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/9739.png&w=128&h=128"
+    },
+    {
+      "projectId": "AR-Argentinos",
+      "sourceName": "Argentinos Juniors",
+      "sourceTeamId": "3",
+      "retrieved": "2026-10-07",
+      "sha256": "447a0d47b5bec7ada02bbb8e1f1be81138e56d270bec734021d3c39ce949cbf6",
+      "bytes": 13493,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/3.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/3.png&w=128&h=128"
+    },
+    {
+      "projectId": "AR-AtleticoTucuman",
+      "sourceName": "Atlético Tucumán",
+      "sourceTeamId": "9785",
+      "retrieved": "2026-10-07",
+      "sha256": "f287a36b97de93defd06e5042715e6e4be7e1290384138e648b54cd2f679ffa4",
+      "bytes": 7586,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/9785.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/9785.png&w=128&h=128"
+    },
+    {
+      "projectId": "AR-Banfield",
+      "sourceName": "Banfield",
+      "sourceTeamId": "235",
+      "retrieved": "2026-10-07",
+      "sha256": "44c302c43527e0884c68b879be401ff5b7bed9c9b6705d361cf1e7ab513ae02c",
+      "bytes": 3895,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/235.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/235.png&w=128&h=128"
+    },
+    {
+      "projectId": "AR-Barracas",
+      "sourceName": "Barracas Central",
+      "sourceTeamId": "10060",
+      "retrieved": "2026-10-07",
+      "sha256": "1c91d5841a0688048613a2921b069ec0f2c3f1e7e750722360f6c1997186342c",
+      "bytes": 8479,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/10060.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/10060.png&w=128&h=128"
+    },
+    {
+      "projectId": "AR-Belgrano",
+      "sourceName": "Belgrano (Córdoba)",
+      "sourceTeamId": "4",
+      "retrieved": "2026-10-07",
+      "sha256": "e60ba95640031a7afea205e249c0877df6963967ba230d24ed101933fcdf112d",
+      "bytes": 11698,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/4.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/4.png&w=128&h=128"
+    },
+    {
+      "projectId": "AR-Boca",
+      "sourceName": "Boca Juniors",
+      "sourceTeamId": "5",
+      "retrieved": "2026-10-07",
+      "sha256": "019c8bab940f067d30b5c84154a72a7371b3593e344275e370ec1b1f992d0a76",
+      "bytes": 12739,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/5.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/5.png&w=128&h=128"
+    },
+    {
+      "projectId": "AR-CentralCordoba",
+      "sourceName": "Central Córdoba (Santiago del Estero)",
+      "sourceTeamId": "11989",
+      "retrieved": "2026-10-07",
+      "sha256": "2e1015ffd68d4c97b93600d10e475d5cfd70f27fde105db1e62ef200ed1ab31f",
+      "bytes": 5334,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/11989.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/11989.png&w=128&h=128"
+    },
+    {
+      "projectId": "AR-Defensa",
+      "sourceName": "Defensa y Justicia",
+      "sourceTeamId": "8950",
+      "retrieved": "2026-10-07",
+      "sha256": "d8f005d4221d36b02dac2012b86906c30f353a2c87184055a9e77e9c18ddf331",
+      "bytes": 10320,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/8950.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/8950.png&w=128&h=128"
+    },
+    {
+      "projectId": "AR-Riestra",
+      "sourceName": "Deportivo Riestra",
+      "sourceTeamId": "17702",
+      "retrieved": "2026-10-07",
+      "sha256": "e856bb9b1d6390ef4cc193b22172c453690641f6968e965ac2e88ad59dc2ecf8",
+      "bytes": 9752,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/17702.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/17702.png&w=128&h=128"
+    },
+    {
+      "projectId": "AR-EstudiantesLP",
+      "sourceName": "Estudiantes de La Plata",
+      "sourceTeamId": "8",
+      "retrieved": "2026-10-07",
+      "sha256": "c26dbf66c9f5d383c1f1fb924521b7e44d8a2e0cbfbe42402a0c981c9dcf0c35",
+      "bytes": 4638,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/8.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/8.png&w=128&h=128"
+    },
+    {
+      "projectId": "AR-EstudiantesRC",
+      "sourceName": "Estudiantes de Río Cuarto",
+      "sourceTeamId": "19685",
+      "retrieved": "2026-10-07",
+      "sha256": "979b21e1e2b2697253650599c14b7c08cc415bca89732473ccdef42c4d8963c3",
+      "bytes": 8619,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/19685.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/19685.png&w=128&h=128"
+    },
+    {
+      "projectId": "AR-GimnasiaLP",
+      "sourceName": "Gimnasia La Plata",
+      "sourceTeamId": "9",
+      "retrieved": "2026-10-07",
+      "sha256": "cdf5656ae6f612158befe0b24a3d498fe71ae93eaba353388e484ab448ff0aca",
+      "bytes": 16418,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/9.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/9.png&w=128&h=128"
+    },
+    {
+      "projectId": "AR-GimnasiaMza",
+      "sourceName": "Gimnasia (Mendoza)",
+      "sourceTeamId": "11972",
+      "retrieved": "2026-10-07",
+      "sha256": "51bab602e1a75b3a95dedae41349c9f8b69232f9a183752cdee1e5261c997981",
+      "bytes": 4950,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/11972.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/11972.png&w=128&h=128"
+    },
+    {
+      "projectId": "AR-Huracan",
+      "sourceName": "Huracán",
+      "sourceTeamId": "10",
+      "retrieved": "2026-10-07",
+      "sha256": "5338511b397aca1672315733f7b3a8b90e915be9a9edd6fc38a63178ba6370a3",
+      "bytes": 8295,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/10.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/10.png&w=128&h=128"
+    },
+    {
+      "projectId": "AR-Independiente",
+      "sourceName": "Independiente",
+      "sourceTeamId": "11",
+      "retrieved": "2026-10-07",
+      "sha256": "bdcf63f9cf25111ec3386079f7687cc17ad1f9e275d89eaaaa16e2f4703a0f8a",
+      "bytes": 7726,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/11.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/11.png&w=128&h=128"
+    },
+    {
+      "projectId": "AR-IndepRivadavia",
+      "sourceName": "Independiente Rivadavia",
+      "sourceTeamId": "9744",
+      "retrieved": "2026-10-07",
+      "sha256": "53829da2d053191824c7c2913c3501b48f63a5821a32da7d3a10d16cd3f28831",
+      "bytes": 13551,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/9744.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/9744.png&w=128&h=128"
+    },
+    {
+      "projectId": "AR-Instituto",
+      "sourceName": "Instituto (Córdoba)",
+      "sourceTeamId": "2975",
+      "retrieved": "2026-10-07",
+      "sha256": "70fb1bb9eea9b62a9fca89c89a5af2aad1699eabeb655cad936464a0cd59c79b",
+      "bytes": 6481,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/2975.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2975.png&w=128&h=128"
+    },
+    {
+      "projectId": "AR-Lanus",
+      "sourceName": "Lanús",
+      "sourceTeamId": "12",
+      "retrieved": "2026-10-07",
+      "sha256": "69678ce9774a127553b834c6b22c3397f7ed2913e033ce97369a0b8c5a3f190f",
+      "bytes": 7545,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/12.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/12.png&w=128&h=128"
+    },
+    {
+      "projectId": "AR-Newells",
+      "sourceName": "Newell's Old Boys",
+      "sourceTeamId": "14",
+      "retrieved": "2026-10-07",
+      "sha256": "09bb61af6504f764263a5d03fda8d8f63ec80a2f5c682a863257082356c41809",
+      "bytes": 12214,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/14.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/14.png&w=128&h=128"
+    },
+    {
+      "projectId": "AR-Platense",
+      "sourceName": "Platense",
+      "sourceTeamId": "7764",
+      "retrieved": "2026-10-07",
+      "sha256": "b07e06c6b6a4ff96284a645a6f844d0c5a48337ea9f8d7a5bc26551fd307556f",
+      "bytes": 11004,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/7764.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/7764.png&w=128&h=128"
+    },
+    {
+      "projectId": "AR-Racing",
+      "sourceName": "Racing Club",
+      "sourceTeamId": "15",
+      "retrieved": "2026-10-07",
+      "sha256": "011cc3b5d0f26e96227fba3c475e7e197a8cfd08cc73b99f682a8efed3346ab3",
+      "bytes": 4241,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/15.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/15.png&w=128&h=128"
+    },
+    {
+      "projectId": "AR-River",
+      "sourceName": "River Plate",
+      "sourceTeamId": "16",
+      "retrieved": "2026-10-07",
+      "sha256": "99807d6f7fecdc1510b39a9f8b3f7f30e9333fd1b9ba76b0df2a5d8da341d48e",
+      "bytes": 8607,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/16.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/16.png&w=128&h=128"
+    },
+    {
+      "projectId": "AR-RosarioCentral",
+      "sourceName": "Rosario Central",
+      "sourceTeamId": "17",
+      "retrieved": "2026-10-07",
+      "sha256": "bb410c88e776b148d8d26f3d96e4355314799b4916d8228a5bad426cced05766",
+      "bytes": 12997,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/17.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/17.png&w=128&h=128"
+    },
+    {
+      "projectId": "AR-SanLorenzo",
+      "sourceName": "San Lorenzo",
+      "sourceTeamId": "18",
+      "retrieved": "2026-10-07",
+      "sha256": "448e77baccccd4b2018e6ff9ce89f9899fb71f7355a17342dee3c04d5a98dd58",
+      "bytes": 11717,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/18.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/18.png&w=128&h=128"
+    },
+    {
+      "projectId": "AR-Sarmiento",
+      "sourceName": "Sarmiento (Junín)",
+      "sourceTeamId": "10158",
+      "retrieved": "2026-10-07",
+      "sha256": "a3f20b25b268c9a0586de08b00c52066f3c064f4414cf07684184621bc028626",
+      "bytes": 9040,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/10158.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/10158.png&w=128&h=128"
+    },
+    {
+      "projectId": "AR-Talleres",
+      "sourceName": "Talleres (Córdoba)",
+      "sourceTeamId": "19",
+      "retrieved": "2026-10-07",
+      "sha256": "53313766001bf85909b416759038adee87ddd93afcce88c1b561b86f1373cab3",
+      "bytes": 5529,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/19.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/19.png&w=128&h=128"
+    },
+    {
+      "projectId": "AR-Tigre",
+      "sourceName": "Tigre",
+      "sourceTeamId": "7767",
+      "retrieved": "2026-10-07",
+      "sha256": "8ac7aa8f8d465263ed7053f6715584de6a09e25ce51dec425a32d814adb2ee21",
+      "bytes": 4157,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/7767.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/7767.png&w=128&h=128"
+    },
+    {
+      "projectId": "AR-Union",
+      "sourceName": "Unión (Santa Fe)",
+      "sourceTeamId": "20",
+      "retrieved": "2026-10-07",
+      "sha256": "8e29be6573d14b6d2e0eb29a30e5782b162f3bac1f65306e4e0315fa4a6ec163",
+      "bytes": 7382,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/20.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/20.png&w=128&h=128"
+    },
+    {
+      "projectId": "AR-Velez",
+      "sourceName": "Vélez Sarsfield",
+      "sourceTeamId": "21",
+      "retrieved": "2026-10-07",
+      "sha256": "a728e72240738743ab6a04d92635bf4446e157d8eba4c562526c4e7b891083ff",
+      "bytes": 7028,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/21.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/21.png&w=128&h=128"
+    },
+    {
+      "projectId": "MX-America",
+      "sourceName": "América",
+      "sourceTeamId": "227",
+      "retrieved": "2026-10-07",
+      "sha256": "2e0681df2e4e303dcaa7d76a3ce1a8cee86f36ce7b5a4026c06969fc7d6a4151",
+      "bytes": 13818,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/227.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/227.png&w=128&h=128"
+    },
+    {
+      "projectId": "MX-Atlante",
+      "sourceName": "Atlante",
+      "sourceTeamId": "226",
+      "retrieved": "2026-10-07",
+      "sha256": "f506e6c0ea4278994ae6f99cc3081252b5d9c0c8361ce3484a4312ddcfa4fb06",
+      "bytes": 8003,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/226.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/226.png&w=128&h=128"
+    },
+    {
+      "projectId": "MX-Atlas",
+      "sourceName": "Atlas",
+      "sourceTeamId": "216",
+      "retrieved": "2026-10-07",
+      "sha256": "86af954fb6171ab154cb836c301b09ba7995daa144528b34fb01c803d1b32098",
+      "bytes": 6597,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/216.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/216.png&w=128&h=128"
+    },
+    {
+      "projectId": "MX-SanLuis",
+      "sourceName": "Atlético de San Luis",
+      "sourceTeamId": "15720",
+      "retrieved": "2026-10-07",
+      "sha256": "13a4779cac300946aec7e69adff063c131afc18d4504b7a3b896157b3c7acd49",
+      "bytes": 14662,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/15720.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/15720.png&w=128&h=128"
+    },
+    {
+      "projectId": "MX-CruzAzul",
+      "sourceName": "Cruz Azul",
+      "sourceTeamId": "218",
+      "retrieved": "2026-10-07",
+      "sha256": "65aa59609a9c3a3e8e730a4bb47e3a96e557e6f22c6c8c7e945c3deb92b5abdc",
+      "bytes": 9733,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/218.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/218.png&w=128&h=128"
+    },
+    {
+      "projectId": "MX-Chivas",
+      "sourceName": "Guadalajara",
+      "sourceTeamId": "219",
+      "retrieved": "2026-10-07",
+      "sha256": "81d1a638d3e538fcf72180e940a13f6166f469a27a99ed10017f51bcb6d67178",
+      "bytes": 15905,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/219.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/219.png&w=128&h=128"
+    },
+    {
+      "projectId": "MX-Juarez",
+      "sourceName": "FC Juárez",
+      "sourceTeamId": "17851",
+      "retrieved": "2026-10-07",
+      "sha256": "1a52357052966fe1806d31ef852dac16e412542e5d4e2bbc5341fae2671c9592",
+      "bytes": 14761,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/17851.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/17851.png&w=128&h=128"
+    },
+    {
+      "projectId": "MX-Leon",
+      "sourceName": "León",
+      "sourceTeamId": "228",
+      "retrieved": "2026-10-07",
+      "sha256": "14c6e8f1f9fed4ec9cd474c27aa9b8c83f369b0c612115f18124a5d83716139c",
+      "bytes": 9137,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/228.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/228.png&w=128&h=128"
+    },
+    {
+      "projectId": "MX-Monterrey",
+      "sourceName": "Monterrey",
+      "sourceTeamId": "220",
+      "retrieved": "2026-10-07",
+      "sha256": "90f5306595f626e050f996b9a0aa93cb5e1975cfbaf12dc7602e112ab0f55be3",
+      "bytes": 7244,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/220.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/220.png&w=128&h=128"
+    },
+    {
+      "projectId": "MX-Necaxa",
+      "sourceName": "Necaxa",
+      "sourceTeamId": "229",
+      "retrieved": "2026-10-07",
+      "sha256": "0ba036f933adb714a0803bbf9cbfb17d0e18579b35e375ec89059b2d64bd3c0e",
+      "bytes": 8418,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/229.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/229.png&w=128&h=128"
+    },
+    {
+      "projectId": "MX-Pachuca",
+      "sourceName": "Pachuca",
+      "sourceTeamId": "234",
+      "retrieved": "2026-10-07",
+      "sha256": "6cb4b48e3c6c60543ce5fa7ede615a611a42a62bfa660ddebd25b17ed6f8c71a",
+      "bytes": 8411,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/234.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/234.png&w=128&h=128"
+    },
+    {
+      "projectId": "MX-Puebla",
+      "sourceName": "Puebla",
+      "sourceTeamId": "231",
+      "retrieved": "2026-10-07",
+      "sha256": "f37962d846fe0036db03571e68deb835ad8f3d9d6eb1fdc4c65ea1e41cb29937",
+      "bytes": 20884,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/231.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/231.png&w=128&h=128"
+    },
+    {
+      "projectId": "MX-Pumas",
+      "sourceName": "Pumas UNAM",
+      "sourceTeamId": "233",
+      "retrieved": "2026-10-07",
+      "sha256": "184450d73efaf3cbeec103a848dea1d75ffda25e60e363fbfebeadd92f0c856f",
+      "bytes": 3649,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/233.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/233.png&w=128&h=128"
+    },
+    {
+      "projectId": "MX-Queretaro",
+      "sourceName": "Querétaro",
+      "sourceTeamId": "222",
+      "retrieved": "2026-10-07",
+      "sha256": "5bef806c3b4aecc51db731036a638c5950447e0b454a92f56849d98ef38e332d",
+      "bytes": 7720,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/222.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/222.png&w=128&h=128"
+    },
+    {
+      "projectId": "MX-Santos",
+      "sourceName": "Santos",
+      "sourceTeamId": "225",
+      "retrieved": "2026-10-07",
+      "sha256": "f3f7a526e94bb0a02950c6e482b1cf21aecdb7048d325b18f47d07dfd8254450",
+      "bytes": 9743,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/225.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/225.png&w=128&h=128"
+    },
+    {
+      "projectId": "MX-Tigres",
+      "sourceName": "Tigres UANL",
+      "sourceTeamId": "232",
+      "retrieved": "2026-10-07",
+      "sha256": "3c7ab29381a2646cd2be1746d9737f2720c31c032ee22b1b29f5555dfb2be43e",
+      "bytes": 8975,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/232.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/232.png&w=128&h=128"
+    },
+    {
+      "projectId": "MX-Tijuana",
+      "sourceName": "Tijuana",
+      "sourceTeamId": "10125",
+      "retrieved": "2026-10-07",
+      "sha256": "647fc5ef9793de2b0ddf157ac73ce907e07ab728b2d2c039305c5009da8b9fdd",
+      "bytes": 12398,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/10125.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/10125.png&w=128&h=128"
+    },
+    {
+      "projectId": "MX-Toluca",
+      "sourceName": "Toluca",
+      "sourceTeamId": "223",
+      "retrieved": "2026-10-07",
+      "sha256": "9c7c64d84bea9a5c167d28058e0ce17b409e8d4d6a6d6bc8239f8a677a12f174",
+      "bytes": 11652,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/223.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/223.png&w=128&h=128"
+    },
+    {
+      "projectId": "US-Atlanta",
+      "sourceName": "Atlanta United FC",
+      "sourceTeamId": "18418",
+      "retrieved": "2026-10-07",
+      "sha256": "a9748ad55e30d944b1272e5ef1198f29a0f7c3b6f54903681cf796c0aed88303",
+      "bytes": 11905,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/18418.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/18418.png&w=128&h=128"
+    },
+    {
+      "projectId": "US-Austin",
+      "sourceName": "Austin FC",
+      "sourceTeamId": "20906",
+      "retrieved": "2026-10-07",
+      "sha256": "e5a8f3e98f0dd337b982e83597a64f4dbe521f3d730e874684fbe98789c29d05",
+      "bytes": 7183,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/20906.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/20906.png&w=128&h=128"
+    },
+    {
+      "projectId": "US-Charlotte",
+      "sourceName": "Charlotte FC",
+      "sourceTeamId": "21300",
+      "retrieved": "2026-10-07",
+      "sha256": "6038b4925fa699034eee22a2da0aff0e462fd266c4a5c5adfa8af81a0f51d9a5",
+      "bytes": 12236,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/21300.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/21300.png&w=128&h=128"
+    },
+    {
+      "projectId": "US-Chicago",
+      "sourceName": "Chicago Fire FC",
+      "sourceTeamId": "182",
+      "retrieved": "2026-10-07",
+      "sha256": "99be93cc1616f0430560e3e282e4e9f5fdf7fe15dd2abd229e719a921b5a69ec",
+      "bytes": 7903,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/182.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/182.png&w=128&h=128"
+    },
+    {
+      "projectId": "US-Cincinnati",
+      "sourceName": "FC Cincinnati",
+      "sourceTeamId": "18267",
+      "retrieved": "2026-10-07",
+      "sha256": "d05dd2f383f3b9ccf9315d5c00af3e88803fafd8ab17cdd18ddc74288c552e0e",
+      "bytes": 10932,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/18267.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/18267.png&w=128&h=128"
+    },
+    {
+      "projectId": "US-Colorado",
+      "sourceName": "Colorado Rapids",
+      "sourceTeamId": "184",
+      "retrieved": "2026-10-07",
+      "sha256": "a775ef7c37404f7ccd167219eaa89df6ff909a58103ce5e900341c10bb0ecf43",
+      "bytes": 10430,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/184.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/184.png&w=128&h=128"
+    },
+    {
+      "projectId": "US-Columbus",
+      "sourceName": "Columbus Crew",
+      "sourceTeamId": "183",
+      "retrieved": "2026-10-07",
+      "sha256": "807032bef1073b149d751e81f65aaaca5ab35202c3ab5f4085f196734e4f1d2e",
+      "bytes": 5765,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/183.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/183.png&w=128&h=128"
+    },
+    {
+      "projectId": "US-Dallas",
+      "sourceName": "FC Dallas",
+      "sourceTeamId": "185",
+      "retrieved": "2026-10-07",
+      "sha256": "4c6e872bdeb84846b74fc7d20e36f4b887539d5c376ef59a680190da5bce3287",
+      "bytes": 11286,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/185.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/185.png&w=128&h=128"
+    },
+    {
+      "projectId": "US-DCUnited",
+      "sourceName": "D.C. United",
+      "sourceTeamId": "193",
+      "retrieved": "2026-10-07",
+      "sha256": "e91bfe067896d00304db6ac1c65c3f97525127a4e1c208dfd5a1d1505cc48971",
+      "bytes": 9431,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/193.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/193.png&w=128&h=128"
+    },
+    {
+      "projectId": "US-Houston",
+      "sourceName": "Houston Dynamo FC",
+      "sourceTeamId": "6077",
+      "retrieved": "2026-10-07",
+      "sha256": "362f86adca3138c697a0916b408a17832d70acd77bfcbd922f7513cd32a001e6",
+      "bytes": 6951,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/6077.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/6077.png&w=128&h=128"
+    },
+    {
+      "projectId": "US-SportingKC",
+      "sourceName": "Sporting Kansas City",
+      "sourceTeamId": "186",
+      "retrieved": "2026-10-07",
+      "sha256": "fc7c6758ce61a0c2f88d3dd809d52d03adeaa858189c22af8ad4b0eb67ece085",
+      "bytes": 10967,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/186.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/186.png&w=128&h=128"
+    },
+    {
+      "projectId": "US-LAGalaxy",
+      "sourceName": "LA Galaxy",
+      "sourceTeamId": "187",
+      "retrieved": "2026-10-07",
+      "sha256": "7070c026ad57ea52c8704f664a5c1b5a5977b05e297ecc7cc59a449b5c7d55d8",
+      "bytes": 9270,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/187.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/187.png&w=128&h=128"
+    },
+    {
+      "projectId": "US-LAFC",
+      "sourceName": "LAFC",
+      "sourceTeamId": "18966",
+      "retrieved": "2026-10-07",
+      "sha256": "0570b004c31c80e580847f0f0320328bf80cfadc2045a3d815734af5851281ba",
+      "bytes": 7404,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/18966.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/18966.png&w=128&h=128"
+    },
+    {
+      "projectId": "US-InterMiami",
+      "sourceName": "Inter Miami CF",
+      "sourceTeamId": "20232",
+      "retrieved": "2026-10-07",
+      "sha256": "56fcffbd2de94b42c7e7e3cdd12ed5fd6ed2c2d6f90a5e90eb129fc827966356",
+      "bytes": 10214,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/20232.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/20232.png&w=128&h=128"
+    },
+    {
+      "projectId": "US-Minnesota",
+      "sourceName": "Minnesota United FC",
+      "sourceTeamId": "17362",
+      "retrieved": "2026-10-07",
+      "sha256": "a566cfa965cc9ee05f100e3a7462eed3f8da0758a36b0106a0750e11549d12fa",
+      "bytes": 6910,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/17362.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/17362.png&w=128&h=128"
+    },
+    {
+      "projectId": "US-Montreal",
+      "sourceName": "CF Montréal",
+      "sourceTeamId": "9720",
+      "retrieved": "2026-10-07",
+      "sha256": "36fd4428d1794f8fcf1281bf6f4ab8c3af98e2bff010d1ffd4e162b8b59ee28f",
+      "bytes": 14913,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/9720.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/9720.png&w=128&h=128"
+    },
+    {
+      "projectId": "US-Nashville",
+      "sourceName": "Nashville SC",
+      "sourceTeamId": "18986",
+      "retrieved": "2026-10-07",
+      "sha256": "94a70ba150bf2a83a23711a7a252dddff740201b43b90605e837e5a17b84fd4e",
+      "bytes": 4951,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/18986.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/18986.png&w=128&h=128"
+    },
+    {
+      "projectId": "US-NewEngland",
+      "sourceName": "New England Revolution",
+      "sourceTeamId": "189",
+      "retrieved": "2026-10-07",
+      "sha256": "7329ffa9f94fbcabba509d51084db2fe929caa216b0604fa41172ce86636ac05",
+      "bytes": 13494,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/189.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/189.png&w=128&h=128"
+    },
+    {
+      "projectId": "US-NYCFC",
+      "sourceName": "New York City FC",
+      "sourceTeamId": "17606",
+      "retrieved": "2026-10-07",
+      "sha256": "61dccccb1f4ee9d627b80564c730e518f3fa16dacea849157265a55b0c381086",
+      "bytes": 16937,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/17606.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/17606.png&w=128&h=128"
+    },
+    {
+      "projectId": "US-RedBulls",
+      "sourceName": "Red Bull New York",
+      "sourceTeamId": "190",
+      "retrieved": "2026-10-07",
+      "sha256": "de97e7a0d3577fed2f41587e88d5b4dca276a9fb0177e7963887178eaf03d30f",
+      "bytes": 10454,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/190.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/190.png&w=128&h=128"
+    },
+    {
+      "projectId": "US-Orlando",
+      "sourceName": "Orlando City SC",
+      "sourceTeamId": "12011",
+      "retrieved": "2026-10-07",
+      "sha256": "bdb08553ac43c14479ddfa62e3e4020f066bd5b8712fb326ad43943583b64067",
+      "bytes": 11332,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/12011.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/12011.png&w=128&h=128"
+    },
+    {
+      "projectId": "US-Philadelphia",
+      "sourceName": "Philadelphia Union",
+      "sourceTeamId": "10739",
+      "retrieved": "2026-10-07",
+      "sha256": "57f98cd0e8813b73fb07924fb870a64a5f5eaf54580a609722a45f1a3d8cb841",
+      "bytes": 11622,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/10739.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/10739.png&w=128&h=128"
+    },
+    {
+      "projectId": "US-Portland",
+      "sourceName": "Portland Timbers",
+      "sourceTeamId": "9723",
+      "retrieved": "2026-10-07",
+      "sha256": "c7981c4b43a30f038617d8366e0383af06fd065c058dfd40bebab721ea1f75b3",
+      "bytes": 8679,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/9723.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/9723.png&w=128&h=128"
+    },
+    {
+      "projectId": "US-RSL",
+      "sourceName": "Real Salt Lake",
+      "sourceTeamId": "4771",
+      "retrieved": "2026-10-07",
+      "sha256": "b28df00f9c89167214705d8cf5cbdec53b9c5897fc7e583c3101febce0d17c4d",
+      "bytes": 9880,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/4771.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/4771.png&w=128&h=128"
+    },
+    {
+      "projectId": "US-SanDiego",
+      "sourceName": "San Diego FC",
+      "sourceTeamId": "22529",
+      "retrieved": "2026-10-07",
+      "sha256": "28499cd3e57352562018200a70c3d1cdd81d6642a7f10f3084eba1f33a14eb89",
+      "bytes": 14872,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/22529.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/22529.png&w=128&h=128"
+    },
+    {
+      "projectId": "US-SanJose",
+      "sourceName": "San Jose Earthquakes",
+      "sourceTeamId": "191",
+      "retrieved": "2026-10-07",
+      "sha256": "9348fdb2ed0aa35023326f8d169690834628043670f1a337259cdfd7031f7442",
+      "bytes": 10253,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/191.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/191.png&w=128&h=128"
+    },
+    {
+      "projectId": "US-Seattle",
+      "sourceName": "Seattle Sounders FC",
+      "sourceTeamId": "9726",
+      "retrieved": "2026-10-07",
+      "sha256": "f55c7fd38be2f45813f43f2de62ff97d9c649f713297a2884d4dc2b495671789",
+      "bytes": 8348,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/9726.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/9726.png&w=128&h=128"
+    },
+    {
+      "projectId": "US-StLouis",
+      "sourceName": "St. Louis CITY SC",
+      "sourceTeamId": "21812",
+      "retrieved": "2026-10-07",
+      "sha256": "bb529cef6277f6aac116869bfbf6b5b7fc2d3b71025d4a1955c7dffbab80a864",
+      "bytes": 6763,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/21812.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/21812.png&w=128&h=128"
+    },
+    {
+      "projectId": "US-Toronto",
+      "sourceName": "Toronto FC",
+      "sourceTeamId": "7318",
+      "retrieved": "2026-10-07",
+      "sha256": "80c4324af83943d417cca1b3c0fe69430c291bfb2ad49326624107295b016a6d",
+      "bytes": 9617,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/7318.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/7318.png&w=128&h=128"
+    },
+    {
+      "projectId": "US-Vancouver",
+      "sourceName": "Vancouver Whitecaps",
+      "sourceTeamId": "9727",
+      "retrieved": "2026-10-07",
+      "sha256": "a0cacf70c9624c3f84f45b956c04c1efcf1260bf758bc2795e1ff3b3ce56e165",
+      "bytes": 9297,
+      "masterUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/9727.png",
+      "downloadUrl": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/9727.png&w=128&h=128"
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+
+:root{
+  --night:#06241a;--glass:rgba(5,28,19,.82);--glass-2:rgba(255,255,255,.06);--glass-3:rgba(255,255,255,.11);
+  --chalk:#f5f8f3;--chalk-2:rgba(245,248,243,.68);--chalk-3:rgba(245,248,243,.38);--line:rgba(245,248,243,.14);
+  --gold:#f3c545;--gold-2:#ffe08a;--pass:#63e0a1;--fail:#ff6b5c;--btn:#f3c545;--btn-ink:#1b1a0f;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{min-height:100vh;background:radial-gradient(ellipse at 50% -10%,#145c40 0,var(--night) 60%) fixed,var(--night);color:var(--chalk);font-family:Barlow,system-ui,sans-serif;padding-bottom:env(safe-area-inset-bottom,0)}
+button{font:inherit;touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer}
+.wrap{max-width:640px;margin:0 auto;padding:14px 16px 40px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.back{color:var(--chalk-2);text-decoration:none;font-weight:700;font-size:14px;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:var(--glass-2)}
+.brand{font-family:"Barlow Condensed";font-weight:900;letter-spacing:.12em;font-size:18px}
+.set-btn{border:1px solid var(--line);background:var(--glass-2);color:var(--chalk);border-radius:999px;padding:8px 12px;font-weight:700;font-size:14px}
+h1{font-family:"Barlow Condensed";font-weight:900;font-size:clamp(38px,10vw,60px);line-height:.92;margin:18px 0 6px;text-transform:uppercase;text-align:center}
+h1 em{font-style:normal;color:var(--gold)}
+.sub{color:var(--chalk-2);text-align:center;margin:0 0 14px;font-weight:600}
+.sub b{color:var(--gold-2)}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:6px 0 10px;font-weight:700;font-size:14px;color:var(--chalk-2)}
+.bar .pts{color:var(--gold);font-family:"Barlow Condensed";font-size:24px}
+.dots{display:flex;gap:6px}
+.dots span{width:26px;height:8px;border-radius:4px;background:var(--glass-3)}
+.dots span.g{background:var(--pass)}.dots span.y{background:var(--gold)}.dots span.o{background:#ff9b4a}.dots span.k{background:#3a4a42}.dots span.now{outline:2px solid var(--chalk);outline-offset:2px}
+.stage{border-radius:20px;border:1px solid var(--line);background:var(--glass);padding:22px 12px;text-align:center}
+.emojis{font-family:"Noto Color Emoji",sans-serif;font-size:clamp(34px,11vw,58px);line-height:1.25;display:flex;flex-wrap:wrap;justify-content:center;gap:6px 14px;min-height:80px}
+.emojis span{display:inline-block;animation:pop .4s ease-out backwards}
+.emojis span:nth-child(2){animation-delay:.08s}.emojis span:nth-child(3){animation-delay:.16s}.emojis span:nth-child(4){animation-delay:.24s}
+@keyframes pop{0%{transform:scale(.5);opacity:0}70%{transform:scale(1.08);opacity:1}100%{transform:scale(1);opacity:1}}
+.worth{margin-top:10px;font-weight:700;color:var(--chalk-2);font-size:14px}
+.worth b{color:var(--gold-2);font-family:"Barlow Condensed";font-size:22px}
+.guess{position:relative;display:flex;gap:8px;margin-top:14px}
+.guess input{flex:1;min-width:0;border-radius:12px;border:1px solid var(--line);background:rgba(0,0,0,.28);color:var(--chalk);padding:13px 14px;font:600 17px Barlow,sans-serif;outline:0}
+.guess input:focus{border-color:var(--gold)}
+.sug{position:absolute;left:0;right:0;bottom:calc(100% + 6px);z-index:5;background:#0a2e21;border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.sug button{display:block;width:100%;text-align:left;border:0;background:transparent;color:var(--chalk);padding:11px 14px;font-weight:600;font-size:16px}
+.sug button+button{border-top:1px solid var(--line)}
+.sug button.on,.sug button:hover{background:var(--glass-3)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:14px;padding:14px 20px;background:var(--btn);color:var(--btn-ink);font-family:"Barlow Condensed";font-weight:900;font-size:20px;text-transform:uppercase;letter-spacing:.04em;box-shadow:0 8px 24px rgba(243,197,69,.25)}
+.btn.ghost{background:var(--glass-2);color:var(--chalk);border:1px solid var(--line);box-shadow:none}
+.btn.small{font-size:16px;padding:10px 14px;border-radius:12px}
+.btn:disabled{opacity:.5;cursor:default}
+.tries{display:flex;gap:6px;align-items:center;margin:10px 0 0;font-size:14px;color:var(--chalk-2)}
+.tries span{width:22px;height:6px;border-radius:3px;background:var(--glass-3)}
+.tries span.x{background:var(--fail)}
+.fb{min-height:22px;margin:8px 0 0;font-weight:700}
+.fb.bad{color:var(--fail)}.fb.good{color:var(--pass)}
+.guesses{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;justify-content:center}
+.guesses span{font-size:13px;padding:4px 10px;border-radius:999px;background:rgba(255,107,92,.15);color:#ffb1a8;text-decoration:line-through}
+.reveal{margin-top:12px;border-radius:16px;padding:16px;background:linear-gradient(160deg,rgba(243,197,69,.18),rgba(5,28,19,.9) 70%);border:1px solid rgba(243,197,69,.4);text-align:left}
+.reveal .nm{font-family:"Barlow Condensed";font-weight:900;font-size:32px;text-transform:uppercase;line-height:1}
+.reveal .mt{color:var(--gold-2);margin:6px 0 10px;font-weight:700}
+.reveal p{margin:0 0 12px;line-height:1.45;color:var(--chalk-2)}
+.done{margin-top:12px}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:14px 0}
+.cell{border-radius:12px;padding:10px 4px;text-align:center;font-family:"Noto Color Emoji",sans-serif;font-size:26px;background:var(--glass-2)}
+.cell.g{background:rgba(99,224,161,.25)}.cell.y{background:rgba(243,197,69,.3)}.cell.o{background:rgba(255,155,74,.3)}.cell.k{background:rgba(255,107,92,.18)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+.stat{background:var(--glass-2);border-radius:12px;padding:10px;text-align:center}
+.stat b{display:block;font-family:"Barlow Condensed";font-size:28px;color:var(--gold)}
+.stat span{font-size:12px;color:var(--chalk-2)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center}
+.muted{color:var(--chalk-3);font-size:13px}
+.rank{margin-top:22px;border-radius:16px;border:1px solid var(--line);background:var(--glass);padding:14px}
+.rank h2{font-family:"Barlow Condensed";font-weight:900;text-transform:uppercase;font-size:24px;margin:0 0 8px}
+.tabs{display:flex;gap:6px;margin-bottom:10px}
+.tabs button{flex:1;border:1px solid var(--line);background:var(--glass-2);color:var(--chalk-2);border-radius:10px;padding:8px;font-weight:700}
+.tabs button.on{background:var(--glass-3);color:var(--chalk)}
+.rank ol{list-style:none;margin:0;padding:0}
+.rank li{display:flex;justify-content:space-between;gap:10px;padding:8px 6px;border-top:1px solid var(--line);font-weight:600}
+.rank li.me{color:var(--gold-2)}
+.rank li .n{color:var(--chalk-3);width:28px}
+.namebox{display:flex;gap:8px;margin-top:8px}
+.namebox input{flex:1;min-width:0;border-radius:10px;border:1px solid var(--line);background:rgba(0,0,0,.28);color:var(--chalk);padding:10px 12px;font:600 16px Barlow,sans-serif}
+.sm{font-size:13px;color:var(--fail);margin-top:6px}
+[hidden]{display:none!important}
+.emoji{font-family:"Noto Color Emoji",sans-serif}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#0a2e21;color:var(--chalk);border:1px solid var(--line);padding:10px 16px;border-radius:999px;font-weight:700;opacity:0;transition:opacity .2s;pointer-events:none;z-index:9}
+.toast.on{opacity:1}
+/* --- durante la partida: todo en una pantalla, sin scroll (la portada, el resultado y el ranking sí hacen scroll) --- */
+html:has(#game:not([hidden])),body:has(#game:not([hidden])){height:100%}
+body:has(#game:not([hidden])){min-height:0}
+body:has(#game:not([hidden])) .wrap{height:100%;display:flex;flex-direction:column;padding:8px 12px 10px}
+body:has(#game:not([hidden])) h1,body:has(#game:not([hidden])) .sub,body:has(#game:not([hidden])) #rankBox{display:none}
+body:has(#game:not([hidden])) .top{flex:none}
+body:has(#game:not([hidden])) .back,body:has(#game:not([hidden])) .set-btn{padding:6px 12px;font-size:13px}
+#game:not([hidden]){flex:1;min-height:0;display:flex;flex-direction:column}
+#game .bar{flex:none;margin:8px 2px}
+#game .stage{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;padding:12px 12px 14px}
+#game .stage>*{flex:none}
+#game .emojis{flex:1 1 auto;min-height:auto;max-height:32vh;align-content:center;align-items:center;font-size:clamp(30px,min(15vw,8vh),72px);line-height:1.2;margin:0 -4px;border-radius:14px;background:radial-gradient(closest-side,rgba(99,224,161,.10),rgba(99,224,161,0))}
+#game .worth{margin:6px 0 0}
+#game .guess{margin-top:10px}
+#game .guess input{padding:11px 12px;min-height:44px}
+#game .btn.small{min-height:44px}
+#game .fb{margin-top:6px;min-height:20px;font-size:15px;line-height:1.3}
+/* resuelto: la casilla ya no se usa y sus huecos los ocupa la explicación */
+#game .stage:has(#reveal:not([hidden])) .guess{display:none}
+#game .stage:has(#reveal:not([hidden])) .emojis{font-size:clamp(26px,min(10vw,5.5vh),52px)}
+#game .reveal{margin-top:8px;padding:12px 14px}
+#game .reveal .nm{font-size:clamp(24px,4.2vh,32px)}
+#game .reveal .mt{margin:4px 0 6px;font-size:15px}
+#game .reveal p{margin:0 0 10px;font-size:15px;line-height:1.4}
+#game .reveal .btn{padding:11px 18px;font-size:18px;min-height:44px}
+@media (min-height:660px){body:has(#game:not([hidden])) h1{display:block;font-size:clamp(32px,8vw,48px);margin:12px 0 2px}}
+@media (max-height:600px){
+  #game .bar{margin:6px 2px}
+  #game .stage{padding:10px 10px 12px;border-radius:16px}
+  #game .stage:has(#reveal:not([hidden])) .worth{display:none}
+  #game .reveal .mt{margin:2px 0 4px}
+  #game .reveal p{font-size:14px;line-height:1.35;margin-bottom:8px}
+}
